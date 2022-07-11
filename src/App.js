@@ -1,25 +1,21 @@
-import logo from './logo.svg';
-import './App.css';
+// in src/App.js
+import * as React from "react";
+import { fetchUtils } from 'ra-core';
+import { Admin, Resource, ListGuesser, EditGuesser } from 'react-admin';
+import { ClientList, ClientEdit, ClientCreate } from "./clients";
+import { ProjectList, ProjectEdit, ProjectCreate } from "./projects";
+import { ProjectTypeList, ProjectTypeEdit, ProjectTypeCreate } from "./projectTypes";
+import Dashboard from "./Dashboard";
+import simpleRestProvider from 'ra-data-simple-rest';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const dataProvider = simpleRestProvider('http://localhost:8100', fetchUtils.fetchJson, 'X-Total-Count');
+
+const App = () => (
+  <Admin title="Entropay" dashboard={Dashboard} dataProvider={dataProvider}>
+    <Resource name="projects" list={ProjectList} edit={ProjectEdit} create={ProjectCreate} />
+    <Resource name="clients" list={ClientList} edit={ClientEdit} create={ClientCreate} />
+    <Resource name="project-types" list={ProjectTypeList} edit={ProjectTypeEdit} create={ProjectTypeCreate} />
+  </Admin>
+);
 
 export default App;
