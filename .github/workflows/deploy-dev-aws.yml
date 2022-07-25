@@ -21,7 +21,7 @@ jobs:
   package-build-deploy:
     name: Build and deploy
     runs-on: ubuntu-latest
-    environment: ${{ env.APP_ENV }}
+    environment: development
 
     steps:
     - name: Checkout
