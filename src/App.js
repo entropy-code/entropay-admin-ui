@@ -7,8 +7,11 @@ import { ProjectList, ProjectEdit, ProjectCreate } from "./projects";
 import { ProjectTypeList, ProjectTypeEdit, ProjectTypeCreate } from "./projectTypes";
 import Dashboard from "./Dashboard";
 import simpleRestProvider from 'ra-data-simple-rest';
+import config from "./config";
 
-const dataProvider = simpleRestProvider('http://localhost:8100', fetchUtils.fetchJson, 'X-Total-Count');
+console.log(config.env)
+
+const dataProvider = simpleRestProvider(config.config.api.employees, fetchUtils.fetchJson, 'X-Total-Count');
 
 const App = () => (
   <Admin title="Entropay" dashboard={Dashboard} dataProvider={dataProvider}>

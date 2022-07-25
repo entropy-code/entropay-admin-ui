@@ -1,0 +1,11 @@
+version: '3.9'
+
+services:
+  app:
+    build:
+      context: .
+      args:
+        - REACT_APP_ENV=local
+        - REACT_APP_EMPLOYEES_URL=http://localhost:8100
+    ports:
+        - "3000:3000"
