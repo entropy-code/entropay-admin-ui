@@ -46,7 +46,7 @@ jobs:
       id: build-image
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        VERSION: ${{ needs.tag.outputs.version }}
+        VERSION: ${{ github.sha }} ## TODO see version
         REACT_APP_ENV: ${{ env.APP_ENV }}
         REACT_APP_EMPLOYEES_URL: ${{ env.APP_EMPLOYEES_URL }}
       run: |
