@@ -36,7 +36,7 @@ jobs:
 
     - name: Download task definition
       run: |
-        aws ecs describe-task-definition --task-definition entropay-employees --query taskDefinition > task-definition.json
+        aws ecs describe-task-definition --task-definition ${{ env.CONTAINER_NAME }} --query taskDefinition > task-definition.json
 
     - name: Login to Amazon ECR
       id: login-ecr
