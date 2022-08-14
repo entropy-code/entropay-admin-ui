@@ -5,6 +5,7 @@ import { Admin, Resource, ListGuesser, EditGuesser } from 'react-admin';
 import { ClientList, ClientEdit, ClientCreate } from "./clients";
 import { ProjectList, ProjectEdit, ProjectCreate } from "./projects";
 import { ProjectTypeList, ProjectTypeEdit, ProjectTypeCreate } from "./projectTypes";
+import { EmployeeCreate, EmployeeEdit, EmployeeList } from "./employees";
 import Dashboard from "./Dashboard";
 import simpleRestProvider from 'ra-data-simple-rest';
 
@@ -12,6 +13,7 @@ const dataProvider = simpleRestProvider('http://localhost:8100', fetchUtils.fetc
 
 const App = () => (
   <Admin title="Entropay" dashboard={Dashboard} dataProvider={dataProvider}>
+    <Resource name="employees" list={EmployeeList} edit={EmployeeEdit} create={EmployeeCreate} />
     <Resource name="projects" list={ProjectList} edit={ProjectEdit} create={ProjectCreate} />
     <Resource name="clients" list={ClientList} edit={ClientEdit} create={ClientCreate} />
     <Resource name="project-types" list={ProjectTypeList} edit={ProjectTypeEdit} create={ProjectTypeCreate} />
