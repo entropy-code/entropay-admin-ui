@@ -8,4 +8,4 @@ services:
         - REACT_APP_ENV=local
         - REACT_APP_EMPLOYEES_URL=http://localhost:8100
     ports:
-        - "3000:3000"
+        - "3000:80"
