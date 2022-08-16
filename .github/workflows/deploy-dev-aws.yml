@@ -8,11 +8,11 @@ on:
 env:
   AWS_REGION: us-east-1
   ECR_REPOSITORY: entropay-admin-ui
-  ECS_SERVICE: entropay-admin-ui
+  ECS_SERVICE: entropay-dev-admin-ui
   ECS_CLUSTER: entropay-dev
   CONTAINER_NAME: entropay-admin-ui
   APP_ENV: development
-  APP_EMPLOYEES_URL: "http://18.234.146.90:8100" # Todo move to env vars
+  APP_EMPLOYEES_URL: "https://f4105dh98j.execute-api.us-east-1.amazonaws.com" # Todo move to env vars
 
 permissions:
   contents: read
