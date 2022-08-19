@@ -14,11 +14,11 @@ import {
     TextInput,
     Create
 } from 'react-admin';
+import { RichTextInput } from 'ra-input-rich-text';
 
 export const ProjectList = () => (
     <List>
         <Datagrid rowClick="edit">
-            <TextField source="id" />
             <ReferenceField source="clientId" reference="clients">
                 <TextField source="name" />
             </ReferenceField>
@@ -40,13 +40,13 @@ export const ProjectEdit = () => (
             <ReferenceInput source="clientId" reference="clients">
                 <SelectInput optionText="name" />
             </ReferenceInput>
-            <ReferenceField source="projectTypeId" reference="project-types">
-                <TextField source="name" />
-            </ReferenceField>
+            <ReferenceInput source="projectTypeId" reference="project-types">
+                <SelectInput source="name" />
+            </ReferenceInput>
             <TextInput source="name" />
             <DateInput source="startDate" />
             <DateInput source="endDate" />
-            <TextInput source="notes" />
+            <RichTextInput source="notes" />
         </SimpleForm>
     </Edit>
 );
