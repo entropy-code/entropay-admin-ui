@@ -1,7 +1,7 @@
 // in src/App.js
 import * as React from "react";
 import { fetchUtils } from 'ra-core';
-import { Admin, Resource, ListGuesser, EditGuesser } from 'react-admin';
+import { Admin, Resource } from 'react-admin';
 import { ClientList, ClientEdit, ClientCreate } from "./clients";
 import { ProjectList, ProjectEdit, ProjectCreate } from "./projects";
 import { ProjectTypeList, ProjectTypeEdit, ProjectTypeCreate } from "./projectTypes";

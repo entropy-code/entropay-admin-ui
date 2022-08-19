@@ -12,7 +12,7 @@ export const EmployeeList = () => (
             <TextField source="address" />
             <TextField source="city" />
             <TextField source="state" />
-            <DateField source="zip" />
+            <TextField source="zip" />
             <TextField source="country" />
             <DateField source="birthDate" />
             <DateField source="createdAt" />
@@ -32,7 +32,7 @@ export const EmployeeEdit = () => (
             <TextInput source="address" />
             <TextInput source="city" />
             <TextInput source="state" />
-            <DateInput source="zip" />
+            <TextInput source="zip" />
             <TextInput source="country" />
             <DateInput source="birthDate" />
         </SimpleForm>
@@ -49,7 +49,7 @@ export const EmployeeCreate = () => (
             <TextInput source="address" />
             <TextInput source="city" />
             <TextInput source="state" />
-            <DateInput source="zip" />
+            <TextInput source="zip" />
             <TextInput source="country" />
             <DateInput source="birthDate" />
         </SimpleForm>

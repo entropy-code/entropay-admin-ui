@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Datagrid, DateField, EditButton, List, TextField, TextInput, DateInput, Edit, SimpleForm, Create } from 'react-admin';
+import { Datagrid, DateField, EditButton, List, TextField, TextInput, Edit, SimpleForm, Create } from 'react-admin';
 
 export const ClientList = () => (
     <List>
