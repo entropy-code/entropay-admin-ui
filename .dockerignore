@@ -4,3 +4,6 @@
 .env.development.local
 .env.test.local
 .env.production.local
+
+# Temporary env files
+/public/env-config.js
