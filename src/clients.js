@@ -1,10 +1,13 @@
 import * as React from "react";
-import { Datagrid, DateField, EditButton, List, TextField, TextInput, Edit, SimpleForm, Create } from 'react-admin';
+import { Datagrid, DateField, EditButton, List, TextField, TextInput, Edit, SimpleForm, Create, ReferenceField, ReferenceInput, SelectInput } from 'react-admin';
 
 export const ClientList = () => (
     <List>
         <Datagrid rowClick="edit">
             <TextField source="name" />
+            <ReferenceField source="companyId" reference="companies">
+                <TextField source="name" />
+            </ReferenceField>            
             <TextField source="address" />
             <DateField source="zipCode" />
             <TextField source="city" />
@@ -21,6 +24,9 @@ export const ClientList = () => (
 export const ClientEdit = () => (
     <Edit>
         <SimpleForm>
+            <ReferenceInput source="companyId" reference="companies">
+                <SelectInput source="name" />
+            </ReferenceInput>
             <TextInput disabled source="id" />
             <TextInput source="name" />
             <TextInput source="address" />
@@ -37,6 +43,9 @@ export const ClientEdit = () => (
 export const ClientCreate = () => (
     <Create>
         <SimpleForm>
+            <ReferenceInput source="companyId" reference="companies">
+                <SelectInput source="name" />
+            </ReferenceInput>
             <TextInput source="name" />
             <TextInput source="address" />
             <TextInput source="zipCode" />
