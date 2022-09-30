@@ -50,6 +50,9 @@ export const EmployeeEdit = () => (
 export const EmployeeCreate = () => (
     <Create>
         <SimpleForm>
+            <ReferenceInput source="companyId" reference="companies">
+                <SelectInput source="name" />
+            </ReferenceInput>
             <TextInput source="internalId" />
             <TextInput source="firstName" />
             <TextInput source="lastName" />
