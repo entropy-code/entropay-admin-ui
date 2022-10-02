@@ -16,11 +16,15 @@ export const ContractList = () => (
             </ReferenceField>
             <DateField source="startDate" />
             <DateField source="endDate" />
-            <TextField source="role" />
+            <ReferenceField source="positionId" reference="positions">
+                <TextField source="name" />
+            </ReferenceField>
             <NumberField source="hoursPerWeek" />
             <TextField source="costRate" />
             <NumberField source="vacations" />
-            <TextField source="seniority" />
+            <ReferenceField source="seniorityId" reference="seniorities">
+                <TextField source="name" />
+            </ReferenceField>
             <EditButton />
         </Datagrid>
     </List>
@@ -29,7 +33,6 @@ export const ContractList = () => (
 export const ContractEdit = () => (
     <Edit>
         <SimpleForm>
-            
             <ReferenceInput source="companyId" reference="companies">
                 <SelectInput optionText="name" />
             </ReferenceInput>
@@ -38,11 +41,15 @@ export const ContractEdit = () => (
             </ReferenceInput>
             <DateInput source="startDate" />
             <DateInput source="endDate" />
-            <TextInput source="role" />
+            <ReferenceInput source="positionId" reference="positions">
+                <SelectInput optionText="name" />
+            </ReferenceInput>
             <NumberInput source="hoursPerWeek" />
             <TextInput source="costRate" />
             <NumberInput source="vacations" />
-            <TextInput source="seniority" />
+            <ReferenceInput source="seniorityId" reference="seniorities">
+                <SelectInput optionText="name" />
+            </ReferenceInput>
         </SimpleForm>
     </Edit>
 );
@@ -58,11 +65,15 @@ export const ContractCreate = () => (
             </ReferenceInput>
             <DateInput source="startDate" />
             <DateInput source="endDate" />
-            <TextInput source="role" />
+            <ReferenceInput source="positionId" reference="positions">
+                <SelectInput optionText="name" />
+            </ReferenceInput>
             <NumberInput source="hoursPerWeek" />
             <TextInput source="costRate" />
             <NumberInput source="vacations" />
-            <TextInput source="seniority" />
+            <ReferenceInput source="seniorityId" reference="seniorities">
+                <SelectInput optionText="name" />
+            </ReferenceInput>
         </SimpleForm>
     </Create>
 );
