@@ -1,6 +1,14 @@
 import * as React from "react"
-import { Datagrid, DateField, List, ReferenceField, TextField } from 'react-admin';
-import { Edit, Create, ReferenceInput, SelectInput, SimpleForm, TextInput } from 'react-admin';
+import { Datagrid, DateField, List, ReferenceField, TextField, EditButton } from 'react-admin';
+import CreateEntityLayout from "./components/forms/CreateEntityLayout";
+import EditEntityLayout from "./components/forms/EditEntityLayout";
+
+const inputsList = ["name", "address", "zipCode", "city", "state", "country"];
+const referenceValues = {
+    source: 'tenantId',
+    reference: 'tenants',
+    optionText: 'displayName'
+}
 
 export const CompanyList = () => (
     <List>
@@ -17,41 +25,17 @@ export const CompanyList = () => (
             <TextField source="country" />
             <DateField source="createdAt" />
             <DateField source="modifiedAt" />
+            <EditButton variant="outlined" />
         </Datagrid>
     </List>
 );
 
 
 export const CompanyEdit = () => (
-    <Edit>
-        <SimpleForm>
-            <TextInput disabled source="id" />
-            <ReferenceInput source="tenantId" reference="tenants">
-                <SelectInput optionText="displayName" />
-            </ReferenceInput>
-            <TextInput source="name" />
-            <TextInput source="address" />
-            <TextInput source="zipCode" />
-            <TextInput source="city" />
-            <TextInput source="state" />
-            <TextInput source="country" />
-        </SimpleForm>
-    </Edit>
+    <EditEntityLayout inputsList={inputsList} referenceValues={referenceValues} />
 );
 
 
 export const CompanyCreate = () => (
-    <Create>
-        <SimpleForm>
-            <ReferenceInput source="tenantId" reference="tenants">
-                <SelectInput optionText="displayName" />
-            </ReferenceInput>
-            <TextInput source="name" />
-            <TextInput source="address" />
-            <TextInput source="zipCode" />
-            <TextInput source="city" />
-            <TextInput source="state" />
-            <TextInput source="country" />
-        </SimpleForm>
-    </Create>
+    <CreateEntityLayout inputsList={inputsList} referenceValues={referenceValues} />
 );

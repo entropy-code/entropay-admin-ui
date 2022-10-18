@@ -1,5 +1,7 @@
 import * as React from "react"
-import { Datagrid, List, TextField, Edit, SimpleForm, TextInput, Create, EditButton } from 'react-admin';
+import { Datagrid, List, TextField, EditButton } from 'react-admin';
+import EditEntityLayout from "./components/forms/EditEntityLayout";
+import CreateEntityLayout from "./components/forms/CreateEntityLayout";
 
 export const ProjectTypeList = () => (
     <List>
@@ -11,18 +13,9 @@ export const ProjectTypeList = () => (
 );
 
 export const ProjectTypeEdit = () => (
-    <Edit>
-        <SimpleForm>
-            <TextInput disabled source="id" />
-            <TextInput source="name" />
-        </SimpleForm>
-    </Edit>
+    <EditEntityLayout inputsList={["name"]} />
 );
 
 export const ProjectTypeCreate = () => (
-    <Create>
-        <SimpleForm>            
-            <TextInput source="name" />
-        </SimpleForm>
-    </Create>
+    <CreateEntityLayout inputsList={["name"]} />
 );
