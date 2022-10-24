@@ -1,16 +1,13 @@
 import * as React from "react"
 import { Datagrid, DateField, EmailField, List, TextField, ReferenceField } from 'react-admin';
-import { DateInput, Edit, SimpleForm, TextInput, Create, SelectInput, ReferenceInput } from 'react-admin';
+import { DateInput, Edit, SimpleForm, TextInput, Create, SelectInput, ReferenceInput,SelectArrayInput,ChipField,ReferenceArrayInput } from 'react-admin';
 
 export const EmployeeList = () => (
     <List>
         <Datagrid rowClick="edit">
             <TextField source="internalId" label="Internal Id"/>
             <TextField source="firstName" />
-            <TextField source="lastName" />            
-            <ReferenceField source="companyId" reference="companies">
-                <TextField source="name" />
-            </ReferenceField>
+            <TextField source="lastName" />  
             <EmailField source="email" />
             <TextField source="phone" />
             <TextField source="address" />
@@ -28,21 +25,26 @@ export const EmployeeList = () => (
 export const EmployeeEdit = () => (
     <Edit>
         <SimpleForm>
-            <ReferenceInput source="companyId" reference="companies">
-                <SelectInput source="name" />
-            </ReferenceInput>
-            <TextInput disabled source="id" />
-            <TextInput source="internalId" />
+        <TextInput source="internalId" />
             <TextInput source="firstName" />
             <TextInput source="lastName" />
-            <TextInput source="email" />
+            <TextInput source="personalNumber" />
+            <TextInput source="taxId" />
+            <TextInput source="personalEmail" />
             <TextInput source="phone" />
-            <TextInput source="address" />
+            <TextInput source="address" />            
             <TextInput source="city" />
             <TextInput source="state" />
             <TextInput source="zip" />
             <TextInput source="country" />
             <DateInput source="birthDate" />
+            <TextInput source="emergencyContactFullName" />
+            <TextInput source="emergencyContactPhone" />
+            <ReferenceArrayInput reference="roles" source="profile">
+            <SelectArrayInput>
+                 <ChipField source="profile" />
+            </SelectArrayInput>          
+            </ReferenceArrayInput>
         </SimpleForm>
     </Edit>
 );
@@ -50,20 +52,26 @@ export const EmployeeEdit = () => (
 export const EmployeeCreate = () => (
     <Create>
         <SimpleForm>
-            <ReferenceInput source="companyId" reference="companies">
-                <SelectInput source="name" />
-            </ReferenceInput>
             <TextInput source="internalId" />
             <TextInput source="firstName" />
             <TextInput source="lastName" />
-            <TextInput source="email" />
+            <TextInput source="dni" />
+            <TextInput source="taxId" />
+            <TextInput source="personalEmail" />
             <TextInput source="phone" />
-            <TextInput source="address" />
+            <TextInput source="address" />            
             <TextInput source="city" />
             <TextInput source="state" />
             <TextInput source="zip" />
             <TextInput source="country" />
             <DateInput source="birthDate" />
+            <TextInput source="emergencyContactFullName" />
+            <TextInput source="emergencyContactPhone" />
+            <ReferenceArrayInput reference="roles" source="profile">
+            <SelectArrayInput>
+                 <ChipField source="profiles" />
+            </SelectArrayInput>          
+            </ReferenceArrayInput>
         </SimpleForm>
     </Create>
 );
