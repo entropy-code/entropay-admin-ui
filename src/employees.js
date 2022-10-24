@@ -55,7 +55,7 @@ export const EmployeeCreate = () => (
             <TextInput source="internalId" />
             <TextInput source="firstName" />
             <TextInput source="lastName" />
-            <TextInput source="dni" />
+            <TextInput source="personalNumber" />
             <TextInput source="taxId" />
             <TextInput source="personalEmail" />
             <TextInput source="phone" />
