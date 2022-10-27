@@ -1,6 +1,6 @@
 import * as React from "react"
 import { Datagrid, DateField, EmailField, List, TextField, ReferenceField } from 'react-admin';
-import { DateInput, Edit, SimpleForm, TextInput, Create, SelectInput, ReferenceInput,SelectArrayInput,ChipField,ReferenceArrayInput } from 'react-admin';
+import { DateInput, Edit, SimpleForm, TextInput, Create, SelectInput, ReferenceInput, SelectArrayInput, ChipField, ReferenceArrayInput } from 'react-admin';
 
 export const EmployeeList = () => (
     <List>
@@ -25,7 +25,7 @@ export const EmployeeList = () => (
 export const EmployeeEdit = () => (
     <Edit>
         <SimpleForm>
-        <TextInput source="internalId" />
+            <TextInput source="internalId" />
             <TextInput source="firstName" />
             <TextInput source="lastName" />
             <TextInput source="personalNumber" />
@@ -41,9 +41,9 @@ export const EmployeeEdit = () => (
             <TextInput source="emergencyContactFullName" />
             <TextInput source="emergencyContactPhone" />
             <ReferenceArrayInput reference="roles" source="profile">
-            <SelectArrayInput>
-                 <ChipField source="profile" />
-            </SelectArrayInput>          
+                <SelectArrayInput>
+                    <ChipField source="profile" />
+                </SelectArrayInput>
             </ReferenceArrayInput>
         </SimpleForm>
     </Edit>
@@ -68,9 +68,13 @@ export const EmployeeCreate = () => (
             <TextInput source="emergencyContactFullName" />
             <TextInput source="emergencyContactPhone" />
             <ReferenceArrayInput reference="roles" source="profile">
-            <SelectArrayInput>
-                 <ChipField source="profiles" />
+                <SelectArrayInput>
+                     <ChipField source="profiles" />
+                </SelectArrayInput>          
             </SelectArrayInput>          
+                </SelectArrayInput>          
+            </SelectArrayInput>          
+                </SelectArrayInput>          
             </ReferenceArrayInput>
         </SimpleForm>
     </Create>
