@@ -1,6 +1,6 @@
 import * as React from "react"
-import { Datagrid, DateField, EmailField, List, TextField, ReferenceField } from 'react-admin';
-import { DateInput, Edit, SimpleForm, TextInput, Create, SelectInput, ReferenceInput, SelectArrayInput, ChipField, ReferenceArrayInput } from 'react-admin';
+import { Datagrid, DateField, EmailField, List, TextField} from 'react-admin';
+import { DateInput, Edit, SimpleForm, TextInput, Create, SelectArrayInput, ChipField, ReferenceArrayInput } from 'react-admin';
 
 export const EmployeeList = () => (
     <List>
@@ -70,11 +70,7 @@ export const EmployeeCreate = () => (
             <ReferenceArrayInput reference="roles" source="profile">
                 <SelectArrayInput>
                      <ChipField source="profiles" />
-                </SelectArrayInput>          
-            </SelectArrayInput>          
-                </SelectArrayInput>          
-            </SelectArrayInput>          
-                </SelectArrayInput>          
+                </SelectArrayInput>     
             </ReferenceArrayInput>
         </SimpleForm>
     </Create>
