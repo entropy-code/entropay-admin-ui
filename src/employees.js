@@ -3,7 +3,19 @@ import { Datagrid, DateField, EmailField, List, TextField, ReferenceField, EditB
 import CreateEntityLayout from "./components/forms/CreateEntityLayout";
 import EditEntityLayout from "./components/forms/EditEntityLayout";
 
-const inputsList = ["internalId", "firstName", "lastName", "email", "phone", "address", "city", "state", "zip", "country"]
+const inputsList = [
+    {name: "internalId", type: "string"},
+    {name: "firstName", type: "string"},
+    {name: "lastName", type: "string"},
+    {name: "email", type: "string"},
+    {name: "phone", type: "string"},
+    {name: "address", type: "string"},
+    {name: "city", type: "string"},
+    {name: "state", type: "string"},
+    {name: "zip", type: "string"},
+    {name: "country", type: "string"},
+    {name: "birthDate", type: "date"}
+]
 const referenceValues = {
     source: 'companyId',
     reference: 'companies',
@@ -35,9 +47,9 @@ export const EmployeeList = () => (
 );
 
 export const EmployeeEdit = () => (
-    <EditEntityLayout inputsList={inputsList} birthDate={true} referenceValues={referenceValues} />
+    <EditEntityLayout inputsList={inputsList} referenceValues={referenceValues} />
 );
 
 export const EmployeeCreate = () => (
-    <CreateEntityLayout inputsList={inputsList} birthDate={true} referenceValues={referenceValues} />
+    <CreateEntityLayout inputsList={inputsList} referenceValues={referenceValues} />
 );

@@ -2,13 +2,20 @@ import * as React from "react"
 import { Datagrid, DateField, EditButton, List, ReferenceField, TextField, Edit, Create } from 'react-admin';
 import ProjectFormLayout from "./components/forms/ProjectFormLayout";
 
-const referenceValuesC = {
+const inputsList = [
+    {name: "name", type: "string"},
+    {name: "startDate", type: "date"},
+    {name: "endDate", type: "date"},
+    {name: "notes", type: "string"},
+  ];
+
+const clientReferences = {
     source: 'clientId',
     reference: 'clients',
     optionText: 'name'
 }
 
-const referenceValuesP = {
+const projectReferences = {
     source: 'projectTypeId',
     reference: 'project-types',
     optionText: 'name'
@@ -33,12 +40,12 @@ export const ProjectList = () => (
 
 export const ProjectEdit = () => (
     <Edit>
-        <ProjectFormLayout referenceValuesC={referenceValuesC} referenceValuesP={referenceValuesP} />
+        <ProjectFormLayout inputsList={inputsList} clientReferences={clientReferences} projectReferences={projectReferences} />
     </Edit>
 );
 
 export const ProjectCreate = () => (
     <Create>
-        <ProjectFormLayout referenceValuesC={referenceValuesC} referenceValuesP={referenceValuesP} />
+        <ProjectFormLayout inputsList={inputsList} clientReferences={clientReferences} projectReferences={projectReferences} />
     </Create>
 );

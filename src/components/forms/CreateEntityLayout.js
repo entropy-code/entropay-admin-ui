@@ -1,10 +1,10 @@
 import * as React from "react";
-import { SimpleForm, Create, DateInput } from "react-admin";
+import { SimpleForm, Create } from "react-admin";
 import { Grid } from "@mui/material";
 import { TextInputGroup } from "./TextInputGroup";
 import ReferenceInputItem from "./ReferenceInputItem";
 
-const CreateEntityLayout = ({ inputsList, birthDate, referenceValues }) => {
+const CreateEntityLayout = ({ inputsList, referenceValues }) => {
   return (
     <Create>
       <SimpleForm>
@@ -14,12 +14,7 @@ const CreateEntityLayout = ({ inputsList, birthDate, referenceValues }) => {
               <ReferenceInputItem referenceValues={referenceValues} />
             </Grid>
           )}
-          <TextInputGroup list={inputsList} />
-          {birthDate && (
-            <Grid item xs={12} sm={6} md={4}>
-              <DateInput source="birthDate" fullWidth />
-            </Grid>
-          )}
+          <TextInputGroup inputsList={inputsList} />
         </Grid>
       </SimpleForm>
     </Create>

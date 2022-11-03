@@ -3,6 +3,10 @@ import { Datagrid, List, TextField, EditButton } from 'react-admin';
 import EditEntityLayout from "./components/forms/EditEntityLayout";
 import CreateEntityLayout from "./components/forms/CreateEntityLayout";
 
+const inputsList = [
+    {name: "name"}
+];
+
 export const ProjectTypeList = () => (
     <List>
         <Datagrid rowClick="edit">
@@ -13,9 +17,9 @@ export const ProjectTypeList = () => (
 );
 
 export const ProjectTypeEdit = () => (
-    <EditEntityLayout inputsList={["name"]} />
+    <EditEntityLayout inputsList={inputsList} />
 );
 
 export const ProjectTypeCreate = () => (
-    <CreateEntityLayout inputsList={["name"]} />
+    <CreateEntityLayout inputsList={inputsList} />
 );

@@ -3,7 +3,14 @@ import { Datagrid, DateField, List, ReferenceField, TextField, EditButton } from
 import CreateEntityLayout from "./components/forms/CreateEntityLayout";
 import EditEntityLayout from "./components/forms/EditEntityLayout";
 
-const inputsList = ["name", "address", "zipCode", "city", "state", "country"];
+const inputsList = [
+    {name: "name", type: "string"},
+    {name: "address", type: "string"},
+    {name: "zipCode", type: "string"},
+    {name: "city", type: "string"},
+    {name: "state", type: "string"},
+    {name: "country", type: "string"}
+]
 const referenceValues = {
     source: 'tenantId',
     reference: 'tenants',

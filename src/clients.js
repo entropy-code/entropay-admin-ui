@@ -3,7 +3,16 @@ import { Datagrid, DateField, EditButton, List, TextField, ReferenceField } from
 import CreateEntityLayout from "./components/forms/CreateEntityLayout";
 import EditEntityLayout from "./components/forms/EditEntityLayout";
 
-const inputsList = ["name", "address", "zipCode", "city", "state", "country", "contact", "preferredCurrency"];
+const inputsList = [
+    {name: "name", type: "string"},
+    {name: "address", type: "string"},
+    {name: "zipCode", type: "string"},
+    {name: "city", type: "string"},
+    {name: "state", type: "string"},
+    {name: "country", type: "string"},
+    {name: "contact", type: "string"},
+    {name: "preferredCurrency", type: "string"}
+]
 const referenceValues = {
     source: 'companyId',
     reference: 'companies',
@@ -37,4 +46,3 @@ export const ClientEdit = () => (
 export const ClientCreate = () => (
     <CreateEntityLayout inputsList={inputsList} referenceValues={referenceValues} />
 );
-

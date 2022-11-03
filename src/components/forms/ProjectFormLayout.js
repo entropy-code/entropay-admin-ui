@@ -1,30 +1,20 @@
 import * as React from "react";
-import { DateInput, SimpleForm, TextInput } from "react-admin";
+import { SimpleForm } from "react-admin";
 import { Grid } from "@mui/material";
 import ReferenceInputItem from "./ReferenceInputItem";
+import { TextInputGroup } from "./TextInputGroup";
 
-const ProjectFormLayout = ({ referenceValuesC, referenceValuesP }) => {
+const ProjectFormLayout = ({ inputsList, clientReferences, projectReferences }) => {
   return (
     <SimpleForm>
       <Grid container rowSpacing={0} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-        <Grid item xs={12} sm={6} md={5}>
-          <ReferenceInputItem referenceValues={referenceValuesC} />
+        <Grid item xs={12} sm={6} md={6}>
+          <ReferenceInputItem referenceValues={clientReferences} />
         </Grid>
-        <Grid item xs={12} sm={6} md={5}>
-          <ReferenceInputItem referenceValues={referenceValuesP} />
+        <Grid item xs={12} sm={6} md={6}>
+          <ReferenceInputItem referenceValues={projectReferences} />
         </Grid>
-        <Grid item xs={12} sm={6} md={10}>
-          <TextInput source="name" fullWidth />
-        </Grid>
-        <Grid item xs={12} sm={6} md={5}>
-          <DateInput source="startDate" fullWidth />
-        </Grid>
-        <Grid item xs={12} sm={6} md={5}>
-          <DateInput source="endDate" fullWidth />
-        </Grid>
-        <Grid item xs={12} sm={12} md={10}>
-          <TextInput source="notes" multiline fullWidth />
-        </Grid>
+        <TextInputGroup inputsList={inputsList} />
       </Grid>
     </SimpleForm>
   );
