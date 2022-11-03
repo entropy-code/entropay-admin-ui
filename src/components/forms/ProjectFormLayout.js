@@ -2,7 +2,7 @@ import * as React from "react";
 import { SimpleForm } from "react-admin";
 import { Grid } from "@mui/material";
 import ReferenceInputItem from "./ReferenceInputItem";
-import { TextInputGroup } from "./TextInputGroup";
+import { InputsGroup } from "./InputsGroup";
 
 const ProjectFormLayout = ({ inputsList, clientReferences, projectReferences }) => {
   return (
@@ -14,7 +14,7 @@ const ProjectFormLayout = ({ inputsList, clientReferences, projectReferences }) 
         <Grid item xs={12} sm={6} md={6}>
           <ReferenceInputItem referenceValues={projectReferences} />
         </Grid>
-        <TextInputGroup inputsList={inputsList} />
+        <InputsGroup inputsList={inputsList} />
       </Grid>
     </SimpleForm>
   );

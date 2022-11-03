@@ -1,7 +1,7 @@
 import * as React from "react";
 import { SimpleForm, Create } from "react-admin";
 import { Grid } from "@mui/material";
-import { TextInputGroup } from "./TextInputGroup";
+import { InputsGroup } from "./InputsGroup";
 import ReferenceInputItem from "./ReferenceInputItem";
 
 const CreateEntityLayout = ({ inputsList, referenceValues }) => {
@@ -14,7 +14,7 @@ const CreateEntityLayout = ({ inputsList, referenceValues }) => {
               <ReferenceInputItem referenceValues={referenceValues} />
             </Grid>
           )}
-          <TextInputGroup inputsList={inputsList} />
+          <InputsGroup inputsList={inputsList} />
         </Grid>
       </SimpleForm>
     </Create>

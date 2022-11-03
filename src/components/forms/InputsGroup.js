@@ -1,7 +1,7 @@
 import { Grid } from "@mui/material";
 import { TextInput, DateInput } from "react-admin";
 
-export const TextInputGroup = ({ inputsList }) => {
+export const InputsGroup = ({ inputsList }) => {
   return (
     <>
         {

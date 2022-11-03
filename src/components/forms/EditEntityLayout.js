@@ -1,7 +1,7 @@
 import * as React from "react";
 import { TextInput, Edit, SimpleForm } from "react-admin";
 import { Grid } from "@mui/material";
-import { TextInputGroup } from "./TextInputGroup";
+import { InputsGroup } from "./InputsGroup";
 import ReferenceInputItem from "./ReferenceInputItem";
 
 const EditEntityLayout = ({ inputsList, referenceValues }) => {
@@ -17,7 +17,7 @@ const EditEntityLayout = ({ inputsList, referenceValues }) => {
           <Grid item xs={12} sm={6} md={4}>
             <TextInput disabled source="id" fullWidth />
           </Grid>
-          <TextInputGroup inputsList={inputsList} />
+          <InputsGroup inputsList={inputsList} />
         </Grid>
       </SimpleForm>
     </Edit>
