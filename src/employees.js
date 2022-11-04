@@ -1,6 +1,26 @@
 import * as React from "react"
-import { Datagrid, DateField, EmailField, List, TextField, ReferenceField } from 'react-admin';
-import { DateInput, Edit, SimpleForm, TextInput, Create, SelectInput, ReferenceInput } from 'react-admin';
+import { Datagrid, DateField, EmailField, List, TextField, ReferenceField, EditButton } from 'react-admin';
+import CreateEntityLayout from "./components/forms/CreateEntityLayout";
+import EditEntityLayout from "./components/forms/EditEntityLayout";
+
+const inputsList = [
+    {name: "internalId", type: "string"},
+    {name: "firstName", type: "string"},
+    {name: "lastName", type: "string"},
+    {name: "email", type: "string"},
+    {name: "phone", type: "string"},
+    {name: "address", type: "string"},
+    {name: "city", type: "string"},
+    {name: "state", type: "string"},
+    {name: "zip", type: "string"},
+    {name: "country", type: "string"},
+    {name: "birthDate", type: "date"}
+]
+const referenceValues = {
+    source: 'companyId',
+    reference: 'companies',
+    optionText: 'name'
+}
 
 export const EmployeeList = () => (
     <List>
@@ -21,49 +41,15 @@ export const EmployeeList = () => (
             <DateField source="birthDate" />
             <DateField source="createdAt" />
             <DateField source="modifiedAt" />
+            <EditButton variant="outlined" />
         </Datagrid>
     </List>
 );
 
 export const EmployeeEdit = () => (
-    <Edit>
-        <SimpleForm>
-            <ReferenceInput source="companyId" reference="companies">
-                <SelectInput source="name" />
-            </ReferenceInput>
-            <TextInput disabled source="id" />
-            <TextInput source="internalId" />
-            <TextInput source="firstName" />
-            <TextInput source="lastName" />
-            <TextInput source="email" />
-            <TextInput source="phone" />
-            <TextInput source="address" />
-            <TextInput source="city" />
-            <TextInput source="state" />
-            <TextInput source="zip" />
-            <TextInput source="country" />
-            <DateInput source="birthDate" />
-        </SimpleForm>
-    </Edit>
+    <EditEntityLayout inputsList={inputsList} referenceValues={referenceValues} />
 );
 
 export const EmployeeCreate = () => (
-    <Create>
-        <SimpleForm>
-            <ReferenceInput source="companyId" reference="companies">
-                <SelectInput source="name" />
-            </ReferenceInput>
-            <TextInput source="internalId" />
-            <TextInput source="firstName" />
-            <TextInput source="lastName" />
-            <TextInput source="email" />
-            <TextInput source="phone" />
-            <TextInput source="address" />
-            <TextInput source="city" />
-            <TextInput source="state" />
-            <TextInput source="zip" />
-            <TextInput source="country" />
-            <DateInput source="birthDate" />
-        </SimpleForm>
-    </Create>
+    <CreateEntityLayout inputsList={inputsList} referenceValues={referenceValues} />
 );

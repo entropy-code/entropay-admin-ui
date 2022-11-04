@@ -1,20 +1,25 @@
 import * as React from "react"
-import {
-    Datagrid,
-    DateField,
-    EditButton,
-    List,
-    ReferenceField,
-    TextField,
-    DateInput,
-    Edit,
-    ReferenceInput,
-    SelectInput,
-    SimpleForm,
-    TextInput,
-    Create
-} from 'react-admin';
-import { RichTextInput } from 'ra-input-rich-text';
+import { Datagrid, DateField, EditButton, List, ReferenceField, TextField, Edit, Create } from 'react-admin';
+import ProjectFormLayout from "./components/forms/ProjectFormLayout";
+
+const inputsList = [
+    {name: "name", type: "string"},
+    {name: "startDate", type: "date"},
+    {name: "endDate", type: "date"},
+    {name: "notes", type: "string"},
+  ];
+
+const clientReferences = {
+    source: 'clientId',
+    reference: 'clients',
+    optionText: 'name'
+}
+
+const projectReferences = {
+    source: 'projectTypeId',
+    reference: 'project-types',
+    optionText: 'name'
+}
 
 export const ProjectList = () => (
     <List>
@@ -35,35 +40,12 @@ export const ProjectList = () => (
 
 export const ProjectEdit = () => (
     <Edit>
-        <SimpleForm>
-            <TextInput disabled source="id" />
-            <ReferenceInput source="clientId" reference="clients">
-                <SelectInput optionText="name" />
-            </ReferenceInput>
-            <ReferenceInput source="projectTypeId" reference="project-types">
-                <SelectInput source="name" />
-            </ReferenceInput>
-            <TextInput source="name" />
-            <DateInput source="startDate" />
-            <DateInput source="endDate" />
-            <RichTextInput source="notes" />
-        </SimpleForm>
+        <ProjectFormLayout inputsList={inputsList} clientReferences={clientReferences} projectReferences={projectReferences} />
     </Edit>
 );
 
 export const ProjectCreate = () => (
     <Create>
-        <SimpleForm>
-            <ReferenceInput source="clientId" reference="clients">
-                <SelectInput optionText="name" />
-            </ReferenceInput>
-            <ReferenceInput source="projectTypeId" reference="project-types">
-                <SelectInput optionText="name" />
-            </ReferenceInput>
-            <TextInput source="name" />
-            <DateInput source="startDate" />
-            <DateInput source="endDate" />
-            <TextInput source="notes" />
-        </SimpleForm>
+        <ProjectFormLayout inputsList={inputsList} clientReferences={clientReferences} projectReferences={projectReferences} />
     </Create>
 );
