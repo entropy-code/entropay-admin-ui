@@ -2,7 +2,7 @@ import * as React from "react";
 import { SimpleForm, Create } from "react-admin";
 import { Grid } from "@mui/material";
 import { InputsGroup } from "./InputsGroup";
-import ReferenceInputItem from "./ReferenceInputItem";
+import ReferenceSelectArrayInputItem from "./ReferenceSelectArrayInputItem";
 
 const CreateEntityLayout = ({ inputsList, referenceValues }) => {
   return (
@@ -11,7 +11,7 @@ const CreateEntityLayout = ({ inputsList, referenceValues }) => {
         <Grid container rowSpacing={0} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
           {referenceValues && (
             <Grid item xs={12} sm={6} md={4}>
-              <ReferenceInputItem referenceValues={referenceValues} />
+              <ReferenceSelectArrayInputItem referenceValues={referenceValues} />
             </Grid>
           )}
           <InputsGroup inputsList={inputsList} />

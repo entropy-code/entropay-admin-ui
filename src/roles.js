@@ -1,7 +1,7 @@
 import * as React from "react"
 import { Datagrid, List, TextField, Edit, SimpleForm, TextInput, Create, EditButton } from 'react-admin';
 
-export const PositionList = () => (
+export const RolesList = () => (
     <List>
         <Datagrid rowClick="edit">
             <TextField source="name" />
@@ -10,7 +10,7 @@ export const PositionList = () => (
     </List>
 );
 
-export const PositionEdit = () => (
+export const RolesEdit = () => (
     <Edit>
         <SimpleForm>
             <TextInput disabled source="id" />
@@ -19,7 +19,7 @@ export const PositionEdit = () => (
     </Edit>
 );
 
-export const PositionCreate = () => (
+export const RolesCreate = () => (
     <Create>
         <SimpleForm>            
             <TextInput source="name" />

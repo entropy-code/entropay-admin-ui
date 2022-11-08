@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Datagrid, DateField, EmailField, List, TextField, ReferenceField, EditButton } from 'react-admin';
+import { Datagrid, DateField, EmailField, List, TextField, EditButton } from 'react-admin';
 import CreateEntityLayout from "./components/forms/CreateEntityLayout";
 import EditEntityLayout from "./components/forms/EditEntityLayout";
 
@@ -7,18 +7,22 @@ const inputsList = [
     {name: "internalId", type: "string"},
     {name: "firstName", type: "string"},
     {name: "lastName", type: "string"},
-    {name: "email", type: "string"},
+    {name: "personalNumber", type: "string"},
+    {name: "taxId", type: "string"},
+    {name: "personalEmail", type: "string"},
     {name: "phone", type: "string"},
     {name: "address", type: "string"},
     {name: "city", type: "string"},
     {name: "state", type: "string"},
     {name: "zip", type: "string"},
     {name: "country", type: "string"},
-    {name: "birthDate", type: "date"}
+    {name: "birthDate", type: "date"},
+    {name: "emergencyContactFullName", type: "string"},
+    {name: "emergencyContactPhone", type: "string"}
 ]
 const referenceValues = {
-    source: 'companyId',
-    reference: 'companies',
+    source: 'profile',
+    reference: 'roles',
     optionText: 'name'
 }
 
@@ -27,10 +31,7 @@ export const EmployeeList = () => (
         <Datagrid rowClick="edit">
             <TextField source="internalId" label="Internal Id"/>
             <TextField source="firstName" />
-            <TextField source="lastName" />            
-            <ReferenceField source="companyId" reference="companies">
-                <TextField source="name" />
-            </ReferenceField>
+            <TextField source="lastName" />  
             <EmailField source="email" />
             <TextField source="phone" />
             <TextField source="address" />
