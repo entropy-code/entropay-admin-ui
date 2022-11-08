@@ -1,6 +1,30 @@
 import * as React from "react"
-import { Datagrid, DateField, EmailField, List, TextField} from 'react-admin';
-import { DateInput, Edit, SimpleForm, TextInput, Create, SelectArrayInput, ChipField, ReferenceArrayInput } from 'react-admin';
+import { Datagrid, DateField, EmailField, List, TextField, EditButton } from 'react-admin';
+import CreateEntityLayout from "./components/forms/CreateEntityLayout";
+import EditEntityLayout from "./components/forms/EditEntityLayout";
+
+const inputsList = [
+    {name: "internalId", type: "string"},
+    {name: "firstName", type: "string"},
+    {name: "lastName", type: "string"},
+    {name: "personalNumber", type: "string"},
+    {name: "taxId", type: "string"},
+    {name: "personalEmail", type: "string"},
+    {name: "phone", type: "string"},
+    {name: "address", type: "string"},
+    {name: "city", type: "string"},
+    {name: "state", type: "string"},
+    {name: "zip", type: "string"},
+    {name: "country", type: "string"},
+    {name: "birthDate", type: "date"},
+    {name: "emergencyContactFullName", type: "string"},
+    {name: "emergencyContactPhone", type: "string"}
+]
+const referenceValues = {
+    source: 'profile',
+    reference: 'roles',
+    optionText: 'name'
+}
 
 export const EmployeeList = () => (
     <List>
@@ -18,60 +42,15 @@ export const EmployeeList = () => (
             <DateField source="birthDate" />
             <DateField source="createdAt" />
             <DateField source="modifiedAt" />
+            <EditButton variant="outlined" />
         </Datagrid>
     </List>
 );
 
 export const EmployeeEdit = () => (
-    <Edit>
-        <SimpleForm>
-            <TextInput source="internalId" />
-            <TextInput source="firstName" />
-            <TextInput source="lastName" />
-            <TextInput source="personalNumber" />
-            <TextInput source="taxId" />
-            <TextInput source="personalEmail" />
-            <TextInput source="phone" />
-            <TextInput source="address" />            
-            <TextInput source="city" />
-            <TextInput source="state" />
-            <TextInput source="zip" />
-            <TextInput source="country" />
-            <DateInput source="birthDate" />
-            <TextInput source="emergencyContactFullName" />
-            <TextInput source="emergencyContactPhone" />
-            <ReferenceArrayInput reference="roles" source="profile">
-                <SelectArrayInput>
-                    <ChipField source="profile" />
-                </SelectArrayInput>
-            </ReferenceArrayInput>
-        </SimpleForm>
-    </Edit>
+    <EditEntityLayout inputsList={inputsList} referenceValues={referenceValues} />
 );
 
 export const EmployeeCreate = () => (
-    <Create>
-        <SimpleForm>
-            <TextInput source="internalId" />
-            <TextInput source="firstName" />
-            <TextInput source="lastName" />
-            <TextInput source="personalNumber" />
-            <TextInput source="taxId" />
-            <TextInput source="personalEmail" />
-            <TextInput source="phone" />
-            <TextInput source="address" />            
-            <TextInput source="city" />
-            <TextInput source="state" />
-            <TextInput source="zip" />
-            <TextInput source="country" />
-            <DateInput source="birthDate" />
-            <TextInput source="emergencyContactFullName" />
-            <TextInput source="emergencyContactPhone" />
-            <ReferenceArrayInput reference="roles" source="profile">
-                <SelectArrayInput>
-                     <ChipField source="profiles" />
-                </SelectArrayInput>     
-            </ReferenceArrayInput>
-        </SimpleForm>
-    </Create>
+    <CreateEntityLayout inputsList={inputsList} referenceValues={referenceValues} />
 );

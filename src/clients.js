@@ -1,5 +1,23 @@
 import * as React from "react";
-import { Datagrid, DateField, EditButton, List, TextField, TextInput, Edit, SimpleForm, Create, ReferenceField, ReferenceInput, SelectInput } from 'react-admin';
+import { Datagrid, DateField, EditButton, List, TextField, ReferenceField } from 'react-admin';
+import CreateEntityLayout from "./components/forms/CreateEntityLayout";
+import EditEntityLayout from "./components/forms/EditEntityLayout";
+
+const inputsList = [
+    {name: "name", type: "string"},
+    {name: "address", type: "string"},
+    {name: "zipCode", type: "string"},
+    {name: "city", type: "string"},
+    {name: "state", type: "string"},
+    {name: "country", type: "string"},
+    {name: "contact", type: "string"},
+    {name: "preferredCurrency", type: "string"}
+]
+const referenceValues = {
+    source: 'companyId',
+    reference: 'companies',
+    optionText: 'name'
+}
 
 export const ClientList = () => (
     <List>
@@ -16,45 +34,15 @@ export const ClientList = () => (
             <TextField source="contact" />
             <TextField source="preferredCurrency" />
             <TextField source="modifiedAt" />
-            <EditButton />
+            <EditButton variant="outlined" />
         </Datagrid>
     </List>
 );
 
 export const ClientEdit = () => (
-    <Edit>
-        <SimpleForm>
-            <ReferenceInput source="companyId" reference="companies">
-                <SelectInput source="name" />
-            </ReferenceInput>
-            <TextInput disabled source="id" />
-            <TextInput source="name" />
-            <TextInput source="address" />
-            <TextInput source="zipCode" />
-            <TextInput source="city" />
-            <TextInput source="state" />
-            <TextInput source="country" />
-            <TextInput source="contact" />
-            <TextInput source="preferredCurrency" />            
-        </SimpleForm>
-    </Edit>
+    <EditEntityLayout inputsList={inputsList} referenceValues={referenceValues} />
 );
 
 export const ClientCreate = () => (
-    <Create>
-        <SimpleForm>
-            <ReferenceInput source="companyId" reference="companies">
-                <SelectInput source="name" />
-            </ReferenceInput>
-            <TextInput source="name" />
-            <TextInput source="address" />
-            <TextInput source="zipCode" />
-            <TextInput source="city" />
-            <TextInput source="state" />
-            <TextInput source="country" />
-            <TextInput source="contact" />
-            <TextInput source="preferredCurrency" />            
-        </SimpleForm>
-    </Create>
+    <CreateEntityLayout inputsList={inputsList} referenceValues={referenceValues} />
 );
-
