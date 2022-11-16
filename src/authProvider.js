@@ -1,15 +1,16 @@
 import moment from "moment";
 import config from "./config";
 
-const authProvider = {
+const loginUrl = config.config.api.userAuth + "/auth/login?redirectUrl=" + config.config.app.home
 
+const authProvider = {
     login: () => {},
     
     logout: () => {
         localStorage.removeItem('token');
         localStorage.removeItem('expiresAt');
         localStorage.removeItem('auth');
-        window.location.href = config.config.api.userAuth + "/auth/logout";
+        window.location.href = config.config.api.userAuth + "/auth/logout?redirectUrl=http://localhost:3000";
         return Promise.reject()
     },
 
@@ -21,7 +22,7 @@ const authProvider = {
             localStorage.removeItem('token');
             localStorage.removeItem('expiresAt');
             localStorage.removeItem('auth');
-            window.location.href = config.config.api.userAuth + "/auth/login";    
+            window.location.href = loginUrl;    
         }
 
         return Promise.resolve();
@@ -32,7 +33,7 @@ const authProvider = {
         const status = error.status;
         if (status === 401 || status === 403) {
             localStorage.removeItem('token');
-            window.location.href = config.config.api.userAuth + "/auth/login";
+            window.location.href = loginUrl;
         }
         // other error code (404, 500, etc): no need to log out
         return Promise.resolve();
