@@ -10,7 +10,7 @@ const authProvider = {
         localStorage.removeItem('token');
         localStorage.removeItem('expiresAt');
         localStorage.removeItem('auth');
-        window.location.href = config.config.api.userAuth + "/auth/logout?redirectUrl=http://localhost:3000";
+        window.location.href = config.config.api.userAuth + "/auth/logout?redirectUrl=" + config.config.app.home;
         return Promise.reject()
     },
 
