@@ -20,7 +20,7 @@ if (env === 'local') {
             userAuth: window._env_.REACT_APP_USER_AUTH_URL
         },
         app:{
-            home: window._env_.REACT_APP_USER_AUTH_URL
+            home: window._env_.REACT_APP_HOME
         }
     }
     env = window._env_.REACT_APP_ENV
