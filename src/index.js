@@ -4,6 +4,15 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+//Set token to localStorage
+const url = new URL(window.location.href);
+const token = url.searchParams.get("token");
+const expiresAt = url.searchParams.get("expiresAt");
+if (token !== null){
+  localStorage.setItem('token', token)
+  localStorage.setItem('expiresAt', expiresAt)
+} 
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
