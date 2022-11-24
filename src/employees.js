@@ -4,8 +4,6 @@ import CreateEntityLayout from "./components/forms/CreateEntityLayout";
 import EditEntityLayout from "./components/forms/EditEntityLayout";
 import ShowEntityLayout from "./components/forms/ShowEntityLayout";
 
-
-
 const inputsList = [
     {name: "internalId", type: "string"},
     {name: "firstName", type: "string"},
@@ -60,5 +58,5 @@ export const EmployeeCreate = () => (
 );
 
 export const EmployeeShow = () => (
-    <ShowEntityLayout referenceValues={referenceValues} />
+    <ShowEntityLayout/>
 );
