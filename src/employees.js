@@ -1,7 +1,10 @@
 import * as React from "react"
-import { Datagrid, DateField, EmailField, List, TextField, EditButton } from 'react-admin';
+import { Datagrid, DateField, EmailField, List, TextField, ShowButton, EditButton} from 'react-admin';
 import CreateEntityLayout from "./components/forms/CreateEntityLayout";
 import EditEntityLayout from "./components/forms/EditEntityLayout";
+import ShowEntityLayout from "./components/forms/ShowEntityLayout";
+
+
 
 const inputsList = [
     {name: "internalId", type: "string"},
@@ -32,7 +35,7 @@ export const EmployeeList = () => (
             <TextField source="internalId" label="Internal Id"/>
             <TextField source="firstName" />
             <TextField source="lastName" />  
-            <EmailField source="email" />
+            <EmailField source="personalEmail" />
             <TextField source="phone" />
             <TextField source="address" />
             <TextField source="city" />
@@ -43,6 +46,7 @@ export const EmployeeList = () => (
             <DateField source="createdAt" />
             <DateField source="modifiedAt" />
             <EditButton variant="outlined" />
+            <ShowButton variant="outlined" />
         </Datagrid>
     </List>
 );
@@ -53,4 +57,8 @@ export const EmployeeEdit = () => (
 
 export const EmployeeCreate = () => (
     <CreateEntityLayout inputsList={inputsList} referenceValues={referenceValues} />
+);
+
+export const EmployeeShow = () => (
+    <ShowEntityLayout referenceValues={referenceValues} />
 );
