@@ -4,32 +4,45 @@ import { Show, TabbedShowLayout, Tab, TextField, DateField, SimpleShowLayout} fr
 
 
 
-const ShowEntityLayout = ({referenceValues }) => {
-  const {reference,source} = referenceValues;
+const ShowEntityLayout = () => {
   return (
-    <Show>     
-       <Grid container direction="row" justifyContent="space-evenly" alignItems="center">      
-          <Box m={3}>
-            <Avatar alt="Employee" src="" sx={{ width: 200, height: 200 }}  />
-          </Box>                  
-          <SimpleShowLayout>
-              <TextField source="firstName" />
-              <TextField source="lastName" />
-              <TextField source="personalEmail" />
+    <Show title="Show employee" emptyWhileLoading>     
+       <Grid container direction="row" justifyContent="flex-start" alignItems="flex-start">      
+          <Grid item>
+            <Box m={2}>
+              <Avatar alt="Employee" src="" sx={{ width: 85, height: 85 }}  />
+            </Box>
+          </Grid>
+          <Grid item>                  
+            <SimpleShowLayout divider={<Divider flexItem />}>            
+                <TextField label= "" source="firstName" />
+                <TextField label= "" source="lastName" />
+                <TextField label= "" source="personalEmail" />                                  
+            </SimpleShowLayout>
+          </Grid>
+          <Grid item>
+            <SimpleShowLayout divider={<Divider flexItem />}>
               <TextField label="Current assigment" source="" />
-              <DateField label="Last contract Date" source=""/>           
-          </SimpleShowLayout>          
+              <DateField label="Hired Date" source=""/>
+            </SimpleShowLayout>   
+          </Grid>          
         </Grid>
-      <TabbedShowLayout spacing={2} divider={<Divider flexItem />}>
+      <TabbedShowLayout>
         <Tab label="Personal and financial information">
-            <TextField source="taxId" />
-            <TextField source="phone" />
-            <TextField source="address" />
-            <TextField source="city" />
-            <TextField source="state" />
-            <TextField source="zip" />
-            <TextField source="country" />
-            <DateField source="birthDate" />
+            <Grid container direction="row" justifyContent="flex-start" alignItems="flex-start" >
+              <SimpleShowLayout divider={<Divider flexItem />}>
+                <TextField source="taxId" />
+                <TextField source="phone" />
+                <TextField source="address" />
+                <TextField source="city" />                
+              </SimpleShowLayout>
+              <SimpleShowLayout divider={<Divider flexItem />}>
+                <TextField source="state" />
+                <TextField source="zip" />
+                <TextField source="country" />
+                <DateField source="birthDate" />
+              </SimpleShowLayout>              
+            </Grid>
         </Tab>
         <Tab label="Contracts">
         </Tab>
