@@ -16,7 +16,7 @@ export const ContractList = () => (
             </ReferenceField>
             <DateField source="startDate" />
             <DateField source="endDate" />
-            <ReferenceField source="positionId" reference="positions">
+            <ReferenceField source="positionId" reference="roles">
                 <TextField source="name" />
             </ReferenceField>
             <NumberField source="hoursPerWeek" />
@@ -41,7 +41,7 @@ export const ContractEdit = () => (
             </ReferenceInput>
             <DateInput source="startDate" />
             <DateInput source="endDate" />
-            <ReferenceInput source="positionId" reference="positions">
+            <ReferenceInput source="positionId" reference="roles">
                 <SelectInput optionText="name" />
             </ReferenceInput>
             <NumberInput source="hoursPerWeek" />
@@ -65,7 +65,7 @@ export const ContractCreate = () => (
             </ReferenceInput>
             <DateInput source="startDate" />
             <DateInput source="endDate" />
-            <ReferenceInput source="positionId" reference="positions">
+            <ReferenceInput source="positionId" reference="roles">
                 <SelectInput optionText="name" />
             </ReferenceInput>
             <NumberInput source="hoursPerWeek" />

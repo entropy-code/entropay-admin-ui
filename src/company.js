@@ -39,10 +39,10 @@ export const CompanyList = () => (
 
 
 export const CompanyEdit = () => (
-    <EditEntityLayout inputsList={inputsList} referenceValues={referenceValues} />
+    <EditEntityLayout inputsList={inputsList} referenceValues={referenceValues} select={true}/>
 );
 
 
 export const CompanyCreate = () => (
-    <CreateEntityLayout inputsList={inputsList} referenceValues={referenceValues} />
+    <CreateEntityLayout inputsList={inputsList} referenceValues={referenceValues} select={true} />
 );
