@@ -10,6 +10,7 @@ import { CompanyList, CompanyEdit, CompanyCreate } from "./company";
 import { ContractList, ContractEdit, ContractCreate } from "./contracts";
 import { SeniorityList, SeniorityEdit, SeniorityCreate } from "./seniorities";
 import { RolesList, RolesEdit, RolesCreate } from "./roles";
+import { AssignmentList, AssignmentEdit, AssignmentCreate } from "./assignments";
 import Dashboard from "./Dashboard";
 import simpleRestProvider from 'ra-data-simple-rest';
 import config from "./config";
@@ -38,6 +39,7 @@ const App = () => (
     <Resource name="contracts" list={ContractList} edit={ContractEdit} create={ContractCreate} />
     <Resource name="roles" list={RolesList} edit={RolesEdit} create={RolesCreate} />
     <Resource name="seniorities" list={SeniorityList} edit={SeniorityEdit} create={SeniorityCreate} />
+    <Resource name="assignments" list={AssignmentList} edit={AssignmentEdit} create={AssignmentCreate} />
   </Admin>
 );
 
