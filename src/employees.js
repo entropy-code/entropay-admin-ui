@@ -48,9 +48,9 @@ export const EmployeeList = () => (
 );
 
 export const EmployeeEdit = () => (
-    <EditEntityLayout inputsList={inputsList} referenceValues={referenceValues} select={false} />
+    <EditEntityLayout inputsList={inputsList} referenceValues={referenceValues} selectItem={false} />
 );
 
 export const EmployeeCreate = () => (
-    <CreateEntityLayout inputsList={inputsList} referenceValues={referenceValues} select={false} />
+    <CreateEntityLayout inputsList={inputsList} referenceValues={referenceValues} selectItem={false} />
 );

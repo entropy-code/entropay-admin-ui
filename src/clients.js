@@ -40,9 +40,9 @@ export const ClientList = () => (
 );
 
 export const ClientEdit = () => (
-    <EditEntityLayout inputsList={inputsList} referenceValues={referenceValues} select={false} />
+    <EditEntityLayout inputsList={inputsList} referenceValues={referenceValues} selectItem={false} />
 );
 
 export const ClientCreate = () => (
-    <CreateEntityLayout inputsList={inputsList} referenceValues={referenceValues} select={false} />
+    <CreateEntityLayout inputsList={inputsList} referenceValues={referenceValues} selectItem={false} />
 );

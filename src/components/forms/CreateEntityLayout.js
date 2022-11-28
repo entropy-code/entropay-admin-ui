@@ -5,18 +5,18 @@ import { InputsGroup } from "./InputsGroup";
 import ReferenceSelectArrayInputItem from "./ReferenceSelectArrayInputItem";
 import ReferenceInputItem from "./ReferenceInputItem";
 
-const CreateEntityLayout = ({ inputsList, referenceValues, select }) => {
+const CreateEntityLayout = ({ inputsList, referenceValues, selectItem }) => {
   return (
     <Create>
       <SimpleForm>
         <Grid container rowSpacing={0} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
           <InputsGroup inputsList={inputsList} />
-          {referenceValues && select===false && (
+          {referenceValues && selectItem===false && (
             <Grid item xs={12} sm={6} md={4}>
               <ReferenceSelectArrayInputItem referenceValues={referenceValues} />
             </Grid>
           )}
-          {select && (
+          {referenceValues && selectItem && (
             <Grid item xs={12} sm={6} md={4}>
               <ReferenceInputItem referenceValues={referenceValues} />
             </Grid>
