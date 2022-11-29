@@ -16,7 +16,8 @@ const inputsList = [
 const referenceValues = {
     source: 'companyId',
     reference: 'companies',
-    optionText: 'name'
+    optionText: 'name',
+    multiselect: false
 }
 
 export const ClientList = () => (

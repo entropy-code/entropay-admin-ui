@@ -14,7 +14,8 @@ const inputsList = [
 const referenceValues = {
     source: 'tenantId',
     reference: 'tenants',
-    optionText: 'displayName'
+    optionText: 'displayName',
+    multiselect: false
 }
 
 export const CompanyList = () => (

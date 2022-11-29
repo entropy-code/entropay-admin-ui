@@ -5,26 +5,27 @@ import CreateEntityLayout from "./components/forms/CreateEntityLayout";
 import EditEntityLayout from "./components/forms/EditEntityLayout";
 
 const inputsList = [
-    {name: "internalId", type: "string"},
     {name: "firstName", type: "string"},
     {name: "lastName", type: "string"},
-    {name: "personalNumber", type: "string"},
-    {name: "taxId", type: "string"},
+    {name: "internalId", type: "string"},
     {name: "personalEmail", type: "string"},
     {name: "phone", type: "string"},
+    {name: "birthDate", type: "date"},
+    {name: "taxId", type: "string"},
+    {name: "personalNumber", type: "string"},
     {name: "address", type: "string"},
-    {name: "city", type: "string"},
     {name: "state", type: "string"},
     {name: "zip", type: "string"},
     {name: "country", type: "string"},
-    {name: "birthDate", type: "date"},
+    {name: "city", type: "string"},
     {name: "emergencyContactFullName", type: "string"},
     {name: "emergencyContactPhone", type: "string"}
 ]
 const referenceValues = {
     source: 'profile',
     reference: 'roles',
-    optionText: 'name'
+    optionText: 'name',
+    multiselect: true
 }
 
 export const EmployeeList = () => (
