@@ -14,12 +14,12 @@ const EditEntityLayout = ({ inputsList, referenceValues }) => {
             <TextInput disabled source="id" fullWidth />
           </Grid>
           <InputsGroup inputsList={inputsList} />
-          {referenceValues && referenceValues.multiselect === true && (
+          {referenceValues && referenceValues.multiselect && (
           <Grid item xs={12} sm={6} md={4}>
             <ReferenceSelectArrayInputItem referenceValues={referenceValues} />
           </Grid>
           )}
-          {referenceValues  && referenceValues.multiselect === false && (
+          {referenceValues  && !referenceValues.multiselect && (
             <Grid item xs={12} sm={6} md={4}>
               <ReferenceInputItem referenceValues={referenceValues} />
             </Grid>
