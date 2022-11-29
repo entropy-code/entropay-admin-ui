@@ -23,7 +23,8 @@ const inputsList = [
 const referenceValues = {
     source: 'profile',
     reference: 'roles',
-    optionText: 'name'
+    optionText: 'name',
+    multiselect: true
 }
 
 export const EmployeeList = () => (
@@ -48,9 +49,9 @@ export const EmployeeList = () => (
 );
 
 export const EmployeeEdit = () => (
-    <EditEntityLayout inputsList={inputsList} referenceValues={referenceValues} selectItem={false} />
+    <EditEntityLayout inputsList={inputsList} referenceValues={referenceValues} />
 );
 
 export const EmployeeCreate = () => (
-    <CreateEntityLayout inputsList={inputsList} referenceValues={referenceValues} selectItem={false} />
+    <CreateEntityLayout inputsList={inputsList} referenceValues={referenceValues} />
 );

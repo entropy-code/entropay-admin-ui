@@ -5,7 +5,7 @@ import { InputsGroup } from "./InputsGroup";
 import ReferenceSelectArrayInputItem from "./ReferenceSelectArrayInputItem";
 import ReferenceInputItem from "./ReferenceInputItem";
 
-const EditEntityLayout = ({ inputsList, referenceValues, selectItem }) => {
+const EditEntityLayout = ({ inputsList, referenceValues }) => {
   return (
     <Edit>
       <SimpleForm>
@@ -14,12 +14,12 @@ const EditEntityLayout = ({ inputsList, referenceValues, selectItem }) => {
             <TextInput disabled source="id" fullWidth />
           </Grid>
           <InputsGroup inputsList={inputsList} />
-          {referenceValues && selectItem ===false && (
+          {referenceValues && referenceValues.multiselect === true && (
           <Grid item xs={12} sm={6} md={4}>
             <ReferenceSelectArrayInputItem referenceValues={referenceValues} />
           </Grid>
           )}
-          {referenceValues  && selectItem && (
+          {referenceValues  && referenceValues.multiselect === false && (
             <Grid item xs={12} sm={6} md={4}>
               <ReferenceInputItem referenceValues={referenceValues} />
             </Grid>

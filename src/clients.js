@@ -16,7 +16,8 @@ const inputsList = [
 const referenceValues = {
     source: 'companyId',
     reference: 'companies',
-    optionText: 'name'
+    optionText: 'name',
+    multiselect: false
 }
 
 export const ClientList = () => (
@@ -40,9 +41,9 @@ export const ClientList = () => (
 );
 
 export const ClientEdit = () => (
-    <EditEntityLayout inputsList={inputsList} referenceValues={referenceValues} selectItem={false} />
+    <EditEntityLayout inputsList={inputsList} referenceValues={referenceValues} />
 );
 
 export const ClientCreate = () => (
-    <CreateEntityLayout inputsList={inputsList} referenceValues={referenceValues} selectItem={false} />
+    <CreateEntityLayout inputsList={inputsList} referenceValues={referenceValues} />
 );
