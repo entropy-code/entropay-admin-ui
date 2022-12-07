@@ -62,7 +62,7 @@ const EmployeeCards = () => {
                             <CardMedia
                                 component="img"
                                 height="200"
-                                image="https://bolavip.com/__export/1625160988556/sites/bolavip/img/2021/07/01/gettyimages-1323568516_crop1625160987586.jpg_1159711837.jpg"
+                                image="https://entropay-assets.s3.amazonaws.com/messi.jpg"
                             />
 
                             <CardContent sx={{ padding: 1 }}>
@@ -105,7 +105,7 @@ export const EmployeeProfile = () => (
         <Grid container direction="row" justifyContent="flex-start" alignItems="center">
             <Grid item>
                 <Box m={2}>{/*Profile image hardcoded until photo upload feature is in palce*/}
-                    <Avatar alt="Employee" src="https://bolavip.com/__export/1625160988556/sites/bolavip/img/2021/07/01/gettyimages-1323568516_crop1625160987586.jpg_1159711837.jpg" sx={{ width: 100, height: 100 }} />
+                    <Avatar alt="Employee" src="https://entropay-assets.s3.amazonaws.com/messi.jpg" sx={{ width: 100, height: 100 }} />
                 </Box>
             </Grid>
             <Grid item>
