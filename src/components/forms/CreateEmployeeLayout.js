@@ -30,10 +30,6 @@ const CreateEmployeeLayout = ({ inputsList, referenceValues }) => {
           </SimpleFormIterator>
         </ArrayInput>  
         <TextInput multiline source="notes" fullWidth />
-        <Grid container direction="column" justifyContent="center" alignItems="flex-end">
-          <Button label="+ New Contract" alignIcon="right"/>
-          <Button label="+ New Assigment" alignIcon="right"/>
-        </Grid>
       </SimpleForm>
     </Create>
   );
