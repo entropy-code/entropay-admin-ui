@@ -1,15 +1,16 @@
 import * as React from "react"
-import { Datagrid, DateField, EmailField, List, TextField, ShowButton, EditButton, Show, TabbedShowLayout, Tab, SimpleShowLayout, FunctionField} from 'react-admin';
-import { Avatar, Box, Divider, Grid} from "@mui/material";
-import CreateEntityLayout from "./components/forms/CreateEntityLayout";
-import EditEntityLayout from "./components/forms/EditEntityLayout";
+import { Datagrid, EmailField, List, TextField, ShowButton, EditButton, Show, SimpleShowLayout, FunctionField, DateField, TabbedShowLayout, Tab, ArrayField} from 'react-admin';
+import EditEmployeeLayout from "./components/forms/EditEmployeeLayout";
+import CreateEmployeeLayout from "./components/forms/CreateEmployeeLayout";
+import { Avatar, Box, Divider, Grid } from "@mui/material";
 
 const inputsList = [
     {name: "firstName", type: "string"},
     {name: "lastName", type: "string"},
     {name: "internalId", type: "string"},
     {name: "personalEmail", type: "string"},
-    {name: "phone", type: "string"},
+    {name: "phoneNumber", type: "string"},
+    {name: "mobileNumber", type: "string"},
     {name: "birthDate", type: "date"},
     {name: "taxId", type: "string"},
     {name: "personalNumber", type: "string"},
@@ -18,6 +19,7 @@ const inputsList = [
     {name: "zip", type: "string"},
     {name: "country", type: "string"},
     {name: "city", type: "string"},
+    {name: "healthInsurance", type: "string"},
     {name: "emergencyContactFullName", type: "string"},
     {name: "emergencyContactPhone", type: "string"}
 ]
@@ -35,15 +37,11 @@ export const EmployeeList = () => (
             <TextField source="firstName" />
             <TextField source="lastName" />  
             <EmailField source="personalEmail" />
-            <TextField source="phone" />
             <TextField source="address" />
             <TextField source="city" />
             <TextField source="state" />
             <TextField source="zip" />
             <TextField source="country" />
-            <DateField source="birthDate" />
-            <DateField source="createdAt" />
-            <DateField source="modifiedAt" />
             <EditButton variant="outlined" />
             <ShowButton variant="outlined" />
         </Datagrid>
@@ -51,11 +49,11 @@ export const EmployeeList = () => (
 );
 
 export const EmployeeEdit = () => (
-    <EditEntityLayout inputsList={inputsList} referenceValues={referenceValues} />
+    <EditEmployeeLayout inputsList={inputsList} referenceValues={referenceValues} />
 );
 
 export const EmployeeCreate = () => (
-    <CreateEntityLayout inputsList={inputsList} referenceValues={referenceValues} />
+    <CreateEmployeeLayout inputsList={inputsList} referenceValues={referenceValues} />
 );
 
 export const EmployeeProfile = () => (
@@ -84,17 +82,27 @@ export const EmployeeProfile = () => (
                 <Grid container direction="row" justifyContent="flex-start" alignItems="flex-start" >
                     <SimpleShowLayout divider={<Divider flexItem />}>
                         <TextField source="taxId" />
-                        <TextField source="phone" />
+                        <TextField source="phoneNumber" />
+                        <TextField source="mobileNumber" />
                         <TextField source="address" />
-                        <TextField source="city" />                
+                        <TextField source="city" />
+                        <TextField source="notes" />                
                     </SimpleShowLayout>
                     <SimpleShowLayout divider={<Divider flexItem />}>
-                        <TextField source="state" />
+                        <TextField source="state" />                        
                         <TextField source="zip" />
                         <TextField source="country" />
                         <DateField source="birthDate" />
+                        <TextField source="healthInsurance" />
                     </SimpleShowLayout>              
                 </Grid>
+                <ArrayField source="paymentInformation">
+                    <Datagrid>
+                        <TextField source="platform"/>
+                        <TextField source="country"/>
+                        <TextField source="cbu" label="Alias/CBU"/>
+                    </Datagrid>
+                </ArrayField>
             </Tab>
             <Tab label="Contracts">
             </Tab>
