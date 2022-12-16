@@ -1,8 +1,8 @@
 import * as React from "react"
-import { Datagrid, EmailField, List, TextField, ShowButton, EditButton, Show, SimpleShowLayout, FunctionField, DateField, TabbedShowLayout, Tab, ArrayField} from 'react-admin';
+import { Datagrid, List, TextField, ShowButton, EditButton, Show, SimpleShowLayout, FunctionField, DateField, Tab, ArrayField, TopToolbar, CreateButton, ExportButton, TabbedShowLayout, RecordContextProvider, useListContext} from 'react-admin';
 import EditEmployeeLayout from "./components/forms/EditEmployeeLayout";
 import CreateEmployeeLayout from "./components/forms/CreateEmployeeLayout";
-import { Avatar, Box, Divider, Grid } from "@mui/material";
+import { Card, CardContent, CardMedia, CardActions, Typography, Avatar, Box, Divider, Grid } from '@mui/material';
 
 const inputsList = [
     {name: "firstName", type: "string"},
@@ -31,22 +31,66 @@ const referenceValues = {
 }
 
 export const EmployeeList = () => (
-    <List>
-        <Datagrid rowClick="edit">
-            <TextField source="internalId" label="Internal Id"/>
-            <TextField source="firstName" />
-            <TextField source="lastName" />  
-            <EmailField source="personalEmail" />
-            <TextField source="address" />
-            <TextField source="city" />
-            <TextField source="state" />
-            <TextField source="zip" />
-            <TextField source="country" />
-            <EditButton variant="outlined" />
-            <ShowButton variant="outlined" />
-        </Datagrid>
+    <List sort={{ field: 'internalId', order: 'ASC' }}
+        perPage={20}
+        pagination={false}
+        component="div"
+        actions={false}>
+        <TopToolbar sx={{ minHeight: { sm: 56 } }}>
+            <CreateButton />
+            <ExportButton />
+        </TopToolbar>
+        <EmployeeCards />
     </List>
 );
+
+const EmployeeCards = () => {
+    const { data, isLoading } = useListContext();
+    if (isLoading) {
+        return null;
+    }
+    return (
+        <Grid container spacing={1} sx={{ marginTop: '1em' }}>
+            {data.map(record => (
+                <RecordContextProvider key={record.internalId} value={record}>
+                    <Grid
+                        xs={2}
+                        item
+                    >
+                        <Card sx={{ maxWidth: 300 }}>
+                            {/*Profile image hardcoded until photo upload feature is in palce*/}
+                            <CardMedia
+                                component="img"
+                                height="200"
+                                image="https://entropay-assets.s3.amazonaws.com/messi.jpg"
+                            />
+
+                            <CardContent sx={{ padding: 1 }}>
+                                <Typography
+                                    variant="h5"
+                                    component="h5"
+                                    align="center"
+                                >
+                                    {`${record.firstName} ${record.lastName} (${record.internalId})`}
+                                </Typography>
+                                <Typography
+                                    align="center"
+                                >
+                                    {record.personalEmail}
+                                </Typography>
+                                <CardActions>
+                                    <ShowButton />
+                                    <EditButton />
+                                </CardActions>
+                            </CardContent>
+                        </Card>
+                    </Grid>
+                </RecordContextProvider>
+            ))}
+        </Grid>
+    );
+};
+
 
 export const EmployeeEdit = () => (
     <EditEmployeeLayout inputsList={inputsList} referenceValues={referenceValues} />
@@ -57,25 +101,25 @@ export const EmployeeCreate = () => (
 );
 
 export const EmployeeProfile = () => (
-    <Show title="Show employee" emptyWhileLoading>     
-        <Grid container direction="row" justifyContent="flex-start" alignItems="center">      
+    <Show title="Show employee" emptyWhileLoading>
+        <Grid container direction="row" justifyContent="flex-start" alignItems="center">
             <Grid item>
-                <Box m={2}>
-                    <Avatar alt="Employee" src="" sx={{ width: 100, height: 100 }}  />
+                <Box m={2}>{/*Profile image hardcoded until photo upload feature is in palce*/}
+                    <Avatar alt="Employee" src="https://entropay-assets.s3.amazonaws.com/messi.jpg" sx={{ width: 100, height: 100 }} />
                 </Box>
             </Grid>
-            <Grid item>                  
-                <SimpleShowLayout divider={<Divider flexItem />}>            
+            <Grid item>
+                <SimpleShowLayout divider={<Divider flexItem />}>
                     <FunctionField label="" render={record => `${record.firstName} ${record.lastName}`} />
-                    <TextField label= "" source="personalEmail" />                                  
+                    <TextField label="" source="personalEmail" />
                 </SimpleShowLayout>
             </Grid>
             <Grid item>
                 <SimpleShowLayout divider={<Divider flexItem />}>
                     <TextField label="Current assigment" source="" />
-                    <DateField label="Hired Date" source=""/>
-                </SimpleShowLayout>   
-            </Grid>          
+                    <DateField label="Hired Date" source="" />
+                </SimpleShowLayout>
+            </Grid>
         </Grid>
         <TabbedShowLayout>
             <Tab label="Personal and financial information">
