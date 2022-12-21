@@ -1,5 +1,6 @@
 import * as React from "react";
 import {
+  Datagrid,
   DateField,
   List,
   TextField,
@@ -9,6 +10,7 @@ import {
   SimpleShowLayout,
   FunctionField,
   RecordContextProvider,
+  ArrayField
 } from "react-admin";
 import {
   useListContext,
@@ -121,8 +123,8 @@ const EmployeeCards = () => {
 };
 
 export const EmployeeEdit = () => (
-    <EditForm formData={formData} title="Employees" />
-  );
+  <EditForm formData={formData} title="Employees" />
+);
 
 export const EmployeeCreate = () => (
   <CreateForm formData={formData} title="Employees" />
@@ -172,17 +174,27 @@ export const EmployeeProfile = () => (
         >
           <SimpleShowLayout divider={<Divider flexItem />}>
             <TextField source="taxId" />
-            <TextField source="phone" />
+            <TextField source="phoneNumber" />
+            <TextField source="mobileNumber" />
             <TextField source="address" />
             <TextField source="city" />
+            <TextField source="notes" />
           </SimpleShowLayout>
           <SimpleShowLayout divider={<Divider flexItem />}>
             <TextField source="state" />
             <TextField source="zip" />
             <TextField source="country" />
             <DateField source="birthDate" />
+            <TextField source="healthInsurance" />
           </SimpleShowLayout>
         </Grid>
+        <ArrayField source="paymentInformation">
+          <Datagrid>
+            <TextField source="platform" />
+            <TextField source="country" />
+            <TextField source="cbu" label="Alias/CBU" />
+          </Datagrid>
+        </ArrayField>
       </Tab>
       <Tab label="Contracts"></Tab>
       <Tab label="Assigments"></Tab>
