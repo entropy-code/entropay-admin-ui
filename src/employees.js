@@ -6,30 +6,29 @@ import {
   TextField,
   Show,
   TabbedShowLayout,
-  Tab,
   SimpleShowLayout,
   FunctionField,
   RecordContextProvider,
-  ArrayField
-} from "react-admin";
-import {
-  useListContext,
-  TopToolbar,
-  CreateButton,
-  ExportButton,
-  ShowButton,
-  EditButton,
+  ArrayField,
+  ShowButton, 
+  EditButton, 
+  Tab, 
+  TopToolbar, 
+  CreateButton, 
+  ExportButton, 
+  useListContext
 } from "react-admin";
 import {
   Card,
   CardContent,
   CardMedia,
   CardActions,
-  Typography,
+  Typography
 } from "@mui/material";
 import { Avatar, Box, Divider, Grid } from "@mui/material";
 import CreateForm from "./components/forms/CreateForm";
 import EditForm from "./components/forms/EditForm";
+
 
 const formData = [
   {
@@ -37,12 +36,14 @@ const formData = [
     inputsList: [
       { name: "firstName", type: "string" },
       { name: "lastName", type: "string" },
-      { name: "email", type: "string" },
-      { name: "phone", type: "string" },
+      { name: "personalEmail", type: "string"},
+      { name: "phoneNumber", type: "string"},
+      { name: "mobileNumber", type: "string"},
       { name: "birthDate", type: "date" },
       { name: "taxId", type: "string" },
       { name: "personalNumber", type: "string" },
       { name: "internalId", type: "string" },
+      
     ],
     referenceValues: {
       source: "profile",
@@ -64,11 +65,13 @@ const formData = [
   {
     title: "Emergency Contact",
     inputsList: [
+      { name: "healthInsurance", type: "string"},
       { name: "emergencyContactFullName", type: "string" },
       { name: "emergencyContactPhone", type: "string" },
     ],
   },
 ];
+
 
 export const EmployeeList = () => (
   <List
@@ -166,40 +169,39 @@ export const EmployeeProfile = () => (
     </Grid>
     <TabbedShowLayout>
       <Tab label="Personal and financial information">
-        <Grid
-          container
-          direction="row"
-          justifyContent="flex-start"
-          alignItems="flex-start"
-        >
-          <SimpleShowLayout divider={<Divider flexItem />}>
-            <TextField source="taxId" />
-            <TextField source="phoneNumber" />
-            <TextField source="mobileNumber" />
-            <TextField source="address" />
-            <TextField source="city" />
-            <TextField source="notes" />
-          </SimpleShowLayout>
-          <SimpleShowLayout divider={<Divider flexItem />}>
-            <TextField source="state" />
-            <TextField source="zip" />
-            <TextField source="country" />
-            <DateField source="birthDate" />
-            <TextField source="healthInsurance" />
-          </SimpleShowLayout>
-        </Grid>
-        <ArrayField source="paymentInformation">
-          <Datagrid>
-            <TextField source="platform" />
-            <TextField source="country" />
-            <TextField source="cbu" label="Alias/CBU" />
-          </Datagrid>
-        </ArrayField>
+          <Grid container direction="row" justifyContent="flex-start" alignItems="flex-start" >
+              <SimpleShowLayout divider={<Divider flexItem />}>
+                  <TextField source="taxId" />
+                  <TextField source="phoneNumber" />
+                  <TextField source="mobileNumber" />
+                  <TextField source="address" />
+                  <TextField source="city" />
+                  <TextField source="notes" />                
+              </SimpleShowLayout>
+              <SimpleShowLayout divider={<Divider flexItem />}>
+                  <TextField source="state" />                        
+                  <TextField source="zip" />
+                  <TextField source="country" />
+                  <DateField source="birthDate" />
+                  <TextField source="healthInsurance" />
+              </SimpleShowLayout>              
+          </Grid>
+          <ArrayField source="paymentInformation">
+              <Datagrid>
+                  <TextField source="platform"/>
+                  <TextField source="country"/>
+                  <TextField source="cbu" label="Alias/CBU"/>
+              </Datagrid>
+          </ArrayField>
       </Tab>
-      <Tab label="Contracts"></Tab>
-      <Tab label="Assigments"></Tab>
-      <Tab label="Vacations and Licencies"></Tab>
-      <Tab label="Documents"></Tab>
+      <Tab label="Contracts">
+      </Tab>
+      <Tab label="Assigments">
+      </Tab>
+      <Tab label="Vacations and Licencies">
+      </Tab>
+      <Tab label="Documents">
+      </Tab>
     </TabbedShowLayout>
   </Show>
 );
