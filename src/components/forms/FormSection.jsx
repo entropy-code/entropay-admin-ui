@@ -2,6 +2,7 @@ import { TextInput, DateInput, NumberInput } from "react-admin";
 import { Box, Typography, useMediaQuery } from "@mui/material";
 import ReferenceInputItem from "./ReferenceInputItem";
 import PaymentSection from "./PaymentSection";
+import MultiSelectInput from "./MultiSelectInput";
 
 const FormSection = ({
   formSectionTitle,
@@ -26,7 +27,10 @@ const FormSection = ({
           },
         }}
       >
-        {referenceValues && (
+        {referenceValues && referenceValues.multiselect && (
+          <MultiSelectInput referenceValues={referenceValues} />
+        )}
+        {referenceValues && !referenceValues.multiselect && (
           <ReferenceInputItem referenceValues={referenceValues} />
         )}
         {inputsList &&
