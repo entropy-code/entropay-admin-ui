@@ -39,6 +39,9 @@ const formData = [
     title: "Others",
     inputsList: [{ name: "preferredCurrency", type: "string" }],
   },
+  {
+    paymentInformation: false,
+  },
 ];
 
 export const ClientList = () => (

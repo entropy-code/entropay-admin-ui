@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import { Create, SimpleForm } from "react-admin";
+import { Create, SimpleForm, TextInput } from "react-admin";
 import Header from "../Header";
 import FormSection from "./FormSection";
 
@@ -27,11 +27,13 @@ const CreateForm = ({ formData, title }) => {
                     formSectionTitle={item.title}
                     inputsList={item.inputsList}
                     referenceValues={item.referenceValues}
+                    paymentInformation={item.paymentInformation}
                     key={index + item.title}
                   />
                 </Box>
               );
             })}
+            <TextInput multiline source="notes" fullWidth />
           </Box>
         </SimpleForm>
       </Create>

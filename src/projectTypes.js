@@ -8,6 +8,9 @@ const formData = [
     title: "Project Type",
     inputsList: [{ name: "name", type: "string" }],
   },
+  {
+    paymentInformation: false,
+  },
 ];
 
 export const ProjectTypeList = () => (

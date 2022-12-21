@@ -57,6 +57,9 @@ const formData = [
       multiselect: true,
     },
   },
+  {
+    paymentInformation: false,
+  },
 ];
 
 export const ContractList = () => (

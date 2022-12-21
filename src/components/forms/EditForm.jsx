@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import { Edit, SimpleForm } from "react-admin";
+import { Edit, SimpleForm, TextInput } from "react-admin";
 import Header from "../Header";
 import FormSection from "./FormSection";
 
@@ -32,6 +32,7 @@ const EditForm = ({ formData, title }) => {
                 </Box>
               );
             })}
+            <TextInput multiline source="notes" fullWidth />
           </Box>
         </SimpleForm>
       </Edit>
