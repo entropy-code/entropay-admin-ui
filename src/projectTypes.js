@@ -1,25 +1,28 @@
-import * as React from "react"
-import { Datagrid, List, TextField, EditButton } from 'react-admin';
-import EditEntityLayout from "./components/forms/EditEntityLayout";
-import CreateEntityLayout from "./components/forms/CreateEntityLayout";
+import * as React from "react";
+import { Datagrid, List, TextField, EditButton } from "react-admin";
+import CreateForm from "./components/forms/CreateForm";
+import EditForm from "./components/forms/EditForm";
 
-const inputsList = [
-    {name: "name"}
+const formData = [
+  {
+    title: "Project Type",
+    inputsList: [{ name: "name" }],
+  },
 ];
 
 export const ProjectTypeList = () => (
-    <List>
-        <Datagrid rowClick="edit">
-            <TextField source="name" />
-            <EditButton />
-        </Datagrid>
-    </List>
+  <List>
+    <Datagrid rowClick="edit">
+      <TextField source="name" />
+      <EditButton />
+    </Datagrid>
+  </List>
 );
 
 export const ProjectTypeEdit = () => (
-    <EditEntityLayout inputsList={inputsList} />
+  <EditForm formData={formData} title="Project Type" />
 );
 
 export const ProjectTypeCreate = () => (
-    <CreateEntityLayout inputsList={inputsList} />
+  <CreateForm formData={formData} title="Project Type" />
 );

@@ -5,13 +5,11 @@ const ReferenceInputItem = ({ referenceValues }) => {
   const { source, reference, optionText } = referenceValues;
   return (
     <>
-      {
-        referenceValues && (
-          <ReferenceInput source={source} reference={reference}>
-            <SelectInput optionText={optionText} isRequired fullWidth />
-          </ReferenceInput>
-        )
-      }
+      {referenceValues && (
+        <ReferenceInput source={source} reference={reference}>
+          <SelectInput optionText={optionText} isRequired fullWidth />
+        </ReferenceInput>
+      )}
     </>
   );
 };
