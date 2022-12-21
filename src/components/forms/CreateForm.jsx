@@ -10,7 +10,7 @@ const CreateForm = ({ formData, title }) => {
         <Header title={title} subtitle="Create" />
       </Box>
 
-      <Create>
+      <Create redirect="list">
         <SimpleForm>
           <Box width="100%">
             {formData.map((item, index) => {

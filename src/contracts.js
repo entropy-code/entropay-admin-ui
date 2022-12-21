@@ -29,7 +29,7 @@ const formData = [
     ],
     referenceValues: {
       source: "employeeId",
-      reference: "companies",
+      reference: "employees",
       optionText: "name",
       multiselect: false,
     },
