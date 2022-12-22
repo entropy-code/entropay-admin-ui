@@ -30,12 +30,12 @@ const formData = [
     referenceValues: {
       source: "employeeId",
       reference: "employees",
-      optionText: "name",
+      optionText: "lastName",
       multiselect: false,
     },
   },
   {
-    title: "Position Information",
+    title: "Job Position Information",
     inputsList: [
       { name: "hoursPerWeek", type: "number" },
       { name: "costRate", type: "string" },
@@ -54,11 +54,8 @@ const formData = [
       source: "seniorityId",
       reference: "seniorities",
       optionText: "name",
-      multiselect: true,
+      multiselect: false,
     },
-  },
-  {
-    paymentInformation: false,
   },
 ];
 

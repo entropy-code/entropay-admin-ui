@@ -8,9 +8,6 @@ const formData = [
     title: "Seniorities",
     inputsList: [{ name: "name", type: "string" }],
   },
-  {
-    paymentInformation: false,
-  },
 ];
 
 export const SeniorityList = () => (

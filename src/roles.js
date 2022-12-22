@@ -8,9 +8,6 @@ const formData = [
     title: "Roles",
     inputsList: [{ name: "name", type: "string" }],
   },
-  {
-    paymentInformation: false,
-  },
 ];
 
 export const RolesList = () => (

@@ -36,9 +36,6 @@ const formData = [
       { name: "notes", type: "string" },
     ],
   },
-  {
-    paymentInformation: false,
-  },
 ];
 
 export const ProjectList = () => (

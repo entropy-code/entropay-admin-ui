@@ -31,9 +31,6 @@ const formData = [
       { name: "country", type: "string" },
     ],
   },
-  {
-    paymentInformation: false,
-  },
 ];
 
 export const CompanyList = () => (
