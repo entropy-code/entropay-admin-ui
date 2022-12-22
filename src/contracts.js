@@ -40,6 +40,8 @@ const formData = [
       { name: "hoursPerWeek", type: "number" },
       { name: "costRate", type: "string" },
       { name: "vacations", type: "number" },
+      { name: "benefits", type: "string" },
+      { name: "notes", type: "string" },
     ],
     referenceValues: {
       source: "positionId",
@@ -90,6 +92,8 @@ export const ContractList = () => (
       <ReferenceField source="seniorityId" reference="seniorities">
         <TextField source="name" />
       </ReferenceField>
+      <TextField source="benefits" />
+      <TextField source="notes" />
       <EditButton />
     </Datagrid>
   </List>
