@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
-import { Edit, SimpleForm, TextInput } from "react-admin";
+import { Edit, SimpleForm } from "react-admin";
 import Header from "../Header";
-import FormSection from "./FormSection";
+import FormSection from "./FormSections";
 
 const EditForm = ({ formData, title }) => {
   return (
@@ -27,12 +27,12 @@ const EditForm = ({ formData, title }) => {
                     formSectionTitle={item.title}
                     inputsList={item.inputsList}
                     referenceValues={item.referenceValues}
+                    customSections={item.customSections}
                     key={index + item.title}
                   />
                 </Box>
               );
             })}
-            <TextInput multiline source="notes" fullWidth />
           </Box>
         </SimpleForm>
       </Edit>
