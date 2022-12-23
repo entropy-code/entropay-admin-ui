@@ -70,7 +70,7 @@ const formData = [
     ],
   },
   {
-    paymentInformation: true,
+    customSections: ["paymentSection", "notesSection"],
   },
 ];
 
