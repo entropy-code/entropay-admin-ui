@@ -1,16 +1,34 @@
 import { Box } from "@mui/material";
-import { Create, SimpleForm, TextInput } from "react-admin";
+import { Create, SimpleForm, TextInput, useRedirect } from "react-admin";
 import Header from "../Header";
 import FormSection from "./FormSection";
 
-const CreateForm = ({ formData, title }) => {
+const CreateForm = ({ formData, title, resource }) => {
+  
+  const redirect = useRedirect();  
+  const onSuccess = (data) => {
+    switch(resource) {
+      case "contracts":
+        redirect(`/employees/${data.employeeId}/show/1`);
+        break;
+      case "assigments":
+        redirect(`/employees/${data.employeeId}/show/2`);
+        break;
+      case "employees":
+        redirect(`/employees/${data.id}/show`)
+        break;
+      default:
+        redirect(`${resource}`)
+    }    
+};
+
   return (
     <Box m="10px">
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Header title={title} subtitle="Create" />
       </Box>
 
-      <Create redirect="list">
+      <Create mutationOptions={{ onSuccess }}>
         <SimpleForm>
           <Box width="100%">
             {formData.map((item, index) => {

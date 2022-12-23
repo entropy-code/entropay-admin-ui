@@ -10,7 +10,7 @@ const EditForm = ({ formData, title }) => {
         <Header title={title} subtitle="Edit" />
       </Box>
 
-      <Edit>
+      <Edit redirect="list">
         <SimpleForm>
           <Box width="100%">
             {formData.map((item, index) => {
