@@ -13,15 +13,6 @@ import EditForm from "./components/forms/EditForm";
 
 const formData = [
   {
-    title: "Company",
-    referenceValues: {
-      source: "companyId",
-      reference: "companies",
-      optionText: "name",
-      multiselect: false,
-    },
-  },
-  {
     title: "Employee",
     inputsList: [
       { name: "startDate", type: "date" },
@@ -35,11 +26,19 @@ const formData = [
     },
   },
   {
+    title: "Project",
+    referenceValues: {
+      source: "projectId",
+      reference: "projects",
+      optionText: "name",
+      multiselect: false,
+    },
+  },
+  {
     title: "Job Position Information",
     inputsList: [
       { name: "hoursPerWeek", type: "number" },
-      { name: "costRate", type: "string" },
-      { name: "vacations", type: "number" },
+      { name: "billableRate", type: "number" },
     ],
     referenceValues: {
       source: "roleId",
@@ -59,7 +58,7 @@ const formData = [
   },
 ];
 
-export const ContractList = () => (
+export const AssignmentList = () => (
   <List>
     <Datagrid rowClick="edit">
       <ReferenceField source="companyId" reference="companies">
@@ -95,10 +94,10 @@ export const ContractList = () => (
   </List>
 );
 
-export const ContractEdit = () => (
-  <EditForm formData={formData} title="Contract" />
+export const AssignmentEdit = () => (
+  <EditForm formData={formData} title="Assignment" />
 );
 
-export const ContractCreate = () => (
-  <CreateForm formData={formData} title="Contract" />
+export const AssignmentCreate = () => (
+  <CreateForm formData={formData} title="Assignment" />
 );
