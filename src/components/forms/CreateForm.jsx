@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import { Create, SimpleForm, TextInput, useRedirect } from "react-admin";
+import { Create, SimpleForm, useRedirect } from "react-admin";
 import Header from "../Header";
 import FormSection from "./FormSections";
 
@@ -36,7 +36,7 @@ const CreateForm = ({ formData, title, resource }) => {
                 <Box
                   sx={{
                     borderLeft: 3,
-                    borderColor: "#70d8bd",
+                    borderColor: "#2196F3",
                     marginBottom: 3,
                     paddingLeft: 2,
                   }}
