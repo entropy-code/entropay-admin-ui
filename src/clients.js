@@ -64,5 +64,5 @@ export const ClientList = () => (
 export const ClientEdit = () => <EditForm formData={formData} title="Client" />;
 
 export const ClientCreate = () => (
-  <CreateForm formData={formData} title="Client" />
+  <CreateForm formData={formData} title="Client" resource="clients" />
 );

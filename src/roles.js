@@ -22,5 +22,5 @@ export const RolesList = () => (
 export const RolesEdit = () => <EditForm formData={formData} title="Roles" />;
 
 export const RolesCreate = () => (
-  <CreateForm formData={formData} title="Roles" />
+  <CreateForm formData={formData} title="Roles" resource="roles" />
 );
