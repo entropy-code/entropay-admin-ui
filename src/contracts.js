@@ -100,5 +100,5 @@ export const ContractEdit = () => (
 );
 
 export const ContractCreate = () => (
-  <CreateForm formData={formData} title="Contract" />
+  <CreateForm formData={formData} title="Contract" resource="contracts"/>
 );

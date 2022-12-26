@@ -60,5 +60,5 @@ export const ProjectEdit = () => (
 );
 
 export const ProjectCreate = () => (
-  <CreateForm formData={formData} title="Projects" />
+  <CreateForm formData={formData} title="Projects" resource="projects"/>
 );
