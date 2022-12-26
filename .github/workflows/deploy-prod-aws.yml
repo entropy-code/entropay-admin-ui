@@ -1,25 +1,26 @@
-name: Deploy to dev
+name: Deploy to prod
 
 on:
   push:
-    branches:
-      - main
+    tags:
+      - '[0-9]+.[0-9]+.[0-9]+'
 
 env:
   AWS_REGION: us-east-1
   ECR_REPOSITORY: entropay-admin-ui
-  ECS_SERVICE: entropay-dev-admin-ui
-  ECS_CLUSTER: entropay-dev
+  ECS_SERVICE: entropay-prod-admin-ui
+  ECS_CLUSTER: entropay-prod
   CONTAINER_NAME: entropay-admin-ui
 
 permissions:
-  contents: read
+  contents: write
+  pull-requests: write
 
 jobs:
   package-build-deploy:
     name: Build and deploy
     runs-on: ubuntu-latest
-    environment: development
+    environment: production
 
     steps:
     - name: Checkout
