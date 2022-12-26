@@ -201,10 +201,10 @@ export const EmployeeProfile = () => (
         </ArrayField>
       </Tab>
       <Tab label="Contracts">
-        <RedirectButton form="create" resource="contracts" text="New Contract"/>
+        <RedirectButton form="create" resource="contracts" text="+ CREATE"/>
       </Tab>
       <Tab label="Assigments">
-        <RedirectButton form="create" resource="assigments" text="New Assigment"/>
+        <RedirectButton form="create" resource="assigments" text="+ CREATE"/>
       </Tab>
       <Tab label="Vacations and Licencies"></Tab>
       <Tab label="Documents"></Tab>
