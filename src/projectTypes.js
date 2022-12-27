@@ -24,5 +24,5 @@ export const ProjectTypeEdit = () => (
 );
 
 export const ProjectTypeCreate = () => (
-  <CreateForm formData={formData} title="Project Type" />
+  <CreateForm formData={formData} title="Project Type" resource="project-types" />
 );

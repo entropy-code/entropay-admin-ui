@@ -24,5 +24,5 @@ export const SeniorityEdit = () => (
 );
 
 export const SeniorityCreate = () => (
-  <CreateForm formData={formData} title="Seniority" />
+  <CreateForm formData={formData} title="Seniority" resource="seniorities" />
 );
