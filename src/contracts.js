@@ -62,7 +62,7 @@ const formData = [
       title: "ContractType",
       referenceValues: {
         source: "contractType",
-        reference: "contracts/contractTypes",
+        reference: "contracts/contract-types",
         optionText: "value",
         multiselect: false,
 
@@ -95,7 +95,7 @@ export const ContractList = () => (
       </ReferenceField>
       <DateField source="startDate" />
       <DateField source="endDate" />
-      <ReferenceField source="contractType" reference="contracts/contractTypes">
+      <ReferenceField source="contractType" reference="contracts/contract-types">
         <TextField source="value" />
       </ReferenceField>
       <ReferenceField source="roleId" reference="roles">
