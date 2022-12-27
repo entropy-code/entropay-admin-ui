@@ -58,5 +58,5 @@ export const CompanyEdit = () => (
 );
 
 export const CompanyCreate = () => (
-  <CreateForm formData={formData} title="Company" />
+  <CreateForm formData={formData} title="Company" resource="companies" />
 );

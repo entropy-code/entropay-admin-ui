@@ -28,6 +28,7 @@ import {
 import { Avatar, Box, Divider, Grid } from "@mui/material";
 import CreateForm from "./components/forms/CreateForm";
 import EditForm from "./components/forms/EditForm";
+import RedirectButton from "./components/RedirectButton";
 
 const formData = [
   {
@@ -69,7 +70,7 @@ const formData = [
     ],
   },
   {
-    paymentInformation: true,
+    customSections: ["paymentSection", "notesSection"],
   },
 ];
 
@@ -130,7 +131,7 @@ export const EmployeeEdit = () => (
 );
 
 export const EmployeeCreate = () => (
-  <CreateForm formData={formData} title="Employees" />
+  <CreateForm formData={formData} title="Employees" resource="employees"/>
 );
 
 export const EmployeeProfile = () => (
@@ -199,8 +200,12 @@ export const EmployeeProfile = () => (
           </Datagrid>
         </ArrayField>
       </Tab>
-      <Tab label="Contracts"></Tab>
-      <Tab label="Assigments"></Tab>
+      <Tab label="Contracts">
+        <RedirectButton form="create" resource="contracts" text="+ CREATE"/>
+      </Tab>
+      <Tab label="Assigments">
+        <RedirectButton form="create" resource="assigments" text="+ CREATE"/>
+      </Tab>
       <Tab label="Vacations and Licencies"></Tab>
       <Tab label="Documents"></Tab>
     </TabbedShowLayout>

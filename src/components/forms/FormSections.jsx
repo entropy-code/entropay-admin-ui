@@ -8,8 +8,9 @@ const FormSection = ({
   formSectionTitle,
   inputsList,
   referenceValues,
-  paymentInformation,
+  customSections,
 }) => {
+  console.log(customSections);
   const isNonMobile = useMediaQuery("(min-width:600px)");
   return (
     <Box>
@@ -64,7 +65,12 @@ const FormSection = ({
               </Box>
             );
           })}
-        {paymentInformation && <PaymentSection />}
+        {customSections && customSections.includes("paymentSection") && (
+          <PaymentSection />
+        )}
+        {customSections && customSections.includes("notesSection") && (
+          <TextInput multiline source="notes" fullWidth />
+        )}
       </Box>
     </Box>
   );
