@@ -84,7 +84,7 @@ export const AssignmentList = () => (
         <TextField source="name" />
       </ReferenceField>
       <NumberField source="hoursPerWeek" />
-      <TextField source="costRate" />
+      <TextField source="billableRate" />
       <NumberField source="vacations" />
       <ReferenceField source="seniorityId" reference="seniorities">
         <TextField source="name" />
