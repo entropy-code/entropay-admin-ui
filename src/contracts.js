@@ -6,7 +6,7 @@ import {
   List,
   ReferenceField,
   TextField,
-  NumberField,
+  NumberField
 } from "react-admin";
 import CreateForm from "./components/forms/CreateForm";
 import EditForm from "./components/forms/EditForm";
@@ -40,6 +40,7 @@ const formData = [
       { name: "hoursPerWeek", type: "number" },
       { name: "costRate", type: "string" },
       { name: "vacations", type: "number" },
+      { name: "benefits", type: "string" },
     ],
     referenceValues: {
       source: "roleId",
@@ -56,6 +57,19 @@ const formData = [
       optionText: "name",
       multiselect: false,
     },
+  },
+    {
+      title: "ContractType",
+      referenceValues: {
+        source: "contractType",
+        reference: "contracts/contract-types",
+        optionText: "value",
+        multiselect: false,
+
+      },
+    },
+  {
+    customSections: ["notesSection"],
   },
 ];
 
@@ -81,6 +95,9 @@ export const ContractList = () => (
       </ReferenceField>
       <DateField source="startDate" />
       <DateField source="endDate" />
+      <ReferenceField source="contractType" reference="contracts/contract-types">
+        <TextField source="value" />
+      </ReferenceField>
       <ReferenceField source="roleId" reference="roles">
         <TextField source="name" />
       </ReferenceField>
@@ -90,13 +107,15 @@ export const ContractList = () => (
       <ReferenceField source="seniorityId" reference="seniorities">
         <TextField source="name" />
       </ReferenceField>
+      <TextField source="benefits" />
+      <TextField source="notes" />
       <EditButton />
     </Datagrid>
   </List>
 );
 
 export const ContractEdit = () => (
-  <EditForm formData={formData} title="Contract" />
+  <EditForm formData={formData} title="Contract"/>
 );
 
 export const ContractCreate = () => (
