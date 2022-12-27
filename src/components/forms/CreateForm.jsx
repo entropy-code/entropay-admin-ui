@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import { Create, SimpleForm, TextInput, useRedirect } from "react-admin";
+import { Create, SimpleForm, useRedirect } from "react-admin";
 import Header from "../Header";
 import FormSection from "./FormSections";
 
@@ -11,9 +11,9 @@ const CreateForm = ({ formData, title, resource }) => {
       case "contracts":
         redirect(`/employees/${data.employeeId}/show/1`);
         break;
-      case "assigments":
-        redirect(`/employees/${data.employeeId}/show/2`);
-        break;
+      case "assignments":
+          redirect(`/employees/${data.employeeId}/show/2`);
+          break;
       case "employees":
         redirect(`/employees/${data.id}/show`)
         break;

@@ -61,9 +61,6 @@ const formData = [
 export const AssignmentList = () => (
   <List>
     <Datagrid rowClick="edit">
-      <ReferenceField source="companyId" reference="companies">
-        <TextField source="name" />
-      </ReferenceField>
       <ReferenceField
         source="employeeId"
         reference="employees"
@@ -85,7 +82,6 @@ export const AssignmentList = () => (
       </ReferenceField>
       <NumberField source="hoursPerWeek" />
       <TextField source="billableRate" />
-      <NumberField source="vacations" />
       <ReferenceField source="seniorityId" reference="seniorities">
         <TextField source="name" />
       </ReferenceField>
@@ -99,5 +95,5 @@ export const AssignmentEdit = () => (
 );
 
 export const AssignmentCreate = () => (
-  <CreateForm formData={formData} title="Assignment" />
+  <CreateForm formData={formData} title="Assignment" resource="assignments"/>
 );
