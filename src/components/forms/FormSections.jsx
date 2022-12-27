@@ -14,7 +14,7 @@ const FormSection = ({
   const isNonMobile = useMediaQuery("(min-width:600px)");
   return (
     <Box>
-      <Typography variant="h6" color={"#70d8bd"}>
+      <Typography variant="h6" color={"#2196F3"}>
         {formSectionTitle}
       </Typography>
       <Box

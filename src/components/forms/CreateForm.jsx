@@ -36,7 +36,7 @@ const CreateForm = ({ formData, title, resource }) => {
                 <Box
                   sx={{
                     borderLeft: 3,
-                    borderColor: "#70d8bd",
+                    borderColor: "#2196F3",
                     marginBottom: 3,
                     paddingLeft: 2,
                   }}
