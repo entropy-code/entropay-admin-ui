@@ -17,6 +17,7 @@ import {
   CreateButton,
   ExportButton,
   useListContext,
+  ReferenceManyField,
 } from "react-admin";
 import {
   Card,
@@ -29,6 +30,7 @@ import { Avatar, Box, Divider, Grid } from "@mui/material";
 import CreateForm from "./components/forms/CreateForm";
 import EditForm from "./components/forms/EditForm";
 import RedirectButton from "./components/RedirectButton";
+import ShowEntityForm from "./components/forms/ShowEntityForm";
 
 const formData = [
   {
@@ -202,6 +204,12 @@ export const EmployeeProfile = () => (
       </Tab>
       <Tab label="Contracts">
         <RedirectButton form="create" resource="contracts" text="+ CREATE"/>
+        <SimpleShowLayout>
+            <ReferenceManyField label="Contract" reference="contracts" target="employeeId">
+                <TextField source="employee" />
+                <TextField source="company" />
+            </ReferenceManyField>
+        </SimpleShowLayout>
       </Tab>
       <Tab label="Assigments">
         <RedirectButton form="create" resource="assignments" text="+ CREATE"/>
