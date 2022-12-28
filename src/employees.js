@@ -17,6 +17,8 @@ import {
   CreateButton,
   ExportButton,
   useListContext,
+  SingleFieldList,
+  ChipField,
 } from "react-admin";
 import {
   Card,
@@ -182,6 +184,8 @@ export const EmployeeProfile = () => (
             <TextField source="mobileNumber" />
             <TextField source="address" />
             <TextField source="city" />
+            <TextField source="emergencyContactFullName" />
+            <TextField source="emergencyContactPhone" />
             <TextField source="notes" />
           </SimpleShowLayout>
           <SimpleShowLayout divider={<Divider flexItem />}>
@@ -189,7 +193,13 @@ export const EmployeeProfile = () => (
             <TextField source="zip" />
             <TextField source="country" />
             <DateField source="birthDate" />
+            <TextField source="personalNumber" />
             <TextField source="healthInsurance" />
+            <ArrayField source="profile" label="Profile">
+              <SingleFieldList>
+                <ChipField/>
+              </SingleFieldList>
+            </ArrayField>
           </SimpleShowLayout>
         </Grid>
         <ArrayField source="paymentInformation">
