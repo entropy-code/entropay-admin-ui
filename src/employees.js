@@ -19,6 +19,7 @@ import {
   useListContext,
   SingleFieldList,
   ChipField,
+  ReferenceArrayField
 } from "react-admin";
 import {
   Card,
@@ -27,7 +28,12 @@ import {
   CardActions,
   Typography,
 } from "@mui/material";
-import { Avatar, Box, Divider, Grid } from "@mui/material";
+import { 
+  Avatar, 
+  Box, 
+  Divider, 
+  Grid 
+} from "@mui/material";
 import CreateForm from "./components/forms/CreateForm";
 import EditForm from "./components/forms/EditForm";
 import RedirectButton from "./components/RedirectButton";
@@ -195,11 +201,11 @@ export const EmployeeProfile = () => (
             <DateField source="birthDate" />
             <TextField source="personalNumber" />
             <TextField source="healthInsurance" />
-            <ArrayField source="profile" label="Profile">
+            <ReferenceArrayField label="Profile" reference="roles" source="profile">
               <SingleFieldList>
-                <ChipField/>
+                  <ChipField source="name" />
               </SingleFieldList>
-            </ArrayField>
+            </ReferenceArrayField>
           </SimpleShowLayout>
         </Grid>
         <ArrayField source="paymentInformation">
