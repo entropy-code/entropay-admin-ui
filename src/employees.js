@@ -105,7 +105,7 @@ const EmployeeCards = () => {
               <CardMedia
                 component="img"
                 height="200"
-                image="https://entropay-assets.s3.amazonaws.com/messi.jpg"
+                image="https://entropay-assets.s3.us-east-1.amazonaws.com/default-profile.png"
               />
 
               <CardContent sx={{ padding: 1 }}>
@@ -147,7 +147,7 @@ export const EmployeeProfile = () => (
           {/*Profile image hardcoded until photo upload feature is in palce*/}
           <Avatar
             alt="Employee"
-            src="https://entropay-assets.s3.amazonaws.com/messi.jpg"
+            src="https://entropay-assets.s3.amazonaws.com/default-profile.png"
             sx={{ width: 100, height: 100 }}
           />
         </Box>
@@ -204,10 +204,12 @@ export const EmployeeProfile = () => (
         <RedirectButton form="create" resource="contracts" text="+ CREATE"/>
       </Tab>
       <Tab label="Assigments">
-        <RedirectButton form="create" resource="assigments" text="+ CREATE"/>
+        <RedirectButton form="create" resource="assignments" text="+ CREATE"/>
       </Tab>
-      <Tab label="Vacations and Licencies"></Tab>
+      {/*<Tab label="Vacations and Licencies"></Tab>
       <Tab label="Documents"></Tab>
+      Hidden empty tabs until developed
+      */}
     </TabbedShowLayout>
   </Show>
 );

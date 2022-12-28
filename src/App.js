@@ -11,7 +11,6 @@ import { ContractList, ContractEdit, ContractCreate } from "./contracts";
 import { SeniorityList, SeniorityEdit, SeniorityCreate } from "./seniorities";
 import { RolesList, RolesEdit, RolesCreate } from "./roles";
 import { AssignmentList, AssignmentEdit, AssignmentCreate } from "./assignments";
-import Dashboard from "./Dashboard";
 import simpleRestProvider from 'ra-data-simple-rest';
 import config from "./config";
 import authProvider from "./authProvider";
@@ -29,7 +28,7 @@ const httpClient = (url, options = {}) => {
 const dataProvider = simpleRestProvider(config.config.api.employees, httpClient, 'X-Total-Count');
 
 const App = () => (
-  <Admin title="Entropay" dashboard={Dashboard} dataProvider={dataProvider} authProvider={authProvider}>
+  <Admin title="Entropay" dataProvider={dataProvider} authProvider={authProvider}>
     <Resource name="employees" list={EmployeeList} edit={EmployeeEdit} create={EmployeeCreate} show={EmployeeProfile}/>
     <Resource name="projects" list={ProjectList} edit={ProjectEdit} create={ProjectCreate} />
     <Resource name="clients" list={ClientList} edit={ClientEdit} create={ClientCreate} />
