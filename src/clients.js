@@ -9,6 +9,7 @@ import {
 } from "react-admin";
 import CreateForm from "./components/forms/CreateForm";
 import EditForm from "./components/forms/EditForm";
+import { ListActions, HasPermissions } from "./components/layout/CustomActions";
 
 const formData = [
   {
@@ -42,7 +43,7 @@ const formData = [
 ];
 
 export const ClientList = () => (
-  <List>
+  <List actions={<ListActions entity={"clients"}/>}>
     <Datagrid rowClick="edit">
       <TextField source="name" />
       <ReferenceField source="companyId" reference="companies">
@@ -56,7 +57,7 @@ export const ClientList = () => (
       <TextField source="contact" />
       <TextField source="preferredCurrency" />
       <TextField source="modifiedAt" />
-      <EditButton variant="outlined" />
+      {HasPermissions("clients", "update") && <EditButton variant="outlined" />}
     </Datagrid>
   </List>
 );

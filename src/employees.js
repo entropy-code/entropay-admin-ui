@@ -37,6 +37,7 @@ import {
 import CreateForm from "./components/forms/CreateForm";
 import EditForm from "./components/forms/EditForm";
 import RedirectButton from "./components/RedirectButton";
+import {HasPermissions, ListActions} from "./components/layout/CustomActions";
 
 const formData = [
   {
@@ -91,7 +92,7 @@ export const EmployeeList = () => (
     actions={false}
   >
     <TopToolbar sx={{ minHeight: { sm: 56 } }}>
-      <CreateButton />
+    { HasPermissions("employees", "create") && <CreateButton /> }
       <ExportButton />
     </TopToolbar>
     <EmployeeCards />
@@ -123,7 +124,7 @@ const EmployeeCards = () => {
                 <Typography align="center">{record.personalEmail}</Typography>
                 <CardActions>
                   <ShowButton />
-                  <EditButton />
+                  { HasPermissions("employees", "update") && <EditButton /> }
                 </CardActions>
               </CardContent>
             </Card>
@@ -143,7 +144,7 @@ export const EmployeeCreate = () => (
 );
 
 export const EmployeeProfile = () => (
-  <Show title="Show employee" emptyWhileLoading>
+  <Show title="Show employee" actions={<ListActions entity={"employees"}/>} emptyWhileLoading>
     <Grid
       container
       direction="row"

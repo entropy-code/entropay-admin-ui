@@ -10,7 +10,6 @@ const FormSection = ({
   referenceValues,
   customSections,
 }) => {
-  console.log(customSections);
   const isNonMobile = useMediaQuery("(min-width:600px)");
   return (
     <Box>
