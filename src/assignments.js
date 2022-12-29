@@ -39,6 +39,11 @@ const formData = [
     inputsList: [
       { name: "hoursPerWeek", type: "number" },
       { name: "billableRate", type: "number" },
+      { name: "currency", type: "selectList", choices: [
+        { id: 'USD', name: 'USD - United States dollar' },
+        { id: 'ARS', name: 'ARS - Argentine peso' },
+      ]},
+      { name: "labourHours", type: "string" },
     ],
     referenceValues: {
       source: "roleId",
@@ -47,6 +52,7 @@ const formData = [
       multiselect: false,
     },
   },
+
   {
     title: "Seniority",
     referenceValues: {
@@ -82,6 +88,10 @@ export const AssignmentList = () => (
       </ReferenceField>
       <NumberField source="hoursPerWeek" />
       <TextField source="billableRate" />
+      <ReferenceField source="currency" reference="contracts/currencies">
+        <TextField source="name" />
+      </ReferenceField>
+      <TextField source="labourHours" />
       <ReferenceField source="seniorityId" reference="seniorities">
         <TextField source="name" />
       </ReferenceField>
