@@ -38,38 +38,43 @@ const formData = [
     title: "Job Position Information",
     inputsList: [
       { name: "hoursPerWeek", type: "number" },
+      { name: "monthlySalary", type: "string" },
       { name: "costRate", type: "string" },
+      { name: "currency", type: "selectList", choices: [
+        { id: 'USD', name: 'USD - United States dollar' },
+        { id: 'ARS', name: 'ARS - Argentine peso' },
+      ]},
       { name: "vacations", type: "number" },
       { name: "benefits", type: "string" },
-    ],
-    referenceValues: {
-      source: "roleId",
-      reference: "roles",
-      optionText: "name",
-      multiselect: false,
-    },
+],
+  referenceValues: {
+    source: "roleId",
+    reference: "roles",
+    optionText: "name",
+    multiselect: false,
   },
-  {
-    title: "Seniority",
+  },
+{
+  title: "Seniority",
     referenceValues: {
-      source: "seniorityId",
+    source: "seniorityId",
       reference: "seniorities",
-      optionText: "name",
-      multiselect: false,
+        optionText: "name",
+          multiselect: false,
     },
-  },
-    {
-      title: "ContractType",
-      referenceValues: {
-        source: "contractType",
-        reference: "contracts/contract-types",
+},
+{
+  title: "ContractType",
+    referenceValues: {
+    source: "contractType",
+      reference: "contracts/contract-types",
         optionText: "value",
-        multiselect: false,
+          multiselect: false,
 
       },
-    },
-  {
-    customSections: ["notesSection"],
+},
+{
+  customSections: ["notesSection"],
   },
 ];
 
@@ -103,6 +108,10 @@ export const ContractList = () => (
       </ReferenceField>
       <NumberField source="hoursPerWeek" />
       <TextField source="costRate" />
+      <TextField source="monthlySalary" />
+      <ReferenceField source="currency" reference="contracts/currencies">
+        <TextField source="name" />
+      </ReferenceField>
       <NumberField source="vacations" />
       <ReferenceField source="seniorityId" reference="seniorities">
         <TextField source="name" />
@@ -115,9 +124,9 @@ export const ContractList = () => (
 );
 
 export const ContractEdit = () => (
-  <EditForm formData={formData} title="Contract"/>
+  <EditForm formData={formData} title="Contract" />
 );
 
 export const ContractCreate = () => (
-  <CreateForm formData={formData} title="Contract" resource="contracts"/>
+  <CreateForm formData={formData} title="Contract" resource="contracts" />
 );
