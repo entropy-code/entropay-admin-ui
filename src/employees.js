@@ -40,6 +40,7 @@ import {
 import CreateForm from "./components/forms/CreateForm";
 import EditForm from "./components/forms/EditForm";
 import RedirectButton from "./components/RedirectButton";
+import {HasPermissions, ListActions} from "./components/layout/CustomActions";
 
 const formData = [
   {
@@ -94,7 +95,7 @@ export const EmployeeList = () => (
     actions={false}
   >
     <TopToolbar sx={{ minHeight: { sm: 56 } }}>
-      <CreateButton />
+    { HasPermissions("employees", "create") && <CreateButton /> }
       <ExportButton />
     </TopToolbar>
     <EmployeeCards />
@@ -126,7 +127,7 @@ const EmployeeCards = () => {
                 <Typography align="center">{record.personalEmail}</Typography>
                 <CardActions>
                   <ShowButton />
-                  <EditButton />
+                  { HasPermissions("employees", "update") && <EditButton /> }
                 </CardActions>
               </CardContent>
             </Card>
@@ -146,7 +147,7 @@ export const EmployeeCreate = () => (
 );
 
 export const EmployeeProfile = () => (
-  <Show title="Show employee" emptyWhileLoading>
+  <Show title="Show employee" actions={<ListActions entity={"employees"}/>} emptyWhileLoading>
     <Grid
       container
       direction="row"
@@ -222,7 +223,7 @@ export const EmployeeProfile = () => (
         </ArrayField>
       </Tab>
       <Tab label="Contracts">
-        <RedirectButton form="create" resource="contracts" text="+ CREATE"/>
+        { HasPermissions("contracts", "create") && <RedirectButton form="create" resource="contracts" text="+ CREATE"/> }
         <ReferenceManyField label="Active Contract" reference="contracts" target="employeeId" filter={{ active : true }}>
           <Datagrid>
             <ReferenceField source="contractType" reference="contracts/contract-types">
@@ -248,12 +249,12 @@ export const EmployeeProfile = () => (
             </ReferenceField>
             <TextField source="benefits" />
             <TextField source="notes" />
-            <EditButton/>
+            {HasPermissions("contracts", "update") && <EditButton/>}
           </Datagrid>
         </ReferenceManyField>
       </Tab>
       <Tab label="Assigments">
-        <RedirectButton form="create" resource="assignments" text="+ CREATE"/>
+      { HasPermissions("assignments", "create") &&<RedirectButton form="create" resource="assignments" text="+ CREATE"/> }
         <ReferenceManyField label="Assignments" reference="assignments" target="employeeId" >
           <Datagrid>
             <ReferenceField source="projectId" reference="projects">
@@ -273,7 +274,7 @@ export const EmployeeProfile = () => (
             <ReferenceField source="seniorityId" reference="seniorities">
               <ChipField source="name" />
             </ReferenceField>
-            <EditButton/>
+            {HasPermissions("assignments", "update") && <EditButton/>}
           </Datagrid>
         </ReferenceManyField>
       </Tab>

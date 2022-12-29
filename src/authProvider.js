@@ -10,6 +10,7 @@ const authProvider = {
         localStorage.removeItem('token');
         localStorage.removeItem('expiresAt');
         localStorage.removeItem('auth');
+        localStorage.removeItem('config');
         window.location.href = config.config.api.userAuth + "/auth/logout?redirectUrl=" + config.config.app.home;
         return Promise.reject()
     },
@@ -22,6 +23,7 @@ const authProvider = {
             localStorage.removeItem('token');
             localStorage.removeItem('expiresAt');
             localStorage.removeItem('auth');
+            localStorage.removeItem('config');
             window.location.href = loginUrl;    
         }
 
@@ -71,7 +73,37 @@ const authProvider = {
         }
     },
         
-    getPermissions: () => Promise.resolve(""),
+    getPermissions: async () => {
+        if (localStorage.getItem('config')) {
+            const config = JSON.parse(localStorage.getItem('config'))
+            return Promise.resolve({
+                menu: config.menu,
+                permissions: config.permissions,
+            })
+        } else if (localStorage.getItem('token')) {
+            const request = new Request(config.config.api.employees + "/config", {
+                method: 'GET',
+                headers: new Headers({ "Authorization": "Bearer " + localStorage.getItem('token')}),
+            });
+            try {
+                const response = await fetch(request);
+                if (response.status < 200 || response.status >= 300) {
+                    throw new Error(response.statusText);
+                }
+                const config = await response.json();
+                localStorage.setItem('config', JSON.stringify(config[0]));
+                return Promise.resolve({
+                    menu: config[0].menu,
+                    permissions: config[0].permissions,
+                })
+                
+            } catch (e) {
+                throw new Error('Network error');
+            }
+        } else {
+            return Promise.reject()
+        }
+    },
 };
 
 export default authProvider;
