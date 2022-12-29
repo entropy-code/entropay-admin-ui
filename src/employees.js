@@ -223,7 +223,7 @@ export const EmployeeProfile = () => (
         </ArrayField>
       </Tab>
       <Tab label="Contracts">
-        <RedirectButton form="create" resource="contracts" text="+ CREATE"/>
+        { HasPermissions("contracts", "create") && <RedirectButton form="create" resource="contracts" text="+ CREATE"/> }
         <ReferenceManyField label="Active Contract" reference="contracts" target="employeeId" filter={{ active : true }}>
           <Datagrid>
             <ReferenceField source="contractType" reference="contracts/contract-types">
@@ -249,12 +249,12 @@ export const EmployeeProfile = () => (
             </ReferenceField>
             <TextField source="benefits" />
             <TextField source="notes" />
-            <EditButton/>
+            {HasPermissions("contracts", "update") && <EditButton/>}
           </Datagrid>
         </ReferenceManyField>
       </Tab>
       <Tab label="Assigments">
-        <RedirectButton form="create" resource="assignments" text="+ CREATE"/>
+      { HasPermissions("assignments", "create") &&<RedirectButton form="create" resource="assignments" text="+ CREATE"/> }
         <ReferenceManyField label="Assignments" reference="assignments" target="employeeId" >
           <Datagrid>
             <ReferenceField source="projectId" reference="projects">
@@ -274,7 +274,7 @@ export const EmployeeProfile = () => (
             <ReferenceField source="seniorityId" reference="seniorities">
               <ChipField source="name" />
             </ReferenceField>
-            <EditButton/>
+            {HasPermissions("assignments", "update") && <EditButton/>}
           </Datagrid>
         </ReferenceManyField>
       </Tab>

@@ -44,7 +44,7 @@ const formData = [
 
 export const ClientList = () => (
   <List actions={<ListActions entity={"clients"}/>}>
-    <Datagrid rowClick="edit">
+    <Datagrid>
       <TextField source="name" />
       <ReferenceField source="companyId" reference="companies">
         <TextField source="name" />
