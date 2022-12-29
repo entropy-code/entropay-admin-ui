@@ -17,9 +17,12 @@ import {
   CreateButton,
   ExportButton,
   useListContext,
+  ReferenceArrayField,
   SingleFieldList,
   ChipField,
-  ReferenceArrayField
+  ReferenceManyField,
+  ReferenceField,
+  NumberField
 } from "react-admin";
 import {
   Card,
@@ -37,6 +40,7 @@ import {
 import CreateForm from "./components/forms/CreateForm";
 import EditForm from "./components/forms/EditForm";
 import RedirectButton from "./components/RedirectButton";
+import {HasPermissions, ListActions} from "./components/layout/CustomActions";
 
 const formData = [
   {
@@ -91,7 +95,7 @@ export const EmployeeList = () => (
     actions={false}
   >
     <TopToolbar sx={{ minHeight: { sm: 56 } }}>
-      <CreateButton />
+    { HasPermissions("employees", "create") && <CreateButton /> }
       <ExportButton />
     </TopToolbar>
     <EmployeeCards />
@@ -123,7 +127,7 @@ const EmployeeCards = () => {
                 <Typography align="center">{record.personalEmail}</Typography>
                 <CardActions>
                   <ShowButton />
-                  <EditButton />
+                  { HasPermissions("employees", "update") && <EditButton /> }
                 </CardActions>
               </CardContent>
             </Card>
@@ -143,7 +147,7 @@ export const EmployeeCreate = () => (
 );
 
 export const EmployeeProfile = () => (
-  <Show title="Show employee" emptyWhileLoading>
+  <Show title="Show employee" actions={<ListActions entity={"employees"}/>} emptyWhileLoading>
     <Grid
       container
       direction="row"
@@ -168,13 +172,15 @@ export const EmployeeProfile = () => (
           />
           <TextField label="" source="personalEmail" />
         </SimpleShowLayout>
-      </Grid>
+      </Grid>{/*
       <Grid item>
         <SimpleShowLayout divider={<Divider flexItem />}>
           <TextField label="Current assigment" source="" />
           <DateField label="Hired Date" source="" />
         </SimpleShowLayout>
       </Grid>
+      Hidden empty fields until developed
+      */}
     </Grid>
     <TabbedShowLayout>
       <Tab label="Personal and financial information">
@@ -217,10 +223,60 @@ export const EmployeeProfile = () => (
         </ArrayField>
       </Tab>
       <Tab label="Contracts">
-        <RedirectButton form="create" resource="contracts" text="+ CREATE"/>
+        { HasPermissions("contracts", "create") && <RedirectButton form="create" resource="contracts" text="+ CREATE"/> }
+        <ReferenceManyField label="Active Contract" reference="contracts" target="employeeId" filter={{ active : true }}>
+          <Datagrid>
+            <ReferenceField source="contractType" reference="contracts/contract-types">
+              <ChipField source="value" />
+            </ReferenceField>
+            <ReferenceField source="companyId" reference="companies">
+              <TextField source="name" />
+            </ReferenceField>
+            <DateField source="startDate" />
+            <DateField source="endDate" />
+            <ReferenceField source="roleId" reference="roles">
+              <ChipField source="name" />
+            </ReferenceField>
+            <NumberField source="hoursPerWeek" />
+            <TextField source="costRate" />
+            <TextField source="monthlySalary" />
+            <ReferenceField source="currency" reference="contracts/currencies">
+              <TextField source="name" />
+            </ReferenceField>
+            <NumberField source="vacations" />
+            <ReferenceField source="seniorityId" reference="seniorities">
+              <ChipField source="name" />
+            </ReferenceField>
+            <TextField source="benefits" />
+            <TextField source="notes" />
+            {HasPermissions("contracts", "update") && <EditButton/>}
+          </Datagrid>
+        </ReferenceManyField>
       </Tab>
       <Tab label="Assigments">
-        <RedirectButton form="create" resource="assignments" text="+ CREATE"/>
+      { HasPermissions("assignments", "create") &&<RedirectButton form="create" resource="assignments" text="+ CREATE"/> }
+        <ReferenceManyField label="Assignments" reference="assignments" target="employeeId" >
+          <Datagrid>
+            <ReferenceField source="projectId" reference="projects">
+              <TextField source="name" />
+            </ReferenceField>
+            <DateField source="startDate" />
+            <DateField source="endDate" />
+            <ReferenceField source="roleId" reference="roles">
+              <ChipField source="name" />
+            </ReferenceField>
+            <NumberField source="hoursPerWeek" />
+            <TextField source="billableRate" />
+            <ReferenceField source="currency" reference="contracts/currencies">
+              <TextField source="name" />
+            </ReferenceField>
+            <TextField source="labourHours" />
+            <ReferenceField source="seniorityId" reference="seniorities">
+              <ChipField source="name" />
+            </ReferenceField>
+            {HasPermissions("assignments", "update") && <EditButton/>}
+          </Datagrid>
+        </ReferenceManyField>
       </Tab>
       {/*<Tab label="Vacations and Licencies"></Tab>
       <Tab label="Documents"></Tab>

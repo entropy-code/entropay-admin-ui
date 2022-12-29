@@ -1,4 +1,4 @@
-import { TextInput, DateInput, NumberInput } from "react-admin";
+import { TextInput, DateInput, NumberInput, SelectInput } from "react-admin";
 import { Box, Typography, useMediaQuery } from "@mui/material";
 import ReferenceInputItem from "./ReferenceInputItem";
 import PaymentSection from "./PaymentSection";
@@ -10,7 +10,6 @@ const FormSection = ({
   referenceValues,
   customSections,
 }) => {
-  console.log(customSections);
   const isNonMobile = useMediaQuery("(min-width:600px)");
   return (
     <Box>
@@ -35,7 +34,7 @@ const FormSection = ({
           <ReferenceInputItem referenceValues={referenceValues} />
         )}
         {inputsList &&
-          inputsList.map((listItem, listIndex) => {
+          inputsList.map((listItem, listIndex, choices) => {
             return (
               <Box>
                 {listItem.type === "date" ? (
@@ -58,6 +57,14 @@ const FormSection = ({
                   <NumberInput
                     source={listItem.name}
                     key={formSectionTitle + listItem.name + listIndex}
+                    fullWidth
+                    sx={{ gridColumn: "span 2" }}
+                  />
+                ) : undefined}
+                {listItem.type === "selectList" ? (
+                  <SelectInput
+                    source={listItem.name}
+                    choices={listItem.choices}
                     fullWidth
                     sx={{ gridColumn: "span 2" }}
                   />
