@@ -18,7 +18,7 @@ const CreateForm = ({ formData, title, resource }) => {
         redirect(`/employees/${data.id}/show`)
         break;
       default:
-        redirect(`${resource}`)
+        redirect(`/${resource}`)
     }    
 };
 
