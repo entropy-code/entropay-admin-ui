@@ -17,9 +17,12 @@ import {
   CreateButton,
   ExportButton,
   useListContext,
+  ReferenceArrayField,
   SingleFieldList,
   ChipField,
-  ReferenceArrayField
+  ReferenceManyField,
+  ReferenceField,
+  NumberField,
 } from "react-admin";
 import {
   Card,
@@ -169,13 +172,15 @@ export const EmployeeProfile = () => (
           />
           <TextField label="" source="personalEmail" />
         </SimpleShowLayout>
-      </Grid>
+      </Grid>{/*
       <Grid item>
         <SimpleShowLayout divider={<Divider flexItem />}>
           <TextField label="Current assigment" source="" />
           <DateField label="Hired Date" source="" />
         </SimpleShowLayout>
       </Grid>
+      Hidden empty fields until developed
+      */}
     </Grid>
     <TabbedShowLayout>
       <Tab label="Personal and financial information">
@@ -219,9 +224,59 @@ export const EmployeeProfile = () => (
       </Tab>
       <Tab label="Contracts">
         <RedirectButton form="create" resource="contracts" text="+ CREATE"/>
+        <ReferenceManyField label="Active Contract" reference="contracts" target="employeeId" filter={{ active : true }}>
+          <Datagrid>
+            <ReferenceField source="contractType" reference="contracts/contract-types">
+              <ChipField source="value" />
+            </ReferenceField>
+            <ReferenceField source="companyId" reference="companies">
+              <TextField source="name" />
+            </ReferenceField>
+            <DateField source="startDate" />
+            <DateField source="endDate" />
+            <ReferenceField source="roleId" reference="roles">
+              <ChipField source="name" />
+            </ReferenceField>
+            <NumberField source="hoursPerWeek" />
+            <TextField source="costRate" />
+            <TextField source="monthlySalary" />
+            <ReferenceField source="currency" reference="contracts/currencies">
+              <TextField source="name" />
+            </ReferenceField>
+            <NumberField source="vacations" />
+            <ReferenceField source="seniorityId" reference="seniorities">
+              <ChipField source="name" />
+            </ReferenceField>
+            <TextField source="benefits" />
+            <TextField source="notes" />
+            <EditButton/>
+          </Datagrid>
+        </ReferenceManyField>
       </Tab>
       <Tab label="Assigments">
         <RedirectButton form="create" resource="assignments" text="+ CREATE"/>
+        <ReferenceManyField label="Assignments" reference="assignments" target="employeeId" >
+          <Datagrid>
+            <ReferenceField source="projectId" reference="projects">
+              <TextField source="name" />
+            </ReferenceField>
+            <DateField source="startDate" />
+            <DateField source="endDate" />
+            <ReferenceField source="roleId" reference="roles">
+              <ChipField source="name" />
+            </ReferenceField>
+            <NumberField source="hoursPerWeek" />
+            <TextField source="billableRate" />
+            <ReferenceField source="currency" reference="contracts/currencies">
+              <TextField source="name" />
+            </ReferenceField>
+            <TextField source="labourHours" />
+            <ReferenceField source="seniorityId" reference="seniorities">
+              <ChipField source="name" />
+            </ReferenceField>
+            <EditButton/>
+          </Datagrid>
+        </ReferenceManyField>
       </Tab>
       {/*<Tab label="Vacations and Licencies"></Tab>
       <Tab label="Documents"></Tab>
