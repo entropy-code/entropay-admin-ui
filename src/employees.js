@@ -110,7 +110,7 @@ const EmployeeCards = () => {
 
               <CardContent sx={{ padding: 1 }}>
                 <Typography variant="h5" component="h5" align="center">
-                  {`${record.firstName} ${record.lastName} (${record.internalId})`}
+                  {`${record.firstName} ${record.lastName}`}
                 </Typography>
                 <Typography align="center">{record.personalEmail}</Typography>
                 <CardActions>
