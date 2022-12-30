@@ -193,12 +193,12 @@ export const EmployeeProfile = () => (
           <SimpleShowLayout divider={<Divider flexItem />}>
             <TextField source="taxId" />
             <TextField source="phoneNumber" />
+            <TextField source="mobileNumber" />   
             <TextField source="address" />
-            <TextField source="city" />
-            <TextField source="mobileNumber" />            
+            <TextField source="city" />         
             <TextField source="emergencyContactFullName" />
             <TextField source="emergencyContactPhone" />
-            <TextField source="notes" />            
+            <TextField source="notes" />   
           </SimpleShowLayout>
           <SimpleShowLayout divider={<Divider flexItem />}>
             <TextField source="state" />
@@ -211,7 +211,7 @@ export const EmployeeProfile = () => (
               <SingleFieldList>
                   <ChipField source="name" />
               </SingleFieldList>
-            </ReferenceArrayField>            
+            </ReferenceArrayField>
           </SimpleShowLayout>
         </Grid>
         <ArrayField source="paymentInformation">
