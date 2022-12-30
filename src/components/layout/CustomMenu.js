@@ -3,6 +3,8 @@ import DashboardIcon from '@rsuite/icons/legacy/Dashboard';
 import GroupIcon from '@rsuite/icons/legacy/Group';
 import GearIcon from '@rsuite/icons/legacy/Gear';
 import PeopleGroup from '@rsuite/icons/legacy/PeopleGroup';
+import DocPassIcon from '@rsuite/icons/DocPass';
+import DetailIcon from '@rsuite/icons/Detail';
 import React from 'react';
 import { usePermissions } from 'react-admin';
 import 'rsuite/dist/rsuite.min.css';
@@ -11,6 +13,8 @@ const icons =
   {
     dashboard: <DashboardIcon />,
     employees: <GroupIcon />,
+    contracts: <DocPassIcon />,
+    assignments: <DetailIcon />,
     clients: <PeopleGroup />,
     settings: <GearIcon />
   }
