@@ -224,7 +224,7 @@ export const EmployeeProfile = () => (
       </Tab>
       <Tab label="Contracts">
         { HasPermissions("contracts", "create") && <RedirectButton form="create" resource="contracts" text="+ CREATE"/> }
-        <ReferenceManyField label="Active Contract" reference="contracts" target="employeeId" filter={{ active : true }}>
+        <ReferenceManyField label="Active Contract" reference="contracts" target="employeeId">
           <Datagrid>
             <ReferenceField source="contractType" reference="contracts/contract-types">
               <ChipField source="value" />
