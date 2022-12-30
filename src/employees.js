@@ -191,27 +191,27 @@ export const EmployeeProfile = () => (
           alignItems="flex-start"
         >
           <SimpleShowLayout divider={<Divider flexItem />}>
-            <TextField source="taxId" />
-            <TextField source="phoneNumber" />
-            <TextField source="mobileNumber" />
-            <TextField source="address" />
-            <TextField source="city" />
-            <TextField source="emergencyContactFullName" />
-            <TextField source="emergencyContactPhone" />
-            <TextField source="notes" />
-          </SimpleShowLayout>
-          <SimpleShowLayout divider={<Divider flexItem />}>
-            <TextField source="state" />
-            <TextField source="zip" />
-            <TextField source="country" />
-            <DateField source="birthDate" />
-            <TextField source="personalNumber" />
-            <TextField source="healthInsurance" />
             <ReferenceArrayField label="Profile" reference="roles" source="profile">
               <SingleFieldList>
                   <ChipField source="name" />
               </SingleFieldList>
             </ReferenceArrayField>
+            <TextField source="taxId" />
+            <TextField source="personalNumber" />
+            <TextField source="phoneNumber" />
+            <TextField source="mobileNumber" />
+            <DateField source="birthDate" />
+            <TextField source="emergencyContactFullName" />
+            <TextField source="emergencyContactPhone" />
+          </SimpleShowLayout>
+          <SimpleShowLayout divider={<Divider flexItem />}>
+            <TextField source="state" />
+            <TextField source="zip" />
+            <TextField source="country" />
+            <TextField source="address" />
+            <TextField source="city" />
+            <TextField source="healthInsurance" />
+            <TextField source="notes" />            
           </SimpleShowLayout>
         </Grid>
         <ArrayField source="paymentInformation">
@@ -224,7 +224,7 @@ export const EmployeeProfile = () => (
       </Tab>
       <Tab label="Contracts">
         { HasPermissions("contracts", "create") && <RedirectButton form="create" resource="contracts" text="+ CREATE"/> }
-        <ReferenceManyField label="Active Contract" reference="contracts" target="employeeId" filter={{ active : true }}>
+        <ReferenceManyField label="Active Contract" reference="contracts" target="employeeId">
           <Datagrid>
             <ReferenceField source="contractType" reference="contracts/contract-types">
               <ChipField source="value" />
