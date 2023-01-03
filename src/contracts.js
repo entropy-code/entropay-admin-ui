@@ -6,7 +6,8 @@ import {
   List,
   ReferenceField,
   TextField,
-  NumberField
+  NumberField,
+  WrapperField,
 } from "react-admin";
 import CreateForm from "./components/forms/CreateForm";
 import EditForm from "./components/forms/EditForm";
@@ -87,16 +88,12 @@ export const ContractList = () => (
       <ReferenceField
         source="employeeId"
         reference="employees"
-        label="Employee FN"
       >
-        <TextField source="firstName" label="First Name" />
-      </ReferenceField>
-      <ReferenceField
-        source="employeeId"
-        reference="employees"
-        label="Employee LN"
-      >
-        <TextField source="lastName" />
+        <WrapperField label="Full Name">
+          <TextField source="lastName" />
+          {' '}
+          <TextField source="firstName" />
+        </WrapperField>
       </ReferenceField>
       <DateField source="startDate" />
       <DateField source="endDate" />
