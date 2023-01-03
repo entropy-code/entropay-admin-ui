@@ -42,6 +42,10 @@ import EditForm from "./components/forms/EditForm";
 import RedirectButton from "./components/RedirectButton";
 import {HasPermissions, ListActions} from "./components/layout/CustomActions";
 
+const activeContractRowStyle = (record) => ({
+  backgroundColor: record.active === true ? '#efe' : 'white',
+});
+
 const formData = [
   {
     title: "Personal Information",
@@ -224,11 +228,12 @@ export const EmployeeProfile = () => (
       </Tab>
       <Tab label="Contracts">
         { HasPermissions("contracts", "create") && <RedirectButton form="create" resource="contracts" text="+ CREATE"/> }
-        <ReferenceManyField label="Active Contract" reference="contracts" target="employeeId">
-          <Datagrid>
+        <ReferenceManyField label="Contracts" reference="contracts" target="employeeId">
+          <Datagrid rowStyle={activeContractRowStyle} >
             <ReferenceField source="contractType" reference="contracts/contract-types">
               <ChipField source="value" />
             </ReferenceField>
+            <FunctionField label="Status" sortBy="active" sortByOrder="ASC" render={record => record.active === true ? "Active" : "Inactive"} />;
             <ReferenceField source="companyId" reference="companies">
               <TextField source="name" />
             </ReferenceField>
