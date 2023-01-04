@@ -38,7 +38,7 @@ const formData = [
   {
     title: "Job Position Information",
     inputsList: [
-      { name: "hoursPerWeek", type: "number" },
+      { name: "hoursPerMonth", type: "number" },
       { name: "billableRate", type: "number" },
       { name: "currency", type: "selectList", choices: [
         { id: 'USD', name: 'USD - United States dollar' },
@@ -83,7 +83,7 @@ export const AssignmentList = () => (
       <ReferenceField source="roleId" reference="roles">
         <TextField source="name" />
       </ReferenceField>
-      <NumberField source="hoursPerWeek" />
+      <NumberField source="hoursPerMonth" />
       <TextField source="billableRate" />
       <ReferenceField source="currency" reference="contracts/currencies">
         <TextField source="name" />

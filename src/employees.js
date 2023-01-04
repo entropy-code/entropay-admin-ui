@@ -237,7 +237,7 @@ export const EmployeeProfile = () => (
             <ReferenceField source="roleId" reference="roles">
               <ChipField source="name" />
             </ReferenceField>
-            <NumberField source="hoursPerWeek" />
+            <NumberField source="hoursPerMonth" />
             <TextField source="costRate" />
             <TextField source="monthlySalary" />
             <ReferenceField source="currency" reference="contracts/currencies">
@@ -265,7 +265,7 @@ export const EmployeeProfile = () => (
             <ReferenceField source="roleId" reference="roles">
               <ChipField source="name" />
             </ReferenceField>
-            <NumberField source="hoursPerWeek" />
+            <NumberField source="hoursPerMonth" />
             <TextField source="billableRate" />
             <ReferenceField source="currency" reference="contracts/currencies">
               <TextField source="name" />
