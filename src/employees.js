@@ -42,8 +42,11 @@ import EditForm from "./components/forms/EditForm";
 import RedirectButton from "./components/RedirectButton";
 import {HasPermissions, ListActions} from "./components/layout/CustomActions";
 
-const activeContractRowStyle = (record) => ({
-  backgroundColor: record.active === true ? '#efe' : 'white',
+const COLOR_green = '#efe';
+const COLOR_white = '#white';
+
+const activeContractRowStyle = (record) => ({  
+  backgroundColor: record.active === true ? COLOR_green : COLOR_white
 });
 
 const formData = [
