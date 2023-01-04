@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader } from '@mui/material';
 
 const Dashboard = () => (
     <Card>
-        <CardHeader title="Welcome to Entropay administration" />
+        <CardHeader title="Welcome to Entroteam administration" />
         <CardContent>Lorem ipsum sic dolor amet...</CardContent>
     </Card>
 );
