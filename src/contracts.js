@@ -8,6 +8,7 @@ import {
   TextField,
   NumberField,
   WrapperField,
+  FunctionField,
 } from "react-admin";
 import CreateForm from "./components/forms/CreateForm";
 import EditForm from "./components/forms/EditForm";
@@ -95,6 +96,7 @@ export const ContractList = () => (
           <TextField source="firstName" />
         </WrapperField>
       </ReferenceField>
+      <FunctionField label="Status" render={record => record.active === true ? "Active" : "Inactive"} />;
       <DateField source="startDate" />
       <DateField source="endDate" />
       <ReferenceField source="contractType" reference="contracts/contract-types">
