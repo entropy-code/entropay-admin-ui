@@ -29,7 +29,7 @@ const httpClient = (url, options = {}) => {
 const dataProvider = simpleRestProvider(config.config.api.employees, httpClient, 'X-Total-Count');
 
 const App = () => (
-  <Admin title="Entropay" layout={CustomLayout} dataProvider={dataProvider} authProvider={authProvider}>
+  <Admin title="Entroteam" layout={CustomLayout} dataProvider={dataProvider} authProvider={authProvider}>
     <Resource name="employees" list={EmployeeList} edit={EmployeeEdit} create={EmployeeCreate} show={EmployeeProfile}/>
     <Resource name="projects" list={ProjectList} edit={ProjectEdit} create={ProjectCreate} />
     <Resource name="clients" list={ClientList} edit={ClientEdit} create={ClientCreate} />
