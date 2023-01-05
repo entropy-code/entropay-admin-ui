@@ -4,6 +4,15 @@ import Header from "../Header";
 import FormSection from "./FormSections";
 
 const EditForm = ({ formData, title }) => {
+
+const validateEntity = async (values) => {
+  const errors = {};
+  if(values.endDate < values.startDate){
+    errors.endDate = "End Date can't be previous to Start Date";
+  }
+  return errors;
+}
+
   return (
     <Box m="10px">
       <Box display="flex" justifyContent="space-between" alignItems="center">
@@ -11,7 +20,7 @@ const EditForm = ({ formData, title }) => {
       </Box>
 
       <Edit redirect="list">
-        <SimpleForm>
+        <SimpleForm validate={validateEntity}>
           <Box width="100%">
             {formData.map((item, index) => {
               return (

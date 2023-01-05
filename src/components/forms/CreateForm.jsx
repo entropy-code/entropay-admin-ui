@@ -22,6 +22,14 @@ const CreateForm = ({ formData, title, resource }) => {
     }    
 };
 
+const validateEntity = async (values) => {
+  const errors = {};
+  if(values.endDate < values.startDate){
+    errors.endDate = "End Date can't be previous to Start Date";
+  }
+  return errors;
+}
+
   return (
     <Box m="10px">
       <Box display="flex" justifyContent="space-between" alignItems="center">
@@ -29,7 +37,7 @@ const CreateForm = ({ formData, title, resource }) => {
       </Box>
 
       <Create mutationOptions={{ onSuccess }}>
-        <SimpleForm>
+        <SimpleForm validate={validateEntity}>
           <Box width="100%">
             {formData.map((item, index) => {
               return (
