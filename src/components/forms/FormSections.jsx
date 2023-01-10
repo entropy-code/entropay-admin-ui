@@ -40,6 +40,7 @@ const FormSection = ({
                 {listItem.type === "date" ? (
                   <DateInput
                     source={listItem.name}
+                    label={listItem.label}
                     key={formSectionTitle + listItem.name + listIndex}
                     fullWidth
                     sx={{ gridColumn: "span 2" }}
@@ -48,6 +49,7 @@ const FormSection = ({
                 {listItem.type === "string" ? (
                   <TextInput
                     source={listItem.name}
+                    label={listItem.label}
                     key={formSectionTitle + listItem.name + listIndex}
                     fullWidth
                     sx={{ gridColumn: "span 2" }}
@@ -56,6 +58,7 @@ const FormSection = ({
                 {listItem.type === "number" ? (
                   <NumberInput
                     source={listItem.name}
+                    label={listItem.label}
                     key={formSectionTitle + listItem.name + listIndex}
                     fullWidth
                     sx={{ gridColumn: "span 2" }}
