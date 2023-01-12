@@ -34,7 +34,10 @@ const formData = [
   },
   {
     title: "Contact",
-    inputsList: [{ name: "contact", type: "string" }],
+    inputsList: [
+      { name: "contactFullName", type: "string" },
+      { name: "contactEmail", type: "string" },
+    ],
   },
   {
     title: "Others",
@@ -54,7 +57,8 @@ export const ClientList = () => (
       <TextField source="city" />
       <TextField source="state" />
       <TextField source="country" />
-      <TextField source="contact" />
+      <TextField source="contactFullName" />
+      <TextField source="contactEmail" />
       <TextField source="preferredCurrency" />
       <TextField source="modifiedAt" />
       {HasPermissions("clients", "update") && <EditButton variant="outlined" />}
