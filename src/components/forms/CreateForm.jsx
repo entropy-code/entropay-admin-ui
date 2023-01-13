@@ -24,7 +24,7 @@ const CreateForm = ({ formData, title, resource }) => {
 
 const validateEntity = async (values) => {
   const errors = {};
-  if(values.endDate < values.startDate){
+  if(values.endDate < values.startDate && values.endDate != null){
     errors.endDate = "End Date can't be previous to Start Date";
   }
   return errors;
