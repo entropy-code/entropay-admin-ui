@@ -10,7 +10,7 @@ const PaymentSection = () => {
       <SimpleFormIterator inline disableReordering>
         <TextInput source="platform" helperText={false} />
         <TextInput source="country" helperText={false} />
-        <TextInput source="cbu" helperText={false} />
+        <TextInput source="cbu" label= "ID/Alias/Account Number" helperText={false} />
       </SimpleFormIterator>
     </ArrayInput>
   );
