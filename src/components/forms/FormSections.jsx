@@ -72,11 +72,21 @@ const FormSection = ({
                     sx={{ gridColumn: "span 2" }}
                   />
                 ) : undefined}
+                {listItem.type === "multiSelect" ? (
+                  <MultiSelectInput referenceValues={listItem.referenceValues} />
+                ) : undefined
+                }
+                {listItem.type === "selectInput" ? (
+                  <ReferenceInputItem referenceValues={listItem.referenceValues} />
+                ) : undefined}
               </Box>
             );
           })}
-        {customSections && customSections.includes("paymentSection") && (
-          <PaymentSection />
+        {customSections && customSections.includes("paymentInformationSection") && (
+          <PaymentSection type='paymentInformation'/>
+        )}
+        {customSections && customSections.includes("paymentSettlementSection") && (
+          <PaymentSection type='paymentSettlement' />
         )}
         {customSections && customSections.includes("notesSection") && (
           <TextInput multiline source="notes" fullWidth />
