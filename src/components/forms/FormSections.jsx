@@ -7,7 +7,6 @@ import MultiSelectInput from "./MultiSelectInput";
 const FormSection = ({
   formSectionTitle,
   inputsList,
-  referenceValues,
   customSections,
 }) => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
@@ -27,14 +26,8 @@ const FormSection = ({
           },
         }}
       >
-        {referenceValues && referenceValues.multiselect && (
-          <MultiSelectInput referenceValues={referenceValues} />
-        )}
-        {referenceValues && !referenceValues.multiselect && (
-          <ReferenceInputItem referenceValues={referenceValues} />
-        )}
         {inputsList &&
-          inputsList.map((listItem, listIndex, choices) => {
+          inputsList.map((listItem, listIndex) => {
             return (
               <Box>
                 {listItem.type === "date" ? (
@@ -73,21 +66,26 @@ const FormSection = ({
                   />
                 ) : undefined}
                 {listItem.type === "multiSelect" ? (
-                  <MultiSelectInput referenceValues={listItem.referenceValues} />
-                ) : undefined
-                }
+                  <MultiSelectInput
+                    referenceValues={listItem.referenceValues}
+                  />
+                ) : undefined}
                 {listItem.type === "selectInput" ? (
-                  <ReferenceInputItem referenceValues={listItem.referenceValues} />
+                  <ReferenceInputItem
+                    referenceValues={listItem.referenceValues}
+                  />
                 ) : undefined}
               </Box>
             );
           })}
-        {customSections && customSections.includes("paymentInformationSection") && (
-          <PaymentSection type='paymentInformation'/>
-        )}
-        {customSections && customSections.includes("paymentSettlementSection") && (
-          <PaymentSection type='paymentSettlement' />
-        )}
+        {customSections &&
+          customSections.includes("paymentInformationSection") && (
+            <PaymentSection type="paymentInformation" />
+          )}
+        {customSections &&
+          customSections.includes("paymentSettlementSection") && (
+            <PaymentSection type="paymentSettlement" />
+          )}
         {customSections && customSections.includes("notesSection") && (
           <TextInput multiline source="notes" fullWidth />
         )}

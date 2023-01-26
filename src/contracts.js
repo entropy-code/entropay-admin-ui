@@ -16,34 +16,45 @@ import EditForm from "./components/forms/EditForm";
 const formData = [
   {
     title: "Company",
-    referenceValues: {
-      source: "companyId",
-      reference: "companies",
-      optionText: "name",
-      multiselect: false,
-    },
-  },
-  {
-    title: "ContractType",
-    referenceValues: {
-      source: "contractType",
-      reference: "contracts/contract-types",
-      optionText: "value",
-      multiselect: false,
-    },
+    inputsList: [
+      {
+        name: "Company",
+        type: "selectInput",
+        referenceValues: {
+          source: "companyId",
+          reference: "companies",
+          optionText: "name",
+          multiselect: false,
+        },
+      },
+      {
+        name: "ContractType",
+        type: "selectInput",
+        referenceValues: {
+          source: "contractType",
+          reference: "contracts/contract-types",
+          optionText: "value",
+          multiselect: false,
+        },
+      },
+    ],
   },
   {
     title: "Employee",
     inputsList: [
+      {
+        name: "Employee",
+        type: "selectInput",
+        referenceValues: {
+          source: "employeeId",
+          reference: "employees",
+          optionText: "lastName",
+          multiselect: false,
+        },
+      },
       { name: "startDate", type: "date" },
       { name: "endDate", type: "date" },
     ],
-    referenceValues: {
-      source: "employeeId",
-      reference: "employees",
-      optionText: "lastName",
-      multiselect: false,
-    },
   },
   {
     title: "Job Position Information",

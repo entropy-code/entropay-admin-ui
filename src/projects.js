@@ -13,19 +13,31 @@ import EditForm from "./components/forms/EditForm";
 const formData = [
   {
     title: "Client",
-    referenceValues: {
-      source: "clientId",
-      reference: "clients",
-      optionText: "name",
-    },
+    inputsList: [
+      {
+        name: "Client",
+        type: "selectInput",
+        referenceValues: {
+          source: "clientId",
+          reference: "clients",
+          optionText: "name",
+        },
+      },
+    ],
   },
   {
     title: "Project",
-    referenceValues: {
-      source: "projectTypeId",
-      reference: "project-types",
-      optionText: "name",
-    },
+    inputsList: [
+      {
+        name: "Project",
+        type: "selectInput",
+        referenceValues: {
+          source: "projectTypeId",
+          reference: "project-types",
+          optionText: "name",
+        },
+      },
+    ],
   },
   {
     title: "Extra Information",
@@ -60,5 +72,5 @@ export const ProjectEdit = () => (
 );
 
 export const ProjectCreate = () => (
-  <CreateForm formData={formData} title="Projects" resource="projects"/>
+  <CreateForm formData={formData} title="Projects" resource="projects" />
 );
