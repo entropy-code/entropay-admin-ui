@@ -8,7 +8,7 @@ import {
   EditButton,
 } from "react-admin";
 import CreateForm from "./components/forms/CreateForm";
-import EditForm from "./components/forms/CreateForm";
+import EditForm from "./components/forms/EditForm";
 
 const formData = [
   {
