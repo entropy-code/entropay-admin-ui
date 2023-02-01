@@ -31,22 +31,17 @@ import {
   CardActions,
   Typography,
 } from "@mui/material";
-import { 
-  Avatar, 
-  Box, 
-  Divider, 
-  Grid 
-} from "@mui/material";
+import { Avatar, Box, Divider, Grid } from "@mui/material";
 import CreateForm from "./components/forms/CreateForm";
 import EditForm from "./components/forms/EditForm";
 import RedirectButton from "./components/RedirectButton";
-import {HasPermissions, ListActions} from "./components/layout/CustomActions";
+import { HasPermissions, ListActions } from "./components/layout/CustomActions";
 
-const COLOR_green = '#efe';
-const COLOR_white = '#white';
+const COLOR_green = "#efe";
+const COLOR_white = "#white";
 
-const activeContractRowStyle = (record) => ({  
-  backgroundColor: record.active === true ? COLOR_green : COLOR_white
+const activeContractRowStyle = (record) => ({
+  backgroundColor: record.active === true ? COLOR_green : COLOR_white,
 });
 
 const formData = [
@@ -61,7 +56,11 @@ const formData = [
       { name: "mobileNumber", type: "string" },
       { name: "birthDate", type: "date" },
       { name: "taxId", type: "string", label: "Tax Number" },
-      { name: "personalNumber", type: "string", label: "Personal ID/Personal Number" },
+      {
+        name: "personalNumber",
+        type: "string",
+        label: "Personal ID/Personal Number",
+      },
     ],
     referenceValues: {
       source: "profile",
@@ -69,6 +68,21 @@ const formData = [
       optionText: "name",
       multiselect: true,
     },
+  },
+  {
+    title: "Skills",
+    inputsList: [
+      {
+        name: "technologies",
+        type: "multiSelect",
+        referenceValues: {
+          source: "technologies",
+          reference: "technologies",
+          optionText: "name",
+          multiselect: true,
+        },
+      },
+    ],
   },
   {
     title: "Direction",
@@ -102,7 +116,7 @@ export const EmployeeList = () => (
     actions={false}
   >
     <TopToolbar sx={{ minHeight: { sm: 56 } }}>
-    { HasPermissions("employees", "create") && <CreateButton /> }
+      {HasPermissions("employees", "create") && <CreateButton />}
       <ExportButton />
     </TopToolbar>
     <EmployeeCards />
@@ -134,7 +148,7 @@ const EmployeeCards = () => {
                 <Typography align="center">{record.personalEmail}</Typography>
                 <CardActions>
                   <ShowButton />
-                  { HasPermissions("employees", "update") && <EditButton /> }
+                  {HasPermissions("employees", "update") && <EditButton />}
                 </CardActions>
               </CardContent>
             </Card>
@@ -150,11 +164,15 @@ export const EmployeeEdit = () => (
 );
 
 export const EmployeeCreate = () => (
-  <CreateForm formData={formData} title="Employees" resource="employees"/>
+  <CreateForm formData={formData} title="Employees" resource="employees" />
 );
 
 export const EmployeeProfile = () => (
-  <Show title="Show employee" actions={<ListActions entity={"employees"}/>} emptyWhileLoading>
+  <Show
+    title="Show employee"
+    actions={<ListActions entity={"employees"} />}
+    emptyWhileLoading
+  >
     <Grid
       container
       direction="row"
@@ -179,7 +197,8 @@ export const EmployeeProfile = () => (
           />
           <TextField label="" source="personalEmail" />
         </SimpleShowLayout>
-      </Grid>{/*
+      </Grid>
+      {/*
       <Grid item>
         <SimpleShowLayout divider={<Divider flexItem />}>
           <TextField label="Current assigment" source="" />
@@ -214,9 +233,22 @@ export const EmployeeProfile = () => (
             <DateField source="birthDate" />
             <TextField source="personalNumber" />
             <TextField source="healthInsurance" />
-            <ReferenceArrayField label="Profile" reference="roles" source="profile">
+            <ReferenceArrayField
+              label="Profile"
+              reference="roles"
+              source="profile"
+            >
               <SingleFieldList>
-                  <ChipField source="name" />
+                <ChipField source="name" />
+              </SingleFieldList>
+            </ReferenceArrayField>
+            <ReferenceArrayField
+              label="Skills"
+              reference="technologies"
+              source="technologies"
+            >
+              <SingleFieldList>
+                <ChipField source="name" />
               </SingleFieldList>
             </ReferenceArrayField>
           </SimpleShowLayout>
@@ -230,13 +262,30 @@ export const EmployeeProfile = () => (
         </ArrayField>
       </Tab>
       <Tab label="Contracts">
-        { HasPermissions("contracts", "create") && <RedirectButton form="create" resource="contracts" text="+ CREATE"/> }
-        <ReferenceManyField label="Contracts" reference="contracts" target="employeeId">
-          <Datagrid rowStyle={activeContractRowStyle} >
-            <ReferenceField source="contractType" reference="contracts/contract-types">
+        {HasPermissions("contracts", "create") && (
+          <RedirectButton form="create" resource="contracts" text="+ CREATE" />
+        )}
+        <ReferenceManyField
+          label="Contracts"
+          reference="contracts"
+          target="employeeId"
+        >
+          <Datagrid rowStyle={activeContractRowStyle}>
+            <ReferenceField
+              source="contractType"
+              reference="contracts/contract-types"
+            >
               <ChipField source="value" />
             </ReferenceField>
-            <FunctionField label="Status" sortBy="active" sortByOrder="ASC" render={record => record.active === true ? "Active" : "Inactive"} />;
+            <FunctionField
+              label="Status"
+              sortBy="active"
+              sortByOrder="ASC"
+              render={(record) =>
+                record.active === true ? "Active" : "Inactive"
+              }
+            />
+            ;
             <ReferenceField source="companyId" reference="companies">
               <TextField source="name" />
             </ReferenceField>
@@ -257,13 +306,23 @@ export const EmployeeProfile = () => (
             </ReferenceField>
             <TextField source="benefits" />
             <TextField source="notes" />
-            {HasPermissions("contracts", "update") && <EditButton/>}
+            {HasPermissions("contracts", "update") && <EditButton />}
           </Datagrid>
         </ReferenceManyField>
       </Tab>
       <Tab label="Assigments">
-      { HasPermissions("assignments", "create") &&<RedirectButton form="create" resource="assignments" text="+ CREATE"/> }
-        <ReferenceManyField label="Assignments" reference="assignments" target="employeeId" >
+        {HasPermissions("assignments", "create") && (
+          <RedirectButton
+            form="create"
+            resource="assignments"
+            text="+ CREATE"
+          />
+        )}
+        <ReferenceManyField
+          label="Assignments"
+          reference="assignments"
+          target="employeeId"
+        >
           <Datagrid>
             <ReferenceField source="projectId" reference="projects">
               <TextField source="name" />
@@ -282,7 +341,7 @@ export const EmployeeProfile = () => (
             <ReferenceField source="seniorityId" reference="seniorities">
               <ChipField source="name" />
             </ReferenceField>
-            {HasPermissions("assignments", "update") && <EditButton/>}
+            {HasPermissions("assignments", "update") && <EditButton />}
           </Datagrid>
         </ReferenceManyField>
       </Tab>
