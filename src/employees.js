@@ -61,17 +61,6 @@ const formData = [
         type: "string",
         label: "Personal ID/Personal Number",
       },
-    ],
-    referenceValues: {
-      source: "profile",
-      reference: "roles",
-      optionText: "name",
-      multiselect: true,
-    },
-  },
-  {
-    title: "Skills",
-    inputsList: [
       {
         name: "technologies",
         type: "multiSelect",
@@ -83,6 +72,12 @@ const formData = [
         },
       },
     ],
+    referenceValues: {
+      source: "profile",
+      reference: "roles",
+      optionText: "name",
+      multiselect: true,
+    },
   },
   {
     title: "Direction",
