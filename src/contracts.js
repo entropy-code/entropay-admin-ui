@@ -16,67 +16,76 @@ import EditForm from "./components/forms/EditForm";
 const formData = [
   {
     title: "Company",
-    referenceValues: {
-      source: "companyId",
-      reference: "companies",
-      optionText: "name",
-      multiselect: false,
-    },
+    inputsList: [
+      {
+        name: "Company",
+        type: "selectInput",
+        referenceValues: {
+          source: "companyId",
+          reference: "companies",
+          optionText: "name",
+          multiselect: false,
+        },
+      },
+      {
+        name: "ContractType",
+        type: "selectInput",
+        referenceValues: {
+          source: "contractType",
+          reference: "contracts/contract-types",
+          optionText: "value",
+          multiselect: false,
+        },
+      },
+    ],
   },
   {
     title: "Employee",
     inputsList: [
+      {
+        name: "Employee",
+        type: "selectInput",
+        referenceValues: {
+          source: "employeeId",
+          reference: "employees",
+          optionText: "lastName",
+          multiselect: false,
+        },
+      },
       { name: "startDate", type: "date" },
       { name: "endDate", type: "date" },
     ],
-    referenceValues: {
-      source: "employeeId",
-      reference: "employees",
-      optionText: "lastName",
-      multiselect: false,
-    },
   },
   {
     title: "Job Position Information",
     inputsList: [
+      {
+        name: "profile",
+        type: "selectInput",
+        referenceValues: {
+          source: "roleId",
+          reference: "roles",
+          optionText: "name",
+          multiselect: false,
+        },
+      },
+      {
+        name: "seniority",
+        type: "selectInput",
+        referenceValues: {
+          source: "seniorityId",
+          reference: "seniorities",
+          optionText: "name",
+          multiselect: false,
+        },
+      },
       { name: "hoursPerMonth", type: "number" },
-      { name: "monthlySalary", type: "string" },
-      { name: "costRate", type: "string" },
-      { name: "currency", type: "selectList", choices: [
-        { id: 'USD', name: 'USD - United States dollar' },
-        { id: 'ARS', name: 'ARS - Argentine peso' },
-      ]},
       { name: "vacations", type: "number" },
       { name: "benefits", type: "string" },
-],
-  referenceValues: {
-    source: "roleId",
-    reference: "roles",
-    optionText: "name",
-    multiselect: false,
+    ],
   },
-  },
-{
-  title: "Seniority",
-    referenceValues: {
-    source: "seniorityId",
-      reference: "seniorities",
-        optionText: "name",
-          multiselect: false,
-    },
-},
-{
-  title: "ContractType",
-    referenceValues: {
-    source: "contractType",
-      reference: "contracts/contract-types",
-        optionText: "value",
-          multiselect: false,
-
-      },
-},
-{
-  customSections: ["notesSection"],
+  {
+    customSections: ["notesSection", "paymentSettlementSection"],
   },
 ];
 
@@ -87,34 +96,31 @@ export const ContractList = () => (
         <TextField source="name" />
       </ReferenceField>
       <ReferenceField
-        source="employeeId"
-        reference="employees"
+        source="contractType"
+        reference="contracts/contract-types"
       >
-        <WrapperField label="Full Name">
-          <TextField source="lastName" />
-          {' '}
-          <TextField source="firstName" />
-        </WrapperField>
-      </ReferenceField>
-      <FunctionField label="Status" render={record => record.active === true ? "Active" : "Inactive"} />;
-      <DateField source="startDate" />
-      <DateField source="endDate" />
-      <ReferenceField source="contractType" reference="contracts/contract-types">
         <TextField source="value" />
       </ReferenceField>
+      <ReferenceField source="employeeId" reference="employees">
+        <WrapperField label="Full Name">
+          <TextField source="lastName" /> <TextField source="firstName" />
+        </WrapperField>
+      </ReferenceField>
+      <FunctionField
+        label="Status"
+        render={(record) => (record.active === true ? "Active" : "Inactive")}
+      />
+      ;
+      <DateField source="startDate" />
+      <DateField source="endDate" />
       <ReferenceField source="roleId" reference="roles">
         <TextField source="name" />
       </ReferenceField>
-      <NumberField source="hoursPerMonth" />
-      <TextField source="costRate" />
-      <TextField source="monthlySalary" />
-      <ReferenceField source="currency" reference="contracts/currencies">
-        <TextField source="name" />
-      </ReferenceField>
-      <NumberField source="vacations" />
       <ReferenceField source="seniorityId" reference="seniorities">
         <TextField source="name" />
       </ReferenceField>
+      <NumberField source="hoursPerMonth" />
+      <NumberField source="vacations" />
       <TextField source="benefits" />
       <TextField source="notes" />
       <EditButton />

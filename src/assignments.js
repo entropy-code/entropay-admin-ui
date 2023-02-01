@@ -7,7 +7,7 @@ import {
   ReferenceField,
   TextField,
   NumberField,
-  WrapperField
+  WrapperField,
 } from "react-admin";
 import CreateForm from "./components/forms/CreateForm";
 import EditForm from "./components/forms/EditForm";
@@ -16,66 +16,85 @@ const formData = [
   {
     title: "Employee",
     inputsList: [
+      {
+        name: "Employee",
+        type: "selectInput",
+        referenceValues: {
+          source: "employeeId",
+          reference: "employees",
+          optionText: "lastName",
+          multiselect: false,
+        },
+      },
       { name: "startDate", type: "date" },
       { name: "endDate", type: "date" },
     ],
-    referenceValues: {
-      source: "employeeId",
-      reference: "employees",
-      optionText: "lastName",
-      multiselect: false,
-    },
   },
   {
     title: "Project",
-    referenceValues: {
-      source: "projectId",
-      reference: "projects",
-      optionText: "name",
-      multiselect: false,
-    },
+    inputsList: [
+      {
+        name: "Project",
+        type: "selectInput",
+        referenceValues: {
+          source: "projectId",
+          reference: "projects",
+          optionText: "name",
+          multiselect: false,
+        },
+      },
+    ],
   },
   {
     title: "Job Position Information",
     inputsList: [
+      {
+        name: "Role",
+        type: "selectInput",
+        referenceValues: {
+          source: "roleId",
+          reference: "roles",
+          optionText: "name",
+          multiselect: false,
+        },
+      },
       { name: "hoursPerMonth", type: "number" },
       { name: "billableRate", type: "number" },
-      { name: "currency", type: "selectList", choices: [
-        { id: 'USD', name: 'USD - United States dollar' },
-        { id: 'ARS', name: 'ARS - Argentine peso' },
-      ]},
+      {
+        name: "currency",
+        type: "selectList",
+        choices: [
+          { id: "USD", name: "USD - United States dollar" },
+          { id: "ARS", name: "ARS - Argentine peso" },
+        ],
+      },
       { name: "labourHours", type: "string" },
     ],
-    referenceValues: {
-      source: "roleId",
-      reference: "roles",
-      optionText: "name",
-      multiselect: false,
-    },
   },
 
   {
     title: "Seniority",
-    referenceValues: {
-      source: "seniorityId",
-      reference: "seniorities",
-      optionText: "name",
-      multiselect: false,
-    },
+    inputsList: [
+      {
+        name: "Seniority",
+        type: "selectInput",
+        referenceValues: {
+          source: "seniorityId",
+          reference: "seniorities",
+          optionText: "name",
+          multiselect: false,
+        },
+      },
+    ],
   },
 ];
 
 export const AssignmentList = () => (
   <List>
     <Datagrid rowClick="edit">
-      <ReferenceField
-        source="employeeId"
-        reference="employees"
-      >
+      <ReferenceField source="employeeId" reference="employees">
         <WrapperField label="Full Name">
-          <TextField source="lastName" />
-          {' '}
-          <TextField source="firstName" />
+          <TextField source="lastName" /> <TextField source="firstName" />
         </WrapperField>
       </ReferenceField>
       <DateField source="startDate" />

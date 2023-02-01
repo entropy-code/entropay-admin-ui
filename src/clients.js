@@ -14,13 +14,19 @@ import { ListActions, HasPermissions } from "./components/layout/CustomActions";
 const formData = [
   {
     title: "Personal Information",
-    inputsList: [{ name: "name", type: "string" }],
-    referenceValues: {
-      source: "companyId",
-      reference: "companies",
-      optionText: "name",
-      multiselect: false,
-    },
+    inputsList: [
+      { name: "name", type: "string" },
+      {
+        name: "Company",
+        type: "selectInput",
+        referenceValues: {
+          source: "companyId",
+          reference: "companies",
+          optionText: "name",
+          multiselect: false,
+        },
+      },
+    ],
   },
   {
     title: "Direction",
@@ -46,7 +52,7 @@ const formData = [
 ];
 
 export const ClientList = () => (
-  <List actions={<ListActions entity={"clients"}/>}>
+  <List actions={<ListActions entity={"clients"} />}>
     <Datagrid>
       <TextField source="name" />
       <ReferenceField source="companyId" reference="companies">

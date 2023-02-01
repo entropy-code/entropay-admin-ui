@@ -1,19 +1,57 @@
-import { ArrayInput, SimpleFormIterator, TextInput } from "react-admin";
+import {
+  ArrayInput,
+  NumberInput,
+  SelectInput,
+  SimpleFormIterator,
+  TextInput,
+} from "react-admin";
 
-const PaymentSection = () => {
+const PaymentSection = (type) => {
   return (
-    <ArrayInput
-      source="paymentInformation"
-      fullWidth
-      sx={{ gridColumn: "span 2" }}
-    >
-      <SimpleFormIterator inline disableReordering>
-        <TextInput source="platform" helperText={false} />
-        <TextInput source="country" helperText={false} />
-        <TextInput source="cbu" label= "ID/Alias/Account Number" helperText={false} />
-      </SimpleFormIterator>
-    </ArrayInput>
+    <>
+      {type.type === "paymentInformation" && (
+        <ArrayInput
+          source="paymentInformation"
+          fullWidth
+          sx={{ gridColumn: "span 2" }}
+        >
+          <SimpleFormIterator inline disableReordering>
+            <TextInput source="platform" helperText={false} />
+            <TextInput source="country" helperText={false} />
+            <TextInput
+              source="cbu"
+              label="ID/Alias/Account Number"
+              helperText={false}
+            />
+          </SimpleFormIterator>
+        </ArrayInput>
+      )}
+      {type.type === "paymentSettlement" && (
+        <ArrayInput
+          source="paymentSettlement"
+          fullWidth
+          sx={{ gridColumn: "span 2" }}
+        >
+          <SimpleFormIterator inline disableReordering>
+            <SelectInput
+              source="modality"
+              choices={[
+                { id: "HOUR", name: "Hour" },
+                { id: "MONTHLY", name: "Monthly" },
+              ]}
+            />
+            <NumberInput source="salary" />
+            <SelectInput
+              source="currency"
+              choices={[
+                { id: "USD", name: "USD - United States dollar" },
+                { id: "ARS", name: "ARS - Argentine peso" },
+              ]}
+            />
+          </SimpleFormIterator>
+        </ArrayInput>
+      )}
+    </>
   );
 };
-
 export default PaymentSection;
