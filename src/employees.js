@@ -48,6 +48,16 @@ const formData = [
   {
     title: "Personal Information",
     inputsList: [
+      {
+        name: "Employee",
+        type: "multiSelect",
+        referenceValues: {
+          source: "profile",
+          reference: "roles",
+          optionText: "name",
+          multiselect: true,
+        },
+      },
       { name: "internalId", type: "string", label: "Internal ID" },
       { name: "firstName", type: "string" },
       { name: "lastName", type: "string" },
@@ -72,12 +82,6 @@ const formData = [
         },
       },
     ],
-    referenceValues: {
-      source: "profile",
-      reference: "roles",
-      optionText: "name",
-      multiselect: true,
-    },
   },
   {
     title: "Direction",
@@ -98,7 +102,7 @@ const formData = [
     ],
   },
   {
-    customSections: ["paymentSection", "notesSection"],
+    customSections: ["paymentInformationSection", "notesSection"],
   },
 ];
 
@@ -238,7 +242,7 @@ export const EmployeeProfile = () => (
               </SingleFieldList>
             </ReferenceArrayField>
             <ReferenceArrayField
-              label="Skills"
+              label="Technologies"
               reference="technologies"
               source="technologies"
             >
@@ -289,16 +293,11 @@ export const EmployeeProfile = () => (
             <ReferenceField source="roleId" reference="roles">
               <ChipField source="name" />
             </ReferenceField>
-            <NumberField source="hoursPerMonth" />
-            <TextField source="costRate" />
-            <TextField source="monthlySalary" />
-            <ReferenceField source="currency" reference="contracts/currencies">
-              <TextField source="name" />
-            </ReferenceField>
-            <NumberField source="vacations" />
             <ReferenceField source="seniorityId" reference="seniorities">
               <ChipField source="name" />
             </ReferenceField>
+            <NumberField source="hoursPerMonth" />
+            <NumberField source="vacations" />
             <TextField source="benefits" />
             <TextField source="notes" />
             {HasPermissions("contracts", "update") && <EditButton />}

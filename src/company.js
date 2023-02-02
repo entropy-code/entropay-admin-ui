@@ -8,18 +8,24 @@ import {
   EditButton,
 } from "react-admin";
 import CreateForm from "./components/forms/CreateForm";
-import EditForm from "./components/forms/CreateForm";
+import EditForm from "./components/forms/EditForm";
 
 const formData = [
   {
     title: "Basic Information",
-    inputsList: [{ name: "name", type: "string" }],
-    referenceValues: {
-      source: "tenantId",
-      reference: "tenants",
-      optionText: "displayName",
-      multiselect: false,
-    },
+    inputsList: [
+      { name: "name", type: "string" },
+      {
+        name: "Tenant",
+        type: "selectInput",
+        referenceValues: {
+          source: "tenantId",
+          reference: "tenants",
+          optionText: "displayName",
+          multiselect: false,
+        },
+      },
+    ],
   },
   {
     title: "Direction",
