@@ -71,6 +71,16 @@ const formData = [
         type: "string",
         label: "Personal ID/Personal Number",
       },
+      {
+        name: "technologies",
+        type: "multiSelect",
+        referenceValues: {
+          source: "technologies",
+          reference: "technologies",
+          optionText: "name",
+          multiselect: true,
+        },
+      },
     ],
   },
   {
@@ -226,6 +236,15 @@ export const EmployeeProfile = () => (
               label="Profile"
               reference="roles"
               source="profile"
+            >
+              <SingleFieldList>
+                <ChipField source="name" />
+              </SingleFieldList>
+            </ReferenceArrayField>
+            <ReferenceArrayField
+              label="Technologies"
+              reference="technologies"
+              source="technologies"
             >
               <SingleFieldList>
                 <ChipField source="name" />
