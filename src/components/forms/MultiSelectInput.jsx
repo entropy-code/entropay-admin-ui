@@ -8,7 +8,7 @@ const ReferenceSelectArrayInputItem = ({ referenceValues }) => {
       {
         referenceValues && (
         <ReferenceArrayInput reference={reference} source={source}>
-            <SelectArrayInput fullWidth>
+            <SelectArrayInput fullWidth defaultValue={[]}>
                 <ChipField source={source} />
             </SelectArrayInput>
         </ReferenceArrayInput>
