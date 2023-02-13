@@ -274,6 +274,7 @@ export const EmployeeProfile = () => (
           label="Contracts"
           reference="contracts"
           target="employeeId"
+          sort={{ field: 'startDate', order: 'DESC' }}
         >
           <Datagrid rowStyle={activeContractRowStyle}>
             <ReferenceField
@@ -322,6 +323,7 @@ export const EmployeeProfile = () => (
           label="Assignments"
           reference="assignments"
           target="employeeId"
+          sort={{ field: 'startDate', order: 'DESC' }}
         >
           <Datagrid>
             <ReferenceField source="projectId" reference="projects">

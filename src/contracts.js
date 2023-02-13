@@ -115,7 +115,6 @@ export const ContractList = () => (
         label="Status"
         render={(record) => (record.active === true ? "Active" : "Inactive")}
       />
-      ;
       <DateField source="startDate" />
       <DateField source="endDate" />
       <ReferenceField source="roleId" reference="roles">
