@@ -109,8 +109,6 @@ const formData = [
 export const EmployeeList = () => (
   <List
     sort={{ field: "internalId", order: "ASC" }}
-    perPage={20}
-    pagination={false}
     component="div"
     actions={false}
   >
@@ -129,8 +127,8 @@ const EmployeeCards = () => {
   }
   return (
     <Grid container spacing={1} sx={{ marginTop: "1em" }}>
-      {data.map((record) => (
-        <RecordContextProvider key={record.internalId} value={record}>
+      {data.map((record, index) => (
+        <RecordContextProvider key={index} value={record}>
           <Grid xs={2} item>
             <Card sx={{ maxWidth: 300 }}>
               {/*Profile image hardcoded until photo upload feature is in palce*/}
