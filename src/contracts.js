@@ -52,7 +52,7 @@ const formData = [
           reference: "employees",
           optionText: "lastName",
           multiselect: false,
-          reuired: true,
+          required: true,
         },
       },
       { name: "startDate", type: "date", required: true },
