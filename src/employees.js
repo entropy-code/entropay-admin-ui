@@ -113,11 +113,15 @@ export const EmployeeList = () => (
     component="div"
     actions={false}
   >
+    <>
     <TopToolbar sx={{ minHeight: { sm: 56 } }}>
+      <>
       {HasPermissions("employees", "create") && <CreateButton />}
       <ExportButton />
+      </>
     </TopToolbar>
     <EmployeeCards />
+    </>
   </List>
 );
 

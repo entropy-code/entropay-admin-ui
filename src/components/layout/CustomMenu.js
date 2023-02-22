@@ -6,11 +6,9 @@ import PeopleGroup from '@rsuite/icons/legacy/PeopleGroup';
 import DocPassIcon from '@rsuite/icons/DocPass';
 import DetailIcon from '@rsuite/icons/Detail';
 import React from 'react';
-import { usePermissions } from 'react-admin';
 import 'rsuite/dist/rsuite.min.css';
 
-const icons = 
-  {
+const icons = {
     dashboard: <DashboardIcon />,
     employees: <GroupIcon />,
     contracts: <DocPassIcon />,
@@ -20,9 +18,6 @@ const icons =
   }
 
 export const CustomMenu = () => {
-  const { isLoading, configuration } = usePermissions();
-  // For any reason i caanot get the config from usePermissions(), so
-  // i'm reading from local storage
   const config = JSON.parse(localStorage.getItem('config')) || {}
     return (
     <div style={{ width: 240 }}>
@@ -33,7 +28,7 @@ export const CustomMenu = () => {
               return (
                 item.href && !item.submenu 
                 ? <Nav.Item key={item.key} eventKey={item.key} icon={icons[item.icon]} href={item.href}>{item.name}</Nav.Item>
-                : <Nav.Menu eventKey={item.key} icon={icons[item.icon]} title={item.name}>
+                : <Nav.Menu key={item.key} eventKey={item.key} icon={icons[item.icon]} title={item.name}>
                   {item.submenu && item.submenu.map((submenu, submenuIndex) => {
                     return (
                       <Nav.Item key={submenu.key} eventKey={submenu.key} href={submenu.href}>{submenu.name}</Nav.Item>
