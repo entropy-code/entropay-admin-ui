@@ -58,10 +58,10 @@ const formData = [
           multiselect: true,
         },
       },
-      { name: "internalId", type: "string", label: "Internal ID" },
-      { name: "firstName", type: "string" },
-      { name: "lastName", type: "string" },
-      { name: "personalEmail", type: "string" },
+      { name: "internalId", type: "string", required: true },
+      { name: "firstName", type: "string", required: true },
+      { name: "lastName", type: "string", required: true },
+      { name: "personalEmail", type: "string", required: true },
       { name: "phoneNumber", type: "string" },
       { name: "mobileNumber", type: "string" },
       { name: "birthDate", type: "date" },
@@ -70,6 +70,7 @@ const formData = [
         name: "personalNumber",
         type: "string",
         label: "Personal ID/Personal Number",
+        required: true,
       },
       {
         name: "technologies",
@@ -270,7 +271,7 @@ export const EmployeeProfile = () => (
           label="Contracts"
           reference="contracts"
           target="employeeId"
-          sort={{ field: 'startDate', order: 'DESC' }}
+          sort={{ field: "startDate", order: "DESC" }}
         >
           <Datagrid rowStyle={activeContractRowStyle}>
             <ReferenceField
@@ -319,7 +320,7 @@ export const EmployeeProfile = () => (
           label="Assignments"
           reference="assignments"
           target="employeeId"
-          sort={{ field: 'startDate', order: 'DESC' }}
+          sort={{ field: "startDate", order: "DESC" }}
         >
           <Datagrid>
             <ReferenceField source="projectId" reference="projects">

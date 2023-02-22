@@ -14,7 +14,7 @@ const formData = [
   {
     title: "Basic Information",
     inputsList: [
-      { name: "name", type: "string" },
+      { name: "name", type: "string", required: true },
       {
         name: "Tenant",
         type: "selectInput",
@@ -23,6 +23,7 @@ const formData = [
           reference: "tenants",
           optionText: "displayName",
           multiselect: false,
+          required: true,
         },
       },
     ],

@@ -40,9 +40,9 @@ const fetchResources = async () => {
 const dataProvider = simpleRestProvider(config.config.api.employees, httpClient, 'X-Total-Count');
 
 const App = () => (
-    <Admin title="Entroteam" layout={CustomLayout} dataProvider={dataProvider} authProvider={authProvider}>
-      {fetchResources}
-    </Admin>
+  <Admin title="Entroteam" layout={CustomLayout} dataProvider={dataProvider} authProvider={authProvider}>
+    {fetchResources}
+  </Admin>
 );
 
 export default App;

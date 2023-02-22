@@ -6,7 +6,7 @@ import EditForm from "./components/forms/EditForm";
 const formData = [
   {
     title: "Project Type",
-    inputsList: [{ name: "name", type: "string" }],
+    inputsList: [{ name: "name", type: "string", required: true }],
   },
 ];
 
@@ -24,5 +24,9 @@ export const ProjectTypeEdit = () => (
 );
 
 export const ProjectTypeCreate = () => (
-  <CreateForm formData={formData} title="Project Type" resource="project-types" />
+  <CreateForm
+    formData={formData}
+    title="Project Type"
+    resource="project-types"
+  />
 );

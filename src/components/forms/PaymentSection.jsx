@@ -39,14 +39,16 @@ const PaymentSection = (type) => {
                 { id: "HOUR", name: "Hour" },
                 { id: "MONTHLY", name: "Monthly" },
               ]}
+              required={true}
             />
-            <NumberInput source="salary" />
+            <NumberInput source="salary" required={true} />
             <SelectInput
               source="currency"
               choices={[
                 { id: "USD", name: "USD - United States dollar" },
                 { id: "ARS", name: "ARS - Argentine peso" },
               ]}
+              required={true}
             />
           </SimpleFormIterator>
         </ArrayInput>
