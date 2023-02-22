@@ -21,6 +21,7 @@ const formData = [
           source: "clientId",
           reference: "clients",
           optionText: "name",
+          required: true,
         },
       },
     ],
@@ -42,7 +43,7 @@ const formData = [
   {
     title: "Extra Information",
     inputsList: [
-      { name: "name", type: "string" },
+      { name: "name", type: "string", required: true },
       { name: "startDate", type: "date" },
       { name: "endDate", type: "date" },
       { name: "notes", type: "string" },

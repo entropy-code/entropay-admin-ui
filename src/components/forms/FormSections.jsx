@@ -37,6 +37,7 @@ const FormSection = ({
                     key={formSectionTitle + listItem.name + listIndex}
                     fullWidth
                     sx={{ gridColumn: "span 2" }}
+                    required={listItem.required}
                   />
                 ) : undefined}
                 {listItem.type === "string" ? (
@@ -46,6 +47,7 @@ const FormSection = ({
                     key={formSectionTitle + listItem.name + listIndex}
                     fullWidth
                     sx={{ gridColumn: "span 2" }}
+                    required={listItem.required}
                   />
                 ) : undefined}
                 {listItem.type === "number" ? (
@@ -55,6 +57,7 @@ const FormSection = ({
                     key={formSectionTitle + listItem.name + listIndex}
                     fullWidth
                     sx={{ gridColumn: "span 2" }}
+                    required={listItem.required}
                   />
                 ) : undefined}
                 {listItem.type === "selectList" ? (
@@ -63,11 +66,13 @@ const FormSection = ({
                     choices={listItem.choices}
                     fullWidth
                     sx={{ gridColumn: "span 2" }}
+                    required={listItem.required}
                   />
                 ) : undefined}
                 {listItem.type === "multiSelect" ? (
                   <MultiSelectInput
                     referenceValues={listItem.referenceValues}
+                    required={listItem.required}
                   />
                 ) : undefined}
                 {listItem.type === "selectInput" ? (

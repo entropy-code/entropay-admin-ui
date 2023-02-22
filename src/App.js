@@ -43,7 +43,6 @@ const App = () => (
     <Resource name="seniorities" list={SeniorityList} edit={SeniorityEdit} create={SeniorityCreate} />
     <Resource name="assignments" list={AssignmentList} edit={AssignmentEdit} create={AssignmentCreate} />
     <Resource name="technologies" list={TechnologiesList} edit={TechnologiesEdit} create={TechnologiesCreate} />
-
   </Admin>
 );
 

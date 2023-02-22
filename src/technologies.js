@@ -6,7 +6,7 @@ import EditForm from "./components/forms/EditForm";
 const formData = [
   {
     title: "Technologies",
-    inputsList: [{ name: "name", type: "string" }],
+    inputsList: [{ name: "name", type: "string", required: true }],
   },
 ];
 
