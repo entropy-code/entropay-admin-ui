@@ -23,6 +23,7 @@ import {
   ReferenceManyField,
   ReferenceField,
   NumberField,
+  SearchInput,
 } from "react-admin";
 import {
   Card,
@@ -107,11 +108,16 @@ const formData = [
   },
 ];
 
+const employeeFilters = [
+  <SearchInput source="q" alwaysOn />,
+];
+
 export const EmployeeList = () => (
   <List
     sort={{ field: "internalId", order: "ASC" }}
     component="div"
     actions={false}
+    filters={employeeFilters}
   >
     <>
     <TopToolbar sx={{ minHeight: { sm: 56 } }}>
