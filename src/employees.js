@@ -59,20 +59,6 @@ const formData = [
           multiselect: true,
         },
       },
-      { name: "internalId", type: "string", required: true },
-      { name: "firstName", type: "string", required: true },
-      { name: "lastName", type: "string", required: true },
-      { name: "personalEmail", type: "string", required: true },
-      { name: "phoneNumber", type: "string" },
-      { name: "mobileNumber", type: "string" },
-      { name: "birthDate", type: "date" },
-      { name: "taxId", type: "string", label: "Tax Number" },
-      {
-        name: "personalNumber",
-        type: "string",
-        label: "Personal ID/Personal Number",
-        required: true,
-      },
       {
         name: "technologies",
         type: "multiSelect",
@@ -82,6 +68,21 @@ const formData = [
           optionText: "name",
           multiselect: true,
         },
+      },
+      { name: "internalId", type: "string", required: true },
+      { name: "firstName", type: "string", required: true },
+      { name: "lastName", type: "string", required: true },
+      { name: "personalEmail", type: "string", required: true },
+      { name: "labourEmail", type: "string" },
+      { name: "phoneNumber", type: "string" },
+      { name: "mobileNumber", type: "string" },
+      { name: "birthDate", type: "date" },
+      { name: "taxId", type: "string", label: "Tax Number" },
+      {
+        name: "personalNumber",
+        type: "string",
+        label: "Personal ID/Personal Number",
+        required: true,
       },
     ],
   },
@@ -108,9 +109,7 @@ const formData = [
   },
 ];
 
-const employeeFilters = [
-  <SearchInput source="q" alwaysOn />,
-];
+const employeeFilters = [<SearchInput source="q" alwaysOn />];
 
 export const EmployeeList = () => (
   <List
@@ -120,13 +119,13 @@ export const EmployeeList = () => (
     filters={employeeFilters}
   >
     <>
-    <TopToolbar sx={{ minHeight: { sm: 56 } }}>
-      <>
-      {HasPermissions("employees", "create") && <CreateButton />}
-      <ExportButton />
-      </>
-    </TopToolbar>
-    <EmployeeCards />
+      <TopToolbar sx={{ minHeight: { sm: 56 } }}>
+        <>
+          {HasPermissions("employees", "create") && <CreateButton />}
+          <ExportButton />
+        </>
+      </TopToolbar>
+      <EmployeeCards />
     </>
   </List>
 );
