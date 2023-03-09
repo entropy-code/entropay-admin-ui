@@ -49,6 +49,8 @@ const formData = [
   {
     title: "Personal Information",
     inputsList: [
+      { name: "internalId", type: "string", required: true },
+      {},
       {
         name: "Employee",
         type: "multiSelect",
@@ -69,21 +71,20 @@ const formData = [
           multiselect: true,
         },
       },
-      { name: "internalId", type: "string", required: true },
       { name: "firstName", type: "string", required: true },
       { name: "lastName", type: "string", required: true },
-      { name: "personalEmail", type: "string", required: true },
-      { name: "labourEmail", type: "string" },
+      { name: "personalEmail", type: "email", required: true },
+      { name: "labourEmail", type: "email" },
       { name: "phoneNumber", type: "string" },
       { name: "mobileNumber", type: "string" },
       { name: "birthDate", type: "date" },
-      { name: "taxId", type: "string", label: "Tax Number" },
       {
         name: "personalNumber",
         type: "string",
         label: "Personal ID/Personal Number",
         required: true,
       },
+      { name: "taxId", type: "string", label: "Tax Number" },
     ],
   },
   {

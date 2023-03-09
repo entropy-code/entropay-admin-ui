@@ -50,6 +50,17 @@ const FormSection = ({
                     required={listItem.required}
                   />
                 ) : undefined}
+                {listItem.type === "email" ? (
+                  <TextInput
+                    source={listItem.name}
+                    label={listItem.label}
+                    key={formSectionTitle + listItem.name + listIndex}
+                    fullWidth
+                    sx={{ gridColumn: "span 2" }}
+                    type="email"
+                    required={listItem.required}
+                  />
+                ) : undefined}
                 {listItem.type === "number" ? (
                   <NumberInput
                     source={listItem.name}
