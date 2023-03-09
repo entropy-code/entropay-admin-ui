@@ -32,7 +32,8 @@ const fetchResources = async () => {
       list={HasPermissions(r["entity"], "read") ? r["list"] : null}
       edit={HasPermissions(r["entity"], "update") ? r["edit"] : null}
       create={HasPermissions(r["entity"], "create") ? r["create"] : null}
-      show={HasPermissions(r["entity"], "read") ? r["show"] : null} />
+      show={HasPermissions(r["entity"], "read") ? r["show"] : null} 
+      recordRepresentation={r["recordRepresentation"]}/>
   )
   );
 }
