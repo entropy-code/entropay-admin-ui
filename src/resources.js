@@ -16,7 +16,8 @@ export const resourceMap = [
       list: EmployeeList,
       edit: EmployeeEdit,
       create: EmployeeCreate, 
-      show: EmployeeProfile
+      show: EmployeeProfile,
+      recordRepresentation: (record) => `${record.firstName} ${record.lastName}`
     },
     {
       entity: "projects", 
