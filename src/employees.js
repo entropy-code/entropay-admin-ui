@@ -24,6 +24,7 @@ import {
   ReferenceField,
   NumberField,
   SearchInput,
+  useGetRecordId,
 } from "react-admin";
 import {
   Card,
@@ -44,6 +45,10 @@ const COLOR_white = "#white";
 const activeContractRowStyle = (record) => ({
   backgroundColor: record.active === true ? COLOR_green : COLOR_white,
 });
+
+const DisplayRecordCurrentId = () => {
+  return useGetRecordId();
+};
 
 const formData = [
   {
@@ -270,15 +275,20 @@ export const EmployeeProfile = () => (
         </ArrayField>
       </Tab>
       <Tab label="Contracts">
-        {HasPermissions("contracts", "create") && (
-          <RedirectButton form="create" resource="contracts" text="+ CREATE" />
-        )}
         <ReferenceManyField
-          label="Contracts"
+          label=""
           reference="contracts"
           target="employeeId"
           sort={{ field: "startDate", order: "DESC" }}
         >
+          {HasPermissions("contracts", "create") && (
+            <RedirectButton
+              form="create"
+              resource="contracts"
+              text="+ CREATE"
+              recordId={DisplayRecordCurrentId()}
+            />
+          )}
           <Datagrid rowStyle={activeContractRowStyle}>
             <ReferenceField
               source="contractType"
@@ -315,19 +325,20 @@ export const EmployeeProfile = () => (
         </ReferenceManyField>
       </Tab>
       <Tab label="Assigments">
-        {HasPermissions("assignments", "create") && (
-          <RedirectButton
-            form="create"
-            resource="assignments"
-            text="+ CREATE"
-          />
-        )}
         <ReferenceManyField
           label="Assignments"
           reference="assignments"
           target="employeeId"
           sort={{ field: "startDate", order: "DESC" }}
         >
+          {HasPermissions("assignments", "create") && (
+            <RedirectButton
+              form="create"
+              resource="assignments"
+              text="+ CREATE"
+              recordId={DisplayRecordCurrentId()}
+            />
+          )}
           <Datagrid>
             <ReferenceField source="projectId" reference="projects">
               <TextField source="name" />

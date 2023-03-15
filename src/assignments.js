@@ -12,6 +12,17 @@ import {
 import CreateForm from "./components/forms/CreateForm";
 import EditForm from "./components/forms/EditForm";
 
+function getDisabledValue(record) {
+  let isDisabled;
+  if (record != null) {
+    record.source === "employeeProfile"
+      ? (isDisabled = true)
+      : (isDisabled = false);
+    return isDisabled;
+  }
+  return false;
+}
+
 const formData = [
   {
     title: "Employee",
@@ -25,6 +36,7 @@ const formData = [
           optionText: null,
           multiselect: false,
           required: true,
+          check: getDisabledValue,
         },
       },
       { name: "startDate", type: "date", required: true },
@@ -86,7 +98,7 @@ const formData = [
           reference: "seniorities",
           optionText: "name",
           multiselect: false,
-          required: true
+          required: true,
         },
       },
     ],
