@@ -287,6 +287,7 @@ export const EmployeeProfile = () => (
               resource="contracts"
               text="+ CREATE"
               recordId={DisplayRecordCurrentId()}
+              source="employeeProfile"
             />
           )}
           <Datagrid rowStyle={activeContractRowStyle}>
@@ -337,6 +338,7 @@ export const EmployeeProfile = () => (
               resource="assignments"
               text="+ CREATE"
               recordId={DisplayRecordCurrentId()}
+              source="employeeProfile"
             />
           )}
           <Datagrid>

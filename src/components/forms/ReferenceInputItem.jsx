@@ -2,10 +2,12 @@ import * as React from "react";
 import { ReferenceInput, SelectInput, useRecordContext } from "react-admin";
 
 const ReferenceInputItem = ({ referenceValues }) => {
-  const { source, reference, optionText, required, check } = referenceValues;
+  const { source, reference, optionText, required, disabledCheck } = referenceValues;
   const record = useRecordContext();
   var setDisabled = false;
-  if (check !== undefined) setDisabled = check(record);
+  if (disabledCheck !== undefined && record !== undefined) {
+    setDisabled = disabledCheck(record.source);
+   }
   return (
     <>
       {referenceValues && (
