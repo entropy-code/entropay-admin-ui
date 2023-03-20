@@ -13,6 +13,8 @@ import {
 import CreateForm from "./components/forms/CreateForm";
 import EditForm from "./components/forms/EditForm";
 
+function disabledCheck(source) { return source === "employeeProfile"; }
+
 const formData = [
   {
     title: "Company",
@@ -53,6 +55,7 @@ const formData = [
           optionText: null,
           multiselect: false,
           required: true,
+          disabledCheck: disabledCheck,
         },
       },
       { name: "startDate", type: "date", required: true },

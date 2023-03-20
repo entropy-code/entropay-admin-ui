@@ -4,11 +4,7 @@ import ReferenceInputItem from "./ReferenceInputItem";
 import PaymentSection from "./PaymentSection";
 import MultiSelectInput from "./MultiSelectInput";
 
-const FormSection = ({
-  formSectionTitle,
-  inputsList,
-  customSections,
-}) => {
+const FormSection = ({ formSectionTitle, inputsList, customSections }) => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
   return (
     <Box>
