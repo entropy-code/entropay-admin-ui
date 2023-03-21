@@ -230,6 +230,7 @@ export const EmployeeProfile = () => (
           alignItems="flex-start"
         >
           <SimpleShowLayout divider={<Divider flexItem />}>
+            <TextField source="internalId" />
             <TextField source="taxId" />
             <TextField source="phoneNumber" />
             <TextField source="mobileNumber" />
