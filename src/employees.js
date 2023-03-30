@@ -221,7 +221,7 @@ const EmployeeInformation = ({ renderAs = "list" }) => {
     }
     return (
         <Datagrid rowClick="edit">
-            <TextField source="id" />
+            <TextField source="internalId" />
             <TextField source="firstName" />
             <TextField source="lastName" />
             <TextField source="personalEmail" />
