@@ -38,6 +38,8 @@ import CreateForm from "./components/forms/CreateForm";
 import EditForm from "./components/forms/EditForm";
 import RedirectButton from "./components/RedirectButton";
 import { HasPermissions, ListActions } from "./components/layout/CustomActions";
+import RowRadioButtonGroup from "./components/buttons/RowRadioButtonGroup";
+import { useState } from "react";
 
 const COLOR_green = "#efe";
 const COLOR_white = "#white";
@@ -117,58 +119,107 @@ const formData = [
 
 const employeeFilters = [<SearchInput source="q" alwaysOn />];
 
-export const EmployeeList = () => (
-  <List
-    sort={{ field: "internalId", order: "ASC" }}
-    component="div"
-    actions={false}
-    filters={employeeFilters}
-  >
-    <>
-      <TopToolbar sx={{ minHeight: { sm: 56 } }}>
-        <>
-          {HasPermissions("employees", "create") && <CreateButton />}
-          <ExportButton />
-        </>
-      </TopToolbar>
-      <EmployeeCards />
-    </>
-  </List>
-);
+export const EmployeeList = () => {
+  const [radioValue, setRadioValue] = useState("card");
 
-const EmployeeCards = () => {
+  const handleChange = (event) => {
+    setRadioValue(event.target.value);
+  };
+
+  const radioButtonOptions = [
+    {
+      id: 1,
+      label: "Card",
+      value: "card",
+    },
+    {
+      id: 2,
+      label: "List",
+      value: "list",
+    },
+  ];
+
+  return (
+    <List
+      sort={{ field: "internalId", order: "ASC" }}
+      component="div"
+      actions={false}
+      filters={employeeFilters}
+    >
+      <>
+        <TopToolbar
+          sx={{
+            minHeight: { sm: 56 },
+            justifyContent: "space-between",
+          }}
+        >
+          <Box>
+            <RowRadioButtonGroup
+              title={"View mode"}
+              value={radioValue}
+              handleChange={handleChange}
+              options={radioButtonOptions}
+            />
+          </Box>
+          <Box>
+            {HasPermissions("employees", "create") && <CreateButton />}
+            <ExportButton />
+          </Box>
+        </TopToolbar>
+        <EmployeeInformation renderAs={radioValue} />
+      </>
+    </List>
+  );
+};
+
+const EmployeeInformation = ({ renderAs = "list" }) => {
   const { data, isLoading } = useListContext();
   if (isLoading) {
     return null;
   }
-  return (
-    <Grid container spacing={1} sx={{ marginTop: "1em" }}>
-      {data.map((record, index) => (
-        <RecordContextProvider key={index} value={record}>
-          <Grid xs={2} item>
-            <Card sx={{ maxWidth: 300 }}>
-              {/*Profile image hardcoded until photo upload feature is in palce*/}
-              <CardMedia
-                component="img"
-                height="200"
-                image="https://entropay-assets.s3.us-east-1.amazonaws.com/default-profile.png"
-              />
+  if (renderAs === "card") {
+    return (
+      <Grid container spacing={1} sx={{ marginTop: "1em" }}>
+        {data.map((record, index) => (
+          <RecordContextProvider key={index} value={record}>
+            <Grid xs={2} item>
+              <Card sx={{ maxWidth: 300 }}>
+                {/*Profile image hardcoded until photo upload feature is in palce*/}
+                <CardMedia
+                  component="img"
+                  height="200"
+                  image="https://entropay-assets.s3.us-east-1.amazonaws.com/default-profile.png"
+                />
 
-              <CardContent sx={{ padding: 1 }}>
-                <Typography variant="h5" component="h5" align="center">
-                  {`${record.firstName} ${record.lastName}`}
-                </Typography>
-                <Typography align="center">{record.personalEmail}</Typography>
-                <CardActions>
-                  <ShowButton />
-                  {HasPermissions("employees", "update") && <EditButton />}
-                </CardActions>
-              </CardContent>
-            </Card>
-          </Grid>
-        </RecordContextProvider>
-      ))}
-    </Grid>
+                <CardContent sx={{ padding: 1 }}>
+                  <Typography variant="h5" component="h5" align="center">
+                    {`${record.firstName} ${record.lastName}`}
+                  </Typography>
+                  <Typography align="center">{record.personalEmail}</Typography>
+                  <CardActions>
+                    <ShowButton />
+                    {HasPermissions("employees", "update") && <EditButton />}
+                  </CardActions>
+                </CardContent>
+              </Card>
+            </Grid>
+          </RecordContextProvider>
+        ))}
+      </Grid>
+    );
+  }
+  return (
+    <Datagrid rowClick="edit">
+      <TextField source="internalId" />
+      <TextField source="firstName" />
+      <TextField source="lastName" />
+      <TextField source="personalEmail" />
+      <TextField source="mobileNumber" />
+      <TextField source="address" />
+      <TextField source="city" />
+      <TextField source="country" />
+      <TextField source="personalNumber" />
+    </Datagrid>
   );
 };
 
@@ -230,7 +281,7 @@ export const EmployeeProfile = () => (
           alignItems="flex-start"
         >
           <SimpleShowLayout divider={<Divider flexItem />}>
-            <TextField source="internalId" label="Internal ID"/>
+            <TextField source="internalId" label="Internal ID" />
             <TextField source="taxId" />
             <TextField source="phoneNumber" />
             <TextField source="mobileNumber" />
