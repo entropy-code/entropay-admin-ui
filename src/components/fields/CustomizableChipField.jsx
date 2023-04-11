@@ -31,6 +31,5 @@ CustomizableChipField.propTypes = {
   children: PropTypes.func.isRequired,
   variant: PropTypes.string,
   color: PropTypes.string,
-  color: PropTypes.string,
   size: PropTypes.string,
 };
