@@ -126,7 +126,7 @@ export const ContractList = () => (
       />
       {HasPermissions("contracts", "read") && (
         <ArrayField source="paymentSettlement" label="Salary">
-          <SingleFieldList>
+          <SingleFieldList linkType={false}>
             <CustomizableChipField source="salary">
               {(record) => {
                 if (record) {
