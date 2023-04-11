@@ -124,23 +124,21 @@ export const ContractList = () => (
         label="Status"
         render={(record) => (record.active === true ? "Active" : "Inactive")}
       />
-      {HasPermissions("contracts", "read") && (
-        <ArrayField source="paymentSettlement" label="Salary">
-          <SingleFieldList linkType={false}>
-            <CustomizableChipField source="salary">
-              {(record) => {
-                if (record) {
-                  const label = `${record.currency} ${
-                    record.salary
-                  }/${record.modality.charAt(0).toLowerCase()}`;
-                  return label;
-                }
-                return null;
-              }}
-            </CustomizableChipField>
-          </SingleFieldList>
-        </ArrayField>
-      )}
+      <ArrayField source="paymentSettlement" label="Salary">
+        <SingleFieldList linkType={false}>
+          <CustomizableChipField source="salary">
+            {(record) => {
+              if (record) {
+                const label = `${record.currency} ${
+                  record.salary
+                }/${record.modality.charAt(0).toLowerCase()}`;
+                return label;
+              }
+              return null;
+            }}
+          </CustomizableChipField>
+        </SingleFieldList>
+      </ArrayField>
       <DateField source="startDate" />
       <DateField source="endDate" />
       <ReferenceField source="roleId" reference="roles">
