@@ -130,7 +130,7 @@ export const ContractList = () => (
             <CustomizableChipField source="salary">
               {(record) => {
                 if (record) {
-                  const label = `${record.currency}${
+                  const label = `${record.currency} ${
                     record.salary
                   }/${record.modality.charAt(0).toLowerCase()}`;
                   return label;
