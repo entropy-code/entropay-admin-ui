@@ -15,7 +15,6 @@ import {
 import CreateForm from "./components/forms/CreateForm";
 import EditForm from "./components/forms/EditForm";
 import { CustomizableChipField } from "./components/fields/CustomizableChipField";
-import { HasPermissions } from "./components/layout/CustomActions";
 
 function disabledCheck(source) {
   return source === "employeeProfile";
@@ -129,9 +128,11 @@ export const ContractList = () => (
           <CustomizableChipField source="salary">
             {(record) => {
               if (record) {
-                const label = `${record.currency} ${
-                  record.salary
-                }/${record.modality.charAt(0).toLowerCase()}`;
+                const salary =
+                  `${record.salary}` === "null" ? "-" : `${record.salary}`;
+                const label = `${record.currency} ${salary}/${record.modality
+                  .charAt(0)
+                  .toLowerCase()}`;
                 return label;
               }
               return null;
