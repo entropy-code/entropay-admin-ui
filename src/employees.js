@@ -228,7 +228,7 @@ const EmployeeInformation = ({ renderAs = "list" }) => {
         <TextField source="client" />
         <TextField source="project" />
         <TextField source="role" />
-        </Datagrid>
+      </Datagrid>
     );
   }
 };
