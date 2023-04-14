@@ -6,11 +6,13 @@ import {
   ProjectTypeCreate,
 } from "./projectTypes";
 import {
-  EmployeeCreate,
-  EmployeeEdit,
-  EmployeeList,
-  EmployeeProfile,
+    EmployeeCreate,
+    EmployeeEdit,
+    EmployeeList,
 } from "./employees";
+import {
+    EmployeeProfile,
+} from "./employeeProfiles";
 import { CompanyList, CompanyEdit, CompanyCreate } from "./company";
 import { ContractList, ContractEdit, ContractCreate } from "./contracts";
 import { SeniorityList, SeniorityEdit, SeniorityCreate } from "./seniorities";
