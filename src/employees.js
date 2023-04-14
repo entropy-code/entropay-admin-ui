@@ -228,7 +228,7 @@ const EmployeeInformation = ({ renderAs = "list" }) => {
                         {record.personalEmail}
                       </Typography>
                       <Typography noWrap align="center">
-                        <DateField source="startDate" locales={'es'} />
+                        <DateField source="startDate" locales={locale} />
                       </Typography>
                       <Typography noWrap align="center">
                         {record.state} / {record.country}
