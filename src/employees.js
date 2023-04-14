@@ -19,20 +19,19 @@ import {
   CardActions,
   Typography,
   CardActionArea,
-  
 } from "@mui/material";
-import { 
+import {
   red,
   blueGrey,
   pink,
-  deepPurple, 
-  indigo, 
+  deepPurple,
+  indigo,
   blue,
   cyan,
-  teal, 
+  teal,
   green,
-  orange
-} from '@mui/material/colors';
+  orange,
+} from "@mui/material/colors";
 import { Avatar, Box, Grid } from "@mui/material";
 import CreateForm from "./components/forms/CreateForm";
 import EditForm from "./components/forms/EditForm";
@@ -41,9 +40,18 @@ import RowRadioButtonGroup from "./components/buttons/RowRadioButtonGroup";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-const COLOR_BG = [red[500], blueGrey[500], pink[500], deepPurple[500], 
-                  indigo[500], blue[500], cyan[500], teal[500], green[500], 
-                  orange[500]]
+const COLOR_BG = [
+  red[500],
+  blueGrey[500],
+  pink[500],
+  deepPurple[500],
+  indigo[500],
+  blue[500],
+  cyan[500],
+  teal[500],
+  green[500],
+  orange[500],
+];
 
 const formData = [
   {
@@ -174,46 +182,72 @@ const EmployeeInformation = ({ renderAs = "list" }) => {
   if (renderAs === "card") {
     return (
       <Grid container spacing={2} sx={{ marginTop: "1em" }}>
-      {data.map((record, index) => (
-        <RecordContextProvider key={index} value={record}>
-          <Grid xs={2} item>
-            <Card>
-              <CardActionArea component={Link} to={`${record.id}` + "/show"} style={{ textDecoration: 'none' }}>
-                <CardContent sx={{ padding: 1 }}>
-                  <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                    <Avatar
-                      alt="Employee"
-                      sx={{ 
-                        width: 100, 
-                        height: 100, 
-                        bgcolor: COLOR_BG[`${record.internalId}`.charAt(`${record.internalId}`.length - 1)], 
-                        fontSize: 50, 
-                        margin: 2
-                      }}
-                    >{`${record.firstName}`.charAt(0)}{`${record.lastName}`.charAt(0)}
-                    </Avatar>
-                  </Box>
-                  <Box sx={{ minHeight: 155}}>
-                    <Typography noWrap variant="h5" component="h5" align="center">
-                      {record.firstName} {record.lastName}
-                    </Typography>
-                    <Typography noWrap align="center">{record.personalEmail}</Typography>
-                    <Typography noWrap align="center"><DateField source="startDate"/></Typography>
-                    <Typography noWrap align="center">{record.state} / {record.country}</Typography>
-                    <Typography noWrap align="center">{record.client} / {record.project}</Typography>
-                    <Typography noWrap align="center">{record.role}</Typography>
-                  </Box>
-                </CardContent>
-              </CardActionArea>
-              <CardActions>
-                <ShowButton />
-                {HasPermissions("employees", "update") && <EditButton />}
-              </CardActions>
-            </Card>
-          </Grid>
-        </RecordContextProvider>
-      ))}
-    </Grid>
+        {data.map((record, index) => (
+          <RecordContextProvider key={index} value={record}>
+            <Grid xs={2} item>
+              <Card>
+                <CardActionArea
+                  component={Link}
+                  to={`${record.id}/show`}
+                  style={{ textDecoration: "none" }}
+                >
+                  <CardContent sx={{ padding: 1 }}>
+                    <Box sx={{ display: "flex", justifyContent: "center" }}>
+                      <Avatar
+                        alt="Employee"
+                        sx={{
+                          width: 100,
+                          height: 100,
+                          bgcolor:
+                            COLOR_BG[
+                              `${record.internalId}`.charAt(
+                                `${record.internalId}`.length - 1
+                              )
+                            ],
+                          fontSize: 50,
+                          margin: 2,
+                        }}
+                      >
+                        {`${record.firstName}`.charAt(0)}
+                        {`${record.lastName}`.charAt(0)}
+                      </Avatar>
+                    </Box>
+                    <Box sx={{ minHeight: 155 }}>
+                      <Typography
+                        noWrap
+                        variant="h5"
+                        component="h5"
+                        align="center"
+                      >
+                        {record.firstName} {record.lastName}
+                      </Typography>
+                      <Typography noWrap align="center">
+                        {record.personalEmail}
+                      </Typography>
+                      <Typography noWrap align="center">
+                        <DateField source="startDate" />
+                      </Typography>
+                      <Typography noWrap align="center">
+                        {record.state} / {record.country}
+                      </Typography>
+                      <Typography noWrap align="center">
+                        {record.client} / {record.project}
+                      </Typography>
+                      <Typography noWrap align="center">
+                        {record.role}
+                      </Typography>
+                    </Box>
+                  </CardContent>
+                </CardActionArea>
+                <CardActions>
+                  <ShowButton />
+                  {HasPermissions("employees", "update") && <EditButton />}
+                </CardActions>
+              </Card>
+            </Grid>
+          </RecordContextProvider>
+        ))}
+      </Grid>
     );
   } else {
     return (

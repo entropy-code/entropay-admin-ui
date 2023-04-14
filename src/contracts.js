@@ -9,11 +9,16 @@ import {
   NumberField,
   WrapperField,
   FunctionField,
+  ArrayField,
+  SingleFieldList,
 } from "react-admin";
 import CreateForm from "./components/forms/CreateForm";
 import EditForm from "./components/forms/EditForm";
+import { CustomizableChipField } from "./components/fields/CustomizableChipField";
 
-function disabledCheck(source) { return source === "employeeProfile"; }
+function disabledCheck(source) {
+  return source === "employeeProfile";
+}
 
 const formData = [
   {
@@ -118,6 +123,23 @@ export const ContractList = () => (
         label="Status"
         render={(record) => (record.active === true ? "Active" : "Inactive")}
       />
+      <ArrayField source="paymentSettlement" label="Salary">
+        <SingleFieldList linkType={false}>
+          <CustomizableChipField source="salary">
+            {(record) => {
+              if (record) {
+                const salary =
+                  `${record.salary}` === "null" ? "-" : `${record.salary}`;
+                const label = `${record.currency} ${salary}/${record.modality
+                  .charAt(0)
+                  .toLowerCase()}`;
+                return label;
+              }
+              return null;
+            }}
+          </CustomizableChipField>
+        </SingleFieldList>
+      </ArrayField>
       <DateField source="startDate" />
       <DateField source="endDate" />
       <ReferenceField source="roleId" reference="roles">
