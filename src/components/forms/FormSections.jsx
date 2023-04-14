@@ -1,10 +1,17 @@
-import { TextInput, DateInput, NumberInput, SelectInput } from "react-admin";
+import { 
+  TextInput, 
+  DateInput, 
+  NumberInput, 
+  SelectInput, 
+  useLocaleState
+} from "react-admin";
 import { Box, Typography, useMediaQuery } from "@mui/material";
 import ReferenceInputItem from "./ReferenceInputItem";
 import PaymentSection from "./PaymentSection";
 import MultiSelectInput from "./MultiSelectInput";
 
 const FormSection = ({ formSectionTitle, inputsList, customSections }) => {
+  const [locale] = useLocaleState();
   const isNonMobile = useMediaQuery("(min-width:600px)");
   return (
     <Box>
@@ -34,6 +41,7 @@ const FormSection = ({ formSectionTitle, inputsList, customSections }) => {
                     fullWidth
                     sx={{ gridColumn: "span 2" }}
                     required={listItem.required}
+                    locales={locale}
                   />
                 ) : undefined}
                 {listItem.type === "string" ? (

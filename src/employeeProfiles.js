@@ -17,6 +17,7 @@ import {
   ReferenceField,
   NumberField,
   useGetRecordId,
+  useLocaleState,
 } from "react-admin";
 import { Avatar, Box, Divider, Grid } from "@mui/material";
 import RedirectButton from "./components/RedirectButton";
@@ -33,7 +34,9 @@ const DisplayRecordCurrentId = () => {
   return useGetRecordId();
 };
 
-export const EmployeeProfile = () => (
+export const EmployeeProfile = () => {
+  const [locale] = useLocaleState();
+  return (
   <Show
     title="Show employee"
     actions={<ListActions entity={"employees"} />}
@@ -97,7 +100,7 @@ export const EmployeeProfile = () => (
             <TextField source="state" />
             <TextField source="zip" />
             <TextField source="country" />
-            <DateField source="birthDate" />
+            <DateField source="birthDate" locales={locale}/>
             <TextField source="personalNumber" />
             <TextField source="healthInsurance" />
             <ReferenceArrayField
@@ -163,8 +166,8 @@ export const EmployeeProfile = () => (
             <ReferenceField source="companyId" reference="companies">
               <TextField source="name" />
             </ReferenceField>
-            <DateField source="startDate" />
-            <DateField source="endDate" />
+            <DateField source="startDate" locales={locale}/>
+            <DateField source="endDate" locales={locale}/>
             <ReferenceField source="roleId" reference="roles">
               <ChipField source="name" />
             </ReferenceField>
@@ -199,8 +202,8 @@ export const EmployeeProfile = () => (
             <ReferenceField source="projectId" reference="projects">
               <TextField source="name" />
             </ReferenceField>
-            <DateField source="startDate" />
-            <DateField source="endDate" />
+            <DateField source="startDate" locales={locale}/>
+            <DateField source="endDate" locales={locale}/>
             <ReferenceField source="roleId" reference="roles">
               <ChipField source="name" />
             </ReferenceField>
@@ -223,4 +226,4 @@ export const EmployeeProfile = () => (
       */}
     </TabbedShowLayout>
   </Show>
-);
+)};

@@ -11,6 +11,7 @@ import {
   FunctionField,
   ArrayField,
   SingleFieldList,
+  useLocaleState,
 } from "react-admin";
 import CreateForm from "./components/forms/CreateForm";
 import EditForm from "./components/forms/EditForm";
@@ -102,7 +103,9 @@ const formData = [
   },
 ];
 
-export const ContractList = () => (
+export const ContractList = () => {
+  const [locale] = useLocaleState();
+  return (
   <List>
     <Datagrid rowClick="edit">
       <ReferenceField source="companyId" reference="companies">
@@ -140,8 +143,8 @@ export const ContractList = () => (
           </CustomizableChipField>
         </SingleFieldList>
       </ArrayField>
-      <DateField source="startDate" />
-      <DateField source="endDate" />
+      <DateField source="startDate" locales={locale} />
+      <DateField source="endDate" locales={locale} />
       <ReferenceField source="roleId" reference="roles">
         <TextField source="name" />
       </ReferenceField>
@@ -155,7 +158,7 @@ export const ContractList = () => (
       <EditButton />
     </Datagrid>
   </List>
-);
+)};
 
 export const ContractEdit = () => (
   <EditForm formData={formData} title="Contract" />

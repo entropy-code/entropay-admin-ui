@@ -6,6 +6,7 @@ import {
   ReferenceField,
   TextField,
   EditButton,
+  useLocaleState,
 } from "react-admin";
 import CreateForm from "./components/forms/CreateForm";
 import EditForm from "./components/forms/EditForm";
@@ -40,7 +41,9 @@ const formData = [
   },
 ];
 
-export const CompanyList = () => (
+export const CompanyList = () => {
+  const [locale] = useLocaleState();
+  return (
   <List>
     <Datagrid rowClick="edit">
       <TextField source="id" />
@@ -53,12 +56,12 @@ export const CompanyList = () => (
       <TextField source="city" />
       <TextField source="state" />
       <TextField source="country" />
-      <DateField source="createdAt" />
-      <DateField source="modifiedAt" />
+      <DateField source="createdAt" locales={locale} />
+      <DateField source="modifiedAt" locales={locale} />
       <EditButton variant="outlined" />
     </Datagrid>
   </List>
-);
+)};
 
 export const CompanyEdit = () => (
   <EditForm formData={formData} title="Company" />
