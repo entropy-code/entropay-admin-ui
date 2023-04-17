@@ -254,7 +254,7 @@ const EmployeeInformation = ({ renderAs = "list" }) => {
     );
   } else {
     return (
-      <Datagrid rowClick="edit">
+      <Datagrid rowClick="show">
         <TextField source="internalId" />
         <TextField source="firstName" />
         <TextField source="lastName" />
@@ -265,6 +265,8 @@ const EmployeeInformation = ({ renderAs = "list" }) => {
         <TextField source="client" />
         <TextField source="project" />
         <TextField source="role" />
+        <ShowButton />
+        {HasPermissions("employees", "update") && <EditButton />}
       </Datagrid>
     );
   }
