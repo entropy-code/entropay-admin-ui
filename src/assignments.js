@@ -8,6 +8,7 @@ import {
   TextField,
   NumberField,
   WrapperField,
+  useLocaleState,
 } from "react-admin";
 import CreateForm from "./components/forms/CreateForm";
 import EditForm from "./components/forms/EditForm";
@@ -96,7 +97,9 @@ const formData = [
   },
 ];
 
-export const AssignmentList = () => (
+export const AssignmentList = () => {
+  const [locale] = useLocaleState();
+  return (
   <List>
     <Datagrid rowClick="edit">
       <ReferenceField source="employeeId" reference="employees">
@@ -104,8 +107,8 @@ export const AssignmentList = () => (
           <TextField source="lastName" /> <TextField source="firstName" />
         </WrapperField>
       </ReferenceField>
-      <DateField source="startDate" />
-      <DateField source="endDate" />
+      <DateField source="startDate" locales={locale} />
+      <DateField source="endDate" locales={locale} />
       <ReferenceField source="roleId" reference="roles">
         <TextField source="name" />
       </ReferenceField>
@@ -121,7 +124,7 @@ export const AssignmentList = () => (
       <EditButton />
     </Datagrid>
   </List>
-);
+)};
 
 export const AssignmentEdit = () => (
   <EditForm formData={formData} title="Assignment" />

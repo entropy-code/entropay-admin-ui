@@ -38,12 +38,18 @@ const fetchResources = async () => {
   );
 }
 
+const useCustomLocale = () => {
+  localStorage.setItem('RaStore.locale', "es")
+}
+
 const dataProvider = simpleRestProvider(config.config.api.employees, httpClient, 'X-Total-Count');
 
-const App = () => (
+const App = () => {
+  useCustomLocale()
+  return (
   <Admin title="Entroteam" layout={CustomLayout} dataProvider={dataProvider} authProvider={authProvider}>
     {fetchResources}
   </Admin>
-);
+)};
 
 export default App;
