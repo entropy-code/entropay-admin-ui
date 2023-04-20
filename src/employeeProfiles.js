@@ -17,6 +17,7 @@ import {
   ReferenceField,
   NumberField,
   useGetRecordId,
+  useGetManyReference,
 } from "react-admin";
 import { Avatar, Box, Divider, Grid } from "@mui/material";
 import RedirectButton from "./components/RedirectButton";
@@ -31,6 +32,27 @@ const activeContractRowStyle = (record) => ({
 
 const DisplayRecordCurrentId = () => {
   return useGetRecordId();
+};
+
+const GetActiveContract = () => {
+  const employeeId = useGetRecordId();
+  const { data } = useGetManyReference("contracts", {
+    target: "employeeId",
+    id: employeeId,
+    filter: {
+      active: true,
+    },
+  });
+  return data !== undefined ? data.at(0) : null;
+};
+
+const GetLatestAssignment = () => {
+  const employeeId = useGetRecordId();
+  const { data } = useGetManyReference("assignments", {
+    target: "employeeId",
+    id: employeeId,
+  });
+  return data !== undefined ? data.find((a) => a.endDate === null) : null;
 };
 
 export const EmployeeProfile = () => (
@@ -141,6 +163,7 @@ export const EmployeeProfile = () => (
               resource="contracts"
               text="+ CREATE"
               recordId={DisplayRecordCurrentId()}
+              record={GetActiveContract()}
               source="employeeProfile"
             />
           )}
@@ -192,6 +215,7 @@ export const EmployeeProfile = () => (
               resource="assignments"
               text="+ CREATE"
               recordId={DisplayRecordCurrentId()}
+              record={GetLatestAssignment()}
               source="employeeProfile"
             />
           )}
