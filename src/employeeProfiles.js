@@ -18,6 +18,7 @@ import {
   NumberField,
   useGetRecordId,
   useGetManyReference,
+  useGetOne,
 } from "react-admin";
 import { Avatar, Box, Divider, Grid } from "@mui/material";
 import RedirectButton from "./components/RedirectButton";
@@ -48,11 +49,8 @@ const GetActiveContract = () => {
 
 const GetLatestAssignment = () => {
   const employeeId = useGetRecordId();
-  const { data } = useGetManyReference("assignments", {
-    target: "employeeId",
-    id: employeeId,
-  });
-  return data !== undefined ? data.find((a) => a.endDate === null) : null;
+  const { data: employee } = useGetOne('employees', { id: employeeId });
+  return employee.lastAssignment;
 };
 
 export const EmployeeProfile = () => (
