@@ -107,6 +107,14 @@ export const AssignmentList = () => {
           <TextField source="lastName" /> <TextField source="firstName" />
         </WrapperField>
       </ReferenceField>
+      <ReferenceField source="projectId" reference="projects">
+        <TextField source="name" />
+      </ReferenceField>
+      <ReferenceField source="projectId" reference="projects" label="Client">
+        <ReferenceField source="clientId" reference="clients">
+          <TextField source="name" />
+        </ReferenceField>
+      </ReferenceField>
       <DateField source="startDate" locales={locale} />
       <DateField source="endDate" locales={locale} />
       <ReferenceField source="roleId" reference="roles">
