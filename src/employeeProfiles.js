@@ -37,6 +37,7 @@ const DisplayRecordCurrentId = () => {
 
 const GetActiveContract = () => {
   const employeeId = useGetRecordId();
+
   const { data } = useGetManyReference("contracts", {
     target: "employeeId",
     id: employeeId,
@@ -44,13 +45,35 @@ const GetActiveContract = () => {
       active: true,
     },
   });
-  return data !== undefined ? data.at(0) : null;
+
+  const activeContract = React.useMemo(() => {
+    if (Array.isArray(data)) {
+      return data[0];
+    }
+    return undefined;
+  }, [data]);
+
+  return activeContract;
 };
 
 const GetLatestAssignment = () => {
   const employeeId = useGetRecordId();
-  const { data: employee } = useGetOne('employees', { id: employeeId });
-  return employee.lastAssignment;
+
+  const { data: employee } = useGetOne("employees", { id: employeeId });
+
+  const { data: assignments } = useGetManyReference("assignments", {
+    target: "employeeId",
+    id: employeeId,
+  });
+
+  const latestAssignment = React.useMemo(() => {
+    if (Array.isArray(assignments)) {
+      return assignments.find((a) => a.id === employee.lastAssignmentId);
+    }
+    return undefined;
+  }, [assignments, employee]);
+
+  return latestAssignment;
 };
 
 export const EmployeeProfile = () => (

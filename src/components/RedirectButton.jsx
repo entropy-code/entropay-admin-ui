@@ -21,7 +21,7 @@ const RedirectButton = ({ form, resource, text, recordId, record, source }) => {
         notes: record.notes,
         source: source,
       };
-    } else if (record !== null && resource === "assignments") {
+    } else if (record !== undefined && resource === "assignments") {
       recordToDisplay = {
         employeeId: recordId,
         billableRate: record.billableRate,
