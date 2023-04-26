@@ -65,6 +65,8 @@ const GetLatestAssignment = () => {
     target: "employeeId",
     id: employeeId,
   });
+  // It will be changed when the active field is added to assignments
+
 
   const latestAssignment = React.useMemo(() => {
     if (Array.isArray(assignments)) {
