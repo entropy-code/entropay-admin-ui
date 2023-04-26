@@ -17,6 +17,8 @@ import {
   ReferenceField,
   NumberField,
   useGetRecordId,
+  useGetManyReference,
+  useGetOne,
   useLocaleState,
 } from "react-admin";
 import { Avatar, Box, Divider, Grid } from "@mui/material";
@@ -32,6 +34,49 @@ const activeContractRowStyle = (record) => ({
 
 const DisplayRecordCurrentId = () => {
   return useGetRecordId();
+};
+
+const GetActiveContract = () => {
+  const employeeId = useGetRecordId();
+
+  const { data } = useGetManyReference("contracts", {
+    target: "employeeId",
+    id: employeeId,
+    filter: {
+      active: true,
+    },
+  });
+
+  const activeContract = React.useMemo(() => {
+    if (Array.isArray(data)) {
+      return data[0];
+    }
+    return undefined;
+  }, [data]);
+
+  return activeContract;
+};
+
+const GetLatestAssignment = () => {
+  const employeeId = useGetRecordId();
+
+  const { data: employee } = useGetOne("employees", { id: employeeId });
+
+  const { data: assignments } = useGetManyReference("assignments", {
+    target: "employeeId",
+    id: employeeId,
+  });
+  // It will be changed when the active field is added to assignments
+
+
+  const latestAssignment = React.useMemo(() => {
+    if (Array.isArray(assignments)) {
+      return assignments.find((a) => a.id === employee.lastAssignmentId);
+    }
+    return undefined;
+  }, [assignments, employee]);
+
+  return latestAssignment;
 };
 
 export const EmployeeProfile = () => {
@@ -144,6 +189,7 @@ export const EmployeeProfile = () => {
               resource="contracts"
               text="+ CREATE"
               recordId={DisplayRecordCurrentId()}
+              record={GetActiveContract()}
               source="employeeProfile"
             />
           )}
@@ -195,6 +241,7 @@ export const EmployeeProfile = () => {
               resource="assignments"
               text="+ CREATE"
               recordId={DisplayRecordCurrentId()}
+              record={GetLatestAssignment()}
               source="employeeProfile"
             />
           )}
