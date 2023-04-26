@@ -12,6 +12,7 @@ import {
   ExportButton,
   useListContext,
   SearchInput,
+  useLocaleState,
 } from "react-admin";
 import {
   Card,
@@ -175,10 +176,12 @@ export const EmployeeList = () => {
 
 const EmployeeInformation = ({ renderAs = "list" }) => {
   const { data, isLoading } = useListContext();
+  const [locale] = useLocaleState();
+  
   if (isLoading) {
     return null;
   }
-
+  
   if (renderAs === "card") {
     return (
       <Grid container spacing={2} sx={{ marginTop: "1em" }}>
@@ -225,7 +228,7 @@ const EmployeeInformation = ({ renderAs = "list" }) => {
                         {record.personalEmail}
                       </Typography>
                       <Typography noWrap align="center">
-                        <DateField source="startDate" />
+                        <DateField source="startDate" locales={locale} />
                       </Typography>
                       <Typography noWrap align="center">
                         {record.state} / {record.country}
@@ -251,17 +254,19 @@ const EmployeeInformation = ({ renderAs = "list" }) => {
     );
   } else {
     return (
-      <Datagrid rowClick="edit">
+      <Datagrid rowClick="show">
         <TextField source="internalId" />
         <TextField source="firstName" />
         <TextField source="lastName" />
         <TextField source="personalEmail" />
-        <TextField source="startDate" />
+        <DateField source="startDate" locales={locale} />
         <TextField source="city" />
         <TextField source="country" />
         <TextField source="client" />
         <TextField source="project" />
         <TextField source="role" />
+        <ShowButton />
+        {HasPermissions("employees", "update") && <EditButton />}
       </Datagrid>
     );
   }

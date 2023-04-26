@@ -6,6 +6,7 @@ import {
   List,
   TextField,
   ReferenceField,
+  useLocaleState,
 } from "react-admin";
 import CreateForm from "./components/forms/CreateForm";
 import EditForm from "./components/forms/EditForm";
@@ -52,7 +53,9 @@ const formData = [
   },
 ];
 
-export const ClientList = () => (
+export const ClientList = () => {
+  const [locale] = useLocaleState();
+  return (
   <List actions={<ListActions entity={"clients"} />}>
     <Datagrid>
       <TextField source="name" />
@@ -60,18 +63,19 @@ export const ClientList = () => (
         <TextField source="name" />
       </ReferenceField>
       <TextField source="address" />
-      <DateField source="zipCode" />
+      <TextField source="zipCode" />
       <TextField source="city" />
       <TextField source="state" />
       <TextField source="country" />
       <TextField source="contactFullName" />
       <TextField source="contactEmail" />
       <TextField source="preferredCurrency" />
-      <TextField source="modifiedAt" />
+      <DateField source="modifiedAt" locales={locale} />
+      <DateField source="createdAt" locales={locale} />
       {HasPermissions("clients", "update") && <EditButton variant="outlined" />}
     </Datagrid>
   </List>
-);
+)};
 
 export const ClientEdit = () => <EditForm formData={formData} title="Client" />;
 
