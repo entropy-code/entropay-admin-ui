@@ -5,14 +5,8 @@ import {
   ProjectTypeEdit,
   ProjectTypeCreate,
 } from "./projectTypes";
-import {
-    EmployeeCreate,
-    EmployeeEdit,
-    EmployeeList,
-} from "./employees";
-import {
-    EmployeeProfile,
-} from "./employeeProfiles";
+import { EmployeeCreate, EmployeeEdit, EmployeeList } from "./employees";
+import { EmployeeProfile } from "./employeeProfiles";
 import { CompanyList, CompanyEdit, CompanyCreate } from "./company";
 import { ContractList, ContractEdit, ContractCreate } from "./contracts";
 import { SeniorityList, SeniorityEdit, SeniorityCreate } from "./seniorities";
@@ -28,6 +22,7 @@ import {
   TechnologiesCreate,
 } from "./technologies";
 import { ListGuesser } from "react-admin";
+import { LeaveTypeCreate, LeaveTypeEdit, LeaveTypeList } from "./leaveTypes";
 
 export const resourceMap = [
   {
@@ -106,6 +101,13 @@ export const resourceMap = [
     list: TechnologiesList,
     edit: TechnologiesEdit,
     create: TechnologiesCreate,
+    show: null,
+  },
+  {
+    entity: "leave-types",
+    list: LeaveTypeList,
+    edit: LeaveTypeEdit,
+    create: LeaveTypeCreate,
     show: null,
   },
 ];
