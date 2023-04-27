@@ -230,7 +230,7 @@ export const EmployeeProfile = () => {
       </Tab>
       <Tab label="Assigments">
         <ReferenceManyField
-          label="Assignments"
+          label=""
           reference="assignments"
           target="employeeId"
           sort={{ field: "startDate", order: "DESC" }}
@@ -248,6 +248,11 @@ export const EmployeeProfile = () => {
           <Datagrid>
             <ReferenceField source="projectId" reference="projects">
               <TextField source="name" />
+            </ReferenceField>
+            <ReferenceField source="projectId" reference="projects" label="Client">
+              <ReferenceField source="clientId" reference="clients">
+                <TextField source="name" />
+              </ReferenceField>
             </ReferenceField>
             <DateField source="startDate" locales={locale}/>
             <DateField source="endDate" locales={locale}/>
