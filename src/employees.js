@@ -13,6 +13,7 @@ import {
   useListContext,
   SearchInput,
   useLocaleState,
+  downloadCSV,
 } from "react-admin";
 import {
   Card,
@@ -40,6 +41,7 @@ import { HasPermissions } from "./components/layout/CustomActions";
 import RowRadioButtonGroup from "./components/buttons/RowRadioButtonGroup";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import jsonExport from "jsonexport/dist";
 
 const COLOR_BG = [
   red[500],
@@ -121,6 +123,33 @@ const formData = [
 
 const employeeFilters = [<SearchInput source="q" alwaysOn />];
 
+const exporter = (employees) => {
+  const employeesForExport = employees.map((employee) => {
+    return fieldsList.reduce((acc, field) => {
+      return { ...acc, [field]: employee[field] }; // align list fields to export with employee fields list
+    }, {});
+  });
+
+  jsonExport(
+    employeesForExport,
+    (err, csv) => {
+      downloadCSV(csv, "employees"); // download as 'employees.csv` file
+    }
+  );
+};
+
+const fieldsList = [
+  "firstName",
+  "lastName",
+  "personalEmail",
+  "startDate",
+  "city",
+  "country",
+  "client",
+  "project",
+  "role",
+];
+
 export const EmployeeList = () => {
   const [viewOptionValue, setRadioValue] = useState("card");
 
@@ -147,6 +176,7 @@ export const EmployeeList = () => {
       component="div"
       actions={false}
       filters={employeeFilters}
+      exporter={exporter}
     >
       <>
         <TopToolbar
@@ -255,16 +285,9 @@ const EmployeeInformation = ({ renderAs = "list" }) => {
   } else {
     return (
       <Datagrid rowClick="show">
-        <TextField source="internalId" />
-        <TextField source="firstName" />
-        <TextField source="lastName" />
-        <TextField source="personalEmail" />
-        <DateField source="startDate" locales={locale} />
-        <TextField source="city" />
-        <TextField source="country" />
-        <TextField source="client" />
-        <TextField source="project" />
-        <TextField source="role" />
+        {fieldsList.map((field) => (
+          <TextField source={field} />
+        ))}
         <ShowButton />
         {HasPermissions("employees", "update") && <EditButton />}
       </Datagrid>
