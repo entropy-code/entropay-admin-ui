@@ -159,7 +159,7 @@ export const EmployeeList = () => {
       component="div"
       actions={false}
       filters={employeeFilters}
-      exporter={exporter(fieldsList)}
+      exporter={exporter(fieldsList,"employees")}
     >
       <>
         <TopToolbar
@@ -267,7 +267,7 @@ const EmployeeInformation = ({ renderAs = "list" }) => {
     );
   } else {
     return (
-        <ListBuilder fieldsList={fieldsList} locale={locale} />
+        <ListBuilder fieldsList={fieldsList} locale={locale} resource="employees"/>
     );
   }
 };
