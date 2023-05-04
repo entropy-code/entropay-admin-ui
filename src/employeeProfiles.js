@@ -17,6 +17,8 @@ import {
   ReferenceField,
   NumberField,
   useGetRecordId,
+  useGetManyReference,
+  useGetOne,
   useLocaleState,
 } from "react-admin";
 import { Avatar, Box, Divider, Grid } from "@mui/material";
@@ -32,6 +34,49 @@ const activeContractRowStyle = (record) => ({
 
 const DisplayRecordCurrentId = () => {
   return useGetRecordId();
+};
+
+const GetActiveContract = () => {
+  const employeeId = useGetRecordId();
+
+  const { data } = useGetManyReference("contracts", {
+    target: "employeeId",
+    id: employeeId,
+    filter: {
+      active: true,
+    },
+  });
+
+  const activeContract = React.useMemo(() => {
+    if (Array.isArray(data)) {
+      return data[0];
+    }
+    return undefined;
+  }, [data]);
+
+  return activeContract;
+};
+
+const GetLatestAssignment = () => {
+  const employeeId = useGetRecordId();
+
+  const { data: employee } = useGetOne("employees", { id: employeeId });
+
+  const { data: assignments } = useGetManyReference("assignments", {
+    target: "employeeId",
+    id: employeeId,
+  });
+  // It will be changed when the active field is added to assignments
+
+
+  const latestAssignment = React.useMemo(() => {
+    if (Array.isArray(assignments)) {
+      return assignments.find((a) => a.id === employee.lastAssignmentId);
+    }
+    return undefined;
+  }, [assignments, employee]);
+
+  return latestAssignment;
 };
 
 export const EmployeeProfile = () => {
@@ -159,102 +204,106 @@ export const EmployeeProfile = () => {
           </ArrayField>
         </Tab>
         <Tab label="Contracts">
-          <ReferenceManyField
-            label=""
-            reference="contracts"
-            target="employeeId"
-            sort={{ field: "startDate", order: "DESC" }}
-          >
-            {HasPermissions("contracts", "create") && (
-              <RedirectButton
-                form="create"
-                resource="contracts"
-                text="+ CREATE"
-                recordId={DisplayRecordCurrentId()}
-                source="employeeProfile"
-              />
-            )}
-            <Datagrid rowStyle={activeContractRowStyle}>
-              <ReferenceField
-                source="contractType"
-                reference="contracts/contract-types"
-              >
-                <ChipField source="value" />
-              </ReferenceField>
-              <FunctionField
-                label="Status"
-                sortBy="active"
-                sortByOrder="ASC"
-                render={(record) =>
-                  record.active === true ? "Active" : "Inactive"
-                }
-              />
-              ;
-              <ReferenceField source="companyId" reference="companies">
+        <ReferenceManyField
+          label=""
+          reference="contracts"
+          target="employeeId"
+          sort={{ field: "startDate", order: "DESC" }}
+        >
+          {HasPermissions("contracts", "create") && (
+            <RedirectButton
+              form="create"
+              resource="contracts"
+              text="+ CREATE"
+              recordId={DisplayRecordCurrentId()}
+              record={GetActiveContract()}
+              source="employeeProfile"
+            />
+          )}
+          <Datagrid rowStyle={activeContractRowStyle}>
+            <ReferenceField
+              source="contractType"
+              reference="contracts/contract-types"
+            >
+              <ChipField source="value" />
+            </ReferenceField>
+            <FunctionField
+              label="Status"
+              sortBy="active"
+              sortByOrder="ASC"
+              render={(record) =>
+                record.active === true ? "Active" : "Inactive"
+              }
+            />
+            ;
+            <ReferenceField source="companyId" reference="companies">
+              <TextField source="name" />
+            </ReferenceField>
+            <DateField source="startDate" locales={locale}/>
+            <DateField source="endDate" locales={locale}/>
+            <ReferenceField source="roleId" reference="roles">
+              <ChipField source="name" />
+            </ReferenceField>
+            <ReferenceField source="seniorityId" reference="seniorities">
+              <ChipField source="name" />
+            </ReferenceField>
+            <NumberField source="hoursPerMonth" />
+            <NumberField source="vacations" />
+            <TextField source="benefits" />
+            <TextField source="notes" />
+            {HasPermissions("contracts", "update") && <EditButton />}
+          </Datagrid>
+        </ReferenceManyField>
+      </Tab>
+      <Tab label="Assigments">
+        <ReferenceManyField
+          label=""
+          reference="assignments"
+          target="employeeId"
+          sort={{ field: "startDate", order: "DESC" }}
+        >
+          {HasPermissions("assignments", "create") && (
+            <RedirectButton
+              form="create"
+              resource="assignments"
+              text="+ CREATE"
+              recordId={DisplayRecordCurrentId()}
+              record={GetLatestAssignment()}
+              source="employeeProfile"
+            />
+          )}
+          <Datagrid>
+            <ReferenceField source="projectId" reference="projects">
+              <TextField source="name" />
+            </ReferenceField>
+            <ReferenceField source="projectId" reference="projects" label="Client">
+              <ReferenceField source="clientId" reference="clients">
                 <TextField source="name" />
               </ReferenceField>
-              <DateField source="startDate" locales={locale} />
-              <DateField source="endDate" locales={locale} />
-              <ReferenceField source="roleId" reference="roles">
-                <ChipField source="name" />
-              </ReferenceField>
-              <ReferenceField source="seniorityId" reference="seniorities">
-                <ChipField source="name" />
-              </ReferenceField>
-              <NumberField source="hoursPerMonth" />
-              <NumberField source="vacations" />
-              <TextField source="benefits" />
-              <TextField source="notes" />
-              {HasPermissions("contracts", "update") && <EditButton />}
-            </Datagrid>
-          </ReferenceManyField>
-        </Tab>
-        <Tab label="Assigments">
-          <ReferenceManyField
-            label="Assignments"
-            reference="assignments"
-            target="employeeId"
-            sort={{ field: "startDate", order: "DESC" }}
-          >
-            {HasPermissions("assignments", "create") && (
-              <RedirectButton
-                form="create"
-                resource="assignments"
-                text="+ CREATE"
-                recordId={DisplayRecordCurrentId()}
-                source="employeeProfile"
-              />
-            )}
-            <Datagrid>
-              <ReferenceField source="projectId" reference="projects">
-                <TextField source="name" />
-              </ReferenceField>
-              <DateField source="startDate" locales={locale} />
-              <DateField source="endDate" locales={locale} />
-              <ReferenceField source="roleId" reference="roles">
-                <ChipField source="name" />
-              </ReferenceField>
-              <NumberField source="hoursPerMonth" />
-              <TextField source="billableRate" />
-              <ReferenceField
-                source="currency"
-                reference="contracts/currencies"
-              >
-                <TextField source="name" />
-              </ReferenceField>
-              <TextField source="labourHours" />
-              <ReferenceField source="seniorityId" reference="seniorities">
-                <ChipField source="name" />
-              </ReferenceField>
-              {HasPermissions("assignments", "update") && <EditButton />}
-            </Datagrid>
-          </ReferenceManyField>
-        </Tab>
-        {/*<Tab label="Vacations and Licencies"></Tab>
+            </ReferenceField>
+            <DateField source="startDate" locales={locale}/>
+            <DateField source="endDate" locales={locale}/>
+            <ReferenceField source="roleId" reference="roles">
+              <ChipField source="name" />
+            </ReferenceField>
+            <NumberField source="hoursPerMonth" />
+            <TextField source="billableRate" />
+            <ReferenceField source="currency" reference="contracts/currencies">
+              <TextField source="name" />
+            </ReferenceField>
+            <TextField source="labourHours" />
+            <ReferenceField source="seniorityId" reference="seniorities">
+              <ChipField source="name" />
+            </ReferenceField>
+            {HasPermissions("assignments", "update") && <EditButton />}
+          </Datagrid>
+        </ReferenceManyField>
+      </Tab>
+      {/*<Tab label="Vacations and Licencies"></Tab>
       <Tab label="Documents"></Tab>
       Hidden empty tabs until developed
       */}
-      </TabbedShowLayout>
+    </TabbedShowLayout>
     </Show>
   );
 };
