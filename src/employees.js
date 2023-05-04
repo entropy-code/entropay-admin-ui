@@ -1,9 +1,7 @@
 import * as React from "react";
 import {
-  Datagrid,
   DateField,
   List,
-  TextField,
   RecordContextProvider,
   ShowButton,
   EditButton,
@@ -13,7 +11,6 @@ import {
   useListContext,
   SearchInput,
   useLocaleState,
-  downloadCSV,
 } from "react-admin";
 import {
   Card,
@@ -41,7 +38,8 @@ import { HasPermissions } from "./components/layout/CustomActions";
 import RowRadioButtonGroup from "./components/buttons/RowRadioButtonGroup";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import jsonExport from "jsonexport/dist";
+import ListBuilder from "./components/forms/ListBuilder";
+import { exporter } from './utils/exporter';
 
 const COLOR_BG = [
   red[500],
@@ -123,31 +121,16 @@ const formData = [
 
 const employeeFilters = [<SearchInput source="q" alwaysOn />];
 
-const exporter = (employees) => {
-  const employeesForExport = employees.map((employee) => {
-    return fieldsList.reduce((acc, field) => {
-      return { ...acc, [field]: employee[field] }; // align list fields to export with employee fields list
-    }, {});
-  });
-
-  jsonExport(
-    employeesForExport,
-    (err, csv) => {
-      downloadCSV(csv, "employees"); // download as 'employees.csv` file
-    }
-  );
-};
-
 const fieldsList = [
-  "firstName",
-  "lastName",
-  "personalEmail",
-  "startDate",
-  "city",
-  "country",
-  "client",
-  "project",
-  "role",
+  { name: "firstName", type: "text" },
+  { name: "lastName", type: "text" },
+  { name: "personalEmail", type: "text" },
+  { name: "startDate", type: "date" },
+  { name: "city", type: "text" },
+  { name: "country", type: "text" },
+  { name: "client", type: "text" },
+  { name: "project", type: "text" },
+  { name: "role", type: "text" },
 ];
 
 export const EmployeeList = () => {
@@ -169,14 +152,14 @@ export const EmployeeList = () => {
       value: "list",
     },
   ];
-
+  
   return (
     <List
       sort={{ field: "internalId", order: "ASC" }}
       component="div"
       actions={false}
       filters={employeeFilters}
-      exporter={exporter}
+      exporter={exporter(fieldsList)}
     >
       <>
         <TopToolbar
@@ -284,13 +267,7 @@ const EmployeeInformation = ({ renderAs = "list" }) => {
     );
   } else {
     return (
-      <Datagrid rowClick="show">
-        {fieldsList.map((field) => (
-          <TextField source={field} />
-        ))}
-        <ShowButton />
-        {HasPermissions("employees", "update") && <EditButton />}
-      </Datagrid>
+        <ListBuilder fieldsList={fieldsList} locale={locale} />
     );
   }
 };
