@@ -1,9 +1,7 @@
 import * as React from "react";
 import {
-  Datagrid,
   DateField,
   List,
-  TextField,
   RecordContextProvider,
   ShowButton,
   EditButton,
@@ -40,6 +38,8 @@ import { HasPermissions } from "./components/layout/CustomActions";
 import RowRadioButtonGroup from "./components/buttons/RowRadioButtonGroup";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import ListBuilder from "./components/forms/ListBuilder";
+import { exporter } from './utils/exporter';
 
 const COLOR_BG = [
   red[500],
@@ -121,6 +121,18 @@ const formData = [
 
 const employeeFilters = [<SearchInput source="q" alwaysOn />];
 
+const fieldsList = [
+  { name: "firstName", type: "text" },
+  { name: "lastName", type: "text" },
+  { name: "personalEmail", type: "text" },
+  { name: "startDate", type: "date" },
+  { name: "city", type: "text" },
+  { name: "country", type: "text" },
+  { name: "client", type: "text" },
+  { name: "project", type: "text" },
+  { name: "role", type: "text" },
+];
+
 export const EmployeeList = () => {
   const [viewOptionValue, setRadioValue] = useState("card");
 
@@ -140,13 +152,14 @@ export const EmployeeList = () => {
       value: "list",
     },
   ];
-
+  
   return (
     <List
       sort={{ field: "internalId", order: "ASC" }}
       component="div"
       actions={false}
       filters={employeeFilters}
+      exporter={exporter(fieldsList,"employees")}
     >
       <>
         <TopToolbar
@@ -254,20 +267,7 @@ const EmployeeInformation = ({ renderAs = "list" }) => {
     );
   } else {
     return (
-      <Datagrid rowClick="show">
-        <TextField source="internalId" />
-        <TextField source="firstName" />
-        <TextField source="lastName" />
-        <TextField source="personalEmail" />
-        <DateField source="startDate" locales={locale} />
-        <TextField source="city" />
-        <TextField source="country" />
-        <TextField source="client" />
-        <TextField source="project" />
-        <TextField source="role" />
-        <ShowButton />
-        {HasPermissions("employees", "update") && <EditButton />}
-      </Datagrid>
+        <ListBuilder fieldsList={fieldsList} locale={locale} resource="employees"/>
     );
   }
 };
