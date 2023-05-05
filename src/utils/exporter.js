@@ -8,8 +8,6 @@ export const exporter = (fieldsList, resource) => (records) => {
       return acc;
     }, {});
   });
-
-  console.log(recordsForExport);
   jsonExport(recordsForExport, (err, csv) => {
     downloadCSV(csv, resource); // download as 'resource.csv` file
   });

@@ -17,13 +17,17 @@ const ListBuilder = ({ fieldsList, locale, hasShowButton, resource }) => {
         fieldsList.map((field, index) => {
           switch (field.type) {
             case "text":
-              return <TextField key={index} source={field.name} />;
+              return (
+                <TextField key={index} source={field.name} />
+              );
             case "date":
               return (
                 <DateField key={index} source={field.name} locale={locale} />
               );
             case "number":
-              return <NumberField key={index} source={field.name} />;
+              return (
+                <NumberField key={index} source={field.name} />
+              );
             case "reference":
               return (
                 <ReferenceField
@@ -38,7 +42,7 @@ const ListBuilder = ({ fieldsList, locale, hasShowButton, resource }) => {
               return (
                 <ReferenceField
                   key={index}
-                  source={field.source}
+                  source={field.name}
                   reference={field.reference}
                 >
                   {field.children}
