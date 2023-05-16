@@ -8,7 +8,7 @@ import {
   useLocaleState,
   SelectInput,
   ReferenceField,
-  useGetList,
+  ReferenceInput,
 } from "react-admin";
 import CreateForm from "./components/forms/CreateForm";
 import EditForm from "./components/forms/EditForm";
@@ -34,24 +34,31 @@ const formData = [
   },
 ];
 
+const YearOptions = () => {
+  const currentYear = new Date().getFullYear();
+  const years = [];
+  for (let year = currentYear - 4; year <= currentYear + 4; year++) {
+    years.push({ id: year.toString(), name: year.toString() });
+  }
+  return years;
+};
 
-
-
-const holidayFilters = (data) => [
+const holidayFilters = () => [
+  <ReferenceInput source="countryId" reference="countries" alwaysOn>
+    <SelectInput
+      source="countryId"
+      emptyText="All countries"
+      optionText="name"
+      optionValue="id"
+      label="Countries"
+      style={{ marginTop: "20px", marginBottom: "20px" }}
+    />
+  </ReferenceInput>,
   <SelectInput
-    source="q"
-    label="Countries"    
-    choices={data}
-    alwaysOn
-    style={{ marginTop: "20px", marginBottom: "20px" }}
-  />,
-  <SelectInput
-    source="year"
-    choices={[
-      { id: "2022", name: "2022" },
-      { id: "2023", name: "2023" },
-      { id: "2024", name: "2024" },
-    ]}
+    source="dateKey"
+    label="Year"
+    emptyText="All years"
+    choices={YearOptions()}
     alwaysOn
     style={{ marginTop: "20px", marginBottom: "20px" }}
   />,
@@ -59,10 +66,9 @@ const holidayFilters = (data) => [
 
 export const HolidayList = () => {
   const [locale] = useLocaleState();
-  const { data } = useGetList("countries");
   return (
-    <div style={{ margin: "20px" }}>
-      <List filters={holidayFilters(data)}>
+    <div style={{ margin: "20px" }} >
+      <List filters={holidayFilters()} >
         <Datagrid rowClick="edit">
           <DateField source="date" locales={locale} />
           <TextField source="description" />
