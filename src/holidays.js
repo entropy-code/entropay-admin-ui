@@ -37,7 +37,7 @@ const formData = [
 const YearOptions = () => {
   const currentYear = new Date().getFullYear();
   const years = [];
-  for (let year = currentYear - 4; year <= currentYear + 4; year++) {
+  for (let year = currentYear - 2; year <= currentYear + 2; year++) {
     years.push({ id: year.toString(), name: year.toString() });
   }
   return years;
@@ -58,7 +58,7 @@ const holidayFilters = () => [
     source="dateKey"
     label="Year"
     emptyText="All years"
-    choices={YearOptions()}
+    choices={YearOptions()} // get years options
     alwaysOn
     style={{ marginTop: "20px", marginBottom: "20px" }}
   />,
