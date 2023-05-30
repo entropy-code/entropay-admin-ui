@@ -9,6 +9,8 @@ import {
   SelectInput,
   ReferenceField,
   ReferenceInput,
+  useGetList,
+  Filter,
 } from "react-admin";
 import CreateForm from "./components/forms/CreateForm";
 import EditForm from "./components/forms/EditForm";
@@ -43,32 +45,42 @@ const YearOptions = () => {
   return years;
 };
 
-const holidayFilters = () => [
-  <ReferenceInput source="countryId" reference="countries" alwaysOn>
+const HolidayFilters = () => (
+  <Filter>
+    <ReferenceInput source="countryId" reference="countries" alwaysOn>
+      <SelectInput
+        source="countryId"
+        emptyText="All countries"
+        optionText="name"
+        optionValue="id"
+        label="Countries"
+        style={{ marginTop: "20px", marginBottom: "20px" }}
+      />
+    </ReferenceInput>
     <SelectInput
-      source="countryId"
-      emptyText="All countries"
-      optionText="name"
-      optionValue="id"
-      label="Countries"
+      source="year"
+      label="Year"
+      emptyText="All years"
+      choices={YearOptions()} // get years options
+      alwaysOn
       style={{ marginTop: "20px", marginBottom: "20px" }}
     />
-  </ReferenceInput>,
-  <SelectInput
-    source="dateKey"
-    label="Year"
-    emptyText="All years"
-    choices={YearOptions()} // get years options
-    alwaysOn
-    style={{ marginTop: "20px", marginBottom: "20px" }}
-  />,
-];
+  </Filter>
+);
+
+const GetDefaultCountryId = (countries) => {
+  const defaultCountry = countries.find((country) => country.name === "Argentina");
+  return defaultCountry?.id || null;
+};
 
 export const HolidayList = () => {
   const [locale] = useLocaleState();
+  const { data: countries } = useGetList("countries");
+  const defaultCountryId = GetDefaultCountryId(countries);
+  localStorage.removeItem("RaStore.holidays.listParams");
   return (
     <div style={{ margin: "20px" }} >
-      <List filters={holidayFilters()} >
+      <List filters={HolidayFilters()} filterDefaultValues={{countryId: defaultCountryId ,year: "2023"}} perPage={50}>
         <Datagrid rowClick="edit">
           <DateField source="date" locales={locale} />
           <TextField source="description" />
