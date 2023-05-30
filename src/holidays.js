@@ -68,15 +68,15 @@ const HolidayFilters = () => (
   </Filter>
 );
 
-const GetDefaultCountryId = (countries) => {
-  const defaultCountry = countries.find((country) => country.name === "Argentina");
+const GetDefaultCountryId = () => {
+  const { data: countries } = useGetList("countries");
+  const defaultCountry = countries?.find((country) => country.name === "Argentina");
   return defaultCountry?.id || null;
 };
 
 export const HolidayList = () => {
   const [locale] = useLocaleState();
-  const { data: countries } = useGetList("countries");
-  const defaultCountryId = GetDefaultCountryId(countries);
+  const defaultCountryId = GetDefaultCountryId();
   localStorage.removeItem("RaStore.holidays.listParams");
   return (
     <div style={{ margin: "20px" }} >
