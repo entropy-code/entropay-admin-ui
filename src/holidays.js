@@ -36,6 +36,12 @@ const formData = [
   },
 ];
 
+const GetDefaultCountryId = () => {
+  const { data: countries } = useGetList("countries");
+  const defaultCountry = countries?.find((country) => country.name === "Argentina");
+  return defaultCountry?.id || null;
+};
+
 const YearOptions = () => {
   const currentYear = new Date().getFullYear();
   const years = [];
@@ -68,19 +74,14 @@ const HolidayFilters = () => (
   </Filter>
 );
 
-const GetDefaultCountryId = () => {
-  const { data: countries } = useGetList("countries");
-  const defaultCountry = countries?.find((country) => country.name === "Argentina");
-  return defaultCountry?.id || null;
-};
-
 export const HolidayList = () => {
   const [locale] = useLocaleState();
   const defaultCountryId = GetDefaultCountryId();
+  const currentYear = new Date().getFullYear();
   localStorage.removeItem("RaStore.holidays.listParams");
   return (
     <div style={{ margin: "20px" }} >
-      <List filters={HolidayFilters()} filterDefaultValues={{countryId: defaultCountryId ,year: "2023"}} perPage={50}>
+      <List filters={HolidayFilters()} filterDefaultValues={{countryId: defaultCountryId ,year: currentYear}} perPage={50}>
         <Datagrid rowClick="edit">
           <DateField source="date" locales={locale} />
           <TextField source="description" />
