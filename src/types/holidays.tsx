@@ -42,18 +42,8 @@ interface IYear {
 }
 
 interface ICountry {
-  id:string;
-  name: string;
-}
-
-interface IHoliday {
   id: string;
-  countryId: string;
-  date: Date;
-  description: string;
-  deleted: boolean;
-  createdAt: Date;
-  modifiedAt: Date;
+  name: string;
 }
 
 const GetDefaultCountryId = (): string | null => {
@@ -62,7 +52,7 @@ const GetDefaultCountryId = (): string | null => {
     (country: ICountry) => country.name === "Argentina"
   );
   return defaultCountry?.id || null;
-};// TODO: get current country from locale
+}; // TODO: get current country from locale
 
 const YearOptions = (): IYear[] => {
   const currentYear = new Date().getFullYear();
@@ -96,12 +86,14 @@ const HolidayFilters = () => (
   </Filter>
 );
 
-
 export const HolidayList = () => {
   const [locale] = useLocaleState();
   const defaultCountryId: string = GetDefaultCountryId();
   const currentYear: number = new Date().getFullYear();
   localStorage.removeItem("RaStore.holidays.listParams"); // move
+  if (!defaultCountryId || !currentYear) {
+    return <></>;
+  }
   return (
     <div style={{ margin: "20px" }}>
       <List
