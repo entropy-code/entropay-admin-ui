@@ -15,8 +15,9 @@ import {
 import CreateForm from "./components/forms/CreateForm";
 import EditForm from "./components/forms/EditForm";
 import { CustomizableChipField, FilteredDatagrid } from "./components/fields";
+import { IContract, IPaymentSettlement } from "./types";
 
-function disabledCheck(source) {
+function disabledCheck(source: string) {
   return source === "employeeProfile";
 }
 
@@ -126,11 +127,13 @@ export const ContractList = () => {
         </ReferenceField>
         <FunctionField
           label="Status"
-          render={(record) => (record.active === true ? "Active" : "Inactive")}
+          render={(record: IContract) =>
+            record.active === true ? "Active" : "Inactive"
+          }
         />
         <ArrayField source="paymentSettlement" label="Salary">
           <SingleFieldList linkType={false}>
-            <CustomizableChipField source="salary">
+            <CustomizableChipField<IPaymentSettlement>>
               {(record) => {
                 if (record) {
                   const salary =
@@ -140,7 +143,6 @@ export const ContractList = () => {
                     .toLowerCase()}`;
                   return label;
                 }
-                return null;
               }}
             </CustomizableChipField>
           </SingleFieldList>
