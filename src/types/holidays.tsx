@@ -12,8 +12,8 @@ import {
   useGetList,
   Filter,
 } from "react-admin";
-import CreateForm from "./components/forms/CreateForm";
-import EditForm from "./components/forms/EditForm";
+import CreateForm from "../components/forms/CreateForm";
+import EditForm from "../components/forms/EditForm";
 
 const formData = [
   {
@@ -36,20 +36,42 @@ const formData = [
   },
 ];
 
-const GetDefaultCountryId = () => {
-  const { data: countries } = useGetList("countries");
-  const defaultCountry = countries?.find((country) => country.name === "Argentina");
-  return defaultCountry?.id || null;
-};
+interface IYear {
+  id: string;
+  name: string;
+}
 
-const YearOptions = () => {
+interface ICountry {
+  id:string;
+  name: string;
+}
+
+interface IHoliday {
+  id: string;
+  countryId: string;
+  date: Date;
+  description: string;
+  deleted: boolean;
+  createdAt: Date;
+  modifiedAt: Date;
+}
+
+const GetDefaultCountryId = (): string | null => {
+  const { data: countries } = useGetList<ICountry>("countries");
+  const defaultCountry = countries?.find(
+    (country: ICountry) => country.name === "Argentina"
+  );
+  return defaultCountry?.id || null;
+};// TODO: get current country from locale
+
+const YearOptions = (): IYear[] => {
   const currentYear = new Date().getFullYear();
-  const years = [];
+  const years: IYear[] = [];
   for (let year = currentYear - 2; year <= currentYear + 2; year++) {
     years.push({ id: year.toString(), name: year.toString() });
   }
   return years;
-};
+}; // TODO: implement new endpoint with list or year with created holidays
 
 const HolidayFilters = () => (
   <Filter>
@@ -74,14 +96,19 @@ const HolidayFilters = () => (
   </Filter>
 );
 
+
 export const HolidayList = () => {
   const [locale] = useLocaleState();
-  const defaultCountryId = GetDefaultCountryId();
-  const currentYear = new Date().getFullYear();
-  localStorage.removeItem("RaStore.holidays.listParams");
+  const defaultCountryId: string = GetDefaultCountryId();
+  const currentYear: number = new Date().getFullYear();
+  localStorage.removeItem("RaStore.holidays.listParams"); // move
   return (
-    <div style={{ margin: "20px" }} >
-      <List filters={HolidayFilters()} filterDefaultValues={{countryId: defaultCountryId ,year: currentYear}} perPage={50}>
+    <div style={{ margin: "20px" }}>
+      <List
+        filters={HolidayFilters()}
+        filterDefaultValues={{ countryId: defaultCountryId, year: currentYear }}
+        perPage={50}
+      >
         <Datagrid rowClick="edit">
           <DateField source="date" locales={locale} />
           <TextField source="description" />
