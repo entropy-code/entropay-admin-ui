@@ -14,7 +14,6 @@ import {
 } from "react-admin";
 import CreateForm from "../components/forms/CreateForm";
 import EditForm from "../components/forms/EditForm";
-import { CleanFilters } from "../utils/localStorageManager";
 
 const formData = [
   {
@@ -91,7 +90,6 @@ export const HolidayList = () => {
   const [locale] = useLocaleState();
   const defaultCountryId: string = GetDefaultCountryId();
   const currentYear: number = new Date().getFullYear();
-  CleanFilters("holidays");
   if (!defaultCountryId || !currentYear) {
     return <></>;
   }
