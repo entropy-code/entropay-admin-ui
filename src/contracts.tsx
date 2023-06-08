@@ -1,6 +1,5 @@
 import * as React from "react";
 import {
-  Datagrid,
   DateField,
   EditButton,
   List,
@@ -15,9 +14,10 @@ import {
 } from "react-admin";
 import CreateForm from "./components/forms/CreateForm";
 import EditForm from "./components/forms/EditForm";
-import { CustomizableChipField } from "./components/fields/CustomizableChipField";
+import { CustomizableChipField, FilteredDatagrid } from "./components/fields";
+import { IContract, IPaymentSettlement } from "./types";
 
-function disabledCheck(source) {
+function disabledCheck(source: string) {
   return source === "employeeProfile";
 }
 
@@ -106,59 +106,64 @@ const formData = [
 export const ContractList = () => {
   const [locale] = useLocaleState();
   return (
-  <List>
-    <Datagrid rowClick="edit">
-      <ReferenceField source="companyId" reference="companies">
-        <TextField source="name" />
-      </ReferenceField>
-      <ReferenceField
-        source="contractType"
-        reference="contracts/contract-types"
+    <List>
+      <FilteredDatagrid
+        dataGridProps={{ rowClick: "edit" }}
+        filterFn={(data) => data.active}
       >
-        <TextField source="value" />
-      </ReferenceField>
-      <ReferenceField source="employeeId" reference="employees">
-        <WrapperField label="Full Name">
-          <TextField source="lastName" /> <TextField source="firstName" />
-        </WrapperField>
-      </ReferenceField>
-      <FunctionField
-        label="Status"
-        render={(record) => (record.active === true ? "Active" : "Inactive")}
-      />
-      <ArrayField source="paymentSettlement" label="Salary">
-        <SingleFieldList linkType={false}>
-          <CustomizableChipField source="salary">
-            {(record) => {
-              if (record) {
-                const salary =
-                  `${record.salary}` === "null" ? "-" : `${record.salary}`;
-                const label = `${record.currency} ${salary}/${record.modality
-                  .charAt(0)
-                  .toLowerCase()}`;
-                return label;
-              }
-              return null;
-            }}
-          </CustomizableChipField>
-        </SingleFieldList>
-      </ArrayField>
-      <DateField source="startDate" locales={locale} />
-      <DateField source="endDate" locales={locale} />
-      <ReferenceField source="roleId" reference="roles">
-        <TextField source="name" />
-      </ReferenceField>
-      <ReferenceField source="seniorityId" reference="seniorities">
-        <TextField source="name" />
-      </ReferenceField>
-      <NumberField source="hoursPerMonth" />
-      <NumberField source="vacations" />
-      <TextField source="benefits" />
-      <TextField source="notes" />
-      <EditButton />
-    </Datagrid>
-  </List>
-)};
+        <ReferenceField source="companyId" reference="companies">
+          <TextField source="name" />
+        </ReferenceField>
+        <ReferenceField
+          source="contractType"
+          reference="contracts/contract-types"
+        >
+          <TextField source="value" />
+        </ReferenceField>
+        <ReferenceField source="employeeId" reference="employees">
+          <WrapperField label="Full Name">
+            <TextField source="lastName" /> <TextField source="firstName" />
+          </WrapperField>
+        </ReferenceField>
+        <FunctionField
+          label="Status"
+          render={(record: IContract) =>
+            record.active === true ? "Active" : "Inactive"
+          }
+        />
+        <ArrayField source="paymentSettlement" label="Salary">
+          <SingleFieldList linkType={false}>
+            <CustomizableChipField<IPaymentSettlement>>
+              {(record) => {
+                if (record) {
+                  const salary =
+                    `${record.salary}` === "null" ? "-" : `${record.salary}`;
+                  const label = `${record.currency} ${salary}/${record.modality
+                    .charAt(0)
+                    .toLowerCase()}`;
+                  return label;
+                }
+              }}
+            </CustomizableChipField>
+          </SingleFieldList>
+        </ArrayField>
+        <DateField source="startDate" locales={locale} />
+        <DateField source="endDate" locales={locale} />
+        <ReferenceField source="roleId" reference="roles">
+          <TextField source="name" />
+        </ReferenceField>
+        <ReferenceField source="seniorityId" reference="seniorities">
+          <TextField source="name" />
+        </ReferenceField>
+        <NumberField source="hoursPerMonth" />
+        <NumberField source="vacations" />
+        <TextField source="benefits" />
+        <TextField source="notes" />
+        <EditButton />
+      </FilteredDatagrid>
+    </List>
+  );
+};
 
 export const ContractEdit = () => (
   <EditForm formData={formData} title="Contract" />
