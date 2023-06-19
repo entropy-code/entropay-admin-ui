@@ -11,6 +11,7 @@ import {
   useListContext,
   SearchInput,
   useLocaleState,
+  FilterButton,
 } from "react-admin";
 import {
   Card,
@@ -18,6 +19,7 @@ import {
   CardActions,
   Typography,
   CardActionArea,
+  Chip,
 } from "@mui/material";
 import {
   red,
@@ -39,7 +41,7 @@ import RowRadioButtonGroup from "./components/buttons/RowRadioButtonGroup";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import ListBuilder from "./components/forms/ListBuilder";
-import { exporter } from './utils/exporter';
+import { exporter } from "./utils/exporter";
 
 const COLOR_BG = [
   red[500],
@@ -119,7 +121,14 @@ const formData = [
   },
 ];
 
-const employeeFilters = [<SearchInput source="q" alwaysOn />];
+const QuickFilter = ({ label }) => {
+  return <Chip sx={{ marginBottom: 1 }} label={label} />;
+};
+
+const employeeFilters = [
+  <SearchInput source="q" alwaysOn />,
+  <QuickFilter source="active" label="Active" defaultValue={true} />,
+];
 
 const fieldsList = [
   { name: "firstName", type: "text" },
@@ -152,49 +161,48 @@ export const EmployeeList = () => {
       value: "list",
     },
   ];
-  
+
   return (
     <List
       sort={{ field: "internalId", order: "ASC" }}
       component="div"
-      actions={false}
+      actions={<FilterButton />}
       filters={employeeFilters}
-      exporter={exporter(fieldsList,"employees")}
+      exporter={exporter(fieldsList, "employees")}
     >
-      <>
-        <TopToolbar
-          sx={{
-            minHeight: { sm: 56 },
-            justifyContent: "space-between",
-          }}
-        >
-          <Box>
-            <RowRadioButtonGroup
-              title={"View mode"}
-              value={viewOptionValue}
-              handleChange={handleChange}
-              options={viewOptions}
-            />
-          </Box>
-          <Box>
-            {HasPermissions("employees", "create") && <CreateButton />}
-            <ExportButton />
-          </Box>
-        </TopToolbar>
-        <EmployeeInformation renderAs={viewOptionValue} />
-      </>
+      <TopToolbar
+        sx={{
+          minHeight: { sm: 56 },
+          justifyContent: "space-between",
+        }}
+      >
+        <Box>
+          <RowRadioButtonGroup
+            title={"View mode"}
+            value={viewOptionValue}
+            handleChange={handleChange}
+            options={viewOptions}
+          />
+        </Box>
+        <Box>
+          {HasPermissions("employees", "create") && <CreateButton />}
+          <ExportButton />
+        </Box>
+      </TopToolbar>
+      <EmployeeInformation renderAs={viewOptionValue} />
     </List>
   );
 };
 
 const EmployeeInformation = ({ renderAs = "list" }) => {
   const { data, isLoading } = useListContext();
+  console.log({ data });
   const [locale] = useLocaleState();
-  
+
   if (isLoading) {
     return null;
   }
-  
+
   if (renderAs === "card") {
     return (
       <Grid container spacing={2} sx={{ marginTop: "1em" }}>
@@ -216,9 +224,9 @@ const EmployeeInformation = ({ renderAs = "list" }) => {
                           height: 100,
                           bgcolor:
                             COLOR_BG[
-                              `${record.internalId}`.charAt(
-                                `${record.internalId}`.length - 1
-                              )
+                            `${record.internalId}`.charAt(
+                              `${record.internalId}`.length - 1
+                            )
                             ],
                           fontSize: 50,
                           margin: 2,
@@ -267,7 +275,11 @@ const EmployeeInformation = ({ renderAs = "list" }) => {
     );
   } else {
     return (
-        <ListBuilder fieldsList={fieldsList} locale={locale} resource="employees"/>
+      <ListBuilder
+        fieldsList={fieldsList}
+        locale={locale}
+        resource="employees"
+      />
     );
   }
 };
