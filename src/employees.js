@@ -196,7 +196,6 @@ export const EmployeeList = () => {
 
 const EmployeeInformation = ({ renderAs = "list" }) => {
   const { data, isLoading } = useListContext();
-  console.log({ data });
   const [locale] = useLocaleState();
 
   if (isLoading) {
@@ -224,9 +223,9 @@ const EmployeeInformation = ({ renderAs = "list" }) => {
                           height: 100,
                           bgcolor:
                             COLOR_BG[
-                            `${record.internalId}`.charAt(
-                              `${record.internalId}`.length - 1
-                            )
+                              `${record.internalId}`.charAt(
+                                `${record.internalId}`.length - 1
+                              )
                             ],
                           fontSize: 50,
                           margin: 2,

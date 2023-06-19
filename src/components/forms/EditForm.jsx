@@ -4,14 +4,13 @@ import Header from "../Header";
 import FormSection from "./FormSections";
 
 const EditForm = ({ formData, title }) => {
-
-const validateEntity = async (values) => {
-  const errors = {};
-  if(values.endDate <= values.startDate && values.endDate){
-    errors.endDate = "End Date can't be previous or equals to Start Date";
-  }
-  return errors;
-}
+  const validateEntity = async (values) => {
+    const errors = {};
+    if (values.endDate <= values.startDate && values.endDate) {
+      errors.endDate = "End Date can't be previous or equals to Start Date";
+    }
+    return errors;
+  };
 
   return (
     <Box m="10px">
@@ -23,8 +22,12 @@ const validateEntity = async (values) => {
         <SimpleForm validate={validateEntity}>
           <Box width="100%">
             {formData.map((item, index) => {
+              const keyName = item?.inputsList
+                ? item.title
+                : item.customSections.toString;
               return (
                 <Box
+                  key={keyName + index}
                   sx={{
                     borderLeft: 3,
                     borderColor: "#2196F3",
