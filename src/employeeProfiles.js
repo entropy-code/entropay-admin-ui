@@ -28,7 +28,7 @@ import { HasPermissions, ListActions } from "./components/layout/CustomActions";
 const COLOR_green = "#efe";
 const COLOR_white = "#white";
 
-const activeContractRowStyle = (record) => ({
+const activeValue = (record) => ({
   backgroundColor: record.active === true ? COLOR_green : COLOR_white,
 });
 
@@ -220,7 +220,7 @@ export const EmployeeProfile = () => {
               source="employeeProfile"
             />
           )}
-          <Datagrid rowStyle={activeContractRowStyle}>
+          <Datagrid rowStyle={activeValue}>
             <ReferenceField
               source="contractType"
               reference="contracts/contract-types"
@@ -272,10 +272,18 @@ export const EmployeeProfile = () => {
               source="employeeProfile"
             />
           )}
-          <Datagrid>
+          <Datagrid rowStyle={activeValue}>
             <ReferenceField source="projectId" reference="projects">
               <TextField source="name" />
             </ReferenceField>
+            <FunctionField
+              label="Status"
+              sortBy="active"
+              sortByOrder="ASC"
+              render={(record) =>
+                record.active === true ? "Active" : "Inactive"
+              }
+            />
             <ReferenceField source="projectId" reference="projects" label="Client">
               <ReferenceField source="clientId" reference="clients">
                 <TextField source="name" />
@@ -307,3 +315,5 @@ export const EmployeeProfile = () => {
     </Show>
   );
 };
+
+

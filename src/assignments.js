@@ -1,6 +1,5 @@
 import * as React from "react";
 import {
-  Datagrid,
   DateField,
   EditButton,
   List,
@@ -9,11 +8,15 @@ import {
   NumberField,
   WrapperField,
   useLocaleState,
+  FunctionField,
 } from "react-admin";
 import CreateForm from "./components/forms/CreateForm";
 import EditForm from "./components/forms/EditForm";
+import { FilteredDatagrid } from "./components/fields";
 
-function disabledCheck(source) { return source === "employeeProfile"; }
+function disabledCheck(source) {
+  return source === "employeeProfile";
+}
 
 const formData = [
   {
@@ -100,39 +103,44 @@ const formData = [
 export const AssignmentList = () => {
   const [locale] = useLocaleState();
   return (
-  <List>
-    <Datagrid rowClick="edit">
-      <ReferenceField source="employeeId" reference="employees">
-        <WrapperField label="Full Name">
-          <TextField source="lastName" /> <TextField source="firstName" />
-        </WrapperField>
-      </ReferenceField>
-      <ReferenceField source="projectId" reference="projects">
-        <TextField source="name" />
-      </ReferenceField>
-      <ReferenceField source="projectId" reference="projects" label="Client">
-        <ReferenceField source="clientId" reference="clients">
+    <List>
+      <FilteredDatagrid rowClick="edit" filterFn={(data) => data.active}>
+        <ReferenceField source="employeeId" reference="employees">
+          <WrapperField label="Full Name">
+            <TextField source="lastName" /> <TextField source="firstName" />
+          </WrapperField>
+        </ReferenceField>
+        <FunctionField
+          label="Status"
+          render={(record) => (record.active === true ? "Active" : "Inactive")}
+        />
+        <ReferenceField source="projectId" reference="projects">
           <TextField source="name" />
         </ReferenceField>
-      </ReferenceField>
-      <DateField source="startDate" locales={locale} />
-      <DateField source="endDate" locales={locale} />
-      <ReferenceField source="roleId" reference="roles">
-        <TextField source="name" />
-      </ReferenceField>
-      <NumberField source="hoursPerMonth" />
-      <TextField source="billableRate" />
-      <ReferenceField source="currency" reference="contracts/currencies">
-        <TextField source="name" />
-      </ReferenceField>
-      <TextField source="labourHours" />
-      <ReferenceField source="seniorityId" reference="seniorities">
-        <TextField source="name" />
-      </ReferenceField>
-      <EditButton />
-    </Datagrid>
-  </List>
-)};
+        <ReferenceField source="projectId" reference="projects" label="Client">
+          <ReferenceField source="clientId" reference="clients">
+            <TextField source="name" />
+          </ReferenceField>
+        </ReferenceField>
+        <DateField source="startDate" locales={locale} />
+        <DateField source="endDate" locales={locale} />
+        <ReferenceField source="roleId" reference="roles">
+          <TextField source="name" />
+        </ReferenceField>
+        <NumberField source="hoursPerMonth" />
+        <TextField source="billableRate" />
+        <ReferenceField source="currency" reference="contracts/currencies">
+          <TextField source="name" />
+        </ReferenceField>
+        <TextField source="labourHours" />
+        <ReferenceField source="seniorityId" reference="seniorities">
+          <TextField source="name" />
+        </ReferenceField>
+        <EditButton />
+      </FilteredDatagrid>
+    </List>
+  );
+};
 
 export const AssignmentEdit = () => (
   <EditForm formData={formData} title="Assignment" />
