@@ -12,24 +12,29 @@ import {
 import Header from "../Header";
 import FormSection from "./FormSections";
 
+const GetRedirectPath = (resource, data) => {
+  let redirectPath = "";
+  switch (resource) {
+    case "vacations":
+      redirectPath = `/employees/${data.employeeId}/show/3`;
+      break;
+    default:
+      redirectPath = `/${resource}`;
+      break;
+  }
+  return redirectPath;
+};
+
 const CustomToolbar = (props) => {
   const { resource } = props;
-  const record = useRecordContext();
+  const data = useRecordContext();
   const refresh = useRefresh();
   const redirect = useRedirect();
   const handleClick = () => {
-    switch (resource) {
-      case "vacations":
-        redirect(`/employees/${record.employeeId}/show/3`);
-        refresh();
-        break;
-      default:
-        redirect(`/${resource}`);
-        refresh();
-        break;
-    }
+    let redirectPath = GetRedirectPath(resource, data);
+    redirect(redirectPath);
+    refresh();
   };
-
   return (
     <Toolbar
       {...props}
@@ -44,19 +49,10 @@ const CustomToolbar = (props) => {
 const EditForm = ({ formData, title, resource }) => {
   const refresh = useRefresh();
   const redirect = useRedirect();
-  let redirectPath = `/${resource}`;
-
   const onSuccess = (data) => {
-    switch (resource) {
-      case "vacations":
-        redirectPath = `/employees/${data.employeeId}/show/3`;
-        redirect(redirectPath);
-        refresh();
-        break;
-      default:
-        redirect(redirectPath);
-        refresh();
-    }
+    let redirectPath = GetRedirectPath(resource, data);
+    redirect(redirectPath);
+    refresh();
   };
 
   const validateEntity = async (values) => {
