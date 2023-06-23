@@ -20,7 +20,7 @@ export const SeniorityList = () => (
 );
 
 export const SeniorityEdit = () => (
-  <EditForm formData={formData} title="Seniority" />
+  <EditForm formData={formData} title="Seniority" resource="seniorities" />
 );
 
 export const SeniorityCreate = () => (

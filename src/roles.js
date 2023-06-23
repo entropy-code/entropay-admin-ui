@@ -19,7 +19,9 @@ export const RolesList = () => (
   </List>
 );
 
-export const RolesEdit = () => <EditForm formData={formData} title="Roles" />;
+export const RolesEdit = () => (
+  <EditForm formData={formData} title="Roles" resource="roles" />
+);
 
 export const RolesCreate = () => (
   <CreateForm formData={formData} title="Roles" resource="roles" />

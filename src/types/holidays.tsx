@@ -88,7 +88,7 @@ const HolidayFilters = () => (
 
 export const HolidayList = () => {
   const [locale] = useLocaleState();
-  const defaultCountryId: string = GetDefaultCountryId();
+  const defaultCountryId: string | null = GetDefaultCountryId();
   const currentYear: number = new Date().getFullYear();
   if (!defaultCountryId || !currentYear) {
     return <></>;
@@ -114,7 +114,7 @@ export const HolidayList = () => {
 };
 
 export const HolidayEdit = () => (
-  <EditForm formData={formData} title="Holiday" />
+  <EditForm formData={formData} title="Holiday" resource="holidays"/>
 );
 
 export const HolidayCreate = () => (

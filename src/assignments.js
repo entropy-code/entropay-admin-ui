@@ -135,7 +135,7 @@ export const AssignmentList = () => {
 )};
 
 export const AssignmentEdit = () => (
-  <EditForm formData={formData} title="Assignment" />
+  <EditForm formData={formData} title="Assignment" resource="assignments" />
 );
 
 export const AssignmentCreate = () => (
