@@ -13,8 +13,9 @@ import {
 import CreateForm from "./components/forms/CreateForm";
 import EditForm from "./components/forms/EditForm";
 import { FilteredDatagrid } from "./components/fields";
+import { IAssignment } from "./types";
 
-function disabledCheck(source) {
+function disabledCheck(source: string) {
   return source === "employeeProfile";
 }
 
@@ -104,7 +105,9 @@ export const AssignmentList = () => {
   const [locale] = useLocaleState();
   return (
     <List>
-      <FilteredDatagrid rowClick="edit" filterFn={(data) => data.active}>
+      <FilteredDatagrid 
+      dataGridProps={{ rowClick: "edit" }}
+      filterFn={(data) => data.active}>
         <ReferenceField source="employeeId" reference="employees">
           <WrapperField label="Full Name">
             <TextField source="lastName" /> <TextField source="firstName" />
@@ -112,7 +115,7 @@ export const AssignmentList = () => {
         </ReferenceField>
         <FunctionField
           label="Status"
-          render={(record) => (record.active === true ? "Active" : "Inactive")}
+          render={(record: IAssignment) => (record.active === true ? "Active" : "Inactive")}
         />
         <ReferenceField source="projectId" reference="projects">
           <TextField source="name" />
