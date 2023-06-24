@@ -23,6 +23,9 @@ import {
 } from "./technologies";
 import { ListGuesser } from "react-admin";
 import { LeaveTypeCreate, LeaveTypeEdit, LeaveTypeList } from "./leaveTypes";
+import { HolidayCreate, HolidayEdit, HolidayList } from "./types/holidays";
+import { CountryCreate, CountryEdit, CountryList } from "./types/countries";
+
 
 export const resourceMap = [
   {
@@ -108,6 +111,20 @@ export const resourceMap = [
     list: LeaveTypeList,
     edit: LeaveTypeEdit,
     create: LeaveTypeCreate,
+    show: null,
+  },
+  {
+    entity: "holidays",
+    list: HolidayList,
+    edit: HolidayEdit,
+    create: HolidayCreate,
+    show: null,
+  },
+  {
+    entity: "countries",
+    list: CountryList,
+    edit: CountryEdit,
+    create: CountryCreate,
     show: null,
   },
 ];
