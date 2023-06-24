@@ -9,15 +9,27 @@ import {
   WrapperField,
   useLocaleState,
   FunctionField,
+  FilterButton,
+  Datagrid,
 } from "react-admin";
+import {
+  Chip,
+} from "@mui/material";
 import CreateForm from "./components/forms/CreateForm";
 import EditForm from "./components/forms/EditForm";
-import { FilteredDatagrid } from "./components/fields";
-import { IAssignment } from "./types";
+import { IAssignment, IQuickFilterProps } from "./types";
 
 function disabledCheck(source: string) {
   return source === "employeeProfile";
 }
+
+const QuickFilter:React.FC<IQuickFilterProps> = ({ label }) => {
+  return <Chip sx={{ marginBottom: 1 }} label={label} />;
+};
+
+const filter = [
+<QuickFilter source="active" label="Active" defaultValue={true} />,
+]
 
 const formData = [
   {
@@ -104,10 +116,12 @@ const formData = [
 export const AssignmentList = () => {
   const [locale] = useLocaleState();
   return (
-    <List>
-      <FilteredDatagrid 
-      dataGridProps={{ rowClick: "edit" }}
-      filterFn={(data) => data.active}>
+    <List
+    actions={<FilterButton/>}
+    filters={filter}
+    >
+      <Datagrid 
+      rowClick={"edit"}>
         <ReferenceField source="employeeId" reference="employees">
           <WrapperField label="Full Name">
             <TextField source="lastName" /> <TextField source="firstName" />
@@ -140,7 +154,7 @@ export const AssignmentList = () => {
           <TextField source="name" />
         </ReferenceField>
         <EditButton />
-      </FilteredDatagrid>
+      </Datagrid>
     </List>
   );
 };
