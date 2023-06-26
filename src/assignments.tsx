@@ -12,24 +12,18 @@ import {
   FilterButton,
   Datagrid,
 } from "react-admin";
-import {
-  Chip,
-} from "@mui/material";
 import CreateForm from "./components/forms/CreateForm";
 import EditForm from "./components/forms/EditForm";
-import { IAssignment, IQuickFilterProps } from "./types";
+import { IAssignment } from "./types";
+import QuickFilter from "./components/filters/QuickFilter";
 
 function disabledCheck(source: string) {
   return source === "employeeProfile";
 }
 
-const QuickFilter:React.FC<IQuickFilterProps> = ({ label }) => {
-  return <Chip sx={{ marginBottom: 1 }} label={label} />;
-};
-
 const filter = [
-<QuickFilter source="active" label="Active" defaultValue={true} />,
-]
+  <QuickFilter source="active" label="Active" defaultValue={true} />,
+];
 
 const formData = [
   {
@@ -117,11 +111,11 @@ export const AssignmentList = () => {
   const [locale] = useLocaleState();
   return (
     <List
-    actions={<FilterButton/>}
-    filters={filter}
+      actions={<FilterButton />}
+      filterDefaultValues={{ active: true }}
+      filters={filter}
     >
-      <Datagrid 
-      rowClick={"edit"}>
+      <Datagrid rowClick={"edit"}>
         <ReferenceField source="employeeId" reference="employees">
           <WrapperField label="Full Name">
             <TextField source="lastName" /> <TextField source="firstName" />
@@ -129,7 +123,9 @@ export const AssignmentList = () => {
         </ReferenceField>
         <FunctionField
           label="Status"
-          render={(record: IAssignment) => (record.active === true ? "Active" : "Inactive")}
+          render={(record: IAssignment) =>
+            record.active === true ? "Active" : "Inactive"
+          }
         />
         <ReferenceField source="projectId" reference="projects">
           <TextField source="name" />
