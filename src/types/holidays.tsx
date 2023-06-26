@@ -88,7 +88,7 @@ const HolidayFilters = () => (
 
 export const HolidayList = () => {
   const [locale] = useLocaleState();
-  const defaultCountryId: string = GetDefaultCountryId();
+  const defaultCountryId: string | null = GetDefaultCountryId();
   const currentYear: number = new Date().getFullYear();
   if (!defaultCountryId || !currentYear) {
     return <></>;
@@ -99,6 +99,7 @@ export const HolidayList = () => {
         filters={HolidayFilters()}
         filterDefaultValues={{ countryId: defaultCountryId, year: currentYear }}
         perPage={50}
+        sort={{ field: 'date', order: 'ASC' }}   
       >
         <Datagrid rowClick="edit">
           <DateField source="date" locales={locale} />
