@@ -36,16 +36,6 @@ const formData = [
   },
 ];
 
-interface IYear {
-  id: string;
-  name: string;
-}
-
-interface ICountry {
-  id: string;
-  name: string;
-}
-
 const GetDefaultCountryId = (): string | null => {
   const { data: countries } = useGetList<ICountry>("countries");
   const defaultCountry = countries?.find(

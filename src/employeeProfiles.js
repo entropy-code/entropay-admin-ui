@@ -306,6 +306,7 @@ export const EmployeeProfile = () => {
             </Datagrid>
           </ReferenceManyField>
         </Tab>        
+        {HasPermissions("vacations", "create") && (
           <Tab label="Vacations and Licencies">
             <ReferenceManyField
               label=""
@@ -339,6 +340,7 @@ export const EmployeeProfile = () => {
               </Datagrid>
             </ReferenceManyField>
           </Tab>
+        )}
         {/*<Tab label="Documents"></Tab>
       Hidden empty tabs until developed
       */}
