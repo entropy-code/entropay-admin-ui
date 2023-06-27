@@ -14,6 +14,8 @@ import {
 } from "react-admin";
 import CreateForm from "./components/forms/CreateForm";
 import EditForm from "./components/forms/EditForm";
+import { ICountry } from "./types/country";
+import { IYear } from "./types/year";
 
 const formData = [
   {
