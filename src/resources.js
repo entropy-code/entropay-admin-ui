@@ -25,7 +25,7 @@ import { ListGuesser } from "react-admin";
 import { LeaveTypeCreate, LeaveTypeEdit, LeaveTypeList } from "./leaveTypes";
 import { HolidayCreate, HolidayEdit, HolidayList } from "./holidays";
 import { CountryCreate, CountryEdit, CountryList } from "./countries";
-import { VacationCreate, VacationEdit, VacationList } from "./types/vacations";
+import { VacationCreate, VacationEdit, VacationList } from "./vacations";
 
 
 export const resourceMap = [

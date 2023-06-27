@@ -1,6 +1,6 @@
 import * as React from "react";
-import CreateForm from "../components/forms/CreateForm";
-import EditForm from "../components/forms/EditForm";
+import CreateForm from "./components/forms/CreateForm";
+import EditForm from "./components/forms/EditForm";
 import {
   Datagrid,
   EditButton,
