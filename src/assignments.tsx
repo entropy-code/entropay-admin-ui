@@ -15,7 +15,7 @@ import {
 import CreateForm from "./components/forms/CreateForm";
 import EditForm from "./components/forms/EditForm";
 import { IAssignment } from "./types";
-import QuickFilter from "./components/filters/quickFilter";
+import QuickFilter from "./components/filters/QuickFilter";
 
 function disabledCheck(source: string) {
   return source === "employeeProfile";
@@ -156,7 +156,7 @@ export const AssignmentList = () => {
 };
 
 export const AssignmentEdit = () => (
-  <EditForm formData={formData} title="Assignment" />
+  <EditForm formData={formData} title="Assignment" resource="assignments" />
 );
 
 export const AssignmentCreate = () => (
