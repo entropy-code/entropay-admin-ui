@@ -19,7 +19,6 @@ import {
   CardActions,
   Typography,
   CardActionArea,
-  Chip,
 } from "@mui/material";
 import {
   red,
@@ -42,6 +41,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import ListBuilder from "./components/forms/ListBuilder";
 import { exporter } from "./utils/exporter";
+import QuickFilter from "./components/filters/QuickFilter";
 
 const COLOR_BG = [
   red[500],
@@ -61,7 +61,7 @@ const formData = [
     title: "Personal Information",
     inputsList: [
       { name: "internalId", type: "string", required: true },
-      {}, // a blank space
+      { name: "active", type: "boolean", label: "Active" },
       {
         name: "Employee",
         type: "multiSelect",
@@ -120,10 +120,6 @@ const formData = [
     customSections: ["paymentInformationSection", "notesSection"],
   },
 ];
-
-const QuickFilter = ({ label }) => {
-  return <Chip sx={{ marginBottom: 1 }} label={label} />;
-};
 
 const employeeFilters = [
   <SearchInput source="q" alwaysOn />,

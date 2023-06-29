@@ -1,9 +1,10 @@
-import { 
-  TextInput, 
-  DateInput, 
-  NumberInput, 
-  SelectInput, 
-  useLocaleState
+import {
+  TextInput,
+  DateInput,
+  NumberInput,
+  SelectInput,
+  useLocaleState,
+  BooleanInput,
 } from "react-admin";
 import { Box, Typography, useMediaQuery } from "@mui/material";
 import ReferenceInputItem from "./ReferenceInputItem";
@@ -93,6 +94,14 @@ const FormSection = ({ formSectionTitle, inputsList, customSections }) => {
                 {listItem.type === "selectInput" ? (
                   <ReferenceInputItem
                     referenceValues={listItem.referenceValues}
+                  />
+                ) : undefined}
+                {listItem.type === "boolean" ? (
+                  <BooleanInput
+                    source={listItem.name}
+                    label={listItem.label}
+                    key={formSectionTitle + listItem.name + listIndex}
+                    defaultValue={true}
                   />
                 ) : undefined}
               </Box>
