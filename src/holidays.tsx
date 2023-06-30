@@ -12,8 +12,10 @@ import {
   useGetList,
   Filter,
 } from "react-admin";
-import CreateForm from "../components/forms/CreateForm";
-import EditForm from "../components/forms/EditForm";
+import CreateForm from "./components/forms/CreateForm";
+import EditForm from "./components/forms/EditForm";
+import { ICountry } from "./types/country";
+import { IYear } from "./types/year";
 
 const formData = [
   {
@@ -35,16 +37,6 @@ const formData = [
     ],
   },
 ];
-
-interface IYear {
-  id: string;
-  name: string;
-}
-
-interface ICountry {
-  id: string;
-  name: string;
-}
 
 const GetDefaultCountryId = (): string | null => {
   const { data: countries } = useGetList<ICountry>("countries");
@@ -99,7 +91,6 @@ export const HolidayList = () => {
         filters={HolidayFilters()}
         filterDefaultValues={{ countryId: defaultCountryId, year: currentYear }}
         perPage={50}
-        sort={{ field: 'date', order: 'ASC' }}   
       >
         <Datagrid rowClick="edit">
           <DateField source="date" locales={locale} />
@@ -115,7 +106,7 @@ export const HolidayList = () => {
 };
 
 export const HolidayEdit = () => (
-  <EditForm formData={formData} title="Holiday" />
+  <EditForm formData={formData} title="Holiday" resource="holidays"/>
 );
 
 export const HolidayCreate = () => (

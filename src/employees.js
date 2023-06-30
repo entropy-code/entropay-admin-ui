@@ -39,7 +39,7 @@ import RowRadioButtonGroup from "./components/buttons/RowRadioButtonGroup";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import ListBuilder from "./components/forms/ListBuilder";
-import { exporter } from './utils/exporter';
+import { exporter } from "./utils/exporter";
 
 const COLOR_BG = [
   red[500],
@@ -152,14 +152,14 @@ export const EmployeeList = () => {
       value: "list",
     },
   ];
-  
+
   return (
     <List
       sort={{ field: "internalId", order: "ASC" }}
       component="div"
       actions={false}
       filters={employeeFilters}
-      exporter={exporter(fieldsList,"employees")}
+      exporter={exporter(fieldsList, "employees")}
     >
       <>
         <TopToolbar
@@ -190,11 +190,11 @@ export const EmployeeList = () => {
 const EmployeeInformation = ({ renderAs = "list" }) => {
   const { data, isLoading } = useListContext();
   const [locale] = useLocaleState();
-  
+
   if (isLoading) {
     return null;
   }
-  
+
   if (renderAs === "card") {
     return (
       <Grid container spacing={2} sx={{ marginTop: "1em" }}>
@@ -267,13 +267,17 @@ const EmployeeInformation = ({ renderAs = "list" }) => {
     );
   } else {
     return (
-        <ListBuilder fieldsList={fieldsList} locale={locale} resource="employees"/>
+      <ListBuilder
+        fieldsList={fieldsList}
+        locale={locale}
+        resource="employees"
+      />
     );
   }
 };
 
 export const EmployeeEdit = () => (
-  <EditForm formData={formData} title="Employees" />
+  <EditForm formData={formData} title="Employees" resource="employees" />
 );
 
 export const EmployeeCreate = () => (

@@ -20,7 +20,7 @@ export const ProjectTypeList = () => (
 );
 
 export const ProjectTypeEdit = () => (
-  <EditForm formData={formData} title="Project Type" />
+  <EditForm formData={formData} title="Project Type" resource="project-types" />
 );
 
 export const ProjectTypeCreate = () => (

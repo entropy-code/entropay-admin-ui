@@ -56,28 +56,33 @@ const formData = [
 export const ClientList = () => {
   const [locale] = useLocaleState();
   return (
-  <List actions={<ListActions entity={"clients"} />}>
-    <Datagrid>
-      <TextField source="name" />
-      <ReferenceField source="companyId" reference="companies">
+    <List actions={<ListActions entity={"clients"} />}>
+      <Datagrid>
         <TextField source="name" />
-      </ReferenceField>
-      <TextField source="address" />
-      <TextField source="zipCode" />
-      <TextField source="city" />
-      <TextField source="state" />
-      <TextField source="country" />
-      <TextField source="contactFullName" />
-      <TextField source="contactEmail" />
-      <TextField source="preferredCurrency" />
-      <DateField source="modifiedAt" locales={locale} />
-      <DateField source="createdAt" locales={locale} />
-      {HasPermissions("clients", "update") && <EditButton variant="outlined" />}
-    </Datagrid>
-  </List>
-)};
+        <ReferenceField source="companyId" reference="companies">
+          <TextField source="name" />
+        </ReferenceField>
+        <TextField source="address" />
+        <TextField source="zipCode" />
+        <TextField source="city" />
+        <TextField source="state" />
+        <TextField source="country" />
+        <TextField source="contactFullName" />
+        <TextField source="contactEmail" />
+        <TextField source="preferredCurrency" />
+        <DateField source="modifiedAt" locales={locale} />
+        <DateField source="createdAt" locales={locale} />
+        {HasPermissions("clients", "update") && (
+          <EditButton variant="outlined" />
+        )}
+      </Datagrid>
+    </List>
+  );
+};
 
-export const ClientEdit = () => <EditForm formData={formData} title="Client" />;
+export const ClientEdit = () => (
+  <EditForm formData={formData} title="Client" resource="clients" />
+);
 
 export const ClientCreate = () => (
   <CreateForm formData={formData} title="Client" resource="clients" />

@@ -8,6 +8,9 @@ const CreateForm = ({ formData, title, resource }) => {
   const redirect = useRedirect();  
   const onSuccess = (data) => {
     switch(resource) {
+      case "vacations":
+        redirect(`/employees/${data.employeeId}/show/3`);
+        break;
       case "contracts":
         redirect(`/employees/${data.employeeId}/show/1`);
         break;
