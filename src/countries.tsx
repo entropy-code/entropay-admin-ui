@@ -5,12 +5,12 @@ import EditForm from "./components/forms/EditForm";
 
 const formData = [
   {
-    title: "Seniorities",
+    title: "Country",
     inputsList: [{ name: "name", type: "string", required: true }],
   },
 ];
 
-export const SeniorityList = () => (
+export const CountryList = () => (
   <List>
     <Datagrid rowClick="edit">
       <TextField source="name" />
@@ -19,10 +19,10 @@ export const SeniorityList = () => (
   </List>
 );
 
-export const SeniorityEdit = () => (
-  <EditForm formData={formData} title="Seniority" resource="seniorities" />
+export const CountryEdit = () => (
+  <EditForm formData={formData} title="Country" resource="countries" />
 );
 
-export const SeniorityCreate = () => (
-  <CreateForm formData={formData} title="Seniority" resource="seniorities" />
+export const CountryCreate = () => (
+  <CreateForm formData={formData} title="Country" resource="countries" />
 );

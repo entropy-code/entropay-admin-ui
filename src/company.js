@@ -44,27 +44,28 @@ const formData = [
 export const CompanyList = () => {
   const [locale] = useLocaleState();
   return (
-  <List>
-    <Datagrid rowClick="edit">
-      <TextField source="id" />
-      <ReferenceField source="tenantId" reference="tenants">
-        <TextField source="displayName" />
-      </ReferenceField>
-      <TextField source="name" />
-      <TextField source="address" />
-      <TextField source="zipCode" />
-      <TextField source="city" />
-      <TextField source="state" />
-      <TextField source="country" />
-      <DateField source="createdAt" locales={locale} />
-      <DateField source="modifiedAt" locales={locale} />
-      <EditButton variant="outlined" />
-    </Datagrid>
-  </List>
-)};
+    <List>
+      <Datagrid rowClick="edit">
+        <TextField source="id" />
+        <ReferenceField source="tenantId" reference="tenants">
+          <TextField source="displayName" />
+        </ReferenceField>
+        <TextField source="name" />
+        <TextField source="address" />
+        <TextField source="zipCode" />
+        <TextField source="city" />
+        <TextField source="state" />
+        <TextField source="country" />
+        <DateField source="createdAt" locales={locale} />
+        <DateField source="modifiedAt" locales={locale} />
+        <EditButton variant="outlined" />
+      </Datagrid>
+    </List>
+  );
+};
 
 export const CompanyEdit = () => (
-  <EditForm formData={formData} title="Company" />
+  <EditForm formData={formData} title="Company" resource="companies" />
 );
 
 export const CompanyCreate = () => (

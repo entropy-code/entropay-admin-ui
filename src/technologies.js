@@ -20,7 +20,7 @@ export const TechnologiesList = () => (
 );
 
 export const TechnologiesEdit = () => (
-  <EditForm formData={formData} title="Technologies" />
+  <EditForm formData={formData} title="Technologies" resource="technologies" />
 );
 
 export const TechnologiesCreate = () => (

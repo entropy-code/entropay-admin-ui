@@ -280,7 +280,7 @@ const EmployeeInformation = ({ renderAs = "list" }) => {
 };
 
 export const EmployeeEdit = () => (
-  <EditForm formData={formData} title="Employees" />
+  <EditForm formData={formData} title="Employees" resource="employees" />
 );
 
 export const EmployeeCreate = () => (

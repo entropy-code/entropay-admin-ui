@@ -55,24 +55,25 @@ const formData = [
 export const ProjectList = () => {
   const [locale] = useLocaleState();
   return (
-  <List>
-    <Datagrid rowClick="edit">
-      <ReferenceField source="clientId" reference="clients">
+    <List>
+      <Datagrid rowClick="edit">
+        <ReferenceField source="clientId" reference="clients">
+          <TextField source="name" />
+        </ReferenceField>
+        <ReferenceField source="projectTypeId" reference="project-types">
+          <TextField source="name" />
+        </ReferenceField>
         <TextField source="name" />
-      </ReferenceField>
-      <ReferenceField source="projectTypeId" reference="project-types">
-        <TextField source="name" />
-      </ReferenceField>
-      <TextField source="name" />
-      <DateField source="startDate" locales={locale} />
-      <DateField source="endDate" locales={locale} />
-      <EditButton />
-    </Datagrid>
-  </List>
-)};
+        <DateField source="startDate" locales={locale} />
+        <DateField source="endDate" locales={locale} />
+        <EditButton />
+      </Datagrid>
+    </List>
+  );
+};
 
 export const ProjectEdit = () => (
-  <EditForm formData={formData} title="Projects" />
+  <EditForm formData={formData} title="Projects" resource="projects" />
 );
 
 export const ProjectCreate = () => (

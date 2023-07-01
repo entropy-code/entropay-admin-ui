@@ -20,13 +20,9 @@ export const LeaveTypeList = () => (
 );
 
 export const LeaveTypeEdit = () => (
-  <EditForm formData={formData} title="Leave Type" />
+  <EditForm formData={formData} title="Leave Type" resource="leave-types" />
 );
 
 export const LeaveTypeCreate = () => (
-  <CreateForm
-    formData={formData}
-    title="Leave Type"
-    resource="leave-types"
-  />
+  <CreateForm formData={formData} title="Leave Type" resource="leave-types" />
 );
