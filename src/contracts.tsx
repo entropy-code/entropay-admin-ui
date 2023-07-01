@@ -11,10 +11,12 @@ import {
   ArrayField,
   SingleFieldList,
   useLocaleState,
+  Datagrid,
 } from "react-admin";
+
 import CreateForm from "./components/forms/CreateForm";
 import EditForm from "./components/forms/EditForm";
-import { CustomizableChipField, FilteredDatagrid } from "./components/fields";
+import { CustomizableChipField } from "./components/fields";
 import { IContract, IPaymentSettlement } from "./types";
 
 function disabledCheck(source: string) {
@@ -106,11 +108,8 @@ const formData = [
 export const ContractList = () => {
   const [locale] = useLocaleState();
   return (
-    <List>
-      <FilteredDatagrid
-        dataGridProps={{ rowClick: "edit" }}
-        filterFn={(data) => data.active}
-      >
+    <List filter={{ active: true }}>
+      <Datagrid rowClick="edit">
         <ReferenceField source="companyId" reference="companies">
           <TextField source="name" />
         </ReferenceField>
@@ -160,7 +159,7 @@ export const ContractList = () => {
         <TextField source="benefits" />
         <TextField source="notes" />
         <EditButton />
-      </FilteredDatagrid>
+      </Datagrid>
     </List>
   );
 };
