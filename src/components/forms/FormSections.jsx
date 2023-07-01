@@ -5,6 +5,7 @@ import {
   SelectInput,
   useLocaleState,
   BooleanInput,
+  BooleanField,
 } from "react-admin";
 import { Box, Typography, useMediaQuery } from "@mui/material";
 import ReferenceInputItem from "./ReferenceInputItem";
@@ -96,14 +97,6 @@ const FormSection = ({ formSectionTitle, inputsList, customSections }) => {
                     referenceValues={listItem.referenceValues}
                   />
                 ) : undefined}
-                {listItem.type === "boolean" ? (
-                  <BooleanInput
-                    source={listItem.name}
-                    label={listItem.label}
-                    key={formSectionTitle + listItem.name + listIndex}
-                    defaultValue={true}
-                  />
-                ) : undefined}
               </Box>
             );
           })}
@@ -116,7 +109,19 @@ const FormSection = ({ formSectionTitle, inputsList, customSections }) => {
             <PaymentSection type="paymentSettlement" />
           )}
         {customSections && customSections.includes("notesSection") && (
-          <TextInput multiline source="notes" fullWidth />
+          <TextInput multiline source="notes" />
+        )}
+        {customSections && customSections.includes("activeSection") && (
+          <BooleanInput
+            source="active"
+            label="Active"
+            defaultValue={true}
+            sx={{
+              "& .MuiFormControlLabel-root": {
+                justifyContent: "center",
+              },
+            }}
+          />
         )}
       </Box>
     </Box>

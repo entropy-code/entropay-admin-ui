@@ -61,7 +61,7 @@ const formData = [
     title: "Personal Information",
     inputsList: [
       { name: "internalId", type: "string", required: true },
-      { name: "active", type: "boolean", label: "Active" },
+      {},
       {
         name: "Employee",
         type: "multiSelect",
@@ -117,7 +117,11 @@ const formData = [
     ],
   },
   {
-    customSections: ["paymentInformationSection", "notesSection"],
+    customSections: [
+      "paymentInformationSection",
+      "notesSection",
+      "activeSection",
+    ],
   },
 ];
 
