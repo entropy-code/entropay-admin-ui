@@ -61,7 +61,7 @@ const formData = [
     title: "Personal Information",
     inputsList: [
       { name: "internalId", type: "string", required: true },
-      {},
+      {}, // a blank space,
       {
         name: "Employee",
         type: "multiSelect",

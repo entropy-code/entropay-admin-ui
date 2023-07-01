@@ -5,7 +5,6 @@ import {
   SelectInput,
   useLocaleState,
   BooleanInput,
-  BooleanField,
 } from "react-admin";
 import { Box, Typography, useMediaQuery } from "@mui/material";
 import ReferenceInputItem from "./ReferenceInputItem";
