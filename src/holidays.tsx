@@ -44,47 +44,45 @@ const GetDefaultCountryId = (): string | null => {
     (country: ICountry) => country.name === "Argentina"
   );
   return defaultCountry?.id || null;
-}; // TODO: get current country from locale
+}; // TODO: get current country from current user
 
-const YearOptions = (): IYear[] => {
-  const currentYear = new Date().getFullYear();
-  const years: IYear[] = [];
-  for (let year = currentYear - 2; year <= currentYear + 2; year++) {
-    years.push({ id: year.toString(), name: year.toString() });
-  }
-  return years;
-}; // TODO: implement new endpoint with list or year with created holidays
-
-const HolidayFilters = () => (
-  <Filter>
-    <ReferenceInput source="countryId" reference="countries" alwaysOn>
-      <SelectInput
-        source="countryId"
-        emptyText="All countries"
-        optionText="name"
-        optionValue="id"
-        label="Countries"
-        style={{ marginTop: "20px", marginBottom: "20px" }}
-      />
-    </ReferenceInput>
-    <SelectInput
-      source="year"
-      label="Year"
-      emptyText="All years"
-      choices={YearOptions()} // get years options
-      alwaysOn
-      style={{ marginTop: "20px", marginBottom: "20px" }}
-    />
-  </Filter>
-);
+const YearOptions = () => {
+  const { data: years } = useGetList<IYear>("holidays/years");
+  const year = years?.map((item) => item.year) || [];
+  return year?.map((year) => ({ id: year.toString(), name: year.toString() }));
+};
 
 export const HolidayList = () => {
   const [locale] = useLocaleState();
   const defaultCountryId: string | null = GetDefaultCountryId();
   const currentYear: number = new Date().getFullYear();
+  const yearsByFilter = YearOptions();
   if (!defaultCountryId || !currentYear) {
     return <></>;
   }
+  const HolidayFilters = () => (
+    <Filter>
+      <ReferenceInput source="countryId" reference="countries" alwaysOn>
+        <SelectInput
+          source="countryId"
+          emptyText="All countries"
+          optionText="name"
+          optionValue="id"
+          label="Countries"
+          style={{ marginTop: "20px", marginBottom: "20px" }}
+        />
+      </ReferenceInput>
+      <SelectInput
+        source="year"
+        label="Year"
+        emptyText="All years"
+        choices={yearsByFilter} // get years options
+        alwaysOn
+        style={{ marginTop: "20px", marginBottom: "20px" }}
+      />
+    </Filter>
+  );
+
   return (
     <div style={{ margin: "20px" }}>
       <List
@@ -106,7 +104,7 @@ export const HolidayList = () => {
 };
 
 export const HolidayEdit = () => (
-  <EditForm formData={formData} title="Holiday" resource="holidays"/>
+  <EditForm formData={formData} title="Holiday" resource="holidays" />
 );
 
 export const HolidayCreate = () => (
