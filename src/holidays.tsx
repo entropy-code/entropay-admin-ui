@@ -48,8 +48,7 @@ const GetDefaultCountryId = (): string | null => {
 
 const YearOptions = () => {
   const { data: years } = useGetList<IYear>("holidays/years");
-  const year = years?.map((item) => item.year) || [];
-  return year?.map((year) => ({ id: year.toString(), name: year.toString() }));
+  return years?.map((year) => ({ id: year.id, name: year.year }));
 };
 
 export const HolidayList = () => {
@@ -76,7 +75,7 @@ export const HolidayList = () => {
         source="year"
         label="Year"
         emptyText="All years"
-        choices={yearsByFilter} // get years options
+        choices={yearsByFilter}
         alwaysOn
         style={{ marginTop: "20px", marginBottom: "20px" }}
       />
