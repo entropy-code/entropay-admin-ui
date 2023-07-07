@@ -44,11 +44,11 @@ const GetDefaultCountryId = (): string | null => {
     (country: ICountry) => country.name === "Argentina"
   );
   return defaultCountry?.id || null;
-}; // TODO: get current country from current user
+};
 
 const YearOptions = () => {
   const { data: years } = useGetList<IYear>("holidays/years");
-  return years?.map((year) => ({ id: year.id, name: year.year }));
+  return years?.map((year) => ({ id: year.id, name: year.year })) || [];
 };
 
 export const HolidayList = () => {
@@ -56,9 +56,11 @@ export const HolidayList = () => {
   const defaultCountryId: string | null = GetDefaultCountryId();
   const currentYear: number = new Date().getFullYear();
   const yearsByFilter = YearOptions();
-  if (!defaultCountryId || !currentYear) {
+
+  if (!defaultCountryId || !currentYear || yearsByFilter.length === 0) {
     return <></>;
   }
+
   const HolidayFilters = () => (
     <Filter>
       <ReferenceInput source="countryId" reference="countries" alwaysOn>
