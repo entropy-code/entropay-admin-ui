@@ -44,7 +44,7 @@ const GetDefaultCountryId = (): string | null => {
     (country: ICountry) => country.name === "Argentina"
   );
   return defaultCountry?.id || null;
-};
+}; // TODO: get current country from current user
 
 const YearOptions = () => {
   const { data: years } = useGetList<IYear>("holidays/years");
