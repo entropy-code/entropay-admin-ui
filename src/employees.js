@@ -19,6 +19,7 @@ import {
   CardActions,
   Typography,
   CardActionArea,
+  Chip,
 } from "@mui/material";
 import {
   red,
@@ -149,6 +150,10 @@ export const EmployeeList = () => {
     setRadioValue(event.target.value);
   };
 
+  if (HasPermissions("vacations", "create")) {
+    fieldsList.push({ name: "availableDays", type: "text" });
+  }
+
   const viewOptions = [
     {
       id: 1,
@@ -259,13 +264,22 @@ const EmployeeInformation = ({ renderAs = "list" }) => {
                       <Typography noWrap align="center">
                         {record.role}
                       </Typography>
+                      {HasPermissions("vacations", "create") && (
+                        <Typography variant="h7" component="h3" align="center">
+                          <Chip
+                            label={"Available days: " + record.availableDays}
+                          />
+                        </Typography>
+                      )}
                     </Box>
                   </CardContent>
                 </CardActionArea>
-                <CardActions>
-                  <ShowButton />
-                  {HasPermissions("employees", "update") && <EditButton />}
-                </CardActions>
+                <div style={{ display: "flex", justifyContent: "center" }}>
+                  <CardActions>
+                    <ShowButton />
+                    {HasPermissions("employees", "update") && <EditButton />}
+                  </CardActions>
+                </div>
               </Card>
             </Grid>
           </RecordContextProvider>
