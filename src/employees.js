@@ -261,7 +261,7 @@ const EmployeeInformation = ({ renderAs = "list" }) => {
                       <Typography noWrap align="center">
                         {record.role}
                       </Typography>
-                      {HasPermissions("employees", "create") && 
+                      {HasPermissions("vacations", "create") && 
                       <Typography variant="h7" component="h3" align="center">
                         <Chip
                           label={"Available days: " + record.availableDays}
