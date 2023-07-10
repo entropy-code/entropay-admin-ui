@@ -141,7 +141,6 @@ const fieldsList = [
   { name: "client", type: "text" },
   { name: "project", type: "text" },
   { name: "role", type: "text" },
-  { name: "availableDays", type: "text" },
 ];
 
 export const EmployeeList = () => {
@@ -150,6 +149,10 @@ export const EmployeeList = () => {
   const handleChange = (event) => {
     setRadioValue(event.target.value);
   };
+
+  if (HasPermissions("vacations", "create")) {
+    fieldsList.push({ name: "availableDays", type: "text" });
+  }
 
   const viewOptions = [
     {
@@ -261,21 +264,21 @@ const EmployeeInformation = ({ renderAs = "list" }) => {
                       <Typography noWrap align="center">
                         {record.role}
                       </Typography>
-                      {HasPermissions("vacations", "create") && 
-                      <Typography variant="h7" component="h3" align="center">
-                        <Chip
-                          label={"Available days: " + record.availableDays}
-                        />
-                      </Typography>
-                      }
+                      {HasPermissions("vacations", "create") && (
+                        <Typography variant="h7" component="h3" align="center">
+                          <Chip
+                            label={"Available days: " + record.availableDays}
+                          />
+                        </Typography>
+                      )}
                     </Box>
                   </CardContent>
                 </CardActionArea>
                 <div style={{ display: "flex", justifyContent: "center" }}>
-                <CardActions>
-                  <ShowButton />
-                  {HasPermissions("employees", "update") && <EditButton />}
-                </CardActions>
+                  <CardActions>
+                    <ShowButton />
+                    {HasPermissions("employees", "update") && <EditButton />}
+                  </CardActions>
                 </div>
               </Card>
             </Grid>
