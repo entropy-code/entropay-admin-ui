@@ -69,8 +69,8 @@ const GetLatestAssignment = () => {
   // It will be changed when the active field is added to assignments
 
   const latestAssignment = React.useMemo(() => {
-    if (Array.isArray(assignments)) {
-      return assignments.find((a) => a.id === employee.lastAssignmentId);
+    if (Array.isArray(assignments) && employee) {
+      return assignments.find((a) => a.id === employee?.lastAssignmentId);
     }
     return undefined;
   }, [assignments, employee]);
@@ -205,91 +205,41 @@ export const EmployeeProfile = () => {
           </ArrayField>
         </Tab>
         <Tab label="Contracts">
-        <ReferenceManyField
-          label=""
-          reference="contracts"
-          target="employeeId"
-          sort={{ field: "startDate", order: "DESC" }}
-        >
-          {HasPermissions("contracts", "create") && (
-            <RedirectButton
-              form="create"
-              resource="contracts"
-              text="+ CREATE"
-              recordId={DisplayRecordCurrentId()}
-              record={GetActiveContract()}
-              source="employeeProfile"
-            />
-          )}
-          <Datagrid rowStyle={activeValue}>
-            <ReferenceField
-              source="contractType"
-              reference="contracts/contract-types"
-            >
-              <ChipField source="value" />
-            </ReferenceField>
-            <FunctionField
-              label="Status"
-              sortBy="active"
-              sortByOrder="ASC"
-              render={(record) =>
-                record.active === true ? "Active" : "Inactive"
-              }
-            />
-            ;
-            <ReferenceField source="companyId" reference="companies">
-              <TextField source="name" />
-            </ReferenceField>
-            <DateField source="startDate" locales={locale}/>
-            <DateField source="endDate" locales={locale}/>
-            <ReferenceField source="roleId" reference="roles">
-              <ChipField source="name" />
-            </ReferenceField>
-            <ReferenceField source="seniorityId" reference="seniorities">
-              <ChipField source="name" />
-            </ReferenceField>
-            <NumberField source="hoursPerMonth" />
-            <NumberField source="vacations" />
-            <TextField source="benefits" />
-            <TextField source="notes" />
-            {HasPermissions("contracts", "update") && <EditButton />}
-          </Datagrid>
-        </ReferenceManyField>
-      </Tab>
-      <Tab label="Assigments">
-        <ReferenceManyField
-          label=""
-          reference="assignments"
-          target="employeeId"
-          sort={{ field: "startDate", order: "DESC" }}
-        >
-          {HasPermissions("assignments", "create") && (
-            <RedirectButton
-              form="create"
-              resource="assignments"
-              text="+ CREATE"
-              recordId={DisplayRecordCurrentId()}
-              record={GetLatestAssignment()}
-              source="employeeProfile"
-            />
-          )}
-          <Datagrid rowStyle={activeValue}>
-            <ReferenceField source="projectId" reference="projects">
-              <TextField source="name" />
-            </ReferenceField>
-            <FunctionField
-              label="Status"
-              sortBy="active"
-              sortByOrder="ASC"
-              render={(record) =>
-                record.active === true ? "Active" : "Inactive"
-              }
-            />
-            <ReferenceField source="projectId" reference="projects" label="Client">
-              <ReferenceField source="clientId" reference="clients">
+          <ReferenceManyField
+            label=""
+            reference="contracts"
+            target="employeeId"
+            sort={{ field: "startDate", order: "DESC" }}
+          >
+            {HasPermissions("contracts", "create") && (
+              <RedirectButton
+                form="create"
+                resource="contracts"
+                text="+ CREATE"
+                recordId={DisplayRecordCurrentId()}
+                record={GetActiveContract()}
+                source="employeeProfile"
+              />
+            )}
+            <Datagrid rowStyle={activeValue}>
+              <ReferenceField
+                source="contractType"
+                reference="contracts/contract-types"
+              >
+                <ChipField source="value" />
+              </ReferenceField>
+              <FunctionField
+                label="Status"
+                sortBy="active"
+                sortByOrder="ASC"
+                render={(record) =>
+                  record.active === true ? "Active" : "Inactive"
+                }
+              />
+              ;
+              <ReferenceField source="companyId" reference="companies">
                 <TextField source="name" />
               </ReferenceField>
-            </ReferenceField>
               <DateField source="startDate" locales={locale} />
               <DateField source="endDate" locales={locale} />
               <ReferenceField source="roleId" reference="roles">
@@ -305,7 +255,61 @@ export const EmployeeProfile = () => {
               {HasPermissions("contracts", "update") && <EditButton />}
             </Datagrid>
           </ReferenceManyField>
-        </Tab>        
+        </Tab>
+        <Tab label="Assigments">
+          <ReferenceManyField
+            label=""
+            reference="assignments"
+            target="employeeId"
+            sort={{ field: "startDate", order: "DESC" }}
+          >
+            {HasPermissions("assignments", "create") && (
+              <RedirectButton
+                form="create"
+                resource="assignments"
+                text="+ CREATE"
+                recordId={DisplayRecordCurrentId()}
+                record={GetLatestAssignment()}
+                source="employeeProfile"
+              />
+            )}
+            <Datagrid rowStyle={activeValue}>
+              <ReferenceField source="projectId" reference="projects">
+                <TextField source="name" />
+              </ReferenceField>
+              <FunctionField
+                label="Status"
+                sortBy="active"
+                sortByOrder="ASC"
+                render={(record) =>
+                  record.active === true ? "Active" : "Inactive"
+                }
+              />
+              <ReferenceField
+                source="projectId"
+                reference="projects"
+                label="Client"
+              >
+                <ReferenceField source="clientId" reference="clients">
+                  <TextField source="name" />
+                </ReferenceField>
+              </ReferenceField>
+              <DateField source="startDate" locales={locale} />
+              <DateField source="endDate" locales={locale} />
+              <ReferenceField source="roleId" reference="roles">
+                <ChipField source="name" />
+              </ReferenceField>
+              <ReferenceField source="seniorityId" reference="seniorities">
+                <ChipField source="name" />
+              </ReferenceField>
+              <NumberField source="hoursPerMonth" />
+              <NumberField source="vacations" />
+              <TextField source="benefits" />
+              <TextField source="notes" />
+              {HasPermissions("contracts", "update") && <EditButton />}
+            </Datagrid>
+          </ReferenceManyField>
+        </Tab>
         {HasPermissions("vacations", "create") && (
           <Tab label="Vacations and Licencies">
             <ReferenceManyField
@@ -348,5 +352,3 @@ export const EmployeeProfile = () => {
     </Show>
   );
 };
-
-

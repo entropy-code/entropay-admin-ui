@@ -11,6 +11,7 @@ import {
   useListContext,
   SearchInput,
   useLocaleState,
+  FilterButton,
 } from "react-admin";
 import {
   Card,
@@ -40,6 +41,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import ListBuilder from "./components/forms/ListBuilder";
 import { exporter } from "./utils/exporter";
+import QuickFilter from "./components/filters/QuickFilter";
 
 const COLOR_BG = [
   red[500],
@@ -59,7 +61,7 @@ const formData = [
     title: "Personal Information",
     inputsList: [
       { name: "internalId", type: "string", required: true },
-      {}, // a blank space
+      {}, // a blank space,
       {
         name: "Employee",
         type: "multiSelect",
@@ -115,11 +117,18 @@ const formData = [
     ],
   },
   {
-    customSections: ["paymentInformationSection", "notesSection"],
+    customSections: [
+      "paymentInformationSection",
+      "notesSection",
+      "activeSection",
+    ],
   },
 ];
 
-const employeeFilters = [<SearchInput source="q" alwaysOn />];
+const employeeFilters = [
+  <SearchInput source="q" alwaysOn />,
+  <QuickFilter source="active" label="Active" defaultValue={true} />,
+];
 
 const fieldsList = [
   { name: "firstName", type: "text" },
@@ -157,32 +166,30 @@ export const EmployeeList = () => {
     <List
       sort={{ field: "internalId", order: "ASC" }}
       component="div"
-      actions={false}
+      actions={<FilterButton />}
       filters={employeeFilters}
       exporter={exporter(fieldsList, "employees")}
     >
-      <>
-        <TopToolbar
-          sx={{
-            minHeight: { sm: 56 },
-            justifyContent: "space-between",
-          }}
-        >
-          <Box>
-            <RowRadioButtonGroup
-              title={"View mode"}
-              value={viewOptionValue}
-              handleChange={handleChange}
-              options={viewOptions}
-            />
-          </Box>
-          <Box>
-            {HasPermissions("employees", "create") && <CreateButton />}
-            <ExportButton />
-          </Box>
-        </TopToolbar>
-        <EmployeeInformation renderAs={viewOptionValue} />
-      </>
+      <TopToolbar
+        sx={{
+          minHeight: { sm: 56 },
+          justifyContent: "space-between",
+        }}
+      >
+        <Box>
+          <RowRadioButtonGroup
+            title={"View mode"}
+            value={viewOptionValue}
+            handleChange={handleChange}
+            options={viewOptions}
+          />
+        </Box>
+        <Box>
+          {HasPermissions("employees", "create") && <CreateButton />}
+          <ExportButton />
+        </Box>
+      </TopToolbar>
+      <EmployeeInformation renderAs={viewOptionValue} />
     </List>
   );
 };
