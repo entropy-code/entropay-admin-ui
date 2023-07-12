@@ -67,31 +67,26 @@ const GetActiveContract = () => {
   return activeContract;
 };
 
-const GetVacationDetail = () => {
+const GetVacationsAndAvailableDays = () => {
   const employeeId = useGetRecordId();
-  const { data: vacations } = useGetManyReference("vacations", {
+  const { data: vacationDetailData } = useGetManyReference("vacations", {
     target: "employeeId",
     id: employeeId,
   });
 
-  vacations?.forEach((v) => (v.remainingDays = v.credit - v.debit));
-  return vacations;
-};
-
-const GetAvailableDays = () => {
-  let totalCredit = 0;
-  let totalDebit = 0;
-  let vacations = GetVacationDetail();
-  let availableDays = 0;
-
-  vacations?.forEach((v) => {
-    if (parseInt(v.year) <= new Date().getFullYear()) {
-      totalCredit += v.credit;
-      totalDebit += v.debit;
-    }
-  });
-  availableDays = totalCredit - totalDebit;
-  return availableDays;
+  let vacationAvailableDays = 0;
+  if (vacationDetailData) {
+    vacationDetailData.forEach((v) => {
+      vacationAvailableDays += v.credit;
+      vacationAvailableDays -= v.debit;
+      v.remainingDays = v.credit - v.debit;
+    });
+  }
+  
+  return {
+    vacationDetailData,
+    vacationAvailableDays,
+  };
 };
 
 const GetLatestAssignment = () => {
@@ -131,9 +126,8 @@ const style = {
 
 export const EmployeeProfile = () => {
   const [locale] = useLocaleState();
-  const data = GetVacationDetail();
-  const listContext = useList({ data });
-  const availableDays = GetAvailableDays();
+  const { vacationDetailData, vacationAvailableDays } = GetVacationsAndAvailableDays();
+  const vacationDetailList = useList({ data: vacationDetailData });
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => {
     setOpen(true);
@@ -380,7 +374,7 @@ export const EmployeeProfile = () => {
               source="employeeProfile"
               recordId={DisplayRecordCurrentId()}
             />
-            <ListContextProvider value={listContext}>
+            <ListContextProvider value={vacationDetailList}>
               <div style={{ display: "flex", justifyContent: "center" }}>
                 <Datagrid
                   bulkActionButtons={false}
@@ -410,7 +404,7 @@ export const EmployeeProfile = () => {
             <Typography variant="h7" align="center">
               <Chip
                 onClick={handleOpen}
-                label={"Available days: " + availableDays}
+                label={"Available days: " + vacationAvailableDays}
               />
               <Typography component="h3" align="center">
                 <Modal open={open} onClose={handleClose}>
