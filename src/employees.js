@@ -19,6 +19,7 @@ import {
   CardActions,
   Typography,
   CardActionArea,
+  Chip,
 } from "@mui/material";
 import {
   red,
@@ -140,6 +141,7 @@ const fieldsList = [
   { name: "client", type: "text" },
   { name: "project", type: "text" },
   { name: "role", type: "text" },
+  { name: "availableDays", type: "text" },
 ];
 
 export const EmployeeList = () => {
@@ -259,13 +261,20 @@ const EmployeeInformation = ({ renderAs = "list" }) => {
                       <Typography noWrap align="center">
                         {record.role}
                       </Typography>
+                      <Typography variant="h7" component="h3" align="center">
+                        <Chip
+                          label={"Available days: " + record.availableDays}
+                        />
+                      </Typography>
                     </Box>
                   </CardContent>
                 </CardActionArea>
-                <CardActions>
-                  <ShowButton />
-                  {HasPermissions("employees", "update") && <EditButton />}
-                </CardActions>
+                <div style={{ display: "flex", justifyContent: "center" }}>
+                  <CardActions>
+                    <ShowButton />
+                    {HasPermissions("employees", "update") && <EditButton />}
+                  </CardActions>
+                </div>
               </Card>
             </Grid>
           </RecordContextProvider>
