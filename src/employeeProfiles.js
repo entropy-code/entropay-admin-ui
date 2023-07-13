@@ -82,7 +82,7 @@ const GetVacationsAndAvailableDays = () => {
       v.remainingDays = v.credit - v.debit;
     });
   }
-  
+
   return {
     vacationDetailData,
     vacationAvailableDays,
@@ -126,7 +126,8 @@ const style = {
 
 export const EmployeeProfile = () => {
   const [locale] = useLocaleState();
-  const { vacationDetailData, vacationAvailableDays } = GetVacationsAndAvailableDays();
+  const { vacationDetailData, vacationAvailableDays } =
+    GetVacationsAndAvailableDays();
   const vacationDetailList = useList({ data: vacationDetailData });
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => {
@@ -136,6 +137,7 @@ export const EmployeeProfile = () => {
   const handleClose = () => {
     setOpen(false);
   };
+
   return (
     <Show
       title="Show employee"
@@ -167,15 +169,37 @@ export const EmployeeProfile = () => {
             <TextField label="" source="personalEmail" />
           </SimpleShowLayout>
         </Grid>
-        {/*
-      <Grid item>
-        <SimpleShowLayout divider={<Divider flexItem />}>
-          <TextField label="Current assigment" source="" />
-          <DateField label="Hired Date" source="" />
-        </SimpleShowLayout>
-      </Grid>
-      Hidden empty fields until developed
-      */}
+        <Grid item>
+          <FunctionField
+            label=""
+            render={(record) => (
+              <SimpleShowLayout divider={<Divider flexItem />}>
+                {!record.startDate && (
+                  <span>This employee does not have any contracts</span>
+                )}
+                {record.startDate && (
+                  <TextField
+                    label="Start Date"
+                    source="startDate"
+                    record={record}
+                  />
+                )}
+                {record.startDate && !record.endDate && (
+                  <span>
+                    This employee does not have an end date for the contract
+                  </span>
+                )}
+                {record.endDate && (
+                  <TextField
+                    label="End Date"
+                    source="endDate"
+                    record={record}
+                  />
+                )}
+              </SimpleShowLayout>
+            )}
+          />
+        </Grid>
       </Grid>
       <TabbedShowLayout>
         <Tab label="Personal and financial information">
