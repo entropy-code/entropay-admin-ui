@@ -9,6 +9,7 @@ import {
   FunctionField,
   ArrayField,
   EditButton,
+  DeleteButton,
   Tab,
   ReferenceArrayField,
   SingleFieldList,
@@ -20,6 +21,7 @@ import {
   useGetManyReference,
   useGetOne,
   useLocaleState,
+  WrapperField
 } from "react-admin";
 import { Avatar, Box, Divider, Grid } from "@mui/material";
 import RedirectButton from "./components/RedirectButton";
@@ -78,7 +80,7 @@ const GetLatestAssignment = () => {
   return latestAssignment;
 };
 
-const CustomEmpty = () => <div>No vacations found</div>;
+const CustomEmpty = () => <div>No results to show</div>;
 
 export const EmployeeProfile = () => {
   const [locale] = useLocaleState();
@@ -96,7 +98,7 @@ export const EmployeeProfile = () => {
       >
         <Grid item>
           <Box m={2}>
-            {/*Profile image hardcoded until photo upload feature is in palce*/}
+            {/*Profile image hardcoded until photo upload feature is in place*/}
             <Avatar
               alt="Employee"
               src="https://entropay-assets.s3.amazonaws.com/default-profile.png"
@@ -221,7 +223,9 @@ export const EmployeeProfile = () => {
                 source="employeeProfile"
               />
             )}
-            <Datagrid rowStyle={activeValue}>
+            <Datagrid 
+            rowStyle={activeValue}
+            empty={<CustomEmpty />}>
               <ReferenceField
                 source="contractType"
                 reference="contracts/contract-types"
@@ -273,7 +277,9 @@ export const EmployeeProfile = () => {
                 source="employeeProfile"
               />
             )}
-            <Datagrid rowStyle={activeValue}>
+            <Datagrid 
+            rowStyle={activeValue} 
+            empty={<CustomEmpty />}>
               <ReferenceField source="projectId" reference="projects">
                 <TextField source="name" />
               </ReferenceField>
@@ -341,6 +347,43 @@ export const EmployeeProfile = () => {
                 <TextField source="year" width={10} />
                 <NumberField source="credit" width={10} />
                 {HasPermissions("vacations", "update") && <EditButton />}
+              </Datagrid>
+            </ReferenceManyField>
+          </Tab>
+        )}
+        {HasPermissions("ptos", "create") && (
+          <Tab label="Ptos">
+            <ReferenceManyField
+              label=""
+              reference="ptos"
+              target="employeeId"
+              sort={{ field: "startDate", order: "DESC" }}
+            >
+              <RedirectButton
+                form="create"
+                resource="ptos"
+                text="+ CREATE"
+                label=""
+                source="employeeProfile"
+                recordId={DisplayRecordCurrentId()}
+              />
+              <Datagrid
+                bulkActionButtons={false}
+                empty={<CustomEmpty />}
+              >
+                <ReferenceField source="leaveTypeId" reference="leave-types">
+                  <WrapperField label="Leave Type">
+                    <TextField source="name" />
+                  </WrapperField>
+                </ReferenceField>
+                <DateField source="ptoStartDate"/>
+                <DateField source="ptoEndDate"/>
+                <TextField source="status"/>
+                <TextField source="details"/>
+                <NumberField source="days"/>
+                <NumberField source="labourHours"/>
+                {HasPermissions("ptos", "update") && <EditButton />}
+                {HasPermissions("ptos", "delete") && <DeleteButton />}
               </Datagrid>
             </ReferenceManyField>
           </Tab>

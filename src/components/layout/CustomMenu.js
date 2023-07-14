@@ -5,6 +5,7 @@ import GearIcon from '@rsuite/icons/legacy/Gear';
 import PeopleGroup from '@rsuite/icons/legacy/PeopleGroup';
 import DocPassIcon from '@rsuite/icons/DocPass';
 import DetailIcon from '@rsuite/icons/Detail';
+import CalendarIcon from '@rsuite/icons/Calendar';
 import React from 'react';
 import 'rsuite/dist/rsuite.min.css';
 
@@ -14,6 +15,7 @@ const icons = {
     contracts: <DocPassIcon />,
     assignments: <DetailIcon />,
     clients: <PeopleGroup />,
+    ptos: <CalendarIcon />,
     settings: <GearIcon />
   }
 
