@@ -124,6 +124,12 @@ const style = {
   p: 4,
 };
 
+const styleForSpan = {
+  display: "inline-flex",
+  alignItems: "center",
+  margin: "0 50%",
+};
+
 export const EmployeeProfile = () => {
   const [locale] = useLocaleState();
   const { vacationDetailData, vacationAvailableDays } =
@@ -175,26 +181,40 @@ export const EmployeeProfile = () => {
             render={(record) => (
               <SimpleShowLayout divider={<Divider flexItem />}>
                 {!record.startDate && (
-                  <span>This employee does not have any contracts</span>
+                  <>
+                    <Typography variant="subtitle2" color="textSecondary">
+                      Start Date
+                    </Typography>
+                    <span style={styleForSpan}> - </span>
+                    <Typography variant="subtitle2" color="textSecondary">
+                      End Date
+                    </Typography>
+                    <span style={styleForSpan}>-</span>
+                  </>
                 )}
                 {record.startDate && (
-                  <TextField
-                    label="Start Date"
-                    source="startDate"
-                    record={record}
-                  />
+                  <>
+                    <Typography variant="subtitle2" color="textSecondary">
+                      Start Date
+                    </Typography>
+                    <DateField label="" source="startDate" record={record} />
+                  </>
                 )}
                 {record.startDate && !record.endDate && (
-                  <span>
-                    This employee does not have an end date for the contract
-                  </span>
+                  <>
+                    <Typography variant="subtitle2" color="textSecondary">
+                      End Date
+                    </Typography>
+                    <span style={styleForSpan}> - </span>
+                  </>
                 )}
                 {record.endDate && (
-                  <TextField
-                    label="End Date"
-                    source="endDate"
-                    record={record}
-                  />
+                  <>
+                    <Typography variant="subtitle2" color="textSecondary">
+                      End Date
+                    </Typography>
+                    <DateField label="" source="endDate" record={record} />
+                  </>
                 )}
               </SimpleShowLayout>
             )}
