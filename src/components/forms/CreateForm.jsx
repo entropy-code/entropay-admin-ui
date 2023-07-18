@@ -2,12 +2,16 @@ import { Box } from "@mui/material";
 import { Create, SimpleForm, useRedirect } from "react-admin";
 import Header from "../Header";
 import FormSection from "./FormSections";
+import validateEntity from "./Validations";
 
 const CreateForm = ({ formData, title, resource }) => {
   
   const redirect = useRedirect();  
   const onSuccess = (data) => {
     switch(resource) {
+      case "ptos":
+        redirect(`/employees/${data.employeeId}/show/4`);
+        break;
       case "vacations":
         redirect(`/employees/${data.employeeId}/show/3`);
         break;
@@ -25,15 +29,7 @@ const CreateForm = ({ formData, title, resource }) => {
     }    
 };
 
-const validateEntity = async (values) => {
-  const errors = {};
-  if(values.endDate <= values.startDate && values.endDate){
-    errors.endDate = "End Date can't be previous or equals to Start Date";
-  }
-  return errors;
-}
-
-  return (
+return (
     <Box m="10px">
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Header title={title} subtitle="Create" />
