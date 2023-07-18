@@ -82,7 +82,7 @@ const GetVacationsAndAvailableDays = () => {
       v.remainingDays = v.credit - v.debit;
     });
   }
-  
+
   return {
     vacationDetailData,
     vacationAvailableDays,
@@ -124,9 +124,16 @@ const style = {
   p: 4,
 };
 
+const styleForSpan = {
+  display: "inline-flex",
+  alignItems: "center",
+  margin: "0 50%",
+};
+
 export const EmployeeProfile = () => {
   const [locale] = useLocaleState();
-  const { vacationDetailData, vacationAvailableDays } = GetVacationsAndAvailableDays();
+  const { vacationDetailData, vacationAvailableDays } =
+    GetVacationsAndAvailableDays();
   const vacationDetailList = useList({ data: vacationDetailData });
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => {
@@ -136,6 +143,7 @@ export const EmployeeProfile = () => {
   const handleClose = () => {
     setOpen(false);
   };
+
   return (
     <Show
       title="Show employee"
@@ -167,15 +175,51 @@ export const EmployeeProfile = () => {
             <TextField label="" source="personalEmail" />
           </SimpleShowLayout>
         </Grid>
-        {/*
-      <Grid item>
-        <SimpleShowLayout divider={<Divider flexItem />}>
-          <TextField label="Current assigment" source="" />
-          <DateField label="Hired Date" source="" />
-        </SimpleShowLayout>
-      </Grid>
-      Hidden empty fields until developed
-      */}
+        <Grid item>
+          <FunctionField
+            label=""
+            render={(record) => (
+              <SimpleShowLayout divider={<Divider flexItem />}>
+                {!record.startDate && (
+                  <>
+                    <Typography variant="subtitle2" color="textSecondary">
+                      Start Date
+                    </Typography>
+                    <span style={styleForSpan}> - </span>
+                    <Typography variant="subtitle2" color="textSecondary">
+                      End Date
+                    </Typography>
+                    <span style={styleForSpan}>-</span>
+                  </>
+                )}
+                {record.startDate && (
+                  <>
+                    <Typography variant="subtitle2" color="textSecondary">
+                      Start Date
+                    </Typography>
+                    <DateField label="" source="startDate" record={record} />
+                  </>
+                )}
+                {record.startDate && !record.endDate && (
+                  <>
+                    <Typography variant="subtitle2" color="textSecondary">
+                      End Date
+                    </Typography>
+                    <span style={styleForSpan}> - </span>
+                  </>
+                )}
+                {record.endDate && (
+                  <>
+                    <Typography variant="subtitle2" color="textSecondary">
+                      End Date
+                    </Typography>
+                    <DateField label="" source="endDate" record={record} />
+                  </>
+                )}
+              </SimpleShowLayout>
+            )}
+          />
+        </Grid>
       </Grid>
       <TabbedShowLayout>
         <Tab label="Personal and financial information">
