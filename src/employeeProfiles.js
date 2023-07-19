@@ -517,8 +517,8 @@ export const EmployeeProfile = () => {
                     <TextField source="name" />
                   </WrapperField>
                 </ReferenceField>
-                <DateField source="ptoStartDate"/>
-                <DateField source="ptoEndDate"/>
+                <DateField source="ptoStartDate" locales={locale}/>
+                <DateField source="ptoEndDate" locales={locale}/>
                 <TextField source="status"/>
                 <TextField source="details"/>
                 <NumberField source="days"/>

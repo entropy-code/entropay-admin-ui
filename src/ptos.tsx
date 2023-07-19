@@ -8,6 +8,7 @@ import {
   NumberField,
   ReferenceField,
   TextField,
+  useLocaleState,
   WrapperField
 } from "react-admin";
 import CreateForm from "./components/forms/CreateForm";
@@ -61,7 +62,9 @@ const formData = [
 ];
 
 
-export const PtoList = () => (
+export const PtoList = () => {
+  const [locale] = useLocaleState();
+  return (
   <List>
     <Datagrid rowClick="edit">
       <ReferenceField source="employeeId" reference="employees">
@@ -74,8 +77,8 @@ export const PtoList = () => (
           <TextField source="name" />
         </WrapperField>
       </ReferenceField>
-      <DateField source="ptoStartDate"/>
-      <DateField source="ptoEndDate"/>
+      <DateField source="ptoStartDate" locales={locale}/>
+      <DateField source="ptoEndDate" locales={locale}/>
       <TextField source="status"/>
       <TextField source="details"/>
       <NumberField source="days"/>
@@ -84,7 +87,7 @@ export const PtoList = () => (
       <DeleteButton />
     </Datagrid>
   </List>
-);
+)};
 
 export const PtoEdit = () => (  
   <EditForm formData={formData} title="Pto" resource="ptos" />
