@@ -536,12 +536,6 @@ export const EmployeeProfile = () => {
                 <TextField source="details" />
                 <NumberField source="days" />
                 <NumberField source="labourHours" />
-                <DateField source="ptoStartDate" locales={locale} />
-                <DateField source="ptoEndDate" locales={locale} />
-                <TextField source="status" />
-                <TextField source="details" />
-                <NumberField source="days" />
-                <NumberField source="labourHours" />
                 {HasPermissions("ptos", "update") && <EditButton />}
                 {HasPermissions("ptos", "delete") && <DeleteButton />}
               </Datagrid>
