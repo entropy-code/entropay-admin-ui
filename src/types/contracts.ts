@@ -7,7 +7,7 @@ export interface IContract {
   hoursPerMonth: number;
   vacations: number;
   startDate: Date;
-  endDate: null;
+  endDate: Date;
   benefits: string;
   notes: string;
   contractType: string;

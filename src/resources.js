@@ -26,6 +26,7 @@ import { LeaveTypeCreate, LeaveTypeEdit, LeaveTypeList } from "./leaveTypes";
 import { HolidayCreate, HolidayEdit, HolidayList } from "./holidays";
 import { CountryCreate, CountryEdit, CountryList } from "./countries";
 import { VacationCreate, VacationEdit, VacationList } from "./vacations";
+import { PtoCreate, PtoEdit, PtoList } from "./ptos";
 
 
 export const resourceMap = [
@@ -133,6 +134,13 @@ export const resourceMap = [
     list: VacationList,
     edit: VacationEdit,
     create: VacationCreate,
+    show: null,
+  },
+  {
+    entity: "ptos",
+    list: PtoList,
+    edit: PtoEdit,
+    create: PtoCreate,
     show: null,
   },
 ];

@@ -11,6 +11,7 @@ import {
 } from "react-admin";
 import Header from "../Header";
 import FormSection from "./FormSections";
+import validateEntity from "./Validations";
 
 const GetRedirectPath = (resource, data) => {
   let redirectPath = "";
@@ -55,15 +56,7 @@ const EditForm = ({ formData, title, resource }) => {
     refresh();
   };
 
-  const validateEntity = async (values) => {
-    const errors = {};
-    if (values.endDate <= values.startDate && values.endDate) {
-      errors.endDate = "End Date can't be previous or equals to Start Date";
-    }
-    return errors;
-  };
-
-  return (
+return (
     <Box m="10px">
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Header title={title} subtitle="Edit" />

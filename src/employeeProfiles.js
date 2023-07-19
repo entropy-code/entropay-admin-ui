@@ -9,6 +9,7 @@ import {
   FunctionField,
   ArrayField,
   EditButton,
+  DeleteButton,
   Tab,
   ReferenceArrayField,
   SingleFieldList,
@@ -20,6 +21,7 @@ import {
   useGetManyReference,
   useGetOne,
   useLocaleState,
+  WrapperField,
   useList,
   ListContextProvider,
 } from "react-admin";
@@ -158,7 +160,7 @@ export const EmployeeProfile = () => {
       >
         <Grid item>
           <Box m={2}>
-            {/*Profile image hardcoded until photo upload feature is in palce*/}
+            {/*Profile image hardcoded until photo upload feature is in place*/}
             <Avatar
               alt="Employee"
               src="https://entropay-assets.s3.amazonaws.com/default-profile.png"
@@ -319,7 +321,9 @@ export const EmployeeProfile = () => {
                 source="employeeProfile"
               />
             )}
-            <Datagrid rowStyle={activeValue}>
+            <Datagrid 
+              rowStyle={activeValue}
+              empty={<CustomEmpty message="No contracts found" />}>
               <ReferenceField
                 source="contractType"
                 reference="contracts/contract-types"
@@ -371,7 +375,10 @@ export const EmployeeProfile = () => {
                 source="employeeProfile"
               />
             )}
-            <Datagrid rowStyle={activeValue}>
+            <Datagrid 
+              rowStyle={activeValue}
+              empty={<CustomEmpty message="No assignments found" />}
+              >
               <ReferenceField source="projectId" reference="projects">
                 <TextField source="name" />
               </ReferenceField>
@@ -483,6 +490,43 @@ export const EmployeeProfile = () => {
                 </Modal>
               </Typography>
             </Typography>
+          </Tab>
+        )}
+        {HasPermissions("ptos", "create") && (
+          <Tab label="Ptos">
+            <ReferenceManyField
+              label=""
+              reference="ptos"
+              target="employeeId"
+              sort={{ field: "startDate", order: "DESC" }}
+            >
+              <RedirectButton
+                form="create"
+                resource="ptos"
+                text="+ CREATE"
+                label=""
+                source="employeeProfile"
+                recordId={DisplayRecordCurrentId()}
+              />
+              <Datagrid
+                bulkActionButtons={false}
+                empty={<CustomEmpty message="No ptos found" />}
+              >
+                <ReferenceField source="leaveTypeId" reference="leave-types">
+                  <WrapperField label="Leave Type">
+                    <TextField source="name" />
+                  </WrapperField>
+                </ReferenceField>
+                <DateField source="ptoStartDate" locales={locale}/>
+                <DateField source="ptoEndDate" locales={locale}/>
+                <TextField source="status"/>
+                <TextField source="details"/>
+                <NumberField source="days"/>
+                <NumberField source="labourHours"/>
+                {HasPermissions("ptos", "update") && <EditButton />}
+                {HasPermissions("ptos", "delete") && <DeleteButton />}
+              </Datagrid>
+            </ReferenceManyField>
           </Tab>
         )}
         {/*<Tab label="Documents"></Tab>

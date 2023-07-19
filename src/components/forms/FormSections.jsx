@@ -5,6 +5,7 @@ import {
   SelectInput,
   useLocaleState,
   BooleanInput,
+  FormDataConsumer
 } from "react-admin";
 import { Box, Typography, useMediaQuery } from "@mui/material";
 import ReferenceInputItem from "./ReferenceInputItem";
@@ -96,6 +97,27 @@ const FormSection = ({ formSectionTitle, inputsList, customSections }) => {
                     referenceValues={listItem.referenceValues}
                   />
                 ) : undefined}
+                {listItem.type === "boolean" ? (
+                  <BooleanInput 
+                    source={listItem.name}
+                    label={listItem.label}
+                  />
+                ) : undefined}
+                {listItem.type === "conditionNumberField" ? (
+                  <FormDataConsumer>
+                  {({ formData, ...rest }) => formData[listItem.conditionField] &&
+                       <NumberInput
+                        source={listItem.name}
+                        label={listItem.label}
+                        key={formSectionTitle + listItem.name + listIndex}
+                        fullWidth
+                        sx={{ gridColumn: "span 2" }}
+                        required={listItem.required}
+                     />
+                  }
+                  </FormDataConsumer>
+                ) : undefined}
+                
               </Box>
             );
           })}
