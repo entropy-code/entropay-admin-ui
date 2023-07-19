@@ -71,22 +71,35 @@ const GetActiveContract = () => {
 
 const GetVacationsAndAvailableDays = () => {
   const employeeId = useGetRecordId();
-  const { data: vacationDetailData } = useGetManyReference("vacations", {
+  const { data: vacations } = useGetManyReference("vacations", {
     target: "employeeId",
     id: employeeId,
   });
 
   let vacationAvailableDays = 0;
-  if (vacationDetailData) {
-    vacationDetailData.forEach((v) => {
-      vacationAvailableDays += v.credit;
-      vacationAvailableDays -= v.debit;
-      v.remainingDays = v.credit - v.debit;
-    });
+  const sumPerYear = {};
+  if (vacations) {
+    for (const element of vacations) {
+      vacationAvailableDays += element.credit;
+      vacationAvailableDays -= element.debit;
+      const { year, credit, debit } = element;
+      if (!sumPerYear[year]) {
+        sumPerYear[year] = { credit: 0, debit: 0 };
+      }
+      sumPerYear[year].credit += credit;
+      sumPerYear[year].debit += debit || 0;
+    }
   }
 
+  const summary = Object.entries(sumPerYear).map(
+    ([year, { credit, debit }]) => ({
+      year,
+      remainingDays: credit - (debit || 0),
+    })
+  );
+  
   return {
-    vacationDetailData,
+    vacationSummary: summary,
     vacationAvailableDays,
   };
 };
@@ -134,9 +147,9 @@ const styleForSpan = {
 
 export const EmployeeProfile = () => {
   const [locale] = useLocaleState();
-  const { vacationDetailData, vacationAvailableDays } =
+  const { vacationSummary, vacationAvailableDays } =
     GetVacationsAndAvailableDays();
-  const vacationDetailList = useList({ data: vacationDetailData });
+  const vacationSummaryList = useList({ data: vacationSummary });
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => {
     setOpen(true);
@@ -321,9 +334,10 @@ export const EmployeeProfile = () => {
                 source="employeeProfile"
               />
             )}
-            <Datagrid 
+            <Datagrid
               rowStyle={activeValue}
-              empty={<CustomEmpty message="No contracts found" />}>
+              empty={<CustomEmpty message="No contracts found" />}
+            >
               <ReferenceField
                 source="contractType"
                 reference="contracts/contract-types"
@@ -375,10 +389,10 @@ export const EmployeeProfile = () => {
                 source="employeeProfile"
               />
             )}
-            <Datagrid 
+            <Datagrid
               rowStyle={activeValue}
               empty={<CustomEmpty message="No assignments found" />}
-              >
+            >
               <ReferenceField source="projectId" reference="projects">
                 <TextField source="name" />
               </ReferenceField>
@@ -425,7 +439,7 @@ export const EmployeeProfile = () => {
               source="employeeProfile"
               recordId={DisplayRecordCurrentId()}
             />
-            <ListContextProvider value={vacationDetailList}>
+            <ListContextProvider value={vacationSummaryList}>
               <div style={{ display: "flex", justifyContent: "center" }}>
                 <Datagrid
                   bulkActionButtons={false}
@@ -517,12 +531,12 @@ export const EmployeeProfile = () => {
                     <TextField source="name" />
                   </WrapperField>
                 </ReferenceField>
-                <DateField source="ptoStartDate" locales={locale}/>
-                <DateField source="ptoEndDate" locales={locale}/>
-                <TextField source="status"/>
-                <TextField source="details"/>
-                <NumberField source="days"/>
-                <NumberField source="labourHours"/>
+                <DateField source="ptoStartDate" locales={locale} />
+                <DateField source="ptoEndDate" locales={locale} />
+                <TextField source="status" />
+                <TextField source="details" />
+                <NumberField source="days" />
+                <NumberField source="labourHours" />
                 {HasPermissions("ptos", "update") && <EditButton />}
                 {HasPermissions("ptos", "delete") && <DeleteButton />}
               </Datagrid>
