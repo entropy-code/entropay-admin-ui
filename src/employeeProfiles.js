@@ -84,17 +84,17 @@ const GetVacationsAndAvailableDays = () => {
       vacationAvailableDays -= element.debit;
       const { year, credit, debit } = element;
       if (!sumPerYear[year]) {
-        sumPerYear[year] = { credit: 0, debit: 0 };
+        sumPerYear[year] = { remainingDays: 0 };
       }
-      sumPerYear[year].credit += credit;
-      sumPerYear[year].debit += debit || 0;
+      sumPerYear[year].remainingDays += credit;
+      sumPerYear[year].remainingDays -= debit || 0;
     }
   }
 
   const summary = Object.entries(sumPerYear).map(
-    ([year, { credit, debit }]) => ({
+    ([year, { remainingDays }]) => ({
       year,
-      remainingDays: credit - (debit || 0),
+      remainingDays,
     })
   );
 
