@@ -9,6 +9,7 @@ import {
   FunctionField,
   ArrayField,
   EditButton,
+  DeleteButton,
   Tab,
   ReferenceArrayField,
   SingleFieldList,
@@ -20,6 +21,7 @@ import {
   useGetManyReference,
   useGetOne,
   useLocaleState,
+  WrapperField,
   useList,
   ListContextProvider,
 } from "react-admin";
@@ -69,22 +71,35 @@ const GetActiveContract = () => {
 
 const GetVacationsAndAvailableDays = () => {
   const employeeId = useGetRecordId();
-  const { data: vacationDetailData } = useGetManyReference("vacations", {
+  const { data: vacations } = useGetManyReference("vacations", {
     target: "employeeId",
     id: employeeId,
   });
 
   let vacationAvailableDays = 0;
-  if (vacationDetailData) {
-    vacationDetailData.forEach((v) => {
-      vacationAvailableDays += v.credit;
-      vacationAvailableDays -= v.debit;
-      v.remainingDays = v.credit - v.debit;
-    });
+  const sumPerYear = {};
+  if (vacations) {
+    for (const element of vacations) {
+      vacationAvailableDays += element.credit;
+      vacationAvailableDays -= element.debit;
+      const { year, credit, debit } = element;
+      if (!sumPerYear[year]) {
+        sumPerYear[year] = { remainingDays: 0 };
+      }
+      sumPerYear[year].remainingDays += credit;
+      sumPerYear[year].remainingDays -= debit || 0;
+    }
   }
 
+  const summary = Object.entries(sumPerYear).map(
+    ([year, { remainingDays }]) => ({
+      year,
+      remainingDays,
+    })
+  );
+
   return {
-    vacationDetailData,
+    vacationSummary: summary,
     vacationAvailableDays,
   };
 };
@@ -132,9 +147,9 @@ const styleForSpan = {
 
 export const EmployeeProfile = () => {
   const [locale] = useLocaleState();
-  const { vacationDetailData, vacationAvailableDays } =
+  const { vacationSummary, vacationAvailableDays } =
     GetVacationsAndAvailableDays();
-  const vacationDetailList = useList({ data: vacationDetailData });
+  const vacationSummaryList = useList({ data: vacationSummary });
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => {
     setOpen(true);
@@ -158,7 +173,7 @@ export const EmployeeProfile = () => {
       >
         <Grid item>
           <Box m={2}>
-            {/*Profile image hardcoded until photo upload feature is in palce*/}
+            {/*Profile image hardcoded until photo upload feature is in place*/}
             <Avatar
               alt="Employee"
               src="https://entropay-assets.s3.amazonaws.com/default-profile.png"
@@ -319,7 +334,10 @@ export const EmployeeProfile = () => {
                 source="employeeProfile"
               />
             )}
-            <Datagrid rowStyle={activeValue}>
+            <Datagrid
+              rowStyle={activeValue}
+              empty={<CustomEmpty message="No contracts found" />}
+            >
               <ReferenceField
                 source="contractType"
                 reference="contracts/contract-types"
@@ -371,7 +389,10 @@ export const EmployeeProfile = () => {
                 source="employeeProfile"
               />
             )}
-            <Datagrid rowStyle={activeValue}>
+            <Datagrid
+              rowStyle={activeValue}
+              empty={<CustomEmpty message="No assignments found" />}
+            >
               <ReferenceField source="projectId" reference="projects">
                 <TextField source="name" />
               </ReferenceField>
@@ -418,7 +439,7 @@ export const EmployeeProfile = () => {
               source="employeeProfile"
               recordId={DisplayRecordCurrentId()}
             />
-            <ListContextProvider value={vacationDetailList}>
+            <ListContextProvider value={vacationSummaryList}>
               <div style={{ display: "flex", justifyContent: "center" }}>
                 <Datagrid
                   bulkActionButtons={false}
@@ -426,7 +447,6 @@ export const EmployeeProfile = () => {
                   size="medium"
                   sx={{
                     width: "30%",
-
                     "& .column-year": {
                       width: "50%",
                       textAlign: "left",
@@ -483,6 +503,43 @@ export const EmployeeProfile = () => {
                 </Modal>
               </Typography>
             </Typography>
+          </Tab>
+        )}
+        {HasPermissions("ptos", "create") && (
+          <Tab label="Ptos">
+            <ReferenceManyField
+              label=""
+              reference="ptos"
+              target="employeeId"
+              sort={{ field: "startDate", order: "DESC" }}
+            >
+              <RedirectButton
+                form="create"
+                resource="ptos"
+                text="+ CREATE"
+                label=""
+                source="employeeProfile"
+                recordId={DisplayRecordCurrentId()}
+              />
+              <Datagrid
+                bulkActionButtons={false}
+                empty={<CustomEmpty message="No ptos found" />}
+              >
+                <ReferenceField source="leaveTypeId" reference="leave-types">
+                  <WrapperField label="Leave Type">
+                    <TextField source="name" />
+                  </WrapperField>
+                </ReferenceField>
+                <DateField source="ptoStartDate" locales={locale} />
+                <DateField source="ptoEndDate" locales={locale} />
+                <TextField source="status" />
+                <TextField source="details" />
+                <NumberField source="days" />
+                <NumberField source="labourHours" />
+                {HasPermissions("ptos", "update") && <EditButton />}
+                {HasPermissions("ptos", "delete") && <DeleteButton />}
+              </Datagrid>
+            </ReferenceManyField>
           </Tab>
         )}
         {/*<Tab label="Documents"></Tab>
