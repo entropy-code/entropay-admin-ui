@@ -62,6 +62,22 @@ const formData = [
     ],
   },
   {
+    title: "Seniority",
+    inputsList: [
+      {
+        name: "Seniority",
+        type: "selectInput",
+        referenceValues: {
+          source: "seniorityId",
+          reference: "seniorities",
+          optionText: "name",
+          multiselect: false,
+          required: true,
+        },
+      },
+    ],
+  },
+  {
     title: "Job Position Information",
     inputsList: [
       {
@@ -88,20 +104,12 @@ const formData = [
       { name: "labourHours", type: "string" },
     ],
   },
-
   {
-    title: "Seniority",
+    title: "End Reason",
     inputsList: [
       {
-        name: "Seniority",
-        type: "selectInput",
-        referenceValues: {
-          source: "seniorityId",
-          reference: "seniorities",
-          optionText: "name",
-          multiselect: false,
-          required: true,
-        },
+        name: "endReason",
+        type: "string",
       },
     ],
   },
