@@ -142,6 +142,7 @@ const fieldsList = [
   { name: "project", type: "text" },
   { name: "role", type: "text" },
   { name: "availableDays", type: "text" },
+  { name: "nearestPto", type: "date" },
 ];
 
 export const EmployeeList = () => {
@@ -214,6 +215,7 @@ const EmployeeInformation = ({ renderAs = "list" }) => {
                 <CardActionArea
                   component={Link}
                   to={`${record.id}/show`}
+                  sx={{ minHeight: "380px" }}
                   style={{ textDecoration: "none" }}
                 >
                   <CardContent sx={{ padding: 1 }}>
@@ -265,6 +267,23 @@ const EmployeeInformation = ({ renderAs = "list" }) => {
                         <Chip
                           label={"Available days: " + record.availableDays}
                         />
+                      </Typography>
+                      <Typography variant="h7" component="h6" align="center">
+                        {record.nearestPto && (
+                          <Chip
+                            label={
+                              <>
+                                Next time off:{" "}
+                                <DateField
+                                  source="nearestPto"
+                                  locales={locale}
+                                />
+                              </>
+                            }
+                            variant="filled"
+                            color="success"
+                          />
+                        )}
                       </Typography>
                     </Box>
                   </CardContent>
