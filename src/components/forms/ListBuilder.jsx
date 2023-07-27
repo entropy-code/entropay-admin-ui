@@ -18,15 +18,15 @@ const ListBuilder = ({ fieldsList, locale, hasShowButton, resource }) => {
           switch (field.type) {
             case "text":
               return (
-                <TextField key={index} source={field.name} />
+                <TextField key={index} source={field.name} label={field?.label}/>
               );
             case "date":
               return (
-                <DateField key={index} source={field.name} locale={locale} />
+                <DateField key={index} source={field.name} locale={locale} label={field?.label}/>
               );
             case "number":
               return (
-                <NumberField key={index} source={field.name} />
+                <NumberField key={index} source={field.name} label={field?.label}/>
               );
             case "reference":
               return (
