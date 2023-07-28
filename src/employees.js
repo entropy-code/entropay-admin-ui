@@ -134,14 +134,15 @@ const employeeFilters = [
 const fieldsList = [
   { name: "firstName", type: "text" },
   { name: "lastName", type: "text" },
-  { name: "personalEmail", type: "text" },
+  { name: "labourEmail", type: "text" },
   { name: "startDate", type: "date" },
   { name: "city", type: "text" },
   { name: "country", type: "text" },
   { name: "client", type: "text" },
   { name: "project", type: "text" },
   { name: "role", type: "text" },
-  { name: "availableDays", type: "text" },
+  { name: "availableDays", type: "number", label: "Holidays" },
+  { name: "nearestPto", type: "date" },
 ];
 
 export const EmployeeList = () => {
@@ -214,6 +215,7 @@ const EmployeeInformation = ({ renderAs = "list" }) => {
                 <CardActionArea
                   component={Link}
                   to={`${record.id}/show`}
+                  sx={{ minHeight: "380px" }}
                   style={{ textDecoration: "none" }}
                 >
                   <CardContent sx={{ padding: 1 }}>
@@ -247,7 +249,7 @@ const EmployeeInformation = ({ renderAs = "list" }) => {
                         {record.firstName} {record.lastName}
                       </Typography>
                       <Typography noWrap align="center">
-                        {record.personalEmail}
+                        {record.labourEmail ? record.labourEmail : "-"}
                       </Typography>
                       <Typography noWrap align="center">
                         <DateField source="startDate" locales={locale} />
@@ -262,9 +264,24 @@ const EmployeeInformation = ({ renderAs = "list" }) => {
                         {record.role}
                       </Typography>
                       <Typography variant="h7" component="h3" align="center">
-                        <Chip
-                          label={"Available days: " + record.availableDays}
-                        />
+                        <Chip label={"Holidays: " + record.availableDays} />
+                      </Typography>
+                      <Typography variant="h7" component="h6" align="center">
+                        {record.nearestPto && (
+                          <Chip
+                            label={
+                              <>
+                                Next time off:{" "}
+                                <DateField
+                                  source="nearestPto"
+                                  locales={locale}
+                                />
+                              </>
+                            }
+                            variant="filled"
+                            color="success"
+                          />
+                        )}
                       </Typography>
                     </Box>
                   </CardContent>
