@@ -96,7 +96,6 @@ const formData = [
         },
       },
       { name: "hoursPerMonth", type: "number" },
-      { name: "vacations", type: "number" },
       { name: "benefits", type: "string" },
     ],
   },
@@ -155,7 +154,6 @@ export const ContractList = () => {
           <TextField source="name" />
         </ReferenceField>
         <NumberField source="hoursPerMonth" />
-        <NumberField source="vacations" />
         <TextField source="benefits" />
         <TextField source="notes" />
         <EditButton />
@@ -165,7 +163,7 @@ export const ContractList = () => {
 };
 
 export const ContractEdit = () => (
-  <EditForm formData={formData} title="Contract" resource="contracts"/>
+  <EditForm formData={formData} title="Contract" resource="contracts" />
 );
 
 export const ContractCreate = () => (
