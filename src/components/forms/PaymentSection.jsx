@@ -23,6 +23,11 @@ const PaymentSection = (type) => {
               label="ID/Alias/Account Number"
               helperText={false}
             />
+            <TextInput
+              source="routingNumber"
+              label="Routing number"
+              helperText={false}
+            />
           </SimpleFormIterator>
         </ArrayInput>
       )}

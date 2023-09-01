@@ -314,6 +314,7 @@ export const EmployeeProfile = () => {
               <TextField source="platform" />
               <TextField source="country" />
               <TextField source="cbu" label="Alias/CBU" />
+              <TextField source="routingNumber" label="Routing number" />
             </Datagrid>
           </ArrayField>
         </Tab>
