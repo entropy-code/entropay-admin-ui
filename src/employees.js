@@ -141,7 +141,7 @@ const fieldsList = [
   { name: "client", type: "text" },
   { name: "project", type: "text" },
   { name: "role", type: "text" },
-  { name: "availableDays", type: "number", label: "Holidays" },
+  { name: "availableDays", type: "number", label: "Available vacations" },
   { name: "nearestPto", type: "date" },
 ];
 
@@ -264,7 +264,9 @@ const EmployeeInformation = ({ renderAs = "list" }) => {
                         {record.role}
                       </Typography>
                       <Typography variant="h7" component="h3" align="center">
-                        <Chip label={"Holidays: " + record.availableDays} />
+                        <Chip
+                          label={"Available vacations: " + record.availableDays}
+                        />
                       </Typography>
                       <Typography variant="h7" component="h6" align="center">
                         {record.nearestPto && (
@@ -303,6 +305,7 @@ const EmployeeInformation = ({ renderAs = "list" }) => {
       <ListBuilder
         fieldsList={fieldsList}
         locale={locale}
+        hasShowButton={true}
         resource="employees"
       />
     );

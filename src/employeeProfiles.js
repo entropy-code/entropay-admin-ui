@@ -4,6 +4,7 @@ import {
   DateField,
   TextField,
   Show,
+  ShowButton,
   TabbedShowLayout,
   SimpleShowLayout,
   FunctionField,
@@ -235,6 +236,9 @@ export const EmployeeProfile = () => {
             )}
           />
         </Grid>
+        <Grid item>
+          {HasPermissions("employees", "update") && <EditButton />}
+        </Grid>
       </Grid>
       <TabbedShowLayout>
         <Tab label="Personal and financial information">
@@ -369,6 +373,7 @@ export const EmployeeProfile = () => {
               <NumberField source="vacations" />
               <TextField source="benefits" />
               <TextField source="notes" />
+              <ShowButton />
               {HasPermissions("contracts", "update") && <EditButton />}
             </Datagrid>
           </ReferenceManyField>
@@ -426,7 +431,8 @@ export const EmployeeProfile = () => {
               <NumberField source="vacations" />
               <TextField source="benefits" />
               <TextField source="notes" />
-              {HasPermissions("contracts", "update") && <EditButton />}
+              <ShowButton />
+              {HasPermissions("assignments", "update") && <EditButton />}
             </Datagrid>
           </ReferenceManyField>
         </Tab>
