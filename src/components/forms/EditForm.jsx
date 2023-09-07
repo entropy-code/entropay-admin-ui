@@ -16,6 +16,15 @@ import validateEntity from "./Validations";
 const GetRedirectPath = (resource, data) => {
   let redirectPath = "";
   switch (resource) {
+    case "employees":
+      redirectPath = `/employees/${data.id}/show`;
+      break;
+    case "contracts":
+      redirectPath = `/employees/${data.employeeId}/show/1`;
+      break;
+    case "assignments":
+      redirectPath = `/employees/${data.employeeId}/show/2`;
+      break;
     case "vacations":
       redirectPath = `/employees/${data.employeeId}/show/3`;
       break;
@@ -56,7 +65,7 @@ const EditForm = ({ formData, title, resource }) => {
     refresh();
   };
 
-return (
+  return (
     <Box m="10px">
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Header title={title} subtitle="Edit" />
