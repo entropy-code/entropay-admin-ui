@@ -1,13 +1,14 @@
-import * as React from "react";
 import {
   List,
   Datagrid,
   TextField,
   DateField,
   useLocaleState,
-  ReferenceArrayField,
   NumberField,
+  ArrayField,
+  SingleFieldList,
 } from "react-admin";
+import { CustomizableChipField } from "./components/fields";
 
 export const EmployeeReportList = () => {
   const [locale] = useLocaleState();
@@ -25,7 +26,18 @@ export const EmployeeReportList = () => {
         <TextField source="seniority" />
         <TextField source="clientName" />
         <TextField source="projectName" />
-        <TextField source="status" />
+        <ArrayField source="profile" label="Profile">
+          <SingleFieldList>
+            <CustomizableChipField>
+              {(record) => {
+                if (record) {
+                  const profile = `${record}`;
+                  return profile;
+                }
+              }}
+            </CustomizableChipField>
+          </SingleFieldList>
+        </ArrayField>
         <DateField source="startDate" locales={locale} />
         <DateField source="endDate" locales={locale} />
         <NumberField source="usdPayment" />
