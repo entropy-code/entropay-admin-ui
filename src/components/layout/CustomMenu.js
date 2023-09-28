@@ -18,7 +18,7 @@ const icons = {
   clients: <PeopleGroup />,
   ptos: <CalendarIcon />,
   settings: <GearIcon />,
-  reporting: <ExportIcon />,
+  reports: <ExportIcon />,
 };
 
 export const CustomMenu = () => {
