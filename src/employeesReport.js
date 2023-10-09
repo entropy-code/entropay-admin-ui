@@ -9,12 +9,35 @@ import {
   SingleFieldList,
 } from "react-admin";
 import { CustomizableChipField } from "./components/fields";
+import { exporter } from "./utils/exporter";
 
+const fieldsList = [
+  { name: "internalId", type: "number" },
+  { name: "firstName", type: "text" },
+  { name: "lastName", type: "text" },
+  { name: "labourEmail", type: "text" },
+  { name: "country", type: "text" },
+  { name: "city", type: "text" },
+  { name: "role", type: "text" },
+  { name: "seniority", type: "text" },
+  { name: "seniority", type: "text" },
+  { name: "profile", type: "text" },
+  { name: "status", type: "text" },
+  { name: "clientName", type: "text" },
+  { name: "projectName", type: "text" },
+  { name: "technologiesNames", type: "text" },
+  { name: "usdPayment", type: "number" },
+  { name: "arsPayment", type: "number" },
+  { name: "startDate", type: "date" },
+  { name: "endDate", type: "date" },
+];
 export const EmployeeReportList = () => {
   const [locale] = useLocaleState();
-
   return (
-    <List resource="reports/employees">
+    <List
+      resource="reports/employees"
+      exporter={exporter(fieldsList, "employeesReport")}
+    >
       <Datagrid>
         <TextField source="internalId" />
         <TextField source="firstName" />
