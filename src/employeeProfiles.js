@@ -188,7 +188,7 @@ export const EmployeeProfile = () => {
               label=""
               render={(record) => `${record.firstName} ${record.lastName}`}
             />
-            <TextField label="" source="personalEmail" />
+            <TextField label="" source="labourEmail" />
           </SimpleShowLayout>
         </Grid>
         <Grid item>
