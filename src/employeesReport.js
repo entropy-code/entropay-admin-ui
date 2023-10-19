@@ -11,7 +11,7 @@ import {
 import { CustomizableChipField } from "./components/fields";
 import { exporter } from "./utils/exporter";
 
-const fieldsList = [
+const reportFieldsList = [
   { name: "internalId", type: "number" },
   { name: "firstName", type: "text" },
   { name: "lastName", type: "text" },
@@ -36,7 +36,7 @@ export const EmployeeReportList = () => {
   return (
     <List
       resource="reports/employees"
-      exporter={exporter(fieldsList, "employeesReport")}
+      exporter={exporter(reportFieldsList, "employeesReport")}
     >
       <Datagrid>
         <TextField source="internalId" />
