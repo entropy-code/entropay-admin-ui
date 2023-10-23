@@ -9,12 +9,33 @@ import {
   SingleFieldList,
 } from "react-admin";
 import { CustomizableChipField } from "./components/fields";
+import { exporter } from "./utils/exporter";
 
+const reportFieldsList = [
+  { name: "internalId", type: "number" },
+  { name: "firstName", type: "text" },
+  { name: "lastName", type: "text" },
+  { name: "labourEmail", type: "text" },
+  { name: "country", type: "text" },
+  { name: "city", type: "text" },
+  { name: "role", type: "text" },
+  { name: "seniority", type: "text" },
+  { name: "clientName", type: "text" },
+  { name: "projectName", type: "text" },
+  { name: "profile", type: "text" },
+  { name: "technologiesNames", type: "text" },
+  { name: "startDate", type: "date" },
+  { name: "endDate", type: "date" },
+  { name: "usdPayment", type: "number" },
+  { name: "arsPayment", type: "number" },
+];
 export const EmployeeReportList = () => {
   const [locale] = useLocaleState();
-
   return (
-    <List resource="reports/employees">
+    <List
+      resource="reports/employees"
+      exporter={exporter(reportFieldsList, "employeesReport")}
+    >
       <Datagrid>
         <TextField source="internalId" />
         <TextField source="firstName" />
@@ -33,6 +54,18 @@ export const EmployeeReportList = () => {
                 if (record) {
                   const profile = `${record}`;
                   return profile;
+                }
+              }}
+            </CustomizableChipField>
+          </SingleFieldList>
+        </ArrayField>
+        <ArrayField source="technologiesNames" label="Technologies">
+          <SingleFieldList>
+            <CustomizableChipField>
+              {(record) => {
+                if (record) {
+                  const technologiesNames = `${record}`;
+                  return technologiesNames;
                 }
               }}
             </CustomizableChipField>
