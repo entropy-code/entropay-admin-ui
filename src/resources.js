@@ -8,13 +8,19 @@ import {
 import { EmployeeCreate, EmployeeEdit, EmployeeList } from "./employees";
 import { EmployeeProfile } from "./employeeProfiles";
 import { CompanyList, CompanyEdit, CompanyCreate } from "./company";
-import { ContractList, ContractEdit, ContractCreate } from "./contracts";
+import {
+  ContractList,
+  ContractEdit,
+  ContractCreate,
+  ContractView,
+} from "./contracts";
 import { SeniorityList, SeniorityEdit, SeniorityCreate } from "./seniorities";
 import { RolesList, RolesEdit, RolesCreate } from "./roles";
 import {
   AssignmentList,
   AssignmentEdit,
   AssignmentCreate,
+  AssignmentView,
 } from "./assignments";
 import {
   TechnologiesList,
@@ -27,7 +33,6 @@ import { HolidayCreate, HolidayEdit, HolidayList } from "./holidays";
 import { CountryCreate, CountryEdit, CountryList } from "./countries";
 import { VacationCreate, VacationEdit, VacationList } from "./vacations";
 import { PtoCreate, PtoEdit, PtoList } from "./ptos";
-
 
 export const resourceMap = [
   {
@@ -78,7 +83,7 @@ export const resourceMap = [
     list: ContractList,
     edit: ContractEdit,
     create: ContractCreate,
-    show: null,
+    show: ContractView,
   },
   {
     entity: "roles",
@@ -99,7 +104,7 @@ export const resourceMap = [
     list: AssignmentList,
     edit: AssignmentEdit,
     create: AssignmentCreate,
-    show: null,
+    show: AssignmentView,
   },
   {
     entity: "technologies",

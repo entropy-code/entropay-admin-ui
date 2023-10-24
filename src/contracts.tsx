@@ -18,6 +18,7 @@ import CreateForm from "./components/forms/CreateForm";
 import EditForm from "./components/forms/EditForm";
 import { CustomizableChipField } from "./components/fields";
 import { IContract, IPaymentSettlement } from "./types";
+import ViewForm from "./components/forms/ViewForm";
 
 function disabledCheck(source: string) {
   return source === "employeeProfile";
@@ -168,4 +169,8 @@ export const ContractEdit = () => (
 
 export const ContractCreate = () => (
   <CreateForm formData={formData} title="Contract" resource="contracts" />
+);
+
+export const ContractView = () => (
+  <ViewForm formData={formData} title="Contract" resource="contracts" />
 );
