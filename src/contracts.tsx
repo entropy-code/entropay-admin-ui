@@ -13,6 +13,8 @@ import {
   SingleFieldList,
   useLocaleState,
   Datagrid,
+  SearchInput,
+  FilterButton,
 } from "react-admin";
 
 import CreateForm from "./components/forms/CreateForm";
@@ -20,6 +22,7 @@ import EditForm from "./components/forms/EditForm";
 import { CustomizableChipField } from "./components/fields";
 import { IContract, IPaymentSettlement } from "./types";
 import ViewForm from "./components/forms/ViewForm";
+import QuickFilter from "./components/filters/QuickFilter";
 
 function disabledCheck(source: string) {
   return source === "employeeProfile";
@@ -106,10 +109,19 @@ const formData = [
   },
 ];
 
+const contractFilters = [
+  <SearchInput source="q" alwaysOn />,
+  <QuickFilter source="active" label="Active" defaultValue={true} />,
+];
+
 export const ContractList = () => {
   const [locale] = useLocaleState();
   return (
-    <List filter={{ active: true }}>
+    <List
+      actions={<FilterButton />}
+      filters={contractFilters}
+      filterDefaultValues={{ active: true }}
+    >
       <Datagrid rowClick="edit">
         <ReferenceField source="companyId" reference="companies">
           <TextField source="name" />

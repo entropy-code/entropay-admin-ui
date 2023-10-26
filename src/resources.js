@@ -33,6 +33,8 @@ import { HolidayCreate, HolidayEdit, HolidayList } from "./holidays";
 import { CountryCreate, CountryEdit, CountryList } from "./countries";
 import { VacationCreate, VacationEdit, VacationList } from "./vacations";
 import { PtoCreate, PtoEdit, PtoList } from "./ptos";
+import { EmployeeReportList } from "./employeesReport";
+
 
 export const resourceMap = [
   {
@@ -150,6 +152,13 @@ export const resourceMap = [
     list: PtoList,
     edit: PtoEdit,
     create: PtoCreate,
+    show: null,
+  },
+  {
+    entity: "reports",
+    list: EmployeeReportList,
+    edit: null,
+    create: null,
     show: null,
   },
 ];

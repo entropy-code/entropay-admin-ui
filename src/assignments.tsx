@@ -12,6 +12,7 @@ import {
   FunctionField,
   FilterButton,
   Datagrid,
+  SearchInput,
 } from "react-admin";
 import CreateForm from "./components/forms/CreateForm";
 import EditForm from "./components/forms/EditForm";
@@ -22,10 +23,6 @@ import ViewForm from "./components/forms/ViewForm";
 function disabledCheck(source: string) {
   return source === "employeeProfile";
 }
-
-const filter = [
-  <QuickFilter source="active" label="Active" defaultValue={true} />,
-];
 
 const formData = [
   {
@@ -117,13 +114,18 @@ const formData = [
   },
 ];
 
+const assignmentFilters = [
+  <SearchInput source="q" alwaysOn />,
+  <QuickFilter source="active" label="Active" defaultValue={true} />,
+];
+
 export const AssignmentList = () => {
   const [locale] = useLocaleState();
   return (
     <List
       actions={<FilterButton />}
       filterDefaultValues={{ active: true }}
-      filters={filter}
+      filters={assignmentFilters}
     >
       <Datagrid rowClick={"edit"}>
         <ReferenceField source="employeeId" reference="employees">
