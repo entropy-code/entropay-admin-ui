@@ -1,32 +1,14 @@
 import { ClientList, ClientEdit, ClientCreate } from "./clients";
 import { ProjectList, ProjectEdit, ProjectCreate } from "./projects";
-import {
-  ProjectTypeList,
-  ProjectTypeEdit,
-  ProjectTypeCreate,
-} from "./projectTypes";
+import { ProjectTypeList, ProjectTypeEdit, ProjectTypeCreate } from "./projectTypes";
 import { EmployeeCreate, EmployeeEdit, EmployeeList } from "./employees";
 import { EmployeeProfile } from "./employeeProfiles";
 import { CompanyList, CompanyEdit, CompanyCreate } from "./company";
-import {
-  ContractList,
-  ContractEdit,
-  ContractCreate,
-  ContractView,
-} from "./contracts";
+import { ContractList, ContractEdit, ContractCreate, ContractView } from "./contracts";
 import { SeniorityList, SeniorityEdit, SeniorityCreate } from "./seniorities";
 import { RolesList, RolesEdit, RolesCreate } from "./roles";
-import {
-  AssignmentList,
-  AssignmentEdit,
-  AssignmentCreate,
-  AssignmentView,
-} from "./assignments";
-import {
-  TechnologiesList,
-  TechnologiesEdit,
-  TechnologiesCreate,
-} from "./technologies";
+import { AssignmentList, AssignmentEdit, AssignmentCreate,  AssignmentView } from "./assignments";
+import { TechnologiesList, TechnologiesEdit, TechnologiesCreate } from "./technologies";
 import { ListGuesser } from "react-admin";
 import { LeaveTypeCreate, LeaveTypeEdit, LeaveTypeList } from "./leaveTypes";
 import { HolidayCreate, HolidayEdit, HolidayList } from "./holidays";
