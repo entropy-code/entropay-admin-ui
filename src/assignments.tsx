@@ -1,6 +1,7 @@
 import * as React from "react";
 import {
   DateField,
+  ShowButton,
   EditButton,
   List,
   ReferenceField,
@@ -158,6 +159,7 @@ export const AssignmentList = () => {
         <ReferenceField source="seniorityId" reference="seniorities">
           <TextField source="name" />
         </ReferenceField>
+        <ShowButton />
         <EditButton />
       </Datagrid>
     </List>

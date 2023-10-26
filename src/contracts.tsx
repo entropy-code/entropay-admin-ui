@@ -2,6 +2,7 @@ import * as React from "react";
 import {
   DateField,
   EditButton,
+  ShowButton,
   List,
   ReferenceField,
   TextField,
@@ -157,6 +158,7 @@ export const ContractList = () => {
         <NumberField source="hoursPerMonth" />
         <TextField source="benefits" />
         <TextField source="notes" />
+        <ShowButton />
         <EditButton />
       </Datagrid>
     </List>

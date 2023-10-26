@@ -49,6 +49,7 @@ export const resourceMap = [
     edit: ProjectEdit,
     create: ProjectCreate,
     show: null,
+    recordRepresentation: (record) => `${record.name}`,
   },
   {
     entity: "clients",
@@ -63,6 +64,7 @@ export const resourceMap = [
     edit: CompanyEdit,
     create: CompanyCreate,
     show: null,
+    recordRepresentation: (record) => `${record.name}`,
   },
   {
     entity: "tenants",
@@ -91,6 +93,7 @@ export const resourceMap = [
     edit: RolesEdit,
     create: RolesCreate,
     show: null,
+    recordRepresentation: (record) => `${record.name}`,
   },
   {
     entity: "seniorities",
@@ -98,6 +101,7 @@ export const resourceMap = [
     edit: SeniorityEdit,
     create: SeniorityCreate,
     show: null,
+    recordRepresentation: (record) => `${record.name}`,
   },
   {
     entity: "assignments",
