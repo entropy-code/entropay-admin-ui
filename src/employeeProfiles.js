@@ -380,7 +380,6 @@ export const EmployeeProfile = () => {
                 <ChipField source="name" />
               </ReferenceField>
               <NumberField source="hoursPerMonth" />
-              <NumberField source="vacations" />
               <TextField source="benefits" />
               <TextField source="notes" />
               <ShowButton />
