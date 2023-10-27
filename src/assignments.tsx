@@ -1,6 +1,7 @@
 import * as React from "react";
 import {
   DateField,
+  ShowButton,
   EditButton,
   List,
   ReferenceField,
@@ -17,6 +18,7 @@ import CreateForm from "./components/forms/CreateForm";
 import EditForm from "./components/forms/EditForm";
 import { IAssignment } from "./types";
 import QuickFilter from "./components/filters/QuickFilter";
+import ViewForm from "./components/forms/ViewForm";
 
 function disabledCheck(source: string) {
   return source === "employeeProfile";
@@ -159,6 +161,7 @@ export const AssignmentList = () => {
         <ReferenceField source="seniorityId" reference="seniorities">
           <TextField source="name" />
         </ReferenceField>
+        <ShowButton />
         <EditButton />
       </Datagrid>
     </List>
@@ -171,4 +174,8 @@ export const AssignmentEdit = () => (
 
 export const AssignmentCreate = () => (
   <CreateForm formData={formData} title="Assignment" resource="assignments" />
+);
+
+export const AssignmentView = () => (
+  <ViewForm formData={formData} title="Assignment" resource="assignments" />
 );

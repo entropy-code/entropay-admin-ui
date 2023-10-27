@@ -5,10 +5,9 @@ import FormSection from "./FormSections";
 import validateEntity from "./Validations";
 
 const CreateForm = ({ formData, title, resource }) => {
-  
-  const redirect = useRedirect();  
+  const redirect = useRedirect();
   const onSuccess = (data) => {
-    switch(resource) {
+    switch (resource) {
       case "ptos":
         redirect(`/employees/${data.employeeId}/show/4`);
         break;
@@ -19,17 +18,17 @@ const CreateForm = ({ formData, title, resource }) => {
         redirect(`/employees/${data.employeeId}/show/1`);
         break;
       case "assignments":
-          redirect(`/employees/${data.employeeId}/show/2`);
-          break;
+        redirect(`/employees/${data.employeeId}/show/2`);
+        break;
       case "employees":
-        redirect(`/employees/${data.id}/show`)
+        redirect(`/employees/${data.id}/show`);
         break;
       default:
-        redirect(`/${resource}`)
-    }    
-};
+        redirect(`/${resource}`);
+    }
+  };
 
-return (
+  return (
     <Box m="10px">
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Header title={title} subtitle="Create" />
