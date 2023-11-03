@@ -1,26 +1,14 @@
 import { ClientList, ClientEdit, ClientCreate } from "./clients";
 import { ProjectList, ProjectEdit, ProjectCreate } from "./projects";
-import {
-  ProjectTypeList,
-  ProjectTypeEdit,
-  ProjectTypeCreate,
-} from "./projectTypes";
+import { ProjectTypeList, ProjectTypeEdit, ProjectTypeCreate } from "./projectTypes";
 import { EmployeeCreate, EmployeeEdit, EmployeeList } from "./employees";
 import { EmployeeProfile } from "./employeeProfiles";
 import { CompanyList, CompanyEdit, CompanyCreate } from "./company";
-import { ContractList, ContractEdit, ContractCreate } from "./contracts";
+import { ContractList, ContractEdit, ContractCreate, ContractView } from "./contracts";
 import { SeniorityList, SeniorityEdit, SeniorityCreate } from "./seniorities";
 import { RolesList, RolesEdit, RolesCreate } from "./roles";
-import {
-  AssignmentList,
-  AssignmentEdit,
-  AssignmentCreate,
-} from "./assignments";
-import {
-  TechnologiesList,
-  TechnologiesEdit,
-  TechnologiesCreate,
-} from "./technologies";
+import { AssignmentList, AssignmentEdit, AssignmentCreate,  AssignmentView } from "./assignments";
+import { TechnologiesList, TechnologiesEdit, TechnologiesCreate } from "./technologies";
 import { ListGuesser } from "react-admin";
 import { LeaveTypeCreate, LeaveTypeEdit, LeaveTypeList } from "./leaveTypes";
 import { HolidayCreate, HolidayEdit, HolidayList } from "./holidays";
@@ -28,6 +16,7 @@ import { CountryCreate, CountryEdit, CountryList } from "./countries";
 import { VacationCreate, VacationEdit, VacationList } from "./vacations";
 import { PtoCreate, PtoEdit, PtoList } from "./ptos";
 import { EmployeeReportList } from "./employeesReport";
+
 
 export const resourceMap = [
   {
@@ -44,6 +33,7 @@ export const resourceMap = [
     edit: ProjectEdit,
     create: ProjectCreate,
     show: null,
+    recordRepresentation: (record) => `${record.name}`,
   },
   {
     entity: "clients",
@@ -58,6 +48,7 @@ export const resourceMap = [
     edit: CompanyEdit,
     create: CompanyCreate,
     show: null,
+    recordRepresentation: (record) => `${record.name}`,
   },
   {
     entity: "tenants",
@@ -78,7 +69,7 @@ export const resourceMap = [
     list: ContractList,
     edit: ContractEdit,
     create: ContractCreate,
-    show: null,
+    show: ContractView,
   },
   {
     entity: "roles",
@@ -86,6 +77,7 @@ export const resourceMap = [
     edit: RolesEdit,
     create: RolesCreate,
     show: null,
+    recordRepresentation: (record) => `${record.name}`,
   },
   {
     entity: "seniorities",
@@ -93,13 +85,14 @@ export const resourceMap = [
     edit: SeniorityEdit,
     create: SeniorityCreate,
     show: null,
+    recordRepresentation: (record) => `${record.name}`,
   },
   {
     entity: "assignments",
     list: AssignmentList,
     edit: AssignmentEdit,
     create: AssignmentCreate,
-    show: null,
+    show: AssignmentView,
   },
   {
     entity: "technologies",

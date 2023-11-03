@@ -48,9 +48,8 @@ const formData = [
       {},
       { name: "ptoStartDate", type: "date", required: true },
       { name: "ptoEndDate", type: "date", required: true },
-      { name: "setHours", type: "boolean"}, 
+      { name: "isHalfDay", type: "boolean", label: "take half day off" },
       {},
-      { name: "labourHours", type: "conditionNumberField", conditionField: "setHours"}
     ]
   },
   {
@@ -82,7 +81,6 @@ export const PtoList = () => {
       <TextField source="status"/>
       <TextField source="details"/>
       <NumberField source="days"/>
-      <NumberField source="labourHours"/>
       <EditButton />
       <DeleteButton />
     </Datagrid>

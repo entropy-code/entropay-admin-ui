@@ -213,7 +213,7 @@ export const EmployeeProfile = () => {
                     <Typography variant="subtitle2" color="textSecondary">
                       Start Date
                     </Typography>
-                    <DateField label="" source="startDate" record={record} />
+                    <DateField label="" source="startDate" record={record} locales={locale} />
                   </>
                 )}
                 {record.startDate && !record.endDate && (
@@ -229,12 +229,22 @@ export const EmployeeProfile = () => {
                     <Typography variant="subtitle2" color="textSecondary">
                       End Date
                     </Typography>
-                    <DateField label="" source="endDate" record={record} />
+                    <DateField label="" source="endDate" record={record} locales={locale}/>
                   </>
                 )}
               </SimpleShowLayout>
             )}
           />
+        </Grid>
+        <Grid item>
+        <SimpleShowLayout divider={<Divider flexItem />}>
+            <>
+              <Typography variant="subtitle2" color="textSecondary">
+                Available Vacation Days
+              </Typography>
+              <TextField label="" source="availableDays" textAlign="right" margin={"0 50%"}/>
+            </>
+        </SimpleShowLayout>
         </Grid>
         <Grid item>
           {HasPermissions("employees", "update") && <EditButton />}
@@ -370,7 +380,6 @@ export const EmployeeProfile = () => {
                 <ChipField source="name" />
               </ReferenceField>
               <NumberField source="hoursPerMonth" />
-              <NumberField source="vacations" />
               <TextField source="benefits" />
               <TextField source="notes" />
               <ShowButton />
@@ -378,7 +387,7 @@ export const EmployeeProfile = () => {
             </Datagrid>
           </ReferenceManyField>
         </Tab>
-        <Tab label="Assigments">
+        <Tab label="Assignments">
           <ReferenceManyField
             label=""
             reference="assignments"

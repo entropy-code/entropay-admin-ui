@@ -2,6 +2,7 @@ import * as React from "react";
 import {
   DateField,
   EditButton,
+  ShowButton,
   List,
   ReferenceField,
   TextField,
@@ -20,6 +21,7 @@ import CreateForm from "./components/forms/CreateForm";
 import EditForm from "./components/forms/EditForm";
 import { CustomizableChipField } from "./components/fields";
 import { IContract, IPaymentSettlement } from "./types";
+import ViewForm from "./components/forms/ViewForm";
 import QuickFilter from "./components/filters/QuickFilter";
 
 function disabledCheck(source: string) {
@@ -168,6 +170,7 @@ export const ContractList = () => {
         <NumberField source="hoursPerMonth" />
         <TextField source="benefits" />
         <TextField source="notes" />
+        <ShowButton />
         <EditButton />
       </Datagrid>
     </List>
@@ -180,4 +183,8 @@ export const ContractEdit = () => (
 
 export const ContractCreate = () => (
   <CreateForm formData={formData} title="Contract" resource="contracts" />
+);
+
+export const ContractView = () => (
+  <ViewForm formData={formData} title="Contract" resource="contracts" />
 );
