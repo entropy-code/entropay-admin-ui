@@ -48,7 +48,7 @@ const formData = [
       {},
       { name: "ptoStartDate", type: "date", required: true },
       { name: "ptoEndDate", type: "date", required: true },
-      { name: "isHalfDay", type: "boolean", label: "take half day off" },
+      { name: "isHalfDay", type: "boolean", label: "Half day off" },
       {},
     ]
   },
