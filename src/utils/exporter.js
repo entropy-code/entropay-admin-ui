@@ -11,7 +11,7 @@ export const exporter = (fieldsList, resource) => (records) => {
   const currentDate = new Date();
   const formattedDate = currentDate.toISOString().split("T")[0];
 
-  const fileName = `${resource}_${formattedDate}.xls`;
+  const fileName = `${resource}_${formattedDate}.csv`;
 
   jsonExport(recordsForExport, (err, csv) => {
     const blob = new Blob([csv], { type: "application/vnd.ms-excel" });
