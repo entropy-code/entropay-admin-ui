@@ -1,6 +1,6 @@
 import jsonExport from "jsonexport/dist";
 
-export const exporter = (fieldsList, resource) => (records) => {
+export const exporter = (fieldsList, resource, headers) => (records) => {
   const recordsForExport = records.map((record) => {
     return fieldsList.reduce((acc, field) => {
       acc[field.name] = record[field.name];
@@ -12,8 +12,6 @@ export const exporter = (fieldsList, resource) => (records) => {
   const formattedDate = currentDate.toISOString().split("T")[0];
 
   const fileName = `${resource}_${formattedDate}.csv`;
-  const headers = ['Internal ID', 'First Name', 'Last Name', 'Labour Email', 'Country', 'City', 'Role', 'Seniority', 
-  'Client', 'Project', 'Start Date', 'End Date', 'USD Payment', 'ARS Payment', 'Profile', 'Technologies']
 
   jsonExport(recordsForExport,  { rowDelimiter: ';', rename: headers, arrayPathString: " - "},   (err, csv) => {
     const blob = new Blob([csv], { type: "application/vnd.ms-excel" });

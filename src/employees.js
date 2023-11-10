@@ -145,6 +145,9 @@ const fieldsList = [
   { name: "nearestPto", type: "date" },
 ];
 
+const headers = ['First Name', 'Last Name', 'Labour Email', 'Start Date', 'City', 'Country', 'Client', 
+'Project', 'Role', 'Available Vacation Days', 'Nearest PTO']
+
 export const EmployeeList = () => {
   const [viewOptionValue, setRadioValue] = useState("card");
 
@@ -171,7 +174,7 @@ export const EmployeeList = () => {
       component="div"
       actions={<FilterButton />}
       filters={employeeFilters}
-      exporter={exporter(fieldsList, "employees")}
+      exporter={exporter(fieldsList, "employees", headers)}
     >
       <TopToolbar
         sx={{
