@@ -12,8 +12,10 @@ export const exporter = (fieldsList, resource) => (records) => {
   const formattedDate = currentDate.toISOString().split("T")[0];
 
   const fileName = `${resource}_${formattedDate}.csv`;
+  const headers = ['Internal ID', 'First Name', 'Last Name', 'Labour Email', 'Country', 'City', 'Role', 'Seniority', 
+  'Client', 'Project', 'Start Date', 'End Date', 'USD Payment', 'ARS Payment', 'Profile', 'Technologies']
 
-  jsonExport(recordsForExport, (err, csv) => {
+  jsonExport(recordsForExport,  { rowDelimiter: ';', rename: headers, arrayPathString: " - "},   (err, csv) => {
     const blob = new Blob([csv], { type: "application/vnd.ms-excel" });
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement("a");
