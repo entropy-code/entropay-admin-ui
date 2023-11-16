@@ -1,6 +1,6 @@
 import jsonExport from "jsonexport/dist";
 
-export const exporter = (fieldsList, resource) => (records) => {
+export const exporter = (fieldsList, resource, headers) => (records) => {
   const recordsForExport = records.map((record) => {
     return fieldsList.reduce((acc, field) => {
       acc[field.name] = record[field.name];
@@ -11,9 +11,9 @@ export const exporter = (fieldsList, resource) => (records) => {
   const currentDate = new Date();
   const formattedDate = currentDate.toISOString().split("T")[0];
 
-  const fileName = `${resource}_${formattedDate}.xls`;
+  const fileName = `${resource}_${formattedDate}.csv`;
 
-  jsonExport(recordsForExport, (err, csv) => {
+  jsonExport(recordsForExport,  { rowDelimiter: ';', rename: headers, arrayPathString: " - "},   (err, csv) => {
     const blob = new Blob([csv], { type: "application/vnd.ms-excel" });
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement("a");

@@ -11,6 +11,9 @@ import {
 import { CustomizableChipField } from "./components/fields";
 import { exporter } from "./utils/exporter";
 
+const headers = ['Internal ID', 'First Name', 'Last Name', 'Labour Email', 'Country', 'City', 'Role', 'Seniority', 
+'Client', 'Project', 'Start Date', 'End Date', 'USD Payment', 'ARS Payment', 'Profile', 'Technologies']
+
 const reportFieldsList = [
   { name: "internalId", type: "number" },
   { name: "firstName", type: "text" },
@@ -34,7 +37,7 @@ export const EmployeeReportList = () => {
   return (
     <List
       resource="reports/employees"
-      exporter={exporter(reportFieldsList, "employeesReport")}
+      exporter={exporter(reportFieldsList, "employeesReport", headers)}
     >
       <Datagrid>
         <TextField source="internalId" />
