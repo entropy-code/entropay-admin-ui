@@ -146,6 +146,18 @@ const styleForSpan = {
   margin: "0 50%",
 };
 
+const styleForCenteringTextField = {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+};
+
+const styleForCenteringTyphography = {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+};
+
 export const EmployeeProfile = () => {
   const [locale] = useLocaleState();
   const { vacationSummary, vacationAvailableDays } =
@@ -239,10 +251,16 @@ export const EmployeeProfile = () => {
         <Grid item>
         <SimpleShowLayout divider={<Divider flexItem />}>
             <>
-              <Typography variant="subtitle2" color="textSecondary">
+              <Typography variant="subtitle2" color="textSecondary" style={styleForCenteringTyphography}>
                 Available Vacation Days
               </Typography>
-              <TextField label="" source="availableDays" textAlign="right" margin={"0 50%"}/>
+              <TextField label="" source="availableDays" textAlign="left" style={styleForCenteringTextField}/>
+            </>
+            <>
+              <Typography variant="subtitle2" color="textSecondary" textAlign="right" style={styleForCenteringTyphography}> 
+                Since Start
+              </Typography>
+              <TextField label="" source="timeSinceStart" textAlign="left" style={styleForCenteringTextField}/>
             </>
         </SimpleShowLayout>
         </Grid>
