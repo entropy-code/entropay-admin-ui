@@ -4,6 +4,7 @@ import EditForm from "./components/forms/EditForm";
 import {
   Datagrid,
   EditButton,
+  FunctionField,
   List,
   ReferenceField,
   TextField,
@@ -47,7 +48,10 @@ export const VacationList = () => (
       <TextField source="year" />
       <TextField source="credit" />
       <TextField source="debit" />
-      <EditButton />
+      <FunctionField
+        label="Edit"
+        render={(record: { credit: number }) => record.credit > 0 && <EditButton />}
+      />
     </Datagrid>
   </List>
 );

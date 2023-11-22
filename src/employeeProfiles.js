@@ -528,9 +528,10 @@ export const EmployeeProfile = () => {
                         <TextField source="year" />
                         <NumberField source="credit" />
                         <NumberField source="debit" />
-                        {HasPermissions("vacations", "update") && (
-                          <EditButton />
-                        )}
+                        <FunctionField
+                          label="Edit"
+                          render={(record) => HasPermissions("vacations", "update") && record.credit > 0 && <EditButton />}
+                        />
                       </Datagrid>
                     </ReferenceManyField>
                   </Box>
