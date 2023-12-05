@@ -42,11 +42,11 @@ const COLOR_GREEN = "#efe";
 const COLOR_WHITE = "#white";
 
 const activeValue = (record) => ({
-  backgroundColor: record.active === true ? COLOR_GREEN : COLOR_WHITE,
+  backgroundColor: record.activeContract === true ? COLOR_GREEN : COLOR_WHITE,
 });
 
 const employeeReportFilters = [
-  <QuickFilter source="active" label="Active" defaultValue={true} />
+  <QuickFilter source="activeContract" label="Active" defaultValue={true} />
 ];
 
 export const EmployeeReportList = () => {
@@ -69,7 +69,7 @@ export const EmployeeReportList = () => {
         <TextField source="lastName" />
         <FunctionField
                 label="Status"
-                render={(record) => record.status === true ? "Active" : "Inactive"}
+                render={(record) => record.activeContract === true ? "Active" : "Inactive"}
         />        
         <TextField source="labourEmail" />
         <TextField source="country" />
