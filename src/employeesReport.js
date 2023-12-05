@@ -7,17 +7,22 @@ import {
   NumberField,
   ArrayField,
   SingleFieldList,
+  FunctionField,
+  FilterButton,
+  ExportButton,
 } from "react-admin";
 import { CustomizableChipField } from "./components/fields";
 import { exporter } from "./utils/exporter";
+import QuickFilter from "./components/filters/QuickFilter";
 
-const headers = ['Internal ID', 'First Name', 'Last Name', 'Labour Email', 'Country', 'City', 'Role', 'Seniority', 
+const headers = ['Internal ID', 'First Name', 'Last Name', 'Status', 'Labour Email', 'Country', 'City', 'Role', 'Seniority', 
 'Client', 'Project', 'Start Date', 'End Date', 'USD Payment', 'ARS Payment', 'Profile', 'Technologies']
 
 const reportFieldsList = [
   { name: "internalId", type: "number" },
   { name: "firstName", type: "text" },
   { name: "lastName", type: "text" },
+  { name: "status", type: "text"},
   { name: "labourEmail", type: "text" },
   { name: "country", type: "text" },
   { name: "city", type: "text" },
@@ -32,17 +37,40 @@ const reportFieldsList = [
   { name: "usdPayment", type: "number" },
   { name: "arsPayment", type: "number" },
 ];
+
+const COLOR_GREEN = "#efe";
+const COLOR_WHITE = "#white";
+
+const activeValue = (record) => ({
+  backgroundColor: record.active === true ? COLOR_GREEN : COLOR_WHITE,
+});
+
+const employeeReportFilters = [
+  <QuickFilter source="active" label="Active" defaultValue={true} />
+];
+
 export const EmployeeReportList = () => {
   const [locale] = useLocaleState();
+
   return (
     <List
       resource="reports/employees"
       exporter={exporter(reportFieldsList, "employeesReport", headers)}
+      actions={<> <FilterButton /> <ExportButton/> </>}
+      filters={employeeReportFilters}
+      filterDefaultValues={{ active: true }}
     >
-      <Datagrid>
+      <Datagrid
+        rowStyle={activeValue}
+        bulkActionButtons={false}
+      >
         <TextField source="internalId" />
         <TextField source="firstName" />
         <TextField source="lastName" />
+        <FunctionField
+                label="Status"
+                render={(record) => record.status === true ? "Active" : "Inactive"}
+        />        
         <TextField source="labourEmail" />
         <TextField source="country" />
         <TextField source="city" />
