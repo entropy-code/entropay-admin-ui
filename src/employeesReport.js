@@ -15,14 +15,16 @@ import { CustomizableChipField } from "./components/fields";
 import { exporter } from "./utils/exporter";
 import QuickFilter from "./components/filters/QuickFilter";
 
-const headers = ['Internal ID', 'First Name', 'Last Name', 'Status', 'Labour Email', 'Country', 'City', 'Role', 'Seniority', 
-'Client', 'Project', 'Start Date', 'End Date', 'USD Payment', 'ARS Payment', 'Profile', 'Technologies']
+const headers = ['Internal ID', 'First Name', 'Last Name', 'Labour Email', 'Country', 'City', 'Role', 'Seniority', 
+'Client', 'Project', 'Profile', 'Technologies', 'Contract Status', 'Start Date', 'End Date', 'USD Payment', 'ARS Payment']
+
+const headersOrder = ['internalId', 'firstName', 'lastName', 'labourEmail', 'country', 'city', 'role', 'seniority', 'clientName',
+'projectName', 'profile', 'technologiesNames', 'activeContract', 'startDate', 'endDate', 'usdPayment', 'arsPayment']
 
 const reportFieldsList = [
   { name: "internalId", type: "number" },
   { name: "firstName", type: "text" },
   { name: "lastName", type: "text" },
-  { name: "status", type: "text"},
   { name: "labourEmail", type: "text" },
   { name: "country", type: "text" },
   { name: "city", type: "text" },
@@ -32,6 +34,7 @@ const reportFieldsList = [
   { name: "projectName", type: "text" },
   { name: "profile", type: "text" },
   { name: "technologiesNames", type: "text" },
+  { name: "activeContract", type: "text"},
   { name: "startDate", type: "date" },
   { name: "endDate", type: "date" },
   { name: "usdPayment", type: "number" },
@@ -46,7 +49,7 @@ const activeValue = (record) => ({
 });
 
 const employeeReportFilters = [
-  <QuickFilter source="activeContract" label="Active" defaultValue={true} />
+  <QuickFilter source="activeContract" label="Active Contract" defaultValue={true} />
 ];
 
 export const EmployeeReportList = () => {
@@ -55,7 +58,7 @@ export const EmployeeReportList = () => {
   return (
     <List
       resource="reports/employees"
-      exporter={exporter(reportFieldsList, "employeesReport", headers)}
+      exporter={exporter(reportFieldsList, "employeesReport", headers, headersOrder)}
       actions={<> <FilterButton /> <ExportButton/> </>}
       filters={employeeReportFilters}
       filterDefaultValues={{ active: true }}
@@ -66,11 +69,7 @@ export const EmployeeReportList = () => {
       >
         <TextField source="internalId" />
         <TextField source="firstName" />
-        <TextField source="lastName" />
-        <FunctionField
-                label="Status"
-                render={(record) => record.activeContract === true ? "Active" : "Inactive"}
-        />        
+        <TextField source="lastName" /> 
         <TextField source="labourEmail" />
         <TextField source="country" />
         <TextField source="city" />
@@ -102,6 +101,10 @@ export const EmployeeReportList = () => {
             </CustomizableChipField>
           </SingleFieldList>
         </ArrayField>
+        <FunctionField
+                label="Contract status"
+                render={(record) => record.activeContract ? "Active" : "Inactive"}
+        />       
         <DateField source="startDate" locales={locale} />
         <DateField source="endDate" locales={locale} />
         <NumberField source="usdPayment" />
