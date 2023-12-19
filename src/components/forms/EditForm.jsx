@@ -28,6 +28,9 @@ const GetRedirectPath = (resource, data) => {
     case "vacations":
       redirectPath = `/employees/${data.employeeId}/show/3`;
       break;
+    case "ptos":
+      redirectPath = `/employees/${data.employeeId}/show/4`;
+      break;
     default:
       redirectPath = `/${resource}`;
       break;
