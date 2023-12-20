@@ -1,20 +1,26 @@
 import { 
-    useListContext,
     TopToolbar,
     CreateButton,
-    ExportButton,
+    ListButton,
 } from 'react-admin';
 
-export const ListActions = ({entity}) => {
-    const { total, isLoading } = useListContext();
-    return (
-        <TopToolbar>
-            {HasPermissions(entity, "create") && <CreateButton/>}
-            <ExportButton disabled={isLoading || total === 0} />
-        </TopToolbar>
-    );
-};
+import ArowBackIcon from '@rsuite/icons/ArowBack';
 
+const icons = {
+    backIcon: <ArowBackIcon />,
+  };
+
+export const EntityViewActions = ({ entity }) => {
+    return (
+      <TopToolbar sx={{ justifyContent: "space-between" }}>
+        <div style={{ display: "flex" }}>
+          <ListButton label='back' icon={icons.backIcon}/>
+        </div>
+        {HasPermissions(entity, "create") && <CreateButton />}
+      </TopToolbar>
+    );
+  };  
+  
 export const HasPermissions = (entity, action) => {
     const config = JSON.parse(localStorage.getItem('config')) || {}
     const permissions = config.permissions || []
@@ -29,4 +35,4 @@ export const HasPermissions = (entity, action) => {
     
 };
 
-export default ListActions
+export default EntityViewActions

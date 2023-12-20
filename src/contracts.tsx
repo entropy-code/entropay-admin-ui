@@ -123,16 +123,13 @@ export const ContractList = () => {
       filterDefaultValues={{ active: true }}
     >
       <Datagrid rowClick="edit">
-        <ReferenceField source="companyId" reference="companies">
+        <ReferenceField source="companyId" reference="companies" link={false}>
           <TextField source="name" />
         </ReferenceField>
-        <ReferenceField
-          source="contractType"
-          reference="contracts/contract-types"
-        >
+        <ReferenceField source="contractType" reference="contracts/contract-types" link={false}>
           <TextField source="value" />
         </ReferenceField>
-        <ReferenceField source="employeeId" reference="employees">
+        <ReferenceField source="employeeId" reference="employees" link="show">
           <WrapperField label="Full Name">
             <TextField source="lastName" /> <TextField source="firstName" />
           </WrapperField>
@@ -161,10 +158,10 @@ export const ContractList = () => {
         </ArrayField>
         <DateField source="startDate" locales={locale} />
         <DateField source="endDate" locales={locale} />
-        <ReferenceField source="roleId" reference="roles">
+        <ReferenceField source="roleId" reference="roles" link={false}>
           <TextField source="name" />
         </ReferenceField>
-        <ReferenceField source="seniorityId" reference="seniorities">
+        <ReferenceField source="seniorityId" reference="seniorities" link={false}>
           <TextField source="name" />
         </ReferenceField>
         <NumberField source="hoursPerMonth" />

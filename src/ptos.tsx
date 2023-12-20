@@ -9,7 +9,7 @@ import {
   ReferenceField,
   TextField,
   useLocaleState,
-  WrapperField
+  WrapperField,
 } from "react-admin";
 import CreateForm from "./components/forms/CreateForm";
 import EditForm from "./components/forms/EditForm";
@@ -66,12 +66,12 @@ export const PtoList = () => {
   return (
   <List>
     <Datagrid rowClick="edit">
-      <ReferenceField source="employeeId" reference="employees">
+      <ReferenceField source="employeeId" reference="employees" link="show">
         <WrapperField label="Full Name">
           <TextField source="firstName" /> <TextField source="lastName" />
         </WrapperField>
       </ReferenceField>
-      <ReferenceField source="leaveTypeId" reference="leave-types">
+      <ReferenceField source="leaveTypeId" reference="leave-types" link={false}>
         <WrapperField label="Leave Type">
           <TextField source="name" />
         </WrapperField>
