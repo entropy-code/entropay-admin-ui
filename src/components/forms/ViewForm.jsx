@@ -5,6 +5,7 @@ import {
 } from "react-admin";
 import Header from "../Header";
 import FormViewSections from "./FormViewSections";
+import { EntityViewActions } from "../layout/CustomActions";
 
 const ViewForm = ({ formData, title, resource }) => {
   return (
@@ -12,7 +13,7 @@ const ViewForm = ({ formData, title, resource }) => {
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Header title={title} subtitle="View" />
       </Box>
-      <Show>
+      <Show actions={<EntityViewActions entity={resource} /> }>
         <SimpleShowLayout>
           <Box width="100%">
             {formData &&

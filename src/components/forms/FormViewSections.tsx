@@ -80,7 +80,7 @@ const FormViewSections = (config: any) => {
                     <ReferenceField 
                       source={listItem.referenceValues.source} 
                       reference={listItem.referenceValues.reference} 
-                      />
+                      link="show"/>
                   </Labeled>
                   ) : undefined}
 
@@ -89,6 +89,7 @@ const FormViewSections = (config: any) => {
                     <ReferenceField 
                       source={listItem.referenceValues.source} 
                       reference={listItem.referenceValues.reference} 
+                      link="show"
                       >
                         <TextField source={listItem.referenceValues.optionText}></TextField>
                     </ReferenceField> 

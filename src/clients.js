@@ -10,7 +10,7 @@ import {
 } from "react-admin";
 import CreateForm from "./components/forms/CreateForm";
 import EditForm from "./components/forms/EditForm";
-import { ListActions, HasPermissions } from "./components/layout/CustomActions";
+import { HasPermissions } from "./components/layout/CustomActions";
 
 const formData = [
   {
@@ -56,10 +56,10 @@ const formData = [
 export const ClientList = () => {
   const [locale] = useLocaleState();
   return (
-    <List actions={<ListActions entity={"clients"} />}>
+    <List>
       <Datagrid>
         <TextField source="name" />
-        <ReferenceField source="companyId" reference="companies">
+        <ReferenceField source="companyId" reference="companies" link={false}>
           <TextField source="name" />
         </ReferenceField>
         <TextField source="address" />
@@ -73,7 +73,7 @@ export const ClientList = () => {
         <DateField source="modifiedAt" locales={locale} />
         <DateField source="createdAt" locales={locale} />
         {HasPermissions("clients", "update") && (
-          <EditButton variant="outlined" />
+          <EditButton/>
         )}
       </Datagrid>
     </List>

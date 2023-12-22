@@ -11,7 +11,7 @@ import {
   useListContext,
   SearchInput,
   useLocaleState,
-  FilterButton,
+  FilterButton
 } from "react-admin";
 import {
   Card,

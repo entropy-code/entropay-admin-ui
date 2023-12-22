@@ -128,7 +128,7 @@ export const AssignmentList = () => {
       filters={assignmentFilters}
     >
       <Datagrid rowClick={"edit"}>
-        <ReferenceField source="employeeId" reference="employees">
+        <ReferenceField source="employeeId" reference="employees" link="show">
           <WrapperField label="Full Name">
             <TextField source="lastName" /> <TextField source="firstName" />
           </WrapperField>
@@ -139,26 +139,26 @@ export const AssignmentList = () => {
             record.active === true ? "Active" : "Inactive"
           }
         />
-        <ReferenceField source="projectId" reference="projects">
+        <ReferenceField source="projectId" reference="projects" link="show">
           <TextField source="name" />
         </ReferenceField>
-        <ReferenceField source="projectId" reference="projects" label="Client">
-          <ReferenceField source="clientId" reference="clients">
+        <ReferenceField source="projectId" reference="projects" label="Client" link={false}>
+          <ReferenceField source="clientId" reference="clients" link={false}>
             <TextField source="name" />
           </ReferenceField>
         </ReferenceField>
         <DateField source="startDate" locales={locale} />
         <DateField source="endDate" locales={locale} />
-        <ReferenceField source="roleId" reference="roles">
+        <ReferenceField source="roleId" reference="roles" link={false}>
           <TextField source="name" />
         </ReferenceField>
         <NumberField source="hoursPerMonth" />
         <TextField source="billableRate" />
-        <ReferenceField source="currency" reference="contracts/currencies">
+        <ReferenceField source="currency" reference="contracts/currencies" link={false}>
           <TextField source="name" />
         </ReferenceField>
         <TextField source="labourHours" />
-        <ReferenceField source="seniorityId" reference="seniorities">
+        <ReferenceField source="seniorityId" reference="seniorities" link={false}>
           <TextField source="name" />
         </ReferenceField>
         <ShowButton />
