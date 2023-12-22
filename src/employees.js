@@ -106,7 +106,7 @@ const formData = [
       { name: "state", type: "string" },
       { name: "city", type: "string" },
       { name: "zip", type: "string" },
-      { name: "country", type: "string" },
+      { name: "country", type: "string", required: true },
     ],
   },
   {
