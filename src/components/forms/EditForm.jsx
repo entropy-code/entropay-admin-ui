@@ -12,6 +12,7 @@ import {
 import Header from "../Header";
 import FormSection from "./FormSections";
 import validateEntity from "./Validations";
+import { EntityCreateEditActions } from "../layout/CustomActions";
 
 const GetRedirectPath = (resource, data) => {
   let redirectPath = "";
@@ -73,7 +74,7 @@ const EditForm = ({ formData, title, resource }) => {
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Header title={title} subtitle="Edit" />
       </Box>
-      <Edit mutationMode="pessimistic" mutationOptions={{ onSuccess }}>
+      <Edit actions={<EntityCreateEditActions />} mutationMode="pessimistic" mutationOptions={{ onSuccess }}>
         <SimpleForm
           validate={validateEntity}
           toolbar={<CustomToolbar resource={resource} />}
