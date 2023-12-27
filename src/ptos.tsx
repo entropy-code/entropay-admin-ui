@@ -3,13 +3,12 @@ import {
   Datagrid,
   DateField,
   EditButton,
-  DeleteButton,
   List,
   NumberField,
   ReferenceField,
   TextField,
   useLocaleState,
-  WrapperField
+  WrapperField,
 } from "react-admin";
 import CreateForm from "./components/forms/CreateForm";
 import EditForm from "./components/forms/EditForm";
@@ -26,10 +25,10 @@ const formData = [
           reference: "employees",
           optionText: null,
           multiselect: false,
-          required: true
-        }
-      }
-    ]
+          required: true,
+        },
+      },
+    ],
   },
   {
     title: "LeaveType",
@@ -42,52 +41,49 @@ const formData = [
           reference: "leave-types",
           optionText: "name",
           multiselect: false,
-          required: true
-        }
+          required: true,
+        },
       },
       {},
       { name: "ptoStartDate", type: "date", required: true },
       { name: "ptoEndDate", type: "date", required: true },
       { name: "isHalfDay", type: "boolean", label: "Half day off" },
       {},
-    ]
+    ],
   },
   {
     title: "Details",
-    inputsList: [      
-      { name: "details", type: "string" }
-    ],
+    inputsList: [{ name: "details", type: "string" }],
   },
 ];
-
 
 export const PtoList = () => {
   const [locale] = useLocaleState();
   return (
-  <List>
-    <Datagrid rowClick="edit">
-      <ReferenceField source="employeeId" reference="employees">
-        <WrapperField label="Full Name">
-          <TextField source="firstName" /> <TextField source="lastName" />
-        </WrapperField>
-      </ReferenceField>
-      <ReferenceField source="leaveTypeId" reference="leave-types">
-        <WrapperField label="Leave Type">
-          <TextField source="name" />
-        </WrapperField>
-      </ReferenceField>
-      <DateField source="ptoStartDate" locales={locale}/>
-      <DateField source="ptoEndDate" locales={locale}/>
-      <TextField source="status"/>
-      <TextField source="details"/>
-      <NumberField source="days"/>
-      <EditButton />
-      <DeleteButton />
-    </Datagrid>
-  </List>
-)};
+    <List>
+      <Datagrid rowClick="edit">
+        <ReferenceField source="employeeId" reference="employees">
+          <WrapperField label="Full Name">
+            <TextField source="firstName" /> <TextField source="lastName" />
+          </WrapperField>
+        </ReferenceField>
+        <ReferenceField source="leaveTypeId" reference="leave-types">
+          <WrapperField label="Leave Type">
+            <TextField source="name" />
+          </WrapperField>
+        </ReferenceField>
+        <DateField source="ptoStartDate" locales={locale} />
+        <DateField source="ptoEndDate" locales={locale} />
+        <TextField source="status" />
+        <TextField source="details" />
+        <NumberField source="days" />
+        <EditButton />
+      </Datagrid>
+    </List>
+  );
+};
 
-export const PtoEdit = () => (  
+export const PtoEdit = () => (
   <EditForm formData={formData} title="Pto" resource="ptos" />
 );
 
