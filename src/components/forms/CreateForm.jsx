@@ -3,6 +3,8 @@ import { Create, SimpleForm, useRedirect } from "react-admin";
 import Header from "../Header";
 import FormSection from "./FormSections";
 import validateEntity from "./Validations";
+import { EntityCreateEditActions } from "../layout/CustomActions";
+
 
 const CreateForm = ({ formData, title, resource }) => {
   const redirect = useRedirect();
@@ -34,7 +36,7 @@ const CreateForm = ({ formData, title, resource }) => {
         <Header title={title} subtitle="Create" />
       </Box>
 
-      <Create mutationOptions={{ onSuccess }}>
+      <Create actions={<EntityCreateEditActions />} mutationOptions={{ onSuccess }}>
         <SimpleForm validate={validateEntity}>
           <Box width="100%">
             {formData.map((item, index) => {
