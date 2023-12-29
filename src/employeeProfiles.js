@@ -10,7 +10,6 @@ import {
   FunctionField,
   ArrayField,
   EditButton,
-  DeleteButton,
   Tab,
   ReferenceArrayField,
   SingleFieldList,
@@ -24,7 +23,7 @@ import {
   useLocaleState,
   WrapperField,
   useList,
-  ListContextProvider
+  ListContextProvider,
 } from "react-admin";
 import {
   Avatar,
@@ -36,7 +35,11 @@ import {
   Typography,
 } from "@mui/material";
 import RedirectButton from "./components/RedirectButton";
-import { HasPermissions, EntityViewActions } from "./components/layout/CustomActions";
+import {
+  HasPermissions,
+  EntityViewActions,
+} from "./components/layout/CustomActions";
+import CancelPtoButton from "./components/buttons/CancelPtoButton";
 
 const COLOR_green = "#efe";
 const COLOR_white = "#white";
@@ -147,15 +150,15 @@ const styleForSpan = {
 };
 
 const styleForCenteringTextField = {
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
 };
 
 const styleForCenteringTyphography = {
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
 };
 
 export const EmployeeProfile = () => {
@@ -175,7 +178,7 @@ export const EmployeeProfile = () => {
   return (
     <Show
       title="Show employee"
-      actions={<EntityViewActions entity={"employees"} /> }
+      actions={<EntityViewActions entity={"employees"} />}
       emptyWhileLoading
     >
       <Grid
@@ -225,7 +228,12 @@ export const EmployeeProfile = () => {
                     <Typography variant="subtitle2" color="textSecondary">
                       Start Date
                     </Typography>
-                    <DateField label="" source="startDate" record={record} locales={locale} />
+                    <DateField
+                      label=""
+                      source="startDate"
+                      record={record}
+                      locales={locale}
+                    />
                   </>
                 )}
                 {record.startDate && !record.endDate && (
@@ -241,7 +249,12 @@ export const EmployeeProfile = () => {
                     <Typography variant="subtitle2" color="textSecondary">
                       End Date
                     </Typography>
-                    <DateField label="" source="endDate" record={record} locales={locale}/>
+                    <DateField
+                      label=""
+                      source="endDate"
+                      record={record}
+                      locales={locale}
+                    />
                   </>
                 )}
               </SimpleShowLayout>
@@ -249,20 +262,39 @@ export const EmployeeProfile = () => {
           />
         </Grid>
         <Grid item>
-        <SimpleShowLayout divider={<Divider flexItem />}>
+          <SimpleShowLayout divider={<Divider flexItem />}>
             <>
-              <Typography variant="subtitle2" color="textSecondary" style={styleForCenteringTyphography}>
+              <Typography
+                variant="subtitle2"
+                color="textSecondary"
+                style={styleForCenteringTyphography}
+              >
                 Available Vacation Days
               </Typography>
-              <TextField label="" source="availableDays" textAlign="left" style={styleForCenteringTextField}/>
+              <TextField
+                label=""
+                source="availableDays"
+                textAlign="left"
+                style={styleForCenteringTextField}
+              />
             </>
             <>
-              <Typography variant="subtitle2" color="textSecondary" textAlign="right" style={styleForCenteringTyphography}> 
+              <Typography
+                variant="subtitle2"
+                color="textSecondary"
+                textAlign="right"
+                style={styleForCenteringTyphography}
+              >
                 Since Start
               </Typography>
-              <TextField label="" source="timeSinceStart" textAlign="left" style={styleForCenteringTextField}/>
+              <TextField
+                label=""
+                source="timeSinceStart"
+                textAlign="left"
+                style={styleForCenteringTextField}
+              />
             </>
-        </SimpleShowLayout>
+          </SimpleShowLayout>
         </Grid>
         <Grid item>
           {HasPermissions("employees", "update") && <EditButton />}
@@ -387,7 +419,11 @@ export const EmployeeProfile = () => {
                 }
               />
               ;
-              <ReferenceField source="companyId" reference="companies" link={false}>
+              <ReferenceField
+                source="companyId"
+                reference="companies"
+                link={false}
+              >
                 <TextField source="name" />
               </ReferenceField>
               <DateField source="startDate" locales={locale} />
@@ -395,7 +431,11 @@ export const EmployeeProfile = () => {
               <ReferenceField source="roleId" reference="roles" link={false}>
                 <ChipField source="name" />
               </ReferenceField>
-              <ReferenceField source="seniorityId" reference="seniorities" link={false}>
+              <ReferenceField
+                source="seniorityId"
+                reference="seniorities"
+                link={false}
+              >
                 <ChipField source="name" />
               </ReferenceField>
               <NumberField source="hoursPerMonth" />
@@ -427,7 +467,11 @@ export const EmployeeProfile = () => {
               rowStyle={activeValue}
               empty={<CustomEmpty message="No assignments found" />}
             >
-              <ReferenceField source="projectId" reference="projects" link={false}>
+              <ReferenceField
+                source="projectId"
+                reference="projects"
+                link={false}
+              >
                 <TextField source="name" />
               </ReferenceField>
               <FunctionField
@@ -444,7 +488,11 @@ export const EmployeeProfile = () => {
                 label="Client"
                 link={false}
               >
-                <ReferenceField source="clientId" reference="clients" link={false}>
+                <ReferenceField
+                  source="clientId"
+                  reference="clients"
+                  link={false}
+                >
                   <TextField source="name" />
                 </ReferenceField>
               </ReferenceField>
@@ -453,7 +501,11 @@ export const EmployeeProfile = () => {
               <ReferenceField source="roleId" reference="roles" link={false}>
                 <ChipField source="name" />
               </ReferenceField>
-              <ReferenceField source="seniorityId" reference="seniorities" link={false}>
+              <ReferenceField
+                source="seniorityId"
+                reference="seniorities"
+                link={false}
+              >
                 <ChipField source="name" />
               </ReferenceField>
               <NumberField source="hoursPerMonth" />
@@ -532,7 +584,10 @@ export const EmployeeProfile = () => {
                         <NumberField source="debit" />
                         <FunctionField
                           label="Edit"
-                          render={(record) => HasPermissions("vacations", "update") && record.credit > 0 && <EditButton />}
+                          render={(record) =>
+                            HasPermissions("vacations", "update") &&
+                            record.credit > 0 && <EditButton />
+                          }
                         />
                       </Datagrid>
                     </ReferenceManyField>
@@ -562,7 +617,11 @@ export const EmployeeProfile = () => {
                 bulkActionButtons={false}
                 empty={<CustomEmpty message="No ptos found" />}
               >
-                <ReferenceField source="leaveTypeId" reference="leave-types" link={false}>
+                <ReferenceField
+                  source="leaveTypeId"
+                  reference="leave-types"
+                  link={false}
+                >
                   <WrapperField label="Leave Type">
                     <TextField source="name" />
                   </WrapperField>
@@ -573,8 +632,18 @@ export const EmployeeProfile = () => {
                 <TextField source="details" />
                 <NumberField source="days" />
                 <NumberField source="labourHours" />
-                {HasPermissions("ptos", "update") && <EditButton />}
-                {HasPermissions("ptos", "delete") && <DeleteButton />}
+                {HasPermissions("ptos", "update") && (
+                  <FunctionField
+                    render={(record) => (
+                      <EditButton disabled={record.status === "CANCELLED"} />
+                    )}
+                  />
+                )}
+                <FunctionField
+                  render={(record) => (
+                    <CancelPtoButton id={record.id} record={record} />
+                  )}
+                />
               </Datagrid>
             </ReferenceManyField>
           </Tab>
