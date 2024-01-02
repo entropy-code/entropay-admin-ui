@@ -302,7 +302,9 @@ export const EmployeeProfile = () => {
                 <TextField source="taxId" />
                 <TextField source="address" />
                 <TextField source="city" />
-                <TextField source="country" />
+                <ReferenceField source="countryId" reference="countries" link="show">
+                  <TextField source="name" />
+                </ReferenceField>
                 <TextField source="notes" />
               </SimpleShowLayout>
             </Grid>
