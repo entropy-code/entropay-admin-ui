@@ -3,7 +3,6 @@ import {
   Datagrid,
   DateField,
   EditButton,
-  DeleteButton,
   List,
   NumberField,
   ReferenceField,
@@ -66,16 +65,12 @@ export const PtoList = () => {
   return (
     <List>
       <Datagrid>
-        <ReferenceField source="employeeId" reference="employees" link="show">
+        <ReferenceField source="employeeId" reference="employees">
           <WrapperField label="Full Name">
             <TextField source="firstName" /> <TextField source="lastName" />
           </WrapperField>
         </ReferenceField>
-        <ReferenceField
-          source="leaveTypeId"
-          reference="leave-types"
-          link={false}
-        >
+        <ReferenceField source="leaveTypeId" reference="leave-types">
           <WrapperField label="Leave Type">
             <TextField source="name" />
           </WrapperField>
