@@ -12,6 +12,8 @@ import {
 import Header from "../Header";
 import FormSection from "./FormSections";
 import validateEntity from "./Validations";
+import { HasPermissions } from "../layout/CustomActions";
+import { EntityCreateEditActions } from "../layout/CustomActions";
 
 const GetRedirectPath = (resource, data) => {
   let redirectPath = "";
@@ -54,7 +56,13 @@ const CustomToolbar = (props) => {
       sx={{ display: "flex", justifyContent: "space-between" }}
     >
       <SaveButton />
-      <DeleteButton mutationMode="pessimistic" onClick={handleClick} />
+      {HasPermissions(resource, "delete") && (
+        <DeleteButton
+          mutationMode="pessimistic"
+          onClick={handleClick}
+          confirmTitle="Deletion confirmation"
+        />
+      )}
     </Toolbar>
   );
 };
@@ -73,7 +81,7 @@ const EditForm = ({ formData, title, resource }) => {
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Header title={title} subtitle="Edit" />
       </Box>
-      <Edit mutationMode="pessimistic" mutationOptions={{ onSuccess }}>
+      <Edit actions={<EntityCreateEditActions />} mutationMode="pessimistic" mutationOptions={{ onSuccess }}>
         <SimpleForm
           validate={validateEntity}
           toolbar={<CustomToolbar resource={resource} />}

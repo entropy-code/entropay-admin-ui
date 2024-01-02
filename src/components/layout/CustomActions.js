@@ -1,26 +1,31 @@
 import { 
     TopToolbar,
     CreateButton,
-    ListButton,
 } from 'react-admin';
-
-import ArowBackIcon from '@rsuite/icons/ArowBack';
-
-const icons = {
-    backIcon: <ArowBackIcon />,
-  };
+import BackButton from "../buttons/BackButton"
+import CancelButton from '../buttons/CancelButton';
 
 export const EntityViewActions = ({ entity }) => {
     return (
       <TopToolbar sx={{ justifyContent: "space-between" }}>
         <div style={{ display: "flex" }}>
-          <ListButton label='back' icon={icons.backIcon}/>
+          <BackButton/>
         </div>
         {HasPermissions(entity, "create") && <CreateButton />}
       </TopToolbar>
     );
   };  
   
+  export const EntityCreateEditActions = ( ) => {
+    return (
+      <TopToolbar sx={{ justifyContent: "space-between" }}>
+        <div style={{ display: "flex" }}>
+          <CancelButton/>
+        </div>
+      </TopToolbar>
+    );
+  };
+
 export const HasPermissions = (entity, action) => {
     const config = JSON.parse(localStorage.getItem('config')) || {}
     const permissions = config.permissions || []
