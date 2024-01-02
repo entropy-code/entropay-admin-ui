@@ -13,6 +13,7 @@ import Header from "../Header";
 import FormSection from "./FormSections";
 import validateEntity from "./Validations";
 import { HasPermissions } from "../layout/CustomActions";
+import { EntityCreateEditActions } from "../layout/CustomActions";
 
 const GetRedirectPath = (resource, data) => {
   let redirectPath = "";
@@ -28,6 +29,9 @@ const GetRedirectPath = (resource, data) => {
       break;
     case "vacations":
       redirectPath = `/employees/${data.employeeId}/show/3`;
+      break;
+    case "ptos":
+      redirectPath = `/employees/${data.employeeId}/show/4`;
       break;
     default:
       redirectPath = `/${resource}`;
@@ -77,7 +81,7 @@ const EditForm = ({ formData, title, resource }) => {
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Header title={title} subtitle="Edit" />
       </Box>
-      <Edit mutationMode="pessimistic" mutationOptions={{ onSuccess }}>
+      <Edit actions={<EntityCreateEditActions />} mutationMode="pessimistic" mutationOptions={{ onSuccess }}>
         <SimpleForm
           validate={validateEntity}
           toolbar={<CustomToolbar resource={resource} />}

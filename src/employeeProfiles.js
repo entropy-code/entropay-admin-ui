@@ -23,7 +23,7 @@ import {
   useLocaleState,
   WrapperField,
   useList,
-  ListContextProvider,
+  ListContextProvider
 } from "react-admin";
 import {
   Avatar,
@@ -35,7 +35,7 @@ import {
   Typography,
 } from "@mui/material";
 import RedirectButton from "./components/RedirectButton";
-import { HasPermissions, ListActions } from "./components/layout/CustomActions";
+import { HasPermissions, EntityViewActions } from "./components/layout/CustomActions";
 
 const COLOR_green = "#efe";
 const COLOR_white = "#white";
@@ -174,7 +174,7 @@ export const EmployeeProfile = () => {
   return (
     <Show
       title="Show employee"
-      actions={<ListActions entity={"employees"} />}
+      actions={<EntityViewActions entity={"employees"} /> }
       emptyWhileLoading
     >
       <Grid
@@ -402,6 +402,7 @@ export const EmployeeProfile = () => {
               <ReferenceField
                 source="contractType"
                 reference="contracts/contract-types"
+                link={false}
               >
                 <ChipField source="value" />
               </ReferenceField>
@@ -414,15 +415,15 @@ export const EmployeeProfile = () => {
                 }
               />
               ;
-              <ReferenceField source="companyId" reference="companies">
+              <ReferenceField source="companyId" reference="companies" link={false}>
                 <TextField source="name" />
               </ReferenceField>
               <DateField source="startDate" locales={locale} />
               <DateField source="endDate" locales={locale} />
-              <ReferenceField source="roleId" reference="roles">
+              <ReferenceField source="roleId" reference="roles" link={false}>
                 <ChipField source="name" />
               </ReferenceField>
-              <ReferenceField source="seniorityId" reference="seniorities">
+              <ReferenceField source="seniorityId" reference="seniorities" link={false}>
                 <ChipField source="name" />
               </ReferenceField>
               <NumberField source="hoursPerMonth" />
@@ -454,7 +455,7 @@ export const EmployeeProfile = () => {
               rowStyle={activeValue}
               empty={<CustomEmpty message="No assignments found" />}
             >
-              <ReferenceField source="projectId" reference="projects">
+              <ReferenceField source="projectId" reference="projects" link={false}>
                 <TextField source="name" />
               </ReferenceField>
               <FunctionField
@@ -469,17 +470,18 @@ export const EmployeeProfile = () => {
                 source="projectId"
                 reference="projects"
                 label="Client"
+                link={false}
               >
-                <ReferenceField source="clientId" reference="clients">
+                <ReferenceField source="clientId" reference="clients" link={false}>
                   <TextField source="name" />
                 </ReferenceField>
               </ReferenceField>
               <DateField source="startDate" locales={locale} />
               <DateField source="endDate" locales={locale} />
-              <ReferenceField source="roleId" reference="roles">
+              <ReferenceField source="roleId" reference="roles" link={false}>
                 <ChipField source="name" />
               </ReferenceField>
-              <ReferenceField source="seniorityId" reference="seniorities">
+              <ReferenceField source="seniorityId" reference="seniorities" link={false}>
                 <ChipField source="name" />
               </ReferenceField>
               <NumberField source="hoursPerMonth" />
@@ -591,7 +593,7 @@ export const EmployeeProfile = () => {
                 bulkActionButtons={false}
                 empty={<CustomEmpty message="No ptos found" />}
               >
-                <ReferenceField source="leaveTypeId" reference="leave-types">
+                <ReferenceField source="leaveTypeId" reference="leave-types" link={false}>
                   <WrapperField label="Leave Type">
                     <TextField source="name" />
                   </WrapperField>

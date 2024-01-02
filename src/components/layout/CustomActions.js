@@ -1,19 +1,30 @@
 import { 
-    useListContext,
     TopToolbar,
     CreateButton,
-    ExportButton,
 } from 'react-admin';
+import BackButton from "../buttons/BackButton"
+import CancelButton from '../buttons/CancelButton';
 
-export const ListActions = ({entity}) => {
-    const { total, isLoading } = useListContext();
+export const EntityViewActions = ({ entity }) => {
     return (
-        <TopToolbar>
-            {HasPermissions(entity, "create") && <CreateButton/>}
-            <ExportButton disabled={isLoading || total === 0} />
-        </TopToolbar>
+      <TopToolbar sx={{ justifyContent: "space-between" }}>
+        <div style={{ display: "flex" }}>
+          <BackButton/>
+        </div>
+        {HasPermissions(entity, "create") && <CreateButton />}
+      </TopToolbar>
     );
-};
+  };  
+  
+  export const EntityCreateEditActions = ( ) => {
+    return (
+      <TopToolbar sx={{ justifyContent: "space-between" }}>
+        <div style={{ display: "flex" }}>
+          <CancelButton/>
+        </div>
+      </TopToolbar>
+    );
+  };
 
 export const HasPermissions = (entity, action) => {
     const config = JSON.parse(localStorage.getItem('config')) || {}
@@ -29,4 +40,4 @@ export const HasPermissions = (entity, action) => {
     
 };
 
-export default ListActions
+export default EntityViewActions
