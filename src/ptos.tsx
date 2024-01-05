@@ -9,9 +9,12 @@ import {
   TextField,
   useLocaleState,
   WrapperField,
+  FunctionField,
 } from "react-admin";
 import CreateForm from "./components/forms/CreateForm";
 import EditForm from "./components/forms/EditForm";
+import { IPto } from "./types";
+import CancelPtoButton from "./components/buttons/CancelPtoButton";
 
 const formData = [
   {
@@ -61,7 +64,7 @@ export const PtoList = () => {
   const [locale] = useLocaleState();
   return (
     <List>
-      <Datagrid rowClick="edit">
+      <Datagrid>
         <ReferenceField source="employeeId" reference="employees">
           <WrapperField label="Full Name">
             <TextField source="firstName" /> <TextField source="lastName" />
@@ -77,7 +80,16 @@ export const PtoList = () => {
         <TextField source="status" />
         <TextField source="details" />
         <NumberField source="days" />
-        <EditButton />
+        <FunctionField
+          render={(record: IPto) => (
+            <EditButton disabled={record.status === "CANCELLED"} />
+          )}
+        />
+        <FunctionField
+          render={(record: IPto) => (
+            <CancelPtoButton id={record.id} record={record} />
+          )}
+        />
       </Datagrid>
     </List>
   );
