@@ -45,7 +45,7 @@ const CustomToolbar = (props) => {
   const refresh = useRefresh();
   const redirect = useRedirect();
   const handleClick = () => {
-    let redirectPath = GetRedirectPath(resource, data);
+    const redirectPath = resource === "employees" ? "/employees" : GetRedirectPath(resource, data);
     redirect(redirectPath);
     refresh();
   };
