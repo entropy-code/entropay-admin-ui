@@ -11,7 +11,9 @@ import {
   useListContext,
   SearchInput,
   useLocaleState,
-  FilterButton
+  FilterButton,
+  ReferenceField,
+  TextField
 } from "react-admin";
 import {
   Card,
@@ -106,7 +108,17 @@ const formData = [
       { name: "state", type: "string" },
       { name: "city", type: "string" },
       { name: "zip", type: "string" },
-      { name: "country", type: "string" },
+      {
+        name: "Country",
+        type: "selectInput",
+        referenceValues: {
+          source: "countryId",
+          reference: "countries",
+          optionText: "name",
+          multiselect: false,
+          required: true,
+        },
+      }
     ],
   },
   {
@@ -137,7 +149,7 @@ const fieldsList = [
   { name: "labourEmail", type: "text" },
   { name: "startDate", type: "date" },
   { name: "city", type: "text" },
-  { name: "country", type: "text" },
+  { name: "country", type: "reference", reference: "countries" },
   { name: "client", type: "text" },
   { name: "project", type: "text" },
   { name: "role", type: "text" },
@@ -258,7 +270,10 @@ const EmployeeInformation = ({ renderAs = "list" }) => {
                         <DateField source="startDate" locales={locale} />
                       </Typography>
                       <Typography noWrap align="center">
-                        {record.state} / {record.country}
+                        {record.state} /                  
+                        <ReferenceField source="countryId" reference="countries" link="show">
+                          { } <TextField source="name" />
+                        </ReferenceField>
                       </Typography>
                       <Typography noWrap align="center">
                         {record.client} / {record.project}

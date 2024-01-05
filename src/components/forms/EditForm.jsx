@@ -12,6 +12,7 @@ import {
 import Header from "../Header";
 import FormSection from "./FormSections";
 import validateEntity from "./Validations";
+import { HasPermissions } from "../layout/CustomActions";
 import { EntityCreateEditActions } from "../layout/CustomActions";
 
 const GetRedirectPath = (resource, data) => {
@@ -55,7 +56,13 @@ const CustomToolbar = (props) => {
       sx={{ display: "flex", justifyContent: "space-between" }}
     >
       <SaveButton />
-      <DeleteButton mutationMode="pessimistic" onClick={handleClick} />
+      {HasPermissions(resource, "delete") && (
+        <DeleteButton
+          mutationMode="pessimistic"
+          onClick={handleClick}
+          confirmTitle="Deletion confirmation"
+        />
+      )}
     </Toolbar>
   );
 };
