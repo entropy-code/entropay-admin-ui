@@ -32,8 +32,9 @@ const ListBuilder = ({ fieldsList, locale, hasShowButton, resource }) => {
               return (
                 <ReferenceField
                   key={index}
-                  source={field.name}
+                  source={field.name + "Id"}
                   reference={field.reference}
+                  link="show"
                 >
                   <TextField source="name" />
                 </ReferenceField>

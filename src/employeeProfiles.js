@@ -23,7 +23,7 @@ import {
   useLocaleState,
   WrapperField,
   useList,
-  ListContextProvider
+  ListContextProvider,
 } from "react-admin";
 import {
   Avatar,
@@ -35,7 +35,11 @@ import {
   Typography,
 } from "@mui/material";
 import RedirectButton from "./components/RedirectButton";
-import { HasPermissions, EntityViewActions } from "./components/layout/CustomActions";
+import {
+  HasPermissions,
+  EntityViewActions,
+} from "./components/layout/CustomActions";
+import CancelPtoButton from "./components/buttons/CancelPtoButton";
 
 const COLOR_green = "#efe";
 const COLOR_white = "#white";
@@ -174,7 +178,7 @@ export const EmployeeProfile = () => {
   return (
     <Show
       title="Show employee"
-      actions={<EntityViewActions entity={"employees"} /> }
+      actions={<EntityViewActions entity={"employees"} />}
       emptyWhileLoading
     >
       <Grid
@@ -330,7 +334,9 @@ export const EmployeeProfile = () => {
                 <TextField source="taxId" />
                 <TextField source="address" />
                 <TextField source="city" />
-                <TextField source="country" />
+                <ReferenceField source="countryId" reference="countries" link="show">
+                  <TextField source="name" />
+                </ReferenceField>
                 <TextField source="notes" />
               </SimpleShowLayout>
             </Grid>
@@ -415,7 +421,11 @@ export const EmployeeProfile = () => {
                 }
               />
               ;
-              <ReferenceField source="companyId" reference="companies" link={false}>
+              <ReferenceField
+                source="companyId"
+                reference="companies"
+                link={false}
+              >
                 <TextField source="name" />
               </ReferenceField>
               <DateField source="startDate" locales={locale} />
@@ -423,7 +433,11 @@ export const EmployeeProfile = () => {
               <ReferenceField source="roleId" reference="roles" link={false}>
                 <ChipField source="name" />
               </ReferenceField>
-              <ReferenceField source="seniorityId" reference="seniorities" link={false}>
+              <ReferenceField
+                source="seniorityId"
+                reference="seniorities"
+                link={false}
+              >
                 <ChipField source="name" />
               </ReferenceField>
               <NumberField source="hoursPerMonth" />
@@ -455,7 +469,11 @@ export const EmployeeProfile = () => {
               rowStyle={activeValue}
               empty={<CustomEmpty message="No assignments found" />}
             >
-              <ReferenceField source="projectId" reference="projects" link={false}>
+              <ReferenceField
+                source="projectId"
+                reference="projects"
+                link={false}
+              >
                 <TextField source="name" />
               </ReferenceField>
               <FunctionField
@@ -472,7 +490,11 @@ export const EmployeeProfile = () => {
                 label="Client"
                 link={false}
               >
-                <ReferenceField source="clientId" reference="clients" link={false}>
+                <ReferenceField
+                  source="clientId"
+                  reference="clients"
+                  link={false}
+                >
                   <TextField source="name" />
                 </ReferenceField>
               </ReferenceField>
@@ -481,7 +503,11 @@ export const EmployeeProfile = () => {
               <ReferenceField source="roleId" reference="roles" link={false}>
                 <ChipField source="name" />
               </ReferenceField>
-              <ReferenceField source="seniorityId" reference="seniorities" link={false}>
+              <ReferenceField
+                source="seniorityId"
+                reference="seniorities"
+                link={false}
+              >
                 <ChipField source="name" />
               </ReferenceField>
               <NumberField source="hoursPerMonth" />
@@ -593,7 +619,11 @@ export const EmployeeProfile = () => {
                 bulkActionButtons={false}
                 empty={<CustomEmpty message="No ptos found" />}
               >
-                <ReferenceField source="leaveTypeId" reference="leave-types" link={false}>
+                <ReferenceField
+                  source="leaveTypeId"
+                  reference="leave-types"
+                  link={false}
+                >
                   <WrapperField label="Leave Type">
                     <TextField source="name" />
                   </WrapperField>
@@ -604,7 +634,18 @@ export const EmployeeProfile = () => {
                 <TextField source="details" />
                 <NumberField source="days" />
                 <NumberField source="labourHours" />
-                {HasPermissions("ptos", "update") && <EditButton />}
+                {HasPermissions("ptos", "update") && (
+                  <FunctionField
+                    render={(record) => (
+                      <EditButton disabled={record.status === "CANCELLED"} />
+                    )}
+                  />
+                )}
+                <FunctionField
+                  render={(record) => (
+                    <CancelPtoButton id={record.id} record={record} />
+                  )}
+                />
               </Datagrid>
             </ReferenceManyField>
           </Tab>
