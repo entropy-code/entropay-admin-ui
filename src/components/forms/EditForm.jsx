@@ -15,11 +15,36 @@ import validateEntity from "./Validations";
 import { HasPermissions } from "../layout/CustomActions";
 import { EntityCreateEditActions } from "../layout/CustomActions";
 
-const GetRedirectPath = (resource, data) => {
+const GetRedirectPathAfterEdit = (resource, data) => {
   let redirectPath = "";
   switch (resource) {
     case "employees":
       redirectPath = `/employees/${data.id}/show`;
+      break;
+    case "contracts":
+      redirectPath = `/employees/${data.employeeId}/show/1`;
+      break;
+    case "assignments":
+      redirectPath = `/employees/${data.employeeId}/show/2`;
+      break;
+    case "vacations":
+      redirectPath = `/employees/${data.employeeId}/show/3`;
+      break;
+    case "ptos":
+      redirectPath = `/employees/${data.employeeId}/show/4`;
+      break;
+    default:
+      redirectPath = `/${resource}`;
+      break;
+  }
+  return redirectPath;
+};
+
+const GetRedirectPathAfterDelete = (resource, data) => {
+  let redirectPath = "";
+  switch (resource) {
+    case "employees":
+      redirectPath = `/employees`;
       break;
     case "contracts":
       redirectPath = `/employees/${data.employeeId}/show/1`;
@@ -46,7 +71,7 @@ const CustomToolbar = (props) => {
   const refresh = useRefresh();
   const redirect = useRedirect();
   const handleClick = () => {
-    let redirectPath = GetRedirectPath(resource, data);
+    const redirectPath = GetRedirectPathAfterDelete(resource, data);
     redirect(redirectPath);
     refresh();
   };
@@ -71,7 +96,7 @@ const EditForm = ({ formData, title, resource }) => {
   const refresh = useRefresh();
   const redirect = useRedirect();
   const onSuccess = (data) => {
-    let redirectPath = GetRedirectPath(resource, data);
+    let redirectPath = GetRedirectPathAfterEdit(resource, data);
     redirect(redirectPath);
     refresh();
   };
