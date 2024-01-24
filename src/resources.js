@@ -162,7 +162,7 @@ export const resourceMap = [
     show: null,
   },
   {
-    entity: "reports/ptos",
+    entity: "reports/ptos/employees",
     list: PtoReportList,
     edit: null,
     create: null,

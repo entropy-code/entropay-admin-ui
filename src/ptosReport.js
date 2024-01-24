@@ -4,6 +4,9 @@ import {
   TextField,
   NumberField,
   ExportButton,
+  useGetList,
+  Filter,
+  SelectInput,
 } from "react-admin";
 import { exporter } from "./utils/exporter";
 
@@ -34,10 +37,36 @@ const reportFieldsList = [
   { name: "totalDays", type: "number" },
 ];
 
+const YearOptions = () => {
+  const { data: years } = useGetList("ptos/years");
+  return years?.map((year) => ({ id: year.id, name: year.year })) || [];
+};
+
 export const PtoReportList = () => {
+  const currentYear = new Date().getFullYear();
+  const yearsByFilter = YearOptions();
+
+  if (!currentYear || yearsByFilter.length === 0) {
+    return <></>;
+  }
+
+  const PtoFilters = () => (
+    <Filter>
+      <SelectInput
+        source="year"
+        label="Year"
+        emptyText="All years"
+        choices={yearsByFilter}
+        alwaysOn
+        style={{ marginTop: "20px", marginBottom: "20px" }}
+      />
+    </Filter>
+  );
+
   return (
     <List
-      resource="reports/ptos"
+      filters={PtoFilters()}
+      resource="reports/ptos/employees"
       exporter={exporter(reportFieldsList, "ptosReport", headers, headersOrder)}
       actions={
         <>
