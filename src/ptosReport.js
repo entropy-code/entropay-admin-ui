@@ -7,6 +7,9 @@ import {
   useGetList,
   Filter,
   SelectInput,
+  useRecordContext,
+  DateField,
+  useLocaleState,
 } from "react-admin";
 import { exporter } from "./utils/exporter";
 
@@ -42,6 +45,29 @@ const YearOptions = () => {
   return years?.map((year) => ({ id: year.id, name: year.year })) || [];
 };
 
+
+export const PtoDetail = () => {
+  const [locale] = useLocaleState();
+  const record = useRecordContext();
+  const { data: details } = useGetList(
+    'reports/ptos/details',
+    {
+      filter: {employeeId: record.id}
+    }
+);
+
+return (
+    <>
+      <Datagrid data={details} bulkActionButtons={false}>
+        <TextField source="leaveTypeName" label="Leave Type"></TextField>
+        <DateField source="startDate" locales={locale} />
+        <DateField source="endDate" locales={locale} />
+        <TextField source="days" label="Total Days"></TextField>
+      </Datagrid>
+    </>
+  );
+};
+
 export const PtoReportList = () => {
   const currentYear = new Date().getFullYear();
   const yearsByFilter = YearOptions();
@@ -74,7 +100,9 @@ export const PtoReportList = () => {
         </>
       }
     >
-      <Datagrid bulkActionButtons={false}>
+      <Datagrid bulkActionButtons={false}
+        expand={<PtoDetail/>}
+      >
         <TextField source="internalId" />
         <TextField source="firstName" />
         <TextField source="lastName" />
