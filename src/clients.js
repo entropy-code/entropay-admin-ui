@@ -11,6 +11,7 @@ import {
 import CreateForm from "./components/forms/CreateForm";
 import EditForm from "./components/forms/EditForm";
 import { HasPermissions } from "./components/layout/CustomActions";
+import { genericExporter } from "./utils/exporter";
 
 const formData = [
   {
@@ -56,7 +57,7 @@ const formData = [
 export const ClientList = () => {
   const [locale] = useLocaleState();
   return (
-    <List>
+    <List exporter={(records, fetchRelatedRecords) => genericExporter(records, fetchRelatedRecords, "clients")}>
       <Datagrid>
         <TextField source="name" />
         <ReferenceField source="companyId" reference="companies" link={false}>

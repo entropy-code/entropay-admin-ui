@@ -15,6 +15,8 @@ import CreateForm from "./components/forms/CreateForm";
 import EditForm from "./components/forms/EditForm";
 import { IPto } from "./types";
 import CancelPtoButton from "./components/buttons/CancelPtoButton";
+import { genericExporter } from "./utils/exporter";
+
 
 const formData = [
   {
@@ -63,7 +65,7 @@ const formData = [
 export const PtoList = () => {
   const [locale] = useLocaleState();
   return (
-    <List>
+    <List exporter={(records, fetchRelatedRecords) => genericExporter(records, fetchRelatedRecords, "ptos")}>
       <Datagrid>
         <ReferenceField source="employeeId" reference="employees">
           <WrapperField label="Full Name">
