@@ -10,6 +10,7 @@ import {
   useRecordContext,
   DateField,
   useLocaleState,
+  required,
 } from "react-admin";
 import { exporter } from "./utils/exporter";
 
@@ -81,9 +82,9 @@ export const PtoReportList = () => {
       <SelectInput
         source="year"
         label="Year"
-        emptyText="All years"
         choices={yearsByFilter}
         alwaysOn
+        validate={required()}
         style={{ marginTop: "20px", marginBottom: "20px" }}
       />
     </Filter>
@@ -92,6 +93,7 @@ export const PtoReportList = () => {
   return (
     <List
       filters={PtoFilters()}
+      filterDefaultValues={{Year: currentYear}}
       resource="reports/ptos/employees"
       exporter={exporter(reportFieldsList, "ptosReport", headers, headersOrder)}
       actions={
