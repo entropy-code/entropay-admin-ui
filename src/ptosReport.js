@@ -93,7 +93,7 @@ export const PtoReportList = () => {
   return (
     <List
       filters={PtoFilters()}
-      filterDefaultValues={{Year: currentYear}}
+      filterDefaultValues={{year: currentYear}}
       resource="reports/ptos/employees"
       exporter={exporter(reportFieldsList, "ptosReport", headers, headersOrder)}
       actions={
