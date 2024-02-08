@@ -11,15 +11,17 @@ import {
   DateField,
   useLocaleState,
   required,
+  useListContext,
+  FunctionField,
 } from "react-admin";
 import { exporter } from "./utils/exporter";
+import { blueGrey } from "@mui/material/colors";
 
 const headers = [
   "Internal ID",
   "First Name",
   "Last Name",
-  "Client",
-  "Leave Reason",
+  "Client Name",
   "Total Days",
 ];
 
@@ -28,7 +30,6 @@ const headersOrder = [
   "firstName",
   "lastName",
   "clientName",
-  "leaveTypeName",
   "totalDays",
 ];
 
@@ -37,7 +38,6 @@ const reportFieldsList = [
   { name: "firstName", type: "text" },
   { name: "lastName", type: "text" },
   { name: "clientName", type: "text" },
-  { name: "leaveTypeName", type: "text" },
   { name: "totalDays", type: "number" },
 ];
 
@@ -50,16 +50,23 @@ const YearOptions = () => {
 export const PtoDetail = () => {
   const [locale] = useLocaleState();
   const record = useRecordContext();
+  const listContext = useListContext();
+  const yearFilter = listContext.filterValues;
   const { data: details } = useGetList(
     'reports/ptos/details',
     {
-      filter: {employeeId: record.id}
+      filter: {employeeId: record.id, ...yearFilter}
     }
 );
 
 return (
     <>
-      <Datagrid data={details} bulkActionButtons={false}>
+      <Datagrid data={details} bulkActionButtons={false}
+      sx={{
+        [`& .RaDatagrid-headerCell`]: {
+          backgroundColor: blueGrey[50]
+        }
+      }}>
         <TextField source="leaveTypeName" label="Leave Type"></TextField>
         <DateField source="startDate" locales={locale} />
         <DateField source="endDate" locales={locale} />
@@ -69,7 +76,8 @@ return (
   );
 };
 
-export const PtoReportList = () => {
+
+const PtoFilters = () => {
   const currentYear = new Date().getFullYear();
   const yearsByFilter = YearOptions();
 
@@ -77,7 +85,7 @@ export const PtoReportList = () => {
     return <></>;
   }
 
-  const PtoFilters = () => (
+  return(
     <Filter>
       <SelectInput
         source="year"
@@ -89,13 +97,16 @@ export const PtoReportList = () => {
       />
     </Filter>
   );
+}
 
+export const EmployeesPtosReportList = () => {
+  const currentYear = new Date().getFullYear();
   return (
     <List
       filters={PtoFilters()}
       filterDefaultValues={{year: currentYear}}
       resource="reports/ptos/employees"
-      exporter={exporter(reportFieldsList, "ptosReport", headers, headersOrder)}
+      exporter={exporter(reportFieldsList, "employeesPtosReport", headers, headersOrder)}
       actions={
         <>
           <ExportButton />
@@ -103,11 +114,16 @@ export const PtoReportList = () => {
       }
     >
       <Datagrid bulkActionButtons={false}
-        expand={<PtoDetail/>}
+        expand={<PtoDetail />}
+        sx={{
+          [`& .RaDatagrid-expandedPanel`]: {backgroundColor: blueGrey[50]},
+          [`& .RaDatagrid-thead`]: {backgroundColor: blueGrey[50]},
+        }}
       >
-        <TextField source="internalId" />
-        <TextField source="firstName" />
-        <TextField source="lastName" />
+        <TextField source="internalId"/>
+        <FunctionField label="Employee" sortBy="lastName" render={
+                record => `${record.lastName} ${record.firstName}`
+            } />
         <TextField source="clientName" />
         <NumberField source="totalDays" />
       </Datagrid>
