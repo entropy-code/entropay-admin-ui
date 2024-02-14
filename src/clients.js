@@ -28,6 +28,7 @@ const formData = [
           required: true,
         },
       },
+      { name: "internalId", type: "string", required: true },
     ],
   },
   {
@@ -62,6 +63,7 @@ export const ClientList = () => {
         <ReferenceField source="companyId" reference="companies" link={false}>
           <TextField source="name" />
         </ReferenceField>
+        <TextField source="internalId" label="Internal Id" />
         <TextField source="address" />
         <TextField source="zipCode" />
         <TextField source="city" />
