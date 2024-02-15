@@ -28,7 +28,7 @@ const formData = [
           required: true,
         },
       },
-      { name: "internalId", type: "string", required: true },
+      { name: "internalId", type: "string" },
     ],
   },
   {
