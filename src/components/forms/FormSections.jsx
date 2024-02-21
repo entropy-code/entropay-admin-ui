@@ -15,7 +15,6 @@ import MultiSelectInput from "./MultiSelectInput";
 const FormSection = ({ formSectionTitle, inputsList, customSections }) => {
   const [locale] = useLocaleState();
   const isNonMobile = useMediaQuery("(min-width:600px)");
-  console.log(inputsList);
   return (
     <Box>
       <Typography variant="h6" color={"#2196F3"}>
