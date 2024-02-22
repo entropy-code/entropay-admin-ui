@@ -7,6 +7,7 @@ import {
   TextField,
   ReferenceField,
   useLocaleState,
+  BooleanField,
 } from "react-admin";
 import CreateForm from "./components/forms/CreateForm";
 import EditForm from "./components/forms/EditForm";
@@ -50,7 +51,10 @@ const formData = [
   },
   {
     title: "Others",
-    inputsList: [{ name: "preferredCurrency", type: "string" }],
+    inputsList: [
+      { name: "preferredCurrency", type: "string" },
+      { name: "active", type: "boolean" }
+    ],
   },
 ];
 
@@ -72,6 +76,7 @@ export const ClientList = () => {
         <TextField source="contactFullName" />
         <TextField source="contactEmail" />
         <TextField source="preferredCurrency" />
+        <BooleanField source="active" textAlign="center"/>
         <DateField source="modifiedAt" locales={locale} />
         <DateField source="createdAt" locales={locale} />
         {HasPermissions("clients", "update") && (
