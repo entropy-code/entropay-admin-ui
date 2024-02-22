@@ -57,9 +57,6 @@ export const HolidayList = () => {
   const currentYear: number = new Date().getFullYear();
   const yearsByFilter = YearOptions();
 
-  if (!defaultCountryId || !currentYear || yearsByFilter.length === 0) {
-    return <></>;
-  }
 
   const HolidayFilters = () => (
     <Filter>
