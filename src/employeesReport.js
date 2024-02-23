@@ -12,34 +12,14 @@ import {
   ExportButton,
 } from "react-admin";
 import { CustomizableChipField } from "./components/fields";
-import { exporter } from "./utils/exporter";
+import { reportExporter } from "./utils/exporter";
 import QuickFilter from "./components/filters/QuickFilter";
 
-const headers = ['Internal ID', 'First Name', 'Last Name', 'Labour Email', 'Country', 'City', 'Role', 'Seniority', 
+const headersRename = ['Internal ID', 'First Name', 'Last Name', 'Labour Email', 'Country', 'City', 'Role', 'Seniority', 
 'Client', 'Project', 'Profile', 'Technologies', 'Contract Status', 'Start Date', 'End Date', 'USD Payment', 'ARS Payment']
 
-const headersOrder = ['internalId', 'firstName', 'lastName', 'labourEmail', 'country', 'city', 'role', 'seniority', 'clientName',
+const headers = ['internalId', 'firstName', 'lastName', 'labourEmail', 'country', 'city', 'role', 'seniority', 'clientName',
 'projectName', 'profile', 'technologiesNames', 'activeContract', 'startDate', 'endDate', 'usdPayment', 'arsPayment']
-
-const reportFieldsList = [
-  { name: "internalId", type: "number" },
-  { name: "firstName", type: "text" },
-  { name: "lastName", type: "text" },
-  { name: "labourEmail", type: "text" },
-  { name: "country", type: "text" },
-  { name: "city", type: "text" },
-  { name: "role", type: "text" },
-  { name: "seniority", type: "text" },
-  { name: "clientName", type: "text" },
-  { name: "projectName", type: "text" },
-  { name: "profile", type: "text" },
-  { name: "technologiesNames", type: "text" },
-  { name: "activeContract", type: "text"},
-  { name: "startDate", type: "date" },
-  { name: "endDate", type: "date" },
-  { name: "usdPayment", type: "number" },
-  { name: "arsPayment", type: "number" },
-];
 
 const COLOR_GREEN = "#efe";
 const COLOR_WHITE = "#white";
@@ -58,7 +38,7 @@ export const EmployeeReportList = () => {
   return (
     <List
       resource="reports/employees"
-      exporter={exporter(reportFieldsList, "employeesReport", headers, headersOrder)}
+      exporter={reportExporter("employeesReport", headers, headersRename)}
       actions={<> <FilterButton /> <ExportButton/> </>}
       filters={employeeReportFilters}
       filterDefaultValues={{ active: true }}

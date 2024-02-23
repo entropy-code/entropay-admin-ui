@@ -1,21 +1,19 @@
 import { downloadCSV } from "react-admin";
 import jsonExport from "jsonexport/dist";
 
-export const exporter = (fieldsList, resource, headers, headersOrder) => (records) => {
+export const reportExporter = (entity, headers, headersRename) => (records) => {
   const recordsForExport = records.map((record) => {
-    return fieldsList.reduce((acc, field) => {
-      acc[field.name] = record[field.name];
-      return acc;
+    return headers.reduce((recordForExport, field) => {
+      recordForExport[field] = record[field];
+      return recordForExport;
     }, {});
   });
 
-  const currentDate = new Date();
-  const formattedDate = currentDate.toISOString().split("T")[0];
+  const fileName = `${entity}_${new Date().toISOString().split('T')[0]}`;
 
-  const fileName = `${resource}_${formattedDate}.csv`;
-
-  jsonExport(recordsForExport,  { rowDelimiter: ';', rename: headers, arrayPathString: " - ", headers: headersOrder,
-  booleanTrueString: "Active", booleanFalseString: "Inactive"},   (err, csv) => {
+  jsonExport(recordsForExport,  {rowDelimiter: ';', rename: headersRename, 
+  arrayPathString: " - ", headers: headers, booleanTrueString: "Active", 
+  booleanFalseString: "Inactive"},   (err, csv) => {
     const blob = new Blob([csv], { type: "application/vnd.ms-excel" });
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement("a");
@@ -29,7 +27,24 @@ export const exporter = (fieldsList, resource, headers, headersOrder) => (record
 };
 
 
-const toPlural = (word) => {
+export const listExporter = (entity, headers, headersRename) => (records) => {
+  const recordsForExport = records.map((record) => {
+    return headers.reduce((recordForExport, field) => {
+      recordForExport[field] = record[field];
+      return recordForExport;
+    }, {});
+  });
+
+  const fileName = `${entity}_${new Date().toISOString().split('T')[0]}`;
+  
+  jsonExport(recordsForExport, {headers: headers, rename: headersRename}, 
+    (err, csv) => {
+      downloadCSV(csv, fileName);
+  });
+};
+
+
+/* const toPlural = (word) => {
   const lastChar = word[word.length - 1];
   let pluralizedWord = lastChar === 'y' ? `${word.slice(0, -1)}ies` : `${word}s`;
 
@@ -85,4 +100,6 @@ export const genericExporter = (records, fetchRelatedRecords, fileName) => {
       downloadCSV(csv, fileName);
     });
   });
-};
+}; */
+
+

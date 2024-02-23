@@ -15,7 +15,7 @@ import CreateForm from "./components/forms/CreateForm";
 import EditForm from "./components/forms/EditForm";
 import { IPto } from "./types";
 import CancelPtoButton from "./components/buttons/CancelPtoButton";
-import { genericExporter } from "./utils/exporter";
+import { listExporter } from "./utils/exporter";
 
 
 const formData = [
@@ -62,10 +62,14 @@ const formData = [
   },
 ];
 
+const headersRename = ['Employee', 'Leave Type', 'Start Date', 'End Date', 'Status', 'Details', 'Days']
+
+const headers = ['employeeFullName', 'leaveTypeName', 'ptoStartDate', 'ptoEndDate', 'status', 'details', 'days']
+
 export const PtoList = () => {
   const [locale] = useLocaleState();
   return (
-    <List exporter={(records, fetchRelatedRecords) => genericExporter(records, fetchRelatedRecords, "ptos")}>
+    <List exporter={listExporter("ptos", headers,  headersRename)}>
       <Datagrid>
         <ReferenceField source="employeeId" reference="employees">
           <WrapperField label="Full Name">
