@@ -10,10 +10,13 @@ import {
   useLocaleState,
   WrapperField,
   FunctionField,
+  useGetList,
+  Filter,
+  SelectInput,
 } from "react-admin";
 import CreateForm from "./components/forms/CreateForm";
 import EditForm from "./components/forms/EditForm";
-import { IPto } from "./types";
+import { IPto, IYear } from "./types";
 import CancelPtoButton from "./components/buttons/CancelPtoButton";
 import { listExporter } from "./utils/exporter";
 
@@ -65,11 +68,40 @@ const formData = [
 const headersRename = ['Employee', 'Leave Type', 'Start Date', 'End Date', 'Status', 'Details', 'Days']
 
 const headers = ['employeeFullName', 'leaveTypeName', 'ptoStartDate', 'ptoEndDate', 'status', 'details', 'days']
+const YearOptions = () => {
+  const { data: years } = useGetList<IYear>("ptos/years");
+  return years?.map((year) => ({ id: year.id, name: year.year })) || [];
+};
 
 export const PtoList = () => {
   const [locale] = useLocaleState();
+  const currentYear: number = new Date().getFullYear();
+  const yearsByFilter = YearOptions();
+
+  if (!currentYear || yearsByFilter.length === 0) {
+    return <></>;
+  }
+
+  const PtoFilters = () => (
+    <Filter>
+      <SelectInput
+        source="year"
+        label="Year"
+        emptyText="All years"
+        choices={yearsByFilter}
+        alwaysOn
+        style={{ marginTop: "20px", marginBottom: "20px" }}
+      />
+    </Filter>
+  );
+
   return (
-    <List exporter={listExporter("ptos", headers,  headersRename)}>
+    <List
+      filters={PtoFilters()}
+      filterDefaultValues={{ year: currentYear }}
+      perPage={50}
+      exporter={listExporter("ptos", headers,  headersRename)}
+    >
       <Datagrid>
         <ReferenceField source="employeeId" reference="employees">
           <WrapperField label="Full Name">

@@ -6,6 +6,7 @@ import {
   TextField,
   ReferenceField,
   useLocaleState,
+  BooleanField,
 } from "react-admin";
 import CreateForm from "./components/forms/CreateForm";
 import EditForm from "./components/forms/EditForm";
@@ -28,6 +29,7 @@ const formData = [
           required: true,
         },
       },
+      { name: "internalId", type: "string" },
     ],
   },
   {
@@ -49,7 +51,10 @@ const formData = [
   },
   {
     title: "Others",
-    inputsList: [{ name: "preferredCurrency", type: "string" }],
+    inputsList: [
+      { name: "preferredCurrency", type: "string" },
+      { name: "active", type: "boolean" }
+    ],
   },
 ];
 
@@ -66,6 +71,7 @@ export const ClientList = () => {
         <ReferenceField source="companyId" reference="companies" link={false}>
           <TextField source="name" />
         </ReferenceField>
+        <TextField source="internalId" label="Internal Id" />
         <TextField source="address" />
         <TextField source="zipCode" />
         <TextField source="city" />
@@ -74,7 +80,8 @@ export const ClientList = () => {
         <TextField source="contactFullName" />
         <TextField source="contactEmail" />
         <TextField source="preferredCurrency" />
-         {HasPermissions("clients", "update") && (
+        <BooleanField source="active" textAlign="center"/>
+        {HasPermissions("clients", "update") && (
           <EditButton/>
         )}
       </Datagrid>
