@@ -149,7 +149,7 @@ const fieldsList = [
   { name: "labourEmail", type: "text" },
   { name: "startDate", type: "date" },
   { name: "city", type: "text" },
-  { name: "country", type: "reference", reference: "countries" },
+  { name: "countryName", type: "text", label: "Country"},
   { name: "client", type: "text" },
   { name: "project", type: "text" },
   { name: "role", type: "text" },
@@ -157,7 +157,7 @@ const fieldsList = [
   { name: "nearestPto", type: "date" },
 ];
 
-const headers = ['First Name', 'Last Name', 'Labour Email', 'Start Date', 'City', 'Country', 'Client', 
+const headersRename = ['First Name', 'Last Name', 'Labour Email', 'Start Date', 'City', 'Country', 'Client', 
 'Project', 'Role', 'Available Vacation Days', 'Nearest PTO']
 
 export const EmployeeList = () => {
@@ -186,7 +186,7 @@ export const EmployeeList = () => {
       component="div"
       actions={<FilterButton />}
       filters={employeeFilters}
-      exporter={exporter(fieldsList, "employees", headers)}
+      exporter={exporter("employees", fieldsList.map(field => {return field.name}),  headersRename)}
     >
       <TopToolbar
         sx={{
