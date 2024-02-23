@@ -12,7 +12,7 @@ import {
   ExportButton,
 } from "react-admin";
 import { CustomizableChipField } from "./components/fields";
-import { reportExporter } from "./utils/exporter";
+import { exporter } from "./utils/exporter";
 import QuickFilter from "./components/filters/QuickFilter";
 
 const headersRename = ['Internal ID', 'First Name', 'Last Name', 'Labour Email', 'Country', 'City', 'Role', 'Seniority', 
@@ -38,7 +38,7 @@ export const EmployeeReportList = () => {
   return (
     <List
       resource="reports/employees"
-      exporter={reportExporter("employeesReport", headers, headersRename)}
+      exporter={exporter("employeesReport", headers, headersRename)}
       actions={<> <FilterButton /> <ExportButton/> </>}
       filters={employeeReportFilters}
       filterDefaultValues={{ active: true }}

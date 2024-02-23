@@ -18,7 +18,7 @@ import CreateForm from "./components/forms/CreateForm";
 import EditForm from "./components/forms/EditForm";
 import { IPto, IYear } from "./types";
 import CancelPtoButton from "./components/buttons/CancelPtoButton";
-import { listExporter } from "./utils/exporter";
+import { exporter } from "./utils/exporter";
 
 
 const formData = [
@@ -100,7 +100,7 @@ export const PtoList = () => {
       filters={PtoFilters()}
       filterDefaultValues={{ year: currentYear }}
       perPage={50}
-      exporter={listExporter("ptos", headers,  headersRename)}
+      exporter={exporter("ptos", headers,  headersRename)}
     >
       <Datagrid>
         <ReferenceField source="employeeId" reference="employees">

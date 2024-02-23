@@ -5,13 +5,12 @@ import {
   List,
   TextField,
   ReferenceField,
-  useLocaleState,
   BooleanField,
 } from "react-admin";
 import CreateForm from "./components/forms/CreateForm";
 import EditForm from "./components/forms/EditForm";
 import { HasPermissions } from "./components/layout/CustomActions";
-import { listExporter } from "./utils/exporter";
+import { exporter } from "./utils/exporter";
 
 const formData = [
   {
@@ -58,14 +57,14 @@ const formData = [
   },
 ];
 
-const headersRename = ['Company', 'Address', 'Zip Code', 'City', 'State', 'Country', 'Contact', 'Email', 'Preferred Currency']
+const headersRename = ['Name', 'Company', 'Internal Id', 'Address', 'Zip Code', 'City', 'State', 'Country', 'Contact', 'Email', 'Preferred Currency', 'Active']
 
-const headers = ['companyName', 'address', 'zipCode', 'city', 'state', 'country', 'contactFullName', 'contactEmail', 'preferredCurrency']
+const headers = ['name', 'companyName', 'internalId', 'address', 'zipCode', 'city', 'state', 'country', 'contactFullName', 'contactEmail', 'preferredCurrency', 'active']
 
 export const ClientList = () => {
-  const [locale] = useLocaleState();
+  
   return (
-    <List exporter={listExporter("clients", headers,  headersRename)}>
+    <List exporter={exporter("clients", headers,  headersRename)}>
       <Datagrid>
         <TextField source="name" />
         <ReferenceField source="companyId" reference="companies" link={false}>

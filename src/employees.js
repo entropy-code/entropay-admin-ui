@@ -43,7 +43,7 @@ import RowRadioButtonGroup from "./components/buttons/RowRadioButtonGroup";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import ListBuilder from "./components/forms/ListBuilder";
-import { listExporter } from "./utils/exporter";
+import { exporter } from "./utils/exporter";
 import QuickFilter from "./components/filters/QuickFilter";
 
 const COLOR_BG = [
@@ -186,7 +186,7 @@ export const EmployeeList = () => {
       component="div"
       actions={<FilterButton />}
       filters={employeeFilters}
-      exporter={listExporter("employees", fieldsList.map(field => {return field.name}),  headersRename)}
+      exporter={exporter("employees", fieldsList.map(field => {return field.name}),  headersRename)}
     >
       <TopToolbar
         sx={{
