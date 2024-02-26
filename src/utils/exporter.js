@@ -1,20 +1,19 @@
 import jsonExport from "jsonexport/dist";
 
-export const exporter = (fieldsList, resource, headers, headersOrder) => (records) => {
+export const exporter = (entity, headers, headersRename) => (records) => {
   const recordsForExport = records.map((record) => {
-    return fieldsList.reduce((acc, field) => {
-      acc[field.name] = record[field.name];
-      return acc;
+    return headers.reduce((recordForExport, field) => {
+      recordForExport[field] = record[field];
+      return recordForExport;
     }, {});
   });
 
-  const currentDate = new Date();
-  const formattedDate = currentDate.toISOString().split("T")[0];
+  const fileName = `${entity}_${new Date().toISOString().split('T')[0]}`;
 
-  const fileName = `${resource}_${formattedDate}.csv`;
-
-  jsonExport(recordsForExport,  { rowDelimiter: ';', rename: headers, arrayPathString: " - ", headers: headersOrder,
-  booleanTrueString: "Active", booleanFalseString: "Inactive"},   (err, csv) => {
+  jsonExport(recordsForExport,  {headers: headers, rename: headersRename, 
+  arrayPathString: " - ",  booleanTrueString: "Active", 
+  booleanFalseString: "Inactive"}, (err, csv) => {
+    // Export to xls
     const blob = new Blob([csv], { type: "application/vnd.ms-excel" });
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement("a");
@@ -24,5 +23,7 @@ export const exporter = (fieldsList, resource, headers, headersOrder) => (record
     document.body.appendChild(a);
     a.click();
     window.URL.revokeObjectURL(url);
+    // Export to csv
+    //downloadCSV(csv, fileName);
   });
 };

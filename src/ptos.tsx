@@ -18,6 +18,8 @@ import CreateForm from "./components/forms/CreateForm";
 import EditForm from "./components/forms/EditForm";
 import { IPto, IYear } from "./types";
 import CancelPtoButton from "./components/buttons/CancelPtoButton";
+import { exporter } from "./utils/exporter";
+
 
 const formData = [
   {
@@ -63,6 +65,9 @@ const formData = [
   },
 ];
 
+const headersRename = ['Employee', 'Leave Type', 'Start Date', 'End Date', 'Status', 'Details', 'Days']
+
+const headers = ['employeeFullName', 'leaveTypeName', 'ptoStartDate', 'ptoEndDate', 'status', 'details', 'days']
 const YearOptions = () => {
   const { data: years } = useGetList<IYear>("ptos/years");
   return years?.map((year) => ({ id: year.id, name: year.year })) || [];
@@ -95,6 +100,7 @@ export const PtoList = () => {
       filters={PtoFilters()}
       filterDefaultValues={{ year: currentYear }}
       perPage={50}
+      exporter={exporter("ptos", headers,  headersRename)}
     >
       <Datagrid>
         <ReferenceField source="employeeId" reference="employees">

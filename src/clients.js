@@ -1,17 +1,16 @@
 import * as React from "react";
 import {
   Datagrid,
-  DateField,
   EditButton,
   List,
   TextField,
   ReferenceField,
-  useLocaleState,
   BooleanField,
 } from "react-admin";
 import CreateForm from "./components/forms/CreateForm";
 import EditForm from "./components/forms/EditForm";
 import { HasPermissions } from "./components/layout/CustomActions";
+import { exporter } from "./utils/exporter";
 
 const formData = [
   {
@@ -58,10 +57,14 @@ const formData = [
   },
 ];
 
+const headersRename = ['Name', 'Company', 'Internal Id', 'Address', 'Zip Code', 'City', 'State', 'Country', 'Contact', 'Email', 'Preferred Currency', 'Active']
+
+const headers = ['name', 'companyName', 'internalId', 'address', 'zipCode', 'city', 'state', 'country', 'contactFullName', 'contactEmail', 'preferredCurrency', 'active']
+
 export const ClientList = () => {
-  const [locale] = useLocaleState();
+  
   return (
-    <List>
+    <List exporter={exporter("clients", headers,  headersRename)}>
       <Datagrid>
         <TextField source="name" />
         <ReferenceField source="companyId" reference="companies" link={false}>
@@ -77,8 +80,6 @@ export const ClientList = () => {
         <TextField source="contactEmail" />
         <TextField source="preferredCurrency" />
         <BooleanField source="active" textAlign="center"/>
-        <DateField source="modifiedAt" locales={locale} />
-        <DateField source="createdAt" locales={locale} />
         {HasPermissions("clients", "update") && (
           <EditButton/>
         )}

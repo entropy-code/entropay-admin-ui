@@ -17,7 +17,7 @@ import {
 import { exporter } from "./utils/exporter";
 import { blueGrey } from "@mui/material/colors";
 
-const headers = [
+const headersRename = [
   "Internal ID",
   "First Name",
   "Last Name",
@@ -25,20 +25,12 @@ const headers = [
   "Total Days",
 ];
 
-const headersOrder = [
+const headers = [
   "internalId",
   "firstName",
   "lastName",
   "clientName",
   "totalDays",
-];
-
-const reportFieldsList = [
-  { name: "internalId", type: "number" },
-  { name: "firstName", type: "text" },
-  { name: "lastName", type: "text" },
-  { name: "clientName", type: "text" },
-  { name: "totalDays", type: "number" },
 ];
 
 const YearOptions = () => {
@@ -106,7 +98,7 @@ export const EmployeesPtosReportList = () => {
       filters={PtoFilters()}
       filterDefaultValues={{year: currentYear}}
       resource="reports/ptos/employees"
-      exporter={exporter(reportFieldsList, "employeesPtosReport", headers, headersOrder)}
+      exporter={exporter("employeesPtosReport", headers, headersRename)}
       actions={
         <>
           <ExportButton />
