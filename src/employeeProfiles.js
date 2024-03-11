@@ -562,7 +562,7 @@ export const EmployeeProfile = () => {
               />
               <Typography component="h3" align="center">
                 <Modal open={open} onClose={handleClose}>
-                  <Box sx={{ ...style, width: 400 }}>
+                  <Box sx={{ ...style, width: 500 }}>
                     <ReferenceManyField
                       reference="vacations"
                       target="employeeId"
@@ -584,6 +584,7 @@ export const EmployeeProfile = () => {
                         <TextField source="year" />
                         <NumberField source="credit" />
                         <NumberField source="debit" />
+                        <TextField source="details"></TextField>
                         <FunctionField
                           label="Edit"
                           render={(record) =>
