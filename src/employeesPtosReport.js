@@ -105,7 +105,7 @@ export const EmployeesPtosReportList = () => {
       resource="reports/ptos/employees"
       actions={
         <>
-          <PtosReportsExportButton report={"ptosByEmployees"} headers={headers} headersRename={headersRename} />
+          <PtosReportsExportButton report={"employeesPtos"} headers={headers} headersRename={headersRename} />
         </>
       }
     >

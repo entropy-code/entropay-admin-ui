@@ -9,36 +9,26 @@ const icons = {
 
 
 export const PtosReportsExportButton = ({ report, headers, headersRename }) => {
-    let filter;
-    let reportTitle;
-    if(report === "ptosByEmployees") {
-        const key = 'RaStore.reports/ptos/employees.listParams';
-        const storedParams = localStorage.getItem(key);
-        const params = JSON.parse(storedParams);
-        const yearFilter = params?.filter;
-        filter = {employeeId: "", ...yearFilter};
-        reportTitle = "employeesPtosReport";
-    }
-    else if(report === "ptosByClients") {
-        const key = 'RaStore.reports/ptos/clients.listParams';
-        const storedParams = localStorage.getItem(key);
-        const params = JSON.parse(storedParams);
-        const yearFilter = params?.filter;
-        filter = {clientId: "", ...yearFilter};
-        reportTitle = "clientsPtosReport";
-    }
-    const { data: details } = useGetList(
-        'reports/ptos/all-details',
-        {
-            filter
-        }
-    )
+    const key = report.slice(0, -4);
+    const filterKey = `RaStore.reports/ptos/${key}.listParams`;
+    const storedParams = localStorage.getItem(filterKey);
+    const params = JSON.parse(storedParams);
+    const yearFilter = params?.filter;
+    const filter = {
+        [report === 'employeesPtos' ? 'employeeId' : 'clientId']: "",
+        ...yearFilter,
+      };
 
-    const handleExportClick = () => {
-        if(details) {
-            exporter(reportTitle, headers, headersRename) (details)
+      const { data: details } = useGetList(
+        'reports/ptos/all-details',
+        { filter }
+      );
+    
+      const handleExportClick = () => {
+        if (details) {
+          exporter(report, headers, headersRename)(details);
         }
-    }
+      };
 
     return (
     <Button variant="text" startIcon={icons.downloadIcon} onClick={handleExportClick} alignIcon="right">
