@@ -14,15 +14,13 @@ export const PtosReportsExportButton = ({ report, headers, headersRename }) => {
     const storedParams = localStorage.getItem(filterKey);
     const params = JSON.parse(storedParams);
     const yearFilter = params?.filter;
-    const filter = {
-        [report === 'employeesPtos' ? 'employeeId' : 'clientId']: "",
-        ...yearFilter,
-      };
-
-      const { data: details } = useGetList(
-        'reports/ptos/all-details',
-        { filter }
-      );
+    console.log(yearFilter)
+    const { data: details } = useGetList(
+      'reports/ptos/all-details',
+      { 
+        filter: yearFilter 
+      }
+    );
     
       const handleExportClick = () => {
         if (details) {
