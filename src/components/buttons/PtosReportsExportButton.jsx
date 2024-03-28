@@ -8,13 +8,16 @@ const icons = {
 };
 
 
-export const PtosReportsExportButton = ({ report, headers, headersRename }) => {
-    const key = report.slice(0, -4);
+const extractKeyFromReportName = (reportName) => {
+  return reportName.slice(0, -4);
+}
+
+export const PtosReportsExportButton = ({ reportName, headers, headersRename }) => {
+    const key = extractKeyFromReportName(reportName)
     const filterKey = `RaStore.reports/ptos/${key}.listParams`;
     const storedParams = localStorage.getItem(filterKey);
     const params = JSON.parse(storedParams);
     const yearFilter = params?.filter;
-    console.log(yearFilter)
     const { data: details } = useGetList(
       'reports/ptos/all-details',
       { 
@@ -24,15 +27,13 @@ export const PtosReportsExportButton = ({ report, headers, headersRename }) => {
     
       const handleExportClick = () => {
         if (details) {
-          exporter(report, headers, headersRename)(details);
+          exporter(reportName, headers, headersRename)(details);
         }
       };
 
     return (
-    <Button variant="text" startIcon={icons.downloadIcon} onClick={handleExportClick} alignIcon="right">
-    <>Export</>
-    </Button>
-  );
+      <Button variant="text" startIcon={icons.downloadIcon} onClick={handleExportClick} alignIcon="right" label="Export"/>
+    );
 };
 
 export default PtosReportsExportButton;

@@ -18,7 +18,7 @@ import PtosReportsExportButton from "./components/buttons/PtosReportsExportButto
 
 const headersRename = [
   "Internal ID",
-  "Fist Name",
+  "First Name",
   "Last Name",
   "Client",
   "Leave Reason",
@@ -105,7 +105,7 @@ export const EmployeesPtosReportList = () => {
       resource="reports/ptos/employees"
       actions={
         <>
-          <PtosReportsExportButton report={"employeesPtos"} headers={headers} headersRename={headersRename} />
+          <PtosReportsExportButton reportName={"employeesPtos"} headers={headers} headersRename={headersRename} />
         </>
       }
     >
