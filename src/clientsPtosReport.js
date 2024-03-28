@@ -3,7 +3,6 @@ import {
   Datagrid,
   TextField,
   NumberField,
-  ExportButton,
   useGetList,
   Filter,
   SelectInput,
@@ -14,19 +13,30 @@ import {
   useListContext,
   FunctionField,
 } from "react-admin";
-import { exporter } from "./utils/exporter";
 import { blueGrey } from "@mui/material/colors";
+import PtosReportsExportButton from "./components/buttons/PtosReportsExportButton"
 
 const headersRename = [
-  "Client Name",
-  "Total Days",
+  "Internal ID",
+  "First Name",
+  "Last Name",
+  "Client",
+  "Leave Reason",
+  "Days",
+  "Start Date",
+  "End Date"
 ];
 
 const headers = [
+  "internalId",
+  "firstName",
+  "lastName",
   "clientName",
-  "totalDays",
+  "leaveTypeName",
+  "days",
+  "startDate",
+  "endDate"
 ];
-
 const YearOptions = () => {
   const { data: years } = useGetList("ptos/years");
   return years?.map((year) => ({ id: year.id, name: year.year })) || [];
@@ -94,10 +104,9 @@ export const ClientsPtosReportList = () => {
       filters={PtoFilters()}
       filterDefaultValues={{year: currentYear}}
       resource="reports/ptos/clients"
-      exporter={exporter("clientsPtosReport", headers, headersRename)}
       actions={
         <>
-          <ExportButton />
+          <PtosReportsExportButton reportName={"clientsPtos"} headers={headers} headersRename={headersRename} />
         </>
       }
     >
