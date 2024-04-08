@@ -34,8 +34,7 @@ import { CountryCreate, CountryEdit, CountryList } from "./countries";
 import { VacationCreate, VacationEdit, VacationList } from "./vacations";
 import { PtoCreate, PtoEdit, PtoList } from "./ptos";
 import { EmployeeReportList } from "./employeesReport";
-import { EmployeesPtosReportList } from "./employeesPtosReport";
-import { ClientsPtosReportList } from "./clientsPtosReport";
+import { PtosReport } from "./employeesPtosReport";
 
 export const resourceMap = [
   {
@@ -164,14 +163,7 @@ export const resourceMap = [
   },
   {
     entity: "reports/ptos/employees",
-    list: EmployeesPtosReportList,
-    edit: null,
-    create: null,
-    show: null,
-  },
-  {
-    entity: "reports/ptos/clients",
-    list: ClientsPtosReportList,
+    list: PtosReport,
     edit: null,
     create: null,
     show: null,
