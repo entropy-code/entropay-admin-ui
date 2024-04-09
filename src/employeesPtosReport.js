@@ -132,20 +132,20 @@ export const PtosReport = () => {
       <TopToolbar 
       sx={{
           minHeight: { sm: 56 },
-          justifyContent: "space-between",
+          justifyContent: "left",
         }}
       > 
-        <Box>
-          <PtoFilters />
-        </Box>
-        <Box>
+      <Box marginBottom="20px">
           <ComboBox
               title={"Group By"}
               value={selectOptionValue}
               handleChange={handleChange}
               options={selectOptions}
             />
-          </Box>
+      </Box>
+      <Box>
+        <PtoFilters />
+      </Box>
       </TopToolbar>
       <PtosReportList renderAs={selectOptionValue}/>
     </List>
