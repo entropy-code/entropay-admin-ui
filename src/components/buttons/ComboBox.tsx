@@ -6,7 +6,7 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 
 export interface Props {
   title: string;
-  value: "employees" | "clients";
+  value: string;
   handleChange: (event: SelectChangeEvent) => void;
   options: ViewOptions[];
 }
@@ -14,7 +14,7 @@ export interface Props {
 interface ViewOptions {
   id: number;
   label: string;
-  value: "employees" | "clients";
+  value: string[];
 }
 
 const ComboBox = ({
