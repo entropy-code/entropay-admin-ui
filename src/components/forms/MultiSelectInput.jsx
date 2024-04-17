@@ -7,7 +7,11 @@ const ReferenceSelectArrayInputItem = ({ referenceValues }) => {
     <>
       {
         referenceValues && (
-        <ReferenceArrayInput reference={reference} source={source}>
+        <ReferenceArrayInput 
+          reference={reference}
+          source={source}
+          perPage={50}
+          sort={{field: 'name'}}>
             <SelectArrayInput fullWidth defaultValue={[]}>
                 <ChipField source={source} />
             </SelectArrayInput>
