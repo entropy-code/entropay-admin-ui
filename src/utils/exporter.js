@@ -8,13 +8,13 @@ export const exporter = (entity, headers, headersRename) => (records) => {
     }, {});
   });
 
-  const fileName = `${entity}_${new Date().toISOString().split('T')[0]}`;
+  const fileName = `${entity}_${new Date().toISOString().split('T')[0]}.csv`;
 
   jsonExport(recordsForExport,  {headers: headers, rename: headersRename, 
   arrayPathString: " - ",  booleanTrueString: "Active", 
   booleanFalseString: "Inactive"}, (err, csv) => {
     // Export to xls
-    const blob = new Blob([csv], { type: "application/vnd.ms-excel" });
+    const blob = new Blob([csv], { type: "application/csv" });
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.style.display = "none";
