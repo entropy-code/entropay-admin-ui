@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useState } from "react";
 import {
   Datagrid,
   DateField,
@@ -16,6 +17,9 @@ import EditForm from "./components/forms/EditForm";
 import { IPto } from "./types";
 import CancelPtoButton from "./components/buttons/CancelPtoButton";
 import DateFilter from "./components/filters/DateFilter";
+//import {
+// dateFilter,
+//} from '@react-admin/ra-form-layout';
 
 const formData = [
   {
@@ -61,11 +65,18 @@ const formData = [
   },
 ];
 
+//const ptosFilter = {
+// ptoStartDate : dateFilter ()
+// ptoEndDate :
+//}
+
 export const PtoList = () => {
   const [locale] = useLocaleState();
 
+  const [filter, setFilter] = useState(null);
+
   return (
-    <List filters={DateFilter("")} perPage={50}>
+    <List filters={<DateFilter setFilter={setFilter} />} perPage={50}>
       <Datagrid>
         <ReferenceField source="employeeId" reference="employees">
           <WrapperField label="Full Name">
