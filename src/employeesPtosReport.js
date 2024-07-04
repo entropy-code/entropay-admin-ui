@@ -12,11 +12,15 @@ import {
   required,
   useListContext,
   FunctionField,
+  TopToolbar,
 } from "react-admin";
 import { blueGrey } from "@mui/material/colors";
 import PtosReportsExportButton from "./components/buttons/PtosReportsExportButton"
+import { useState } from "react";
+import ComboBox from "./components/buttons/ComboBox";
+import { Box } from "@mui/material";
 
-const headersRename = [
+const ptosReportHeadersRename = [
   "Internal ID",
   "First Name",
   "Last Name",
@@ -27,7 +31,7 @@ const headersRename = [
   "End Date"
 ];
 
-const headers = [
+const ptosReportHeaders = [
   "internalId",
   "firstName",
   "lastName",
@@ -44,15 +48,17 @@ const YearOptions = () => {
 };
 
 
-export const PtoDetail = () => {
+const PtoDetail = (detail) => {
   const [locale] = useLocaleState();
   const record = useRecordContext();
   const listContext = useListContext();
   const yearFilter = listContext.filterValues;
+
+  const filterBy = detail.detail.renderAs === "employees" ? "employeeId" : "clientId";
   const { data: details } = useGetList(
     'reports/ptos/details',
     {
-      filter: {employeeId: record.id, ...yearFilter}
+      filter: {[filterBy]: record.id, ...yearFilter}
     }
 );
 
@@ -96,21 +102,80 @@ const PtoFilters = () => {
   );
 }
 
-export const EmployeesPtosReportList = () => {
+export const PtosReport = () => {
+  const [selectOptionValue, setSelectValue] = useState("employees");
+
+  const handleChange = (event) => {
+    setSelectValue(event.target.value);
+  };
+
+  const selectOptions = [
+    {
+      id: 1,
+      label: "Employees",
+      value: "employees",
+    },
+    {
+      id: 2,
+      label: "Clients",
+      value: "clients",
+    },
+  ];
+
+  return (
+    <>
+    <List title="Reports/PTOs" actions={
+      <>
+      <PtosReportsExportButton reportName={"employeesPtos"} headers={ptosReportHeaders} headersRename={ptosReportHeadersRename} />
+      </>
+    }>
+      <TopToolbar 
+      sx={{
+          minHeight: { sm: 56 },
+          justifyContent: "left",
+        }}
+      > 
+      <Box marginBottom="20px">
+          <ComboBox
+              title={"Group By"}
+              value={selectOptionValue}
+              handleChange={handleChange}
+              options={selectOptions}
+            />
+      </Box>
+      <Box>
+        <PtoFilters />
+      </Box>
+      </TopToolbar>
+      <PtosReportList renderAs={selectOptionValue}/>
+    </List>
+    </>
+  );
+};
+
+const PtosReportList = ({renderAs = "employees"}) => {
+  if(renderAs === "employees") {
+    return (<EmployeesPtosReportList renderAs={renderAs}/>)
+  }
+  else if (renderAs === "clients"){
+    return (<ClientsPtosReportList renderAs={renderAs}/>)
+  }
+}
+
+const EmployeesPtosReportList = (renderAs) => {
   const currentYear = new Date().getFullYear();
   return (
     <List
-      filters={PtoFilters()}
+      title=" "
+      pagination={false}
       filterDefaultValues={{year: currentYear}}
       resource="reports/ptos/employees"
       actions={
-        <>
-          <PtosReportsExportButton reportName={"employeesPtos"} headers={headers} headersRename={headersRename} />
-        </>
+       false
       }
     >
       <Datagrid bulkActionButtons={false}
-        expand={<PtoDetail />}
+        expand={<PtoDetail detail={renderAs} />}
         sx={{
           [`& .RaDatagrid-expandedPanel`]: {backgroundColor: blueGrey[50]},
           [`& .RaDatagrid-thead`]: {backgroundColor: blueGrey[50]},
@@ -120,6 +185,32 @@ export const EmployeesPtosReportList = () => {
         <FunctionField label="Employee" sortBy="lastName" render={
                 record => `${record.lastName} ${record.firstName}`
             } />
+        <TextField source="clientName" />
+        <NumberField source="totalDays" />
+      </Datagrid>
+    </List>
+  );
+};
+
+const ClientsPtosReportList = (renderAs) => {
+  const currentYear = new Date().getFullYear();
+  return (
+    <List
+      title=" "
+      pagination={false}
+      filterDefaultValues={{year: currentYear}}
+      resource="reports/ptos/clients"
+      actions={
+       false
+      }
+    >
+      <Datagrid bulkActionButtons={false}
+        expand={<PtoDetail detail={renderAs}/>}
+        sx={{
+          [`& .RaDatagrid-expandedPanel`]: {backgroundColor: blueGrey[50]},
+          [`& .RaDatagrid-thead`]: {backgroundColor: blueGrey[50]},
+        }}
+      >
         <TextField source="clientName" />
         <NumberField source="totalDays" />
       </Datagrid>
