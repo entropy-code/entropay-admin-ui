@@ -101,7 +101,7 @@ const FormSection = ({ formSectionTitle, inputsList, customSections }) => {
                   <BooleanInput 
                     source={listItem.name}
                     label={listItem.label}
-                    defaultValue={true}
+                    defaultValue={listItem.defaultValue ?? true}
                   />
                 ) : undefined}
                 {listItem.type === "conditionNumberField" ? (
