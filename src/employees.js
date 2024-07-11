@@ -13,7 +13,7 @@ import {
   useLocaleState,
   FilterButton,
   ReferenceField,
-  TextField
+  TextField,
 } from "react-admin";
 import {
   Card,
@@ -73,6 +73,7 @@ const formData = [
           reference: "roles",
           optionText: "name",
           multiselect: true,
+          sortField: "name",
         },
       },
       {
@@ -83,6 +84,7 @@ const formData = [
           reference: "technologies",
           optionText: "name",
           multiselect: true,
+          sortField: "name",
         },
       },
       { name: "firstName", type: "string", required: true },
@@ -117,8 +119,9 @@ const formData = [
           optionText: "name",
           multiselect: false,
           required: true,
+          sortField: "name",
         },
-      }
+      },
     ],
   },
   {
@@ -149,7 +152,7 @@ const fieldsList = [
   { name: "labourEmail", type: "text" },
   { name: "startDate", type: "date" },
   { name: "city", type: "text" },
-  { name: "countryName", type: "text", label: "Country"},
+  { name: "countryName", type: "text", label: "Country" },
   { name: "client", type: "text" },
   { name: "project", type: "text" },
   { name: "role", type: "text" },
@@ -157,8 +160,8 @@ const fieldsList = [
   { name: "nearestPto", type: "date" },
 ];
 
-const headersRename = ['First Name', 'Last Name', 'Labour Email', 'Start Date', 'City', 'Country', 'Client', 
-'Project', 'Role', 'Available Vacation Days', 'Nearest PTO']
+const headersRename = ["First Name", "Last Name", "Labour Email", "Start Date", "City", "Country", "Client",
+  "Project", "Role", "Available Vacation Days", "Nearest PTO"];
 
 export const EmployeeList = () => {
   const [viewOptionValue, setRadioValue] = useState("card");
@@ -186,7 +189,9 @@ export const EmployeeList = () => {
       component="div"
       actions={<FilterButton />}
       filters={employeeFilters}
-      exporter={exporter("employees", fieldsList.map(field => {return field.name}),  headersRename)}
+      exporter={exporter("employees", fieldsList.map(field => {
+        return field.name;
+      }), headersRename)}
     >
       <TopToolbar
         sx={{
@@ -243,9 +248,9 @@ const EmployeeInformation = ({ renderAs = "list" }) => {
                           bgcolor:
                             COLOR_BG[
                               `${record.internalId}`.charAt(
-                                `${record.internalId}`.length - 1
+                                `${record.internalId}`.length - 1,
                               )
-                            ],
+                              ],
                           fontSize: 50,
                           margin: 2,
                         }}
@@ -270,9 +275,9 @@ const EmployeeInformation = ({ renderAs = "list" }) => {
                         <DateField source="startDate" locales={locale} />
                       </Typography>
                       <Typography noWrap align="center">
-                        {record.state} /                  
+                        {record.state} /
                         <ReferenceField source="countryId" reference="countries" link="show">
-                          { } <TextField source="name" />
+                          {} <TextField source="name" />
                         </ReferenceField>
                       </Typography>
                       <Typography noWrap align="center">
