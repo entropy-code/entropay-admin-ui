@@ -33,7 +33,8 @@ export const SalariesReportList = () => {
       <Datagrid
         bulkActionButtons={false}
       >
-        <ReferenceField source="employeeId" reference="employees" link="show" label="Internal ID">
+        <ReferenceField source="employeeId" reference="employees" link="show" label="Internal ID"
+                        sortBy="internalId">
           <TextField source="internalId" />
         </ReferenceField>
         <TextField source="firstName" />
