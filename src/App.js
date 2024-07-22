@@ -7,6 +7,7 @@ import authProvider from "./authProvider";
 import { CustomLayout } from "./components/layout/CustomLayout";
 import { resourceMap } from "./resources";
 import { HasPermissions } from "./components/layout/CustomActions";
+import { QueryClient } from "react-query";
 
 console.log(config.env);
 
@@ -50,6 +51,15 @@ const dataProvider = simpleRestProvider(
   "X-Total-Count"
 );
 
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+    },
+  },
+});
+
 const App = () => {
   useCustomLocale();
   return (
@@ -58,6 +68,7 @@ const App = () => {
       layout={CustomLayout}
       dataProvider={dataProvider}
       authProvider={authProvider}
+      queryClient={queryClient}
     >
       {fetchResources}
     </Admin>
