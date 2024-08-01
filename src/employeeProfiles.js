@@ -330,6 +330,7 @@ export const EmployeeProfile = () => {
                   </SingleFieldList>
                 </ReferenceArrayField>
                 <TextField source="phoneNumber" />
+                <TextField source="gender" />
                 <DateField source="birthDate" locales={locale} />
                 <TextField source="taxId" />
                 <TextField source="address" />

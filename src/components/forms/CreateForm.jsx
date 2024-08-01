@@ -30,6 +30,8 @@ const CreateForm = ({ formData, title, resource }) => {
     }
   };
 
+  console.log(formData)
+
   return (
     <Box m="10px">
       <Box display="flex" justifyContent="space-between" alignItems="center">
