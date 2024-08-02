@@ -104,9 +104,9 @@ const formData = [
       { name: "Gender",
         type: "selectList",
         choices: [
-          { name: 'Male' },
-          { name: 'Female' },
-          { name: 'NO_BINARY' },
+          { id: 'Male', name: 'Male' },
+          { id: 'Female', name: 'Female' },
+          { id: 'NO_BINARY', name: 'NO_BINARY' }
         ],
         required: true
       }
