@@ -106,7 +106,7 @@ const formData = [
         choices: [
           { name: 'Male' },
           { name: 'Female' },
-          { name: 'Non Binary' },
+          { name: 'NO_BINARY' },
         ],
         required: true
       }
