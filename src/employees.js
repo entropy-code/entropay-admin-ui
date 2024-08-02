@@ -101,12 +101,13 @@ const formData = [
         required: true,
       },
       { name: "taxId", type: "string", label: "Tax Number" },
-      { name: "Gender",
+      { name: "gender",
         type: "selectList",
+        source: "gender",
         choices: [
-          { id: 'Male', name: 'Male' },
-          { id: 'Female', name: 'Female' },
-          { id: 'NO_BINARY', name: 'NO_BINARY' }
+          { id: 'Male', name: 'Male' , label: 'Male' },
+          { id: 'Female', name: 'Female' , label: 'Female' },
+          { id: 'NO_BINARY', name: 'NO_BINARY', label: 'NO_BINARY' }
         ],
         required: true
       }
