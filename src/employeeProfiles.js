@@ -24,6 +24,7 @@ import {
   WrapperField,
   useList,
   ListContextProvider,
+  SelectField,
 } from "react-admin";
 import {
   Avatar,
@@ -330,7 +331,14 @@ export const EmployeeProfile = () => {
                   </SingleFieldList>
                 </ReferenceArrayField>
                 <TextField source="phoneNumber" />
-                <TextField source="gender" />
+                <SelectField
+                  source="gender"
+                  choices={[
+                    {id: "MALE", name: "Male"},
+                    {id: "FEMALE", name: "Female"},
+                    {id: "NON_BINARY", name: "Non Binary"},
+                  ]}
+                />
                 <DateField source="birthDate" locales={locale} />
                 <TextField source="taxId" />
                 <TextField source="address" />
