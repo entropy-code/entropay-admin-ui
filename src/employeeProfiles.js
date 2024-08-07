@@ -631,7 +631,15 @@ export const EmployeeProfile = () => {
                 </ReferenceField>
                 <DateField source="ptoStartDate" locales={locale} />
                 <DateField source="ptoEndDate" locales={locale} />
-                <TextField source="status" />
+                {/* <TextField source="status" /> */}
+                <FunctionField
+                  label="Status"
+                  sortBy="active"
+                  sortByOrder="ASC"
+                  render={(record) =>
+                    record.status === "APPROVED"
+                  }
+                />
                 <TextField source="details" />
                 <NumberField source="days" />
                 <NumberField source="labourHours" />
