@@ -10,6 +10,7 @@ import {
 import { Box, Typography, useMediaQuery } from "@mui/material";
 import ReferenceInputItem from "./ReferenceInputItem";
 import PaymentSection from "./PaymentSection";
+import ChildrenSection from "./ChildrenSection";
 import MultiSelectInput from "./MultiSelectInput";
 
 const FormSection = ({ formSectionTitle, inputsList, customSections }) => {
@@ -122,6 +123,10 @@ const FormSection = ({ formSectionTitle, inputsList, customSections }) => {
               </Box>
             );
           })}
+        {customSections && 
+        customSections.includes("childrenSection") && (
+          <ChildrenSection type="children"/>
+        )}
         {customSections &&
           customSections.includes("paymentInformationSection") && (
             <PaymentSection type="paymentInformation" />
