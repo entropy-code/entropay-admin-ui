@@ -11,15 +11,13 @@ import {
   WrapperField,
   FunctionField,
   useGetList,
-  Filter,
-  SelectInput,
 } from "react-admin";
 import CreateForm from "./components/forms/CreateForm";
 import EditForm from "./components/forms/EditForm";
 import { IPto, IYear } from "./types";
 import CancelPtoButton from "./components/buttons/CancelPtoButton";
 import { exporter } from "./utils/exporter";
-
+import { FilterSidebar } from "./components/filters/FilterList";
 
 const formData = [
   {
@@ -56,7 +54,12 @@ const formData = [
       {},
       { name: "ptoStartDate", type: "date", required: true },
       { name: "ptoEndDate", type: "date", required: true },
-      { name: "isHalfDay", type: "boolean", label: "Half day off", defaultValue: false },
+      {
+        name: "isHalfDay",
+        type: "boolean",
+        label: "Half day off",
+        defaultValue: false,
+      },
       {},
     ],
   },
@@ -66,9 +69,25 @@ const formData = [
   },
 ];
 
-const headersRename = ["Employee", "Leave Type", "Start Date", "End Date", "Status", "Details", "Days"];
+const headersRename = [
+  "Employee",
+  "Leave Type",
+  "Start Date",
+  "End Date",
+  "Status",
+  "Details",
+  "Days",
+];
 
-const headers = ["employeeFullName", "leaveTypeName", "ptoStartDate", "ptoEndDate", "status", "details", "days"];
+const headers = [
+  "employeeFullName",
+  "leaveTypeName",
+  "ptoStartDate",
+  "ptoEndDate",
+  "status",
+  "details",
+  "days",
+];
 const YearOptions = () => {
   const { data: years } = useGetList<IYear>("ptos/years");
   return years?.map((year) => ({ id: year.id, name: year.year })) || [];
@@ -83,23 +102,9 @@ export const PtoList = () => {
     return <></>;
   }
 
-  const PtoFilters = () => (
-    <Filter>
-      <SelectInput
-        source="year"
-        label="Year"
-        emptyText="All years"
-        choices={yearsByFilter}
-        alwaysOn
-        style={{ marginTop: "20px", marginBottom: "20px" }}
-      />
-    </Filter>
-  );
-
   return (
     <List
-      filters={PtoFilters()}
-      filterDefaultValues={{ year: currentYear }}
+      aside={<FilterSidebar />}
       perPage={50}
       exporter={exporter("ptos", headers, headersRename)}
     >
