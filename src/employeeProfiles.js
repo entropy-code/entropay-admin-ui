@@ -616,6 +616,7 @@ export const EmployeeProfile = () => {
               reference="ptos"
               target="employeeId"
               sort={{ field: "startDate", order: "DESC" }}
+              filter={{ status: "APPROVED" }}
             >
               <RedirectButton
                 form="create"
