@@ -392,6 +392,21 @@ export const EmployeeProfile = () => {
               <TextField source="routingNumber" label="Routing number" />
             </Datagrid>
           </ArrayField>
+
+          <ArrayField source="children">
+            <Datagrid
+              bulkActionButtons={false}
+              sx={{
+                mb: 2,
+              }}
+            >
+              <TextField source="firstName" />
+              <TextField source="lastName" />
+              <TextField source="gender" />
+              <TextField source="birthDate" />
+            </Datagrid>
+          </ArrayField>
+
         </Tab>
         <Tab label="Contracts">
           <ReferenceManyField
