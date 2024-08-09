@@ -1,6 +1,6 @@
 const { ArrayInput, TextInput, SimpleFormIterator, SelectInput, DateInput } = require("react-admin")
 
-const ChildrenSection = ({type}) => {
+const ChildrenSection = (type) => {
     return (
         <>
         {type.type === "children" && (
