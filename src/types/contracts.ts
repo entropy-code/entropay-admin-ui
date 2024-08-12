@@ -12,6 +12,7 @@ export interface IContract {
   notes: string;
   contractType: string;
   paymentSettlement: IPaymentSettlement[];
+  endReasonID: string;
   deleted: boolean;
   active: boolean;
   createdAt: Date;
