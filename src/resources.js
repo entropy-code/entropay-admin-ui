@@ -27,6 +27,7 @@ import {
   TechnologiesEdit,
   TechnologiesCreate,
 } from "./technologies";
+import { EndReasonsList, EndReasonsEdit, EndReasonsCreate } from "./endReasons";
 import { ListGuesser } from "react-admin";
 import { LeaveTypeCreate, LeaveTypeEdit, LeaveTypeList } from "./leaveTypes";
 import { HolidayCreate, HolidayEdit, HolidayList } from "./holidays";
@@ -120,6 +121,13 @@ export const resourceMap = [
     create: TechnologiesCreate,
     show: null,
   },
+    {
+      entity: "end-reasons",
+      list: EndReasonsList,
+      edit: EndReasonsEdit,
+      create: EndReasonsCreate,
+      show: null,
+    },
   {
     entity: "leave-types",
     list: LeaveTypeList,

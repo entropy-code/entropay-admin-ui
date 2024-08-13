@@ -79,7 +79,7 @@ const formData = [
         referenceValues: {
           source: "endReasonId",
           reference: "end-reasons",
-          optionText: null,
+          optionText: "name",
           multiselect: false,
           required: false,
           disabledCheck: disabledCheck,
