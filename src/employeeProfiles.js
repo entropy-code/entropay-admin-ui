@@ -402,7 +402,14 @@ export const EmployeeProfile = () => {
             >
               <TextField source="firstName" />
               <TextField source="lastName" />
-              <TextField source="gender" />
+              <SelectField
+                  source="gender"
+                  choices={[
+                    {id: "MALE", name: "Male"},
+                    {id: "FEMALE", name: "Female"},
+                    {id: "NON_BINARY", name: "Non Binary"},
+                  ]}
+                />
               <TextField source="birthDate" />
             </Datagrid>
           </ArrayField>
