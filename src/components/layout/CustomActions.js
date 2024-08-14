@@ -33,7 +33,7 @@ export const HasPermissions = (entity, action) => {
         if (element.entity === entity) {
             return element.actions.includes(action);
         } 
-    
+          
         return false;
       })};
     return permissions && getPermissions(action)

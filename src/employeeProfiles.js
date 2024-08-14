@@ -661,6 +661,44 @@ export const EmployeeProfile = () => {
             </ReferenceManyField>
           </Tab>
         )}
+         <Tab label="Overtime">
+          <ReferenceManyField
+            label=""
+            reference="overtimes"
+            target="employeeId"
+            sort={{ field: "startDate", order: "DESC" }}
+          >
+          
+              <RedirectButton
+                form="create"
+                resource="overtimes"
+                text="+ CREATE"
+                recordId={DisplayRecordCurrentId()}
+                record={GetLatestAssignment()}
+                source="employeeProfile"
+              />
+            
+            <Datagrid
+              rowStyle={activeValue}
+              empty={<CustomEmpty message="No overtimes found" />}
+            >
+              <ReferenceField
+                source="assignmentId"
+                reference="assignments"
+                link={false}
+              >
+                <TextField source="name" />
+              </ReferenceField>
+    
+              <DateField source="date" locales={locale} />
+
+              <NumberField source="hours" />
+              <TextField source="details" />
+              <ShowButton />
+              {HasPermissions("overtimes", "update") && <EditButton />}
+            </Datagrid>
+          </ReferenceManyField>
+        </Tab>
         {/*<Tab label="Documents"></Tab>
       Hidden empty tabs until developed
       */}

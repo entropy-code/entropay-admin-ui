@@ -33,6 +33,9 @@ const GetRedirectPathAfterEdit = (resource, data) => {
     case "ptos":
       redirectPath = `/employees/${data.employeeId}/show/4`;
       break;
+      case "overtime":
+        redirectPath = `/employees/${data.employeeId}/show/5`;
+        break;
     default:
       redirectPath = `/${resource}`;
       break;
@@ -58,6 +61,9 @@ const GetRedirectPathAfterDelete = (resource, data) => {
     case "ptos":
       redirectPath = `/employees/${data.employeeId}/show/4`;
       break;
+      case "overtimes":
+        redirectPath = `/employees/${data.employeeId}/show/5`;
+        break;
     default:
       redirectPath = `/${resource}`;
       break;
