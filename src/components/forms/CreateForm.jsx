@@ -42,6 +42,7 @@ const CreateForm = ({ formData, title, resource }) => {
             {formData.map((item, index) => {
               return (
                 <Box
+                key={`create-box-${index}`}
                   sx={{
                     borderLeft: 3,
                     borderColor: "#2196F3",
