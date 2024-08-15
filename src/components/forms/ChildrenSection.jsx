@@ -1,7 +1,6 @@
-const { useRecordContext, ArrayInput, TextInput, SimpleFormIterator, SelectInput, DateInput } = require("react-admin")
+const { ArrayInput, TextInput, SimpleFormIterator, SelectInput, DateInput } = require("react-admin")
 
 const ChildrenSection = (type) => {
-    const record = useRecordContext();
     return (
         <>
         {type.type === "children" && (
@@ -35,7 +34,6 @@ const ChildrenSection = (type) => {
                         required={true}
                     />
                     <DateInput source="birthDate" label="Birth date" />
-                    <TextInput source="employeeId" defaultValue={record.id} style={{ display: 'none' }} />
                 </SimpleFormIterator>
             </ArrayInput>
         )}
