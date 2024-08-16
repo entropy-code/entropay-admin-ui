@@ -18,6 +18,7 @@ const RedirectButton = ({ form, resource, text, recordId, record, source }) => {
         vacations: record.vacations,
         benefits: record.benefits,
         paymentSettlement: record.paymentSettlement,
+        endReason: record.endReason,
         notes: record.notes,
         source: source,
       };
@@ -33,6 +34,7 @@ const RedirectButton = ({ form, resource, text, recordId, record, source }) => {
         projectId: record.projectId,
         roleId: record.roleId,
         seniorityId: record.seniorityId,
+        endReason: record.endReason,
         source: source,
       };
     } else {
