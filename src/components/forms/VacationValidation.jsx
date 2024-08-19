@@ -11,8 +11,8 @@ export default function VacationValidation() {
 
   const employee = useWatch('Employee')
 
-  const datePtoStartTime = moment(document.getElementById('ptoStartDate')?.value);
-  const datePtoEndTime = moment(document.getElementById('ptoEndDate')?.value);
+  const datePtoStartTime = moment(employee?.ptoStartDate);
+  const datePtoEndTime = moment(employee?.ptoEndDate);
 
   const calculateCleanDaysDiff = ( startDate, endDate ) => {
     let days = 0;
@@ -34,7 +34,6 @@ export default function VacationValidation() {
     } else {
       setVisible(false);
     }
-
   }, [employee, datePtoStartTime, datePtoEndTime, daysDiff, vacations]);
 
   return !visible
