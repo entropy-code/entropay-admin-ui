@@ -8,17 +8,16 @@ import {
   FormDataConsumer,
 } from "react-admin";
 import { Box, Typography, useMediaQuery } from "@mui/material";
+import { useWatch } from 'react-hook-form';
 import ReferenceInputItem from "./ReferenceInputItem";
 import PaymentSection from "./PaymentSection";
 import MultiSelectInput from "./MultiSelectInput";
 import AvailableVacationDays from "./AvailableVacationDays";
-import { useWatch } from 'react-hook-form';
-import React from "react";
 
 const FormSection = ({ formSectionTitle, inputsList, customSections }) => {
   const [locale] = useLocaleState();
   const isNonMobile = useMediaQuery("(min-width:600px)");
-  const employee = useWatch("Employee")
+  const employee = useWatch("Employee");
 
   return (
     <Box>
@@ -123,6 +122,7 @@ const FormSection = ({ formSectionTitle, inputsList, customSections }) => {
                   }
                   </FormDataConsumer>
                 ) : undefined}
+                {formSectionTitle === 'Available Vacation Days' && !employee?.employeeId && <p style={{ paddingLeft: '12px' }}>None user selected</p>}
                 {listItem.type === "textField" && employee?.employeeId && (<AvailableVacationDays user={employee} />)}
               </Box>
             );
@@ -151,6 +151,7 @@ const FormSection = ({ formSectionTitle, inputsList, customSections }) => {
           />
         )}
       </Box>
+
     </Box>
   );
 };
