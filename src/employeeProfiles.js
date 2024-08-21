@@ -368,6 +368,7 @@ export const EmployeeProfile = () => {
                     <ChipField source="name" />
                   </SingleFieldList>
                 </ReferenceArrayField>
+                <TextField source="personalEmail" />
                 <TextField source="labourEmail" />
                 <TextField source="mobileNumber" />
                 <TextField source="personalNumber" />
