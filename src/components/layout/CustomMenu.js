@@ -25,7 +25,7 @@ export const CustomMenu = () => {
   const config = JSON.parse(localStorage.getItem("config")) || {};
   return (
     <div style={{ width: 240 }}>
-      <Sidenav>
+      <Sidenav appearance={ 'subtle' }>
         <Sidenav.Body>
           <Nav activeKey="1">
             {config.menu &&

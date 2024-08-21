@@ -74,11 +74,11 @@ const GetActiveContract = () => {
   return activeContract;
 };
 
-const GetVacationsAndAvailableDays = () => {
-  const employeeId = useGetRecordId();
+export const GetVacationsAndAvailableDays = suggestId => {
+  const employeeId = useGetRecordId(suggestId);
   const { data: vacations } = useGetManyReference("vacations", {
     target: "employeeId",
-    id: employeeId,
+    id: suggestId ? suggestId : employeeId,
   });
 
   let vacationAvailableDays = 0;
@@ -368,6 +368,7 @@ export const EmployeeProfile = () => {
                     <ChipField source="name" />
                   </SingleFieldList>
                 </ReferenceArrayField>
+                <TextField source="personalEmail" />
                 <TextField source="labourEmail" />
                 <TextField source="mobileNumber" />
                 <TextField source="personalNumber" />
@@ -638,6 +639,7 @@ export const EmployeeProfile = () => {
               reference="ptos"
               target="employeeId"
               sort={{ field: "startDate", order: "DESC" }}
+              filter={{ status: "APPROVED" }}
             >
               <RedirectButton
                 form="create"
