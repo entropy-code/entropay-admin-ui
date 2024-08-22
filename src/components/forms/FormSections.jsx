@@ -5,16 +5,21 @@ import {
   SelectInput,
   useLocaleState,
   BooleanInput,
-  FormDataConsumer
+  FormDataConsumer,
 } from "react-admin";
 import { Box, Typography, useMediaQuery } from "@mui/material";
+import { useWatch } from 'react-hook-form';
 import ReferenceInputItem from "./ReferenceInputItem";
 import PaymentSection from "./PaymentSection";
+import ChildrenSection from "./ChildrenSection";
 import MultiSelectInput from "./MultiSelectInput";
+import AvailableVacationDays from "./AvailableVacationDays";
 
 const FormSection = ({ formSectionTitle, inputsList, customSections }) => {
   const [locale] = useLocaleState();
   const isNonMobile = useMediaQuery("(min-width:600px)");
+  const employee = useWatch("Employee");
+
   return (
     <Box>
       <Typography variant="h6" color={"#2196F3"}>
@@ -34,7 +39,7 @@ const FormSection = ({ formSectionTitle, inputsList, customSections }) => {
         {inputsList &&
           inputsList.map((listItem, listIndex) => {
             return (
-              <Box>
+              <Box key={`box-${listIndex}`}>
                 {listItem.type === "date" ? (
                   <DateInput
                     source={listItem.name}
@@ -118,10 +123,15 @@ const FormSection = ({ formSectionTitle, inputsList, customSections }) => {
                   }
                   </FormDataConsumer>
                 ) : undefined}
-                
+                {formSectionTitle === 'Available Vacation Days' && !employee?.employeeId && <p style={{ paddingLeft: '12px' }}>None user selected</p>}
+                {listItem.type === "textField" && employee?.employeeId && (<AvailableVacationDays user={employee} />)}
               </Box>
             );
           })}
+        {customSections && 
+        customSections.includes("childrenSection") && (
+          <ChildrenSection type="children"/>
+        )}
         {customSections &&
           customSections.includes("paymentInformationSection") && (
             <PaymentSection type="paymentInformation" />
@@ -146,6 +156,7 @@ const FormSection = ({ formSectionTitle, inputsList, customSections }) => {
           />
         )}
       </Box>
+
     </Box>
   );
 };
