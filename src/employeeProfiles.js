@@ -368,6 +368,7 @@ export const EmployeeProfile = () => {
                     <ChipField source="name" />
                   </SingleFieldList>
                 </ReferenceArrayField>
+                <TextField source="personalEmail" />
                 <TextField source="labourEmail" />
                 <TextField source="mobileNumber" />
                 <TextField source="personalNumber" />
@@ -392,6 +393,28 @@ export const EmployeeProfile = () => {
               <TextField source="routingNumber" label="Routing number" />
             </Datagrid>
           </ArrayField>
+
+          <ArrayField source="children">
+            <Datagrid
+              bulkActionButtons={false}
+              sx={{
+                mb: 2,
+              }}
+            >
+              <TextField source="firstName" />
+              <TextField source="lastName" />
+              <SelectField
+                  source="gender"
+                  choices={[
+                    {id: "MALE", name: "Male"},
+                    {id: "FEMALE", name: "Female"},
+                    {id: "NON_BINARY", name: "Non Binary"},
+                  ]}
+                />
+              <TextField source="birthDate" />
+            </Datagrid>
+          </ArrayField>
+
         </Tab>
         <Tab label="Contracts">
           <ReferenceManyField

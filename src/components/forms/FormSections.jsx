@@ -11,6 +11,7 @@ import { Box, Typography, useMediaQuery } from "@mui/material";
 import { useWatch } from 'react-hook-form';
 import ReferenceInputItem from "./ReferenceInputItem";
 import PaymentSection from "./PaymentSection";
+import ChildrenSection from "./ChildrenSection";
 import MultiSelectInput from "./MultiSelectInput";
 import AvailableVacationDays from "./AvailableVacationDays";
 
@@ -127,6 +128,10 @@ const FormSection = ({ formSectionTitle, inputsList, customSections }) => {
               </Box>
             );
           })}
+        {customSections && 
+        customSections.includes("childrenSection") && (
+          <ChildrenSection type="children"/>
+        )}
         {customSections &&
           customSections.includes("paymentInformationSection") && (
             <PaymentSection type="paymentInformation" />
