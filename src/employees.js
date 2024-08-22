@@ -145,6 +145,7 @@ const formData = [
   {
     customSections: [
       "paymentInformationSection",
+      "childrenSection",
       "notesSection",
     ],
   },
