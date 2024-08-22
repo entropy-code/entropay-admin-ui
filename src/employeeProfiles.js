@@ -130,6 +130,21 @@ const GetLatestAssignment = () => {
   return latestAssignment;
 };
 
+const GetAssignmentsByEmployee = () => {
+  // Obtén el ID del empleado actual
+  const employeeId = useGetRecordId();
+
+  // Usa useGetManyReference para obtener todos los assignments relacionados con el employeeId
+  const { data: assignments, isLoading, error } = useGetManyReference("assignments", {
+    target: "employeeId",  // Este es el campo de referencia en la tabla de assignments
+    id: employeeId,        // El ID del empleado que estás filtrando
+  });
+
+  // Retorna los assignments y los estados de carga y error
+  return { assignments, isLoading, error };
+};
+
+
 const CustomEmpty = ({ message }) => <div>{message}</div>;
 
 const style = {
@@ -334,9 +349,9 @@ export const EmployeeProfile = () => {
                 <SelectField
                   source="gender"
                   choices={[
-                    {id: "MALE", name: "Male"},
-                    {id: "FEMALE", name: "Female"},
-                    {id: "NON_BINARY", name: "Non Binary"},
+                    { id: "MALE", name: "Male" },
+                    { id: "FEMALE", name: "Female" },
+                    { id: "NON_BINARY", name: "Non Binary" },
                   ]}
                 />
                 <DateField source="birthDate" locales={locale} />
@@ -661,39 +676,46 @@ export const EmployeeProfile = () => {
             </ReferenceManyField>
           </Tab>
         )}
-         <Tab label="Overtime">
+        <Tab label="Overtimes">
           <ReferenceManyField
             label=""
             reference="overtimes"
             target="employeeId"
-            sort={{ field: "startDate", order: "DESC" }}
           >
-          
+            {HasPermissions("overtimes", "create") && (
               <RedirectButton
                 form="create"
                 resource="overtimes"
                 text="+ CREATE"
                 recordId={DisplayRecordCurrentId()}
-                record={GetLatestAssignment()}
                 source="employeeProfile"
               />
-            
+            )}
+
             <Datagrid
               rowStyle={activeValue}
               empty={<CustomEmpty message="No overtimes found" />}
             >
+
               <ReferenceField
                 source="assignmentId"
                 reference="assignments"
+                label="Project"
                 link={false}
               >
-                <TextField source="name" />
+                <ReferenceField
+                  source="projectId"
+                  reference="projects"
+                  link={false}
+                >
+                  <TextField source="name" />
+                </ReferenceField>
               </ReferenceField>
-    
-              <DateField source="date" locales={locale} />
 
+              <DateField source="date" locales={locale} />
               <NumberField source="hours" />
-              <TextField source="details" />
+              <TextField source="description" />
+
               <ShowButton />
               {HasPermissions("overtimes", "update") && <EditButton />}
             </Datagrid>

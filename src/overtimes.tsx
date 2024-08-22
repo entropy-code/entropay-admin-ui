@@ -4,21 +4,30 @@ import EditForm from "./components/forms/EditForm";
 import {
   Datagrid,
   DateField,
-  EditButton,
-  FunctionField,
+  Filter,
+  FilterProps,
   List,
   NumberField,
   ReferenceField,
   TextField,
+  TextInput,
+  useDataProvider,
   WrapperField,
 } from "react-admin";
+import { useState } from "react";
+import { createFilterOptions } from "@mui/material";
+import { InferProps, Requireable, ReactNodeLike } from "prop-types";
+import QuickFilter from "./components/filters/QuickFilter";
+
 
 function disabledCheck(source: string): boolean {
+ 
   return source === "employeeProfile";
 }
 
 const formData = [
-  {
+  
+  { 
     title: "Overtime",
     inputsList: [
       {
@@ -31,16 +40,30 @@ const formData = [
           multiselect: false,
           required: true,
           disabledCheck: disabledCheck,
+         
+        },
+      },
+      
+      {
+        name: "Assignment",
+        type: "selectInput",
+        referenceValues: {
+          source: "assignmentId",
+          reference: "assignments",
+          multiselect: false,
+          required: true,
+          
+          
         },
       },
       { name: "date", type: "date", required: true },
-      { name: "details", type: "string", required: false },
-      { name: "hours", type: "number", required: false },
-    ],
-  },
-];
+      { name: "description", type: "string", required: true },
+      { name: "hours", type: "number", required: true },
 
-export const VacationList = () => (
+    ],
+  },];
+
+export const OvertimeList = () => (
   <List>
     <Datagrid rowClick="edit">
       <ReferenceField source="employeeId" reference="employees">
@@ -48,17 +71,34 @@ export const VacationList = () => (
           <TextField source="lastName" /> <TextField source="firstName" />
         </WrapperField>
       </ReferenceField>
+      <ReferenceField
+        source="assignmentId"
+        reference="assignments"
+        label="Project"
+        link={false}
+      >
+        <ReferenceField
+          source="projectId"
+          reference="projects"
+          link={false}
+        >
+          <TextField source="name" />
+        </ReferenceField>
+      </ReferenceField>
       <DateField source="date" />
-      <TextField source="details" />
+      <TextField source="description" />
       <NumberField source="hours" />
     </Datagrid>
   </List>
 );
 
-export const OvertimeEdit = () => (  
+export const OvertimeEdit = () => (
   <EditForm formData={formData} title="Overtime" resource="overtimes" />
 );
 
 export const OvertimeCreate = () => (
   <CreateForm formData={formData} title="Overtime" resource="overtimes" />
 );
+
+
+

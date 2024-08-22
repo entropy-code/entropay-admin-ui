@@ -23,6 +23,11 @@ import {
   AssignmentView,
 } from "./assignments";
 import {
+  OvertimeList,
+  OvertimeEdit,
+  OvertimeCreate,
+} from "./overtimes";
+import {
   TechnologiesList,
   TechnologiesEdit,
   TechnologiesCreate,
@@ -36,6 +41,7 @@ import { PtoCreate, PtoEdit, PtoList } from "./ptos";
 import { EmployeeReportList } from "./employeesReport";
 import { SalariesReportList } from "./salaryReport";
 import { PtosReport } from "./employeesPtosReport";
+
 
 export const resourceMap = [
   {
@@ -112,6 +118,13 @@ export const resourceMap = [
     edit: AssignmentEdit,
     create: AssignmentCreate,
     show: AssignmentView,
+  },
+  {
+    entity: "overtimes",
+    list: OvertimeList,
+    
+    create: OvertimeCreate,
+    show: null,
   },
   {
     entity: "technologies",
