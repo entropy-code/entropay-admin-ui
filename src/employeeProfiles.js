@@ -64,11 +64,23 @@ const GetActiveContract = () => {
     },
   });
 
-  const activeContract = React.useMemo(() => {
-    if (Array.isArray(data)) {
-      return data[0];
+const activeContract = React.useMemo(() => {
+    if (!Array.isArray(data) || data.length === 0) {
+      return undefined;
     }
-    return undefined;
+
+    const contract = data[0];
+
+    return {
+      companyId: contract.companyId,
+      contractType: contract.contractType,
+      startDate: contract.startDate,
+      roleId: contract.roleId,
+      seniorityId: contract.seniorityId,
+      hoursPerMonth: contract.hoursPerMonth,
+      benefits: contract.benefits,
+
+    };
   }, [data]);
 
   return activeContract;
