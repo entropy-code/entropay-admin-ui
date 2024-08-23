@@ -40,6 +40,19 @@ const FormSection = ({ formSectionTitle, inputsList, customSections }) => {
           inputsList.map((listItem, listIndex) => {
             return (
               <Box key={`box-${listIndex}`}>
+                {listItem.name === 'activeSection' && (
+                  <BooleanInput
+                    source="active"
+                    label="Active"
+                    defaultValue={true}
+                    sx={{
+                      "& .MuiFormControlLabel-root": {
+                        justifyContent: "center",
+                        padding: "10px 0 0 10px"
+                      },
+                    }}
+                  />
+                )}
                 {listItem.type === "date" ? (
                   <DateInput
                     source={listItem.name}
@@ -142,18 +155,6 @@ const FormSection = ({ formSectionTitle, inputsList, customSections }) => {
           )}
         {customSections && customSections.includes("notesSection") && (
           <TextInput multiline source="notes" />
-        )}
-        {customSections && customSections.includes("activeSection") && (
-          <BooleanInput
-            source="active"
-            label="Active"
-            defaultValue={true}
-            sx={{
-              "& .MuiFormControlLabel-root": {
-                justifyContent: "center",
-              },
-            }}
-          />
         )}
       </Box>
 
