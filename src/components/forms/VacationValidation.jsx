@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react'
-import { useStore } from 'react-admin';
+import { Toolbar, useStore } from 'react-admin';
 import { useWatch } from 'react-hook-form';
 import ConfirmButton from "../buttons/ConfirmButton";
 import moment from 'moment';
 
-export default function VacationValidation({ Toolbar }) {
+export default function VacationValidation() {
   const [visible, setVisible] = useState(false);
   const [daysDiff, setDaysDiff] = useState(null);
   const [vacations] = useStore('vacations', 0);
