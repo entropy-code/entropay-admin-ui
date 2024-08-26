@@ -24,6 +24,7 @@ import {
   WrapperField,
   useList,
   ListContextProvider,
+  SelectField,
 } from "react-admin";
 import {
   Avatar,
@@ -63,21 +64,33 @@ const GetActiveContract = () => {
     },
   });
 
-  const activeContract = React.useMemo(() => {
-    if (Array.isArray(data)) {
-      return data[0];
+const activeContract = React.useMemo(() => {
+    if (!Array.isArray(data) || data.length === 0) {
+      return undefined;
     }
-    return undefined;
+
+    const contract = data[0];
+
+    return {
+      companyId: contract.companyId,
+      contractType: contract.contractType,
+      startDate: contract.startDate,
+      roleId: contract.roleId,
+      seniorityId: contract.seniorityId,
+      hoursPerMonth: contract.hoursPerMonth,
+      benefits: contract.benefits,
+
+    };
   }, [data]);
 
   return activeContract;
 };
 
-const GetVacationsAndAvailableDays = () => {
-  const employeeId = useGetRecordId();
+export const GetVacationsAndAvailableDays = suggestId => {
+  const employeeId = useGetRecordId(suggestId);
   const { data: vacations } = useGetManyReference("vacations", {
     target: "employeeId",
-    id: employeeId,
+    id: suggestId ? suggestId : employeeId,
   });
 
   let vacationAvailableDays = 0;
@@ -330,6 +343,14 @@ export const EmployeeProfile = () => {
                   </SingleFieldList>
                 </ReferenceArrayField>
                 <TextField source="phoneNumber" />
+                <SelectField
+                  source="gender"
+                  choices={[
+                    {id: "MALE", name: "Male"},
+                    {id: "FEMALE", name: "Female"},
+                    {id: "NON_BINARY", name: "Non Binary"},
+                  ]}
+                />
                 <DateField source="birthDate" locales={locale} />
                 <TextField source="taxId" />
                 <TextField source="address" />
@@ -359,6 +380,7 @@ export const EmployeeProfile = () => {
                     <ChipField source="name" />
                   </SingleFieldList>
                 </ReferenceArrayField>
+                <TextField source="personalEmail" />
                 <TextField source="labourEmail" />
                 <TextField source="mobileNumber" />
                 <TextField source="personalNumber" />
@@ -383,6 +405,28 @@ export const EmployeeProfile = () => {
               <TextField source="routingNumber" label="Routing number" />
             </Datagrid>
           </ArrayField>
+
+          <ArrayField source="children">
+            <Datagrid
+              bulkActionButtons={false}
+              sx={{
+                mb: 2,
+              }}
+            >
+              <TextField source="firstName" />
+              <TextField source="lastName" />
+              <SelectField
+                  source="gender"
+                  choices={[
+                    {id: "MALE", name: "Male"},
+                    {id: "FEMALE", name: "Female"},
+                    {id: "NON_BINARY", name: "Non Binary"},
+                  ]}
+                />
+              <TextField source="birthDate" />
+            </Datagrid>
+          </ArrayField>
+
         </Tab>
         <Tab label="Contracts">
           <ReferenceManyField
@@ -607,6 +651,7 @@ export const EmployeeProfile = () => {
               reference="ptos"
               target="employeeId"
               sort={{ field: "startDate", order: "DESC" }}
+              filter={{ status: "APPROVED" }}
             >
               <RedirectButton
                 form="create"

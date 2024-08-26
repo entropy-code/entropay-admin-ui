@@ -1,14 +1,17 @@
 import * as React from "react";
 import { fetchUtils } from "ra-core";
-import { Admin, Resource } from "react-admin";
+import { Admin, Resource, localStorageStore } from "react-admin";
 import simpleRestProvider from "ra-data-simple-rest";
 import config from "./config";
 import authProvider from "./authProvider";
 import { CustomLayout } from "./components/layout/CustomLayout";
 import { resourceMap } from "./resources";
 import { HasPermissions } from "./components/layout/CustomActions";
+import { QueryClient } from "@tanstack/react-query";
 
 console.log(config.env);
+
+const STORE_VERSION = "1";
 
 const httpClient = (url, options = {}) => {
   if (!options.headers) {
@@ -50,6 +53,14 @@ const dataProvider = simpleRestProvider(
   "X-Total-Count"
 );
 
+const queryClient = new QueryClient({
+  defaultOptions: {
+      queries: {
+        refetchOnWindowFocus: false,
+      },
+  },
+});
+
 const App = () => {
   useCustomLocale();
   return (
@@ -58,6 +69,8 @@ const App = () => {
       layout={CustomLayout}
       dataProvider={dataProvider}
       authProvider={authProvider}
+      queryClient={queryClient}
+      store={localStorageStore(STORE_VERSION)}
     >
       {fetchResources}
     </Admin>

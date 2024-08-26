@@ -64,7 +64,7 @@ const formData = [
     title: "Personal Information",
     inputsList: [
       { name: "internalId", type: "string", required: true },
-      {}, // a blank space,
+      { name: "activeSection" },
       {
         name: "Employee",
         type: "multiSelect",
@@ -101,6 +101,16 @@ const formData = [
         required: true,
       },
       { name: "taxId", type: "string", label: "Tax Number" },
+      { name: "gender",
+        type: "selectList",
+        source: "gender",
+        choices: [
+          { id: 'MALE', name: 'Male' , label: 'Male' },
+          { id: 'FEMALE', name: 'Female' , label: 'Female' },
+          { id: 'NON_BINARY', name: 'Non Binary', label: 'Non Binary' }
+        ],
+        required: true
+      }
     ],
   },
   {
@@ -135,8 +145,8 @@ const formData = [
   {
     customSections: [
       "paymentInformationSection",
+      "childrenSection",
       "notesSection",
-      "activeSection",
     ],
   },
 ];
@@ -158,10 +168,11 @@ const fieldsList = [
   { name: "role", type: "text" },
   { name: "availableDays", type: "number", label: "Available vacations" },
   { name: "nearestPto", type: "date" },
+  { name: "gender", type: "text" }
 ];
 
 const headersRename = ["First Name", "Last Name", "Labour Email", "Start Date", "City", "Country", "Client",
-  "Project", "Role", "Available Vacation Days", "Nearest PTO"];
+  "Project", "Role", "Available Vacation Days", "Nearest PTO", "Gender"];
 
 export const EmployeeList = () => {
   const [viewOptionValue, setRadioValue] = useState("card");

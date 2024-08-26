@@ -39,6 +39,15 @@ const formData = [
     ],
   },
   {
+    title: "Available Vacation Days",
+    inputsList: [
+      {
+        name: "availableVacationDays",
+        type: "textField",
+      },
+    ]
+  },
+  {
     title: "LeaveType",
     inputsList: [
       {

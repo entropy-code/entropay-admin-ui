@@ -68,11 +68,22 @@ const formData = [
           optionText: null,
           multiselect: false,
           required: true,
-          disabledCheck: disabledCheck,
         },
       },
       { name: "startDate", type: "date", required: true },
       { name: "endDate", type: "date" },
+      {
+        name: "End Reason",
+        type: "selectInput",
+        referenceValues: {
+          source: "endReasonId",
+          reference: "end-reasons",
+          optionText: "name",
+          multiselect: false,
+          required: false,
+          disabledCheck: disabledCheck,
+        },
+      },
     ],
   },
   {
@@ -159,6 +170,9 @@ export const ContractList = () => {
         <DateField source="startDate" locales={locale} />
         <DateField source="endDate" locales={locale} />
         <ReferenceField source="roleId" reference="roles" link={false}>
+          <TextField source="name" />
+        </ReferenceField>
+        <ReferenceField source="endReasonId" reference="end-reasons" link={false}>
           <TextField source="name" />
         </ReferenceField>
         <ReferenceField source="seniorityId" reference="seniorities" link={false}>
