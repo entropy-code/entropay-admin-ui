@@ -68,7 +68,6 @@ const formData = [
           optionText: null,
           multiselect: false,
           required: true,
-          disabledCheck: disabledCheck,
         },
       },
       { name: "startDate", type: "date", required: true },
