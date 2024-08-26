@@ -187,8 +187,6 @@ export const EmployeeProfile = () => {
     backgroundColor: record.active === true ? COLOR_green : COLOR_white,
   });
 
-  console.log(palette)
-
   const handleClose = () => {
     setOpen(false);
   };
