@@ -9,6 +9,7 @@ import { resourceMap } from "./resources";
 import { HasPermissions } from "./components/layout/CustomActions";
 import { QueryClient } from "@tanstack/react-query";
 
+
 console.log(config.env);
 
 const STORE_VERSION = "1";

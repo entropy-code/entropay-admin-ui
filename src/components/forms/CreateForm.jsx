@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import { Create, SimpleForm, useRedirect } from "react-admin";
+import { Create, SimpleForm, useRedirect, Toolbar } from "react-admin";
 import Header from "../Header";
 import FormSection from "./FormSections";
 import validateEntity from "./Validations";
@@ -41,7 +41,7 @@ const CreateForm = ({ formData, title, resource }) => {
       </Box>
 
       <Create actions={<EntityCreateEditActions />} mutationOptions={{ onSuccess }}>
-        <SimpleForm validate={validateEntity} toolbar={ window.location.href.includes('ptos/create') && <VacationValidation /> }>
+        <SimpleForm validate={validateEntity} toolbar={ window.location.href.includes('ptos/create') ? <VacationValidation toolbar={Toolbar} /> : <Toolbar/>}>
           <Box width="100%">
             {formData.map((item, index) => {
               return (

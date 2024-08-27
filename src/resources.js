@@ -123,7 +123,7 @@ export const resourceMap = [
   {
     entity: "overtimes",
     list: OvertimeList,
-    
+    edit: OvertimeEdit,
     create: OvertimeCreate,
     show: null,
   },
@@ -134,13 +134,13 @@ export const resourceMap = [
     create: TechnologiesCreate,
     show: null,
   },
-    {
-      entity: "end-reasons",
-      list: EndReasonsList,
-      edit: EndReasonsEdit,
-      create: EndReasonsCreate,
-      show: null,
-    },
+  {
+    entity: "end-reasons",
+    list: EndReasonsList,
+    edit: EndReasonsEdit,
+    create: EndReasonsCreate,
+    show: null,
+  },
   {
     entity: "leave-types",
     list: LeaveTypeList,

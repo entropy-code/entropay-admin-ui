@@ -35,18 +35,6 @@ const RedirectButton = ({ form, resource, text, recordId, record, source }) => {
         roleId: record.roleId,
         seniorityId: record.seniorityId,
         endReason: record.endReason,
-<<<<<<< HEAD
-        source: source,
-      };
-    } else if (record !== undefined && resource === "overtime") {
-      recordToDisplay = {
-        id: record.id,
-        date: record.date,
-        hours: record.hours,
-        details: record.details,
-        employeeId: recordId,
-=======
->>>>>>> 4cdc267fbd1d0b57ac9297ed6ed9403a0a340caa
         source: source,
       };
     } else {

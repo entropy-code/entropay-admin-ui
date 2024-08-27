@@ -682,7 +682,7 @@ export const EmployeeProfile = () => {
             label=""
             reference="overtimes"
             target="employeeId"
-          >
+          >  
             {HasPermissions("overtimes", "create") && (
               <RedirectButton
                 form="create"
@@ -693,10 +693,10 @@ export const EmployeeProfile = () => {
               />
             )}
 
-            <Datagrid
-              rowStyle={activeValue}
-              empty={<CustomEmpty message="No overtimes found" />}
-            >
+              <Datagrid
+                bulkActionButtons={false}
+                empty={<CustomEmpty message="No overtime found" />}
+              > 
 
               <ReferenceField
                 source="assignmentId"

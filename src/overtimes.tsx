@@ -14,10 +14,7 @@ import {
   useDataProvider,
   WrapperField,
 } from "react-admin";
-import { useState } from "react";
-import { createFilterOptions } from "@mui/material";
-import { InferProps, Requireable, ReactNodeLike } from "prop-types";
-import QuickFilter from "./components/filters/QuickFilter";
+
 
 
 function disabledCheck(source: string): boolean {
@@ -38,24 +35,15 @@ const formData = [
           reference: "employees",
           optionText: null,
           multiselect: false,
-          required: true,
-          disabledCheck: disabledCheck,
+          required: true, 
+          //disabledCheck: disabledCheck,
          
         },
       },
       
-      {
-        name: "Assignment",
-        type: "selectInput",
-        referenceValues: {
-          source: "assignmentId",
-          reference: "assignments",
-          multiselect: false,
-          required: true,
-          
-          
-        },
-      },
+      
+      { name: "assignmentId", type: "selectInputAssignment"},
+      // { name: "projectId", type: "referenceField", label: "Project Name" },
       { name: "date", type: "date", required: true },
       { name: "description", type: "string", required: true },
       { name: "hours", type: "number", required: true },

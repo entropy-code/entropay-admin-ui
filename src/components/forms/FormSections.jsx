@@ -6,6 +6,9 @@ import {
   useLocaleState,
   BooleanInput,
   FormDataConsumer,
+  ReferenceInput,
+  TextField,
+  ReferenceField,
 } from "react-admin";
 import { Box, Typography, useMediaQuery } from "@mui/material";
 import { useWatch } from 'react-hook-form';
@@ -13,11 +16,24 @@ import ReferenceInputItem from "./ReferenceInputItem";
 import PaymentSection from "./PaymentSection";
 import MultiSelectInput from "./MultiSelectInput";
 import AvailableVacationDays from "./AvailableVacationDays";
+import { useGetList } from 'react-admin';
+import { useEffect, useState } from "react";
 
 const FormSection = ({ formSectionTitle, inputsList, customSections }) => {
+  const [filteredChoices, setFilteredChoices] = useState([]);
   const [locale] = useLocaleState();
   const isNonMobile = useMediaQuery("(min-width:600px)");
   const employee = useWatch("Employee");
+  const { data: choices, isPending: isPendingChoices } = useGetList('assignments');
+
+
+  useEffect(() => {
+    if (!isPendingChoices && employee?.employeeId && choices) {
+      const filtered = choices.filter(item => item.employeeId === employee.employeeId);
+      setFilteredChoices(filtered);
+    }
+  }, [choices, isPendingChoices, employee])
+
 
   return (
     <Box>
@@ -101,8 +117,18 @@ const FormSection = ({ formSectionTitle, inputsList, customSections }) => {
                     referenceValues={listItem.referenceValues}
                   />
                 ) : undefined}
+                {listItem.type === "selectInputAssignment" ? (
+                  <ReferenceInput source="assignmentId" reference="assignments" >
+                    <SelectInput
+                      choices={filteredChoices}
+                      optionText="id"
+                      source="assignmentId"
+                    />
+                  </ReferenceInput>
+                ) : undefined}
+
                 {listItem.type === "boolean" ? (
-                  <BooleanInput 
+                  <BooleanInput
                     source={listItem.name}
                     label={listItem.label}
                     defaultValue={listItem.defaultValue ?? true}
@@ -110,16 +136,16 @@ const FormSection = ({ formSectionTitle, inputsList, customSections }) => {
                 ) : undefined}
                 {listItem.type === "conditionNumberField" ? (
                   <FormDataConsumer>
-                  {({ formData, ...rest }) => formData[listItem.conditionField] &&
-                       <NumberInput
+                    {({ formData, ...rest }) => formData[listItem.conditionField] &&
+                      <NumberInput
                         source={listItem.name}
                         label={listItem.label}
                         key={formSectionTitle + listItem.name + listIndex}
                         fullWidth
                         sx={{ gridColumn: "span 2" }}
                         required={listItem.required}
-                     />
-                  }
+                      />
+                    }
                   </FormDataConsumer>
                 ) : undefined}
                 {formSectionTitle === 'Available Vacation Days' && !employee?.employeeId && <p style={{ paddingLeft: '12px' }}>None user selected</p>}
