@@ -9,6 +9,7 @@ import {
   ReferenceInput,
   TextField,
   ReferenceField,
+  useDataProvider,
 } from "react-admin";
 import { Box, Typography, useMediaQuery } from "@mui/material";
 import { useWatch } from 'react-hook-form';
@@ -24,6 +25,9 @@ const FormSection = ({ formSectionTitle, inputsList, customSections }) => {
   const [locale] = useLocaleState();
   const isNonMobile = useMediaQuery("(min-width:600px)");
   const employee = useWatch("Employee");
+  const assignmentId = useWatch({ name: "assignmentId" });
+  const [projectName, setProjectName] = useState("");
+  const dataProvider = useDataProvider();
   const { data: choices, isPending: isPendingChoices } = useGetList('assignments');
 
 
@@ -33,6 +37,27 @@ const FormSection = ({ formSectionTitle, inputsList, customSections }) => {
       setFilteredChoices(filtered);
     }
   }, [choices, isPendingChoices, employee])
+
+  useEffect(() => {
+    if (assignmentId) {
+      console.log("Assignment ID:", assignmentId);
+      // Consultar el assignment para obtener el projectId
+      dataProvider.getOne('assignments', { id: assignmentId })
+
+        .then(({ data }) => {
+          console.log("Assignment data:", data)
+          // Consultar el proyecto para obtener el nombre
+          return dataProvider.getOne('projects', { id: data.projectId });
+        })
+        .then(({ data }) => {
+          console.log("Project Name:", data.name);
+          setProjectName(data.name); // Establecer el nombre del proyecto
+        })
+        .catch(error => {
+          console.error("Error fetching project name:", error);
+        });
+    }
+  }, [assignmentId, dataProvider]);
 
 
   return (
@@ -126,6 +151,16 @@ const FormSection = ({ formSectionTitle, inputsList, customSections }) => {
                     />
                   </ReferenceInput>
                 ) : undefined}
+                {listItem.type === "customProjectNameDisplay" && assignmentId && (
+                    <Box sx={{ gridColumn: "span 2", padding: '8px 0' }}>
+                    <div style={{ color: '#666', fontSize: '14px' }}>
+                      Project Name:
+                    </div>
+                    <div style={{color: '#666', fontSize: '18px', marginTop: '4px' }}>
+                      {projectName || 'Loading...'}
+                    </div>
+                  </Box>
+                )}
 
                 {listItem.type === "boolean" ? (
                   <BooleanInput

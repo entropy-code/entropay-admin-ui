@@ -43,10 +43,17 @@ const formData = [
       
       
       { name: "assignmentId", type: "selectInputAssignment"},
-      // { name: "projectId", type: "referenceField", label: "Project Name" },
       { name: "date", type: "date", required: true },
       { name: "description", type: "string", required: true },
       { name: "hours", type: "number", required: true },
+
+     {
+      name: "projectName", 
+      type: "customProjectNameDisplay",  // Tipo personalizado para mostrar el nombre del proyecto
+      label: "Project Name"
+
+     },  
+      
 
     ],
   },];
