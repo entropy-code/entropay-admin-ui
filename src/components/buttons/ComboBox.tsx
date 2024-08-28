@@ -1,8 +1,8 @@
 import React from "react";
-import FormControl from '@mui/material/FormControl';
-import MenuItem from '@mui/material/MenuItem';
-import InputLabel from '@mui/material/InputLabel';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import FormControl from "@mui/material/FormControl";
+import MenuItem from "@mui/material/MenuItem";
+import InputLabel from "@mui/material/InputLabel";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
 
 export interface Props {
   title: string;
@@ -14,19 +14,14 @@ export interface Props {
 interface ViewOptions {
   id: number;
   label: string;
-  value: string[];
+  value: string | string[];
 }
 
-const ComboBox = ({
-  title,
-  value,
-  handleChange,
-  options,
-}: Props) => {
+const ComboBox = ({ title, value, handleChange, options }: Props) => {
   return (
     <FormControl>
-        <InputLabel id="combobox-helper-label">{title}</InputLabel>
-        <Select
+      <InputLabel id="combobox-helper-label">{title}</InputLabel>
+      <Select
         aria-labelledby="combobox-label"
         name="comboBox"
         value={value}
@@ -35,11 +30,13 @@ const ComboBox = ({
       >
         {options.map((option) => {
           return (
-            <MenuItem value={option.value} key={option.id}>{option.label}</MenuItem>
+            <MenuItem value={option.value} key={option.id}>
+              {option.label}
+            </MenuItem>
           );
         })}
       </Select>
-      </FormControl>
+    </FormControl>
   );
 };
 
