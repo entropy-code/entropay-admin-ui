@@ -19,6 +19,7 @@ const icons = {
   ptos: <CalendarIcon />,
   settings: <GearIcon />,
   reports: <ExportIcon />,
+  
 };
 
 export const CustomMenu = () => {
