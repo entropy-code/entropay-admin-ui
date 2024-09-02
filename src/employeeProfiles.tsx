@@ -41,13 +41,7 @@ import {
   EntityViewActions,
 } from "./components/layout/CustomActions";
 import CancelPtoButton from "./components/buttons/CancelPtoButton";
-
-const COLOR_green = "#efe";
-const COLOR_white = "#white";
-
-const activeValue = (record: { active: boolean }) => ({
-  backgroundColor: record.active === true ? COLOR_green : COLOR_white,
-});
+import { useTheme } from "@mui/material/styles";
 
 const DisplayRecordCurrentId = () => {
   return useGetRecordId();
@@ -181,6 +175,7 @@ const styleForCenteringTyphography = {
 };
 
 export const EmployeeProfile = () => {
+  const { palette } = useTheme();
   const [locale] = useLocaleState();
   const { vacationSummary, vacationAvailableDays } =
     GetVacationsAndAvailableDays();
@@ -195,6 +190,13 @@ export const EmployeeProfile = () => {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const COLOR_green = palette?.mode === "light" ? "#efe" : "#006d77"
+  const COLOR_white = 'transparent'
+
+  const activeValue = (record: { active: boolean }) => ({
+    backgroundColor: record.active === true ? COLOR_green : COLOR_white,
+  });
 
   return (
     <Show
