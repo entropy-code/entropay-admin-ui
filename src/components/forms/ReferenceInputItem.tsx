@@ -40,7 +40,7 @@ const ReferenceInputItem = ({
           <SelectInput
             optionText={optionText}
             required={required}
-            disabled={setDisabled}
+            readOnly={setDisabled}
             fullWidth
           />
         </ReferenceInput>
