@@ -1,20 +1,20 @@
 import * as React from "react";
 import {
+  ArrayField,
+  Datagrid,
   DateField,
   EditButton,
-  ShowButton,
-  List,
-  ReferenceField,
-  TextField,
-  NumberField,
-  WrapperField,
-  FunctionField,
-  ArrayField,
-  SingleFieldList,
-  useLocaleState,
-  Datagrid,
-  SearchInput,
   FilterButton,
+  FunctionField,
+  List,
+  NumberField,
+  ReferenceField,
+  SearchInput,
+  ShowButton,
+  SingleFieldList,
+  TextField,
+  useLocaleState,
+  WrapperField,
 } from "react-admin";
 
 import CreateForm from "./components/forms/CreateForm";
@@ -52,6 +52,7 @@ const formData = [
           optionText: "value",
           multiselect: false,
           required: true,
+          sortField: "value"
         },
       },
     ],
@@ -68,6 +69,7 @@ const formData = [
           optionText: null,
           multiselect: false,
           required: true,
+          disabledCheck: disabledCheck,
         },
       },
       { name: "startDate", type: "date", required: true },
@@ -82,6 +84,7 @@ const formData = [
           multiselect: false,
           required: false,
           disabledCheck: disabledCheck,
+          sortField: "name",
         },
       },
     ],
@@ -98,6 +101,7 @@ const formData = [
           optionText: "name",
           multiselect: false,
           required: true,
+          sortField: "name",
         },
       },
       {
@@ -109,6 +113,7 @@ const formData = [
           optionText: "name",
           multiselect: false,
           required: true,
+          sortField: "name",
         },
       },
       { name: "hoursPerMonth", type: "number" },
@@ -148,7 +153,7 @@ export const ContractList = () => {
         <FunctionField
           label="Status"
           render={(record: IContract) =>
-            record.active === true ? "Active" : "Inactive"
+            record.active ? "Active" : "Inactive"
           }
         />
         <ArrayField source="paymentSettlement" label="Salary">
@@ -158,10 +163,9 @@ export const ContractList = () => {
                 if (record) {
                   const salary =
                     `${record.salary}` === "null" ? "-" : `${record.salary}`;
-                  const label = `${record.currency} ${salary}/${record.modality
+                  return `${record.currency} ${salary}/${record.modality
                     .charAt(0)
                     .toLowerCase()}`;
-                  return label;
                 }
               }}
             </CustomizableChipField>
