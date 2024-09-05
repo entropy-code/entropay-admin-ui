@@ -58,7 +58,7 @@ const GetActiveContract = () => {
     },
   });
 
-  const activeContract = React.useMemo(() => {
+const activeContract = React.useMemo(() => {
     if (!Array.isArray(data) || data.length === 0) {
       return undefined;
     }

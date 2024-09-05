@@ -172,6 +172,7 @@ const FormSection = ({
           <TextInput multiline source="notes" />
         )}
       </Box>
+
     </Box>
   );
 };
