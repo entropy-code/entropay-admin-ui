@@ -141,13 +141,6 @@ export const resourceMap: {
     create: EndReasonsCreate,
     show: undefined,
   },
-    {
-      entity: "end-reasons",
-      list: EndReasonsList,
-      edit: EndReasonsEdit,
-      create: EndReasonsCreate,
-      show: null,
-    },
   {
     entity: "leave-types",
     list: LeaveTypeList,
