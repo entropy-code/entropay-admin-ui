@@ -144,9 +144,9 @@ export const PtoList = () => {
 };
 
 export const PtoEdit = () => (
-  <EditForm formData={formData} title="Pto" resource="ptos" />
+  <EditForm formData={formData} title="PTO" resource="ptos" />
 );
 
 export const PtoCreate = () => (
-  <CreateForm formData={formData} title="Pto" resource="ptos" />
+  <CreateForm formData={formData} title="PTO" resource="ptos" />
 );

@@ -56,6 +56,7 @@ const formData = [
           optionText: "name",
           multiselect: false,
           required: true,
+          sortField: "name",
         },
       },
     ],
@@ -88,6 +89,7 @@ const formData = [
           optionText: "name",
           multiselect: false,
           required: true,
+          sortField: "name",
         },
       },
       { name: "hoursPerMonth", type: "number" },
@@ -136,7 +138,7 @@ export const AssignmentList = () => {
         <FunctionField
           label="Status"
           render={(record: IAssignment) =>
-            record.active === true ? "Active" : "Inactive"
+            record.active ? "Active" : "Inactive"
           }
         />
         <ReferenceField source="projectId" reference="projects" link="show">
