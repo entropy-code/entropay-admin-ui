@@ -7,8 +7,6 @@ import {
   BooleanInput,
   FormDataConsumer,
   ReferenceInput,
-  TextField,
-  ReferenceField,
   useDataProvider,
 } from "react-admin";
 import { Box, Typography, useMediaQuery } from "@mui/material";
@@ -21,11 +19,10 @@ import AvailableVacationDays from "./AvailableVacationDays";
 import { useGetList } from 'react-admin';
 import { useEffect, useState } from "react";
 
-<<<<<<< HEAD:src/components/forms/FormSections.jsx
-const FormSection = ({ formSectionTitle, inputsList, customSections }) => {
-  const [filteredChoices, setFilteredChoices] = useState([]);
-  const [locale] = useLocaleState();
-=======
+interface Choice {
+  employeeId: string; 
+}
+
 const FormSection = ({
   formSectionTitle,
   inputsList,
@@ -35,7 +32,6 @@ const FormSection = ({
   inputsList: any[];
   customSections: string[];
 }) => {
->>>>>>> 3e28995acd99dc0d462977747ca8bef0f6b2bdb5:src/components/forms/FormSections.tsx
   const isNonMobile = useMediaQuery("(min-width:600px)");
   // TODO: check this watch
   // @ts-ignore
@@ -44,14 +40,16 @@ const FormSection = ({
   const [projectName, setProjectName] = useState("");
   const dataProvider = useDataProvider();
   const { data: choices, isPending: isPendingChoices } = useGetList('assignments');
-
+  const [filteredChoices, setFilteredChoices] = useState<Choice[]>([]);
 
   useEffect(() => {
-    if (!isPendingChoices && employee?.employeeId && choices) {
+    if (!isPendingChoices && employee?.employeeId && choices?.length) {
       const filtered = choices.filter(item => item.employeeId === employee.employeeId);
       setFilteredChoices(filtered);
+    } else {
+      setFilteredChoices([]); // Reset the filtered choices if conditions are not met
     }
-  }, [choices, isPendingChoices, employee])
+  }, [choices, isPendingChoices, employee]);
 
   useEffect(() => {
     if (assignmentId) {
@@ -197,17 +195,6 @@ const FormSection = ({
                 ) : undefined}
                 {listItem.type === "conditionNumberField" ? (
                   <FormDataConsumer>
-<<<<<<< HEAD:src/components/forms/FormSections.jsx
-                    {({ formData, ...rest }) => formData[listItem.conditionField] &&
-                      <NumberInput
-                        source={listItem.name}
-                        label={listItem.label}
-                        key={formSectionTitle + listItem.name + listIndex}
-                        fullWidth
-                        sx={{ gridColumn: "span 2" }}
-                        required={listItem.required}
-                      />
-=======
                     {({ formData }) =>
                       formData[listItem.conditionField] && (
                         <NumberInput
@@ -219,7 +206,6 @@ const FormSection = ({
                           required={listItem.required}
                         />
                       )
->>>>>>> 3e28995acd99dc0d462977747ca8bef0f6b2bdb5:src/components/forms/FormSections.tsx
                     }
                   </FormDataConsumer>
                 ) : undefined}

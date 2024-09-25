@@ -4,14 +4,10 @@ import EditForm from "./components/forms/EditForm";
 import {
   Datagrid,
   DateField,
-  Filter,
-  FilterProps,
   List,
   NumberField,
   ReferenceField,
   TextField,
-  TextInput,
-  useDataProvider,
   WrapperField,
 } from "react-admin";
 
@@ -36,13 +32,19 @@ const formData = [
           optionText: null,
           multiselect: false,
           required: true, 
-          //disabledCheck: disabledCheck,
-         
         },
       },
-      
-      
-      { name: "assignmentId", type: "selectInputAssignment"},
+      {
+        name: "Assignment",
+        type: "selectInput",
+        referenceValues: {
+          source: "assignmentId",
+          reference: "assignments",
+          optionText: null,
+          multiselect: false,
+          required: true, 
+        },
+      },
       { name: "date", type: "date", required: true },
       { name: "description", type: "string", required: true },
       { name: "hours", type: "number", required: true },

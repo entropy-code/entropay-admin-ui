@@ -1,10 +1,6 @@
 import React from "react";
 import { Box } from "@mui/material";
-<<<<<<< HEAD:src/components/forms/CreateForm.jsx
-import { Create, SimpleForm, useRedirect, Toolbar } from "react-admin";
-=======
 import { Create, SimpleForm, Toolbar, useRedirect } from "react-admin";
->>>>>>> 3e28995acd99dc0d462977747ca8bef0f6b2bdb5:src/components/forms/CreateForm.tsx
 import Header from "../Header";
 import FormSection from "./FormSections";
 import validateEntity from "./Validations";
@@ -52,10 +48,6 @@ const CreateForm = ({
         <Header title={title} subtitle="Create" />
       </Box>
 
-<<<<<<< HEAD:src/components/forms/CreateForm.jsx
-      <Create actions={<EntityCreateEditActions />} mutationOptions={{ onSuccess }}>
-        <SimpleForm validate={validateEntity} toolbar={ window.location.href.includes('ptos/create') ? <VacationValidation toolbar={Toolbar} /> : <Toolbar/>}>
-=======
       <Create
         actions={<EntityCreateEditActions />}
         mutationOptions={{ onSuccess }}
@@ -70,7 +62,6 @@ const CreateForm = ({
             )
           }
         >
->>>>>>> 3e28995acd99dc0d462977747ca8bef0f6b2bdb5:src/components/forms/CreateForm.tsx
           <Box width="100%">
             {formData.map((item, index) => {
               return (
