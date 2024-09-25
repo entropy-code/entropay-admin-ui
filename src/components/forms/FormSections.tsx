@@ -114,6 +114,13 @@ const FormSection = ({
                     fullWidth
                     sx={{ gridColumn: "span 2" }}
                     required={listItem.required}
+                    parse={val => {
+                      //Workaround to fix issue with dates when using negative time zones like ARG
+                      if(val){
+                      const date = new Date(val);
+                      return date.toISOString().split('T')[0]; 
+                      }
+                    }}
                   />
                 ) : undefined}
                 {listItem.type === "string" ? (
@@ -236,6 +243,7 @@ const FormSection = ({
           <TextInput multiline source="notes" />
         )}
       </Box>
+
     </Box>
   );
 };

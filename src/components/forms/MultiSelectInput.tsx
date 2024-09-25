@@ -13,7 +13,7 @@ const ReferenceSelectArrayInputItem = ({
 }) => {
   const { source, reference, sortField, sortOrder } = referenceValues;
   return (
-    <>
+    <div id="multi-select-field">
       {referenceValues && (
         <ReferenceArrayInput
           reference={reference}
@@ -26,7 +26,7 @@ const ReferenceSelectArrayInputItem = ({
           </SelectArrayInput>
         </ReferenceArrayInput>
       )}
-    </>
+    </div>
   );
 };
 

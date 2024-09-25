@@ -86,7 +86,7 @@ const CustomToolbar = (props: { resource: string }) => {
   const data = useRecordContext();
   const refresh = useRefresh();
   const redirect = useRedirect();
-  const handleClick = () => {
+  const onSuccess = () => {
     const redirectPath = GetRedirectPathAfterDelete(
       resource,
       data as { employeeId: string; id: string }
@@ -103,8 +103,8 @@ const CustomToolbar = (props: { resource: string }) => {
       {HasPermissions(resource, "delete") && (
         <DeleteButton
           mutationMode="pessimistic"
-          onClick={handleClick}
           confirmTitle="Deletion confirmation"
+          mutationOptions={{onSuccess}}
         />
       )}
     </Toolbar>
