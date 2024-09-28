@@ -14,6 +14,7 @@ import GradingIcon from "@mui/icons-material/Grading";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import AssessmentIcon from "@mui/icons-material/Assessment";
+import MoreTimeIcon from '@mui/icons-material/MoreTime';
 import { SimpleTreeView } from "@mui/x-tree-view/SimpleTreeView";
 import {
   TreeItem2Content,
@@ -37,6 +38,7 @@ const icons: Record<string, React.ElementType> = {
   assignments: AssignmentIcon,
   ptos: CalendarMonthIcon,
   reports: AssessmentIcon,
+  overtimes: MoreTimeIcon,
 };
 
 const CustomTreeItemRoot = styled(TreeItem2Root)(({ theme }) => ({

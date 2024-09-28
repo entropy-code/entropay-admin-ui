@@ -12,12 +12,6 @@ import {
 } from "react-admin";
 
 
-
-function disabledCheck(source: string): boolean {
- 
-  return source === "employeeProfile";
-}
-
 const formData = [
   
   { 
@@ -35,28 +29,19 @@ const formData = [
         },
       },
       {
-        name: "Assignment",
-        type: "selectInput",
+        name: "Project",
+        type: "nestedReferenceInput",
         referenceValues: {
           source: "assignmentId",
           reference: "assignments",
-          optionText: null,
-          multiselect: false,
+          nestedSource: "projectId",
+          nestedReference: "projects",
           required: true, 
         },
       },
       { name: "date", type: "date", required: true },
       { name: "description", type: "string", required: true },
-      { name: "hours", type: "number", required: true },
-
-     {
-      name: "projectName", 
-      type: "customProjectNameDisplay",  // Tipo personalizado para mostrar el nombre del proyecto
-      label: "Project Name"
-
-     },  
-      
-
+      { name: "hours", type: "number", required: true }
     ],
   },];
 
@@ -71,13 +56,12 @@ export const OvertimeList = () => (
       <ReferenceField
         source="assignmentId"
         reference="assignments"
-        label="Project"
         link={false}
       >
         <ReferenceField
           source="projectId"
           reference="projects"
-          link={false}
+          label="Project"
         >
           <TextField source="name" />
         </ReferenceField>

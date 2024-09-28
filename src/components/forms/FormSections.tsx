@@ -18,6 +18,7 @@ import MultiSelectInput from "./MultiSelectInput";
 import AvailableVacationDays from "./AvailableVacationDays";
 import { useGetList } from 'react-admin';
 import { useEffect, useState } from "react";
+import NestedReferenceInput from "./NestedReferenceInput";
 
 interface Choice {
   employeeId: string; 
@@ -192,7 +193,11 @@ const FormSection = ({
                     </div>
                   </Box>
                 )}
-
+                {listItem.type === "nestedReferenceInput" ? (
+                  <NestedReferenceInput
+                    referenceValues={listItem.referenceValues}
+                  />
+                ) : undefined}
                 {listItem.type === "boolean" ? (
                   <BooleanInput
                     source={listItem.name}
