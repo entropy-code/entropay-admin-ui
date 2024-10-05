@@ -37,7 +37,7 @@ const GetRedirectPathAfterEdit = (
     case "ptos":
       redirectPath = `/employees/${data.employeeId}/show/4`;
     break;
-    case "overtime":
+    case "overtimes":
       redirectPath = `/employees/${data.employeeId}/show/5`;
     break;
     default:
