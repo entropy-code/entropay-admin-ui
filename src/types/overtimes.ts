@@ -5,5 +5,4 @@ export interface IOvertime {
     description: string;
     employeeId: string;
     assignmentId:string;
-
   }
