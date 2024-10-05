@@ -6,6 +6,8 @@ import {
   SelectInput,
   BooleanInput,
   FormDataConsumer,
+  ReferenceInput,
+  useDataProvider,
 } from "react-admin";
 import { Box, Typography, useMediaQuery } from "@mui/material";
 import { useWatch } from "react-hook-form";
@@ -14,6 +16,13 @@ import PaymentSection from "./PaymentSection";
 import ChildrenSection from "./ChildrenSection";
 import MultiSelectInput from "./MultiSelectInput";
 import AvailableVacationDays from "./AvailableVacationDays";
+import { useGetList } from 'react-admin';
+import { useEffect, useState } from "react";
+import NestedReferenceInput from "./NestedReferenceInput";
+
+interface Choice {
+  employeeId: string; 
+}
 
 const FormSection = ({
   formSectionTitle,
@@ -28,6 +37,41 @@ const FormSection = ({
   // TODO: check this watch
   // @ts-ignore
   const employee = useWatch("Employee");
+  const assignmentId = useWatch({ name: "assignmentId" });
+  const [projectName, setProjectName] = useState("");
+  const dataProvider = useDataProvider();
+  const { data: choices, isPending: isPendingChoices } = useGetList('assignments');
+  const [filteredChoices, setFilteredChoices] = useState<Choice[]>([]);
+
+  useEffect(() => {
+    if (!isPendingChoices && employee?.employeeId && choices?.length) {
+      const filtered = choices.filter(item => item.employeeId === employee.employeeId);
+      setFilteredChoices(filtered);
+    } else {
+      setFilteredChoices([]); // Reset the filtered choices if conditions are not met
+    }
+  }, [choices, isPendingChoices, employee]);
+
+  useEffect(() => {
+    if (assignmentId) {
+      console.log("Assignment ID:", assignmentId);
+      // Consultar el assignment para obtener el projectId
+      dataProvider.getOne('assignments', { id: assignmentId })
+
+        .then(({ data }) => {
+          console.log("Assignment data:", data)
+          // Consultar el proyecto para obtener el nombre
+          return dataProvider.getOne('projects', { id: data.projectId });
+        })
+        .then(({ data }) => {
+          console.log("Project Name:", data.name);
+          setProjectName(data.name); // Establecer el nombre del proyecto
+        })
+        .catch(error => {
+          console.error("Error fetching project name:", error);
+        });
+    }
+  }, [assignmentId, dataProvider]);
 
   return (
     <Box>
@@ -126,6 +170,30 @@ const FormSection = ({
                 ) : undefined}
                 {listItem.type === "selectInput" ? (
                   <ReferenceInputItem
+                    referenceValues={listItem.referenceValues}
+                  />
+                ) : undefined}
+                           {listItem.type === "selectInputAssignment" ? (
+                  <ReferenceInput source="assignmentId" reference="assignments" >
+                    <SelectInput
+                      choices={filteredChoices}
+                      optionText="id"
+                      source="assignmentId"
+                    />
+                  </ReferenceInput>
+                ) : undefined}
+                {listItem.type === "customProjectNameDisplay" && assignmentId && (
+                    <Box sx={{ gridColumn: "span 2", padding: '8px 0' }}>
+                    <div style={{ color: '#666', fontSize: '14px' }}>
+                      Project Name:
+                    </div>
+                    <div style={{color: '#666', fontSize: '18px', marginTop: '4px' }}>
+                      {projectName || 'Loading...'}
+                    </div>
+                  </Box>
+                )}
+                {listItem.type === "nestedReferenceInput" ? (
+                  <NestedReferenceInput
                     referenceValues={listItem.referenceValues}
                   />
                 ) : undefined}
