@@ -707,6 +707,59 @@ export const EmployeeProfile = () => {
             </ReferenceManyField>
           </Tab>
         )}
+         {HasPermissions("overtimes", "create") && (
+          <Tab label="Overtimes">
+            <ReferenceManyField
+              label=""
+              reference="overtimes"
+              target="employeeId"
+              sort={{ field: "createdAt", order: "DESC" }}
+            >
+              <RedirectButton
+                form="create"
+                resource="overtimes"
+                text="+ CREATE"
+                source="employeeProfile"
+                recordId={DisplayRecordCurrentId() as string}
+              />
+              <Datagrid
+                bulkActionButtons={false}
+                empty={<CustomEmpty message="No overtimes found" />}
+              >
+                <ReferenceField
+                  source="assignmentId"
+                  reference="assignments"
+                  link={false}
+                >
+                  <ReferenceField
+                    source="projectId"
+                    reference="projects"
+                    label="Project"
+                  >
+                    <WrapperField label="Project">
+                      <TextField source="name" />
+                    </WrapperField>
+                  </ReferenceField>
+                </ReferenceField>
+                <DateField source="date" locales={locale} />
+                <TextField source="description" />
+                <NumberField source="hours" />
+                {HasPermissions("overtimes", "update") && (
+                  <FunctionField
+                    render={(record) => (
+                      <EditButton disabled={record.deleted === true} />
+                    )}
+                  />
+                )}
+                <FunctionField
+                  render={(record) => (
+                    <CancelPtoButton id={record.id} record={record} />
+                  )}
+                />
+              </Datagrid>
+            </ReferenceManyField>
+          </Tab>
+        )}
         {/*<Tab label="Documents"></Tab>
       Hidden empty tabs until developed
       */}

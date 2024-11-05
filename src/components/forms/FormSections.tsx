@@ -14,6 +14,7 @@ import PaymentSection from "./PaymentSection";
 import ChildrenSection from "./ChildrenSection";
 import MultiSelectInput from "./MultiSelectInput";
 import AvailableVacationDays from "./AvailableVacationDays";
+import NestedReferenceInput from "./NestedReferenceInput";
 
 const FormSection = ({
   formSectionTitle,
@@ -126,6 +127,11 @@ const FormSection = ({
                 ) : undefined}
                 {listItem.type === "selectInput" ? (
                   <ReferenceInputItem
+                    referenceValues={listItem.referenceValues}
+                  />
+                ) : undefined}
+                {listItem.type === "nestedReferenceInput" ? (
+                  <NestedReferenceInput
                     referenceValues={listItem.referenceValues}
                   />
                 ) : undefined}

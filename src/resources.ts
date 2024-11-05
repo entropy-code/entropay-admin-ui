@@ -37,6 +37,7 @@ import { PtoCreate, PtoEdit, PtoList } from "./ptos";
 import { EmployeeReportList } from "./employeesReport";
 import { SalariesReportList } from "./salaryReport";
 import { PtosReport } from "./employeesPtosReport";
+import { OvertimeCreate, OvertimeEdit, OvertimeList } from "./overtimes";
 
 type Resource =
   | React.ComponentType<any>
@@ -194,6 +195,13 @@ export const resourceMap: {
     entity: "reports/salaries",
     list: SalariesReportList,
     edit: undefined,
+    show: undefined,
+  },
+  {
+    entity: "overtimes",
+    list: OvertimeList,
+    edit: OvertimeEdit,
+    create: OvertimeCreate,
     show: undefined,
   },
 ];
