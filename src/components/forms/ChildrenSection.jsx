@@ -33,7 +33,13 @@ const ChildrenSection = (type) => {
                         helperText={false}
                         required={true}
                     />
-                    <DateInput source="birthDate" label="Birth date" />
+                    <DateInput source="birthDate" label="Birth date" parse={val => {
+                      //Workaround to fix issue with dates when using negative time zones like ARG
+                      if(val){
+                      const date = new Date(val);
+                      return date.toISOString().split('T')[0]; 
+                      }
+                    }}/>
                 </SimpleFormIterator>
             </ArrayInput>
         )}

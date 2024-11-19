@@ -4,16 +4,22 @@ import EditForm from "./components/forms/EditForm";
 import {
   Datagrid,
   DateField,
+  FilterButton,
   List,
   NumberField,
   ReferenceField,
+  SearchInput,
   TextField,
   WrapperField,
 } from "react-admin";
+import ViewForm from "./components/forms/ViewForm";
 
+
+function disabledCheck(source: string) {
+  return source === "employeeProfile";
+}
 
 const formData = [
-
   { 
     title: "Overtime",
     inputsList: [
@@ -26,6 +32,7 @@ const formData = [
           optionText: null,
           multiselect: false,
           required: true, 
+          disabledCheck: disabledCheck,
         },
       },
       {
@@ -45,8 +52,16 @@ const formData = [
     ],
   },];
 
+const overtimeFilters = [
+  <SearchInput source="q" alwaysOn />,
+];
+
 export const OvertimeList = () => (
-  <List>
+  <List
+  actions={<FilterButton />}
+  filterDefaultValues={{ active: true }}
+  filters={overtimeFilters}
+>
     <Datagrid rowClick="edit">
       <ReferenceField source="employeeId" reference="employees">
         <WrapperField label="Full Name">
@@ -79,4 +94,8 @@ export const OvertimeEdit = () => (
 
 export const OvertimeCreate = () => (
   <CreateForm formData={formData} title="Overtime" resource="overtimes" />
+);
+
+export const OvertimeView = () => (
+  <ViewForm formData={formData} title="Overtime" resource="overtimes" />
 );

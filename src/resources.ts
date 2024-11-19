@@ -37,7 +37,7 @@ import { PtoCreate, PtoEdit, PtoList } from "./ptos";
 import { EmployeeReportList } from "./employeesReport";
 import { SalariesReportList } from "./salaryReport";
 import { PtosReport } from "./employeesPtosReport";
-import { OvertimeCreate, OvertimeEdit, OvertimeList } from "./overtimes";
+import { OvertimeCreate, OvertimeEdit, OvertimeList, OvertimeView } from "./overtimes";
 
 type Resource =
   | React.ComponentType<any>
@@ -202,6 +202,6 @@ export const resourceMap: {
     list: OvertimeList,
     edit: OvertimeEdit,
     create: OvertimeCreate,
-    show: undefined,
+    show: OvertimeView,
   },
 ];
