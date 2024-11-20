@@ -23,19 +23,8 @@ const httpClient = (url: string, options: fetchUtils.Options = {}) => {
   return fetchUtils.fetchJson(url, options);
 };
 
-
-
 const fetchResources = async () => {
-  const token = localStorage.getItem("token");
-  const loginUrl =
-  config.config.api.userAuth +
-  "/auth/login?redirectUrl=" +
-  config.config.app.home;
-  if (token === null) {
-    window.location.href = loginUrl;
-    return Promise.resolve(null);
-  }
-
+  await authProvider.checkAuth();
   await authProvider.getPermissions();
   return resourceMap.map((r, index) => (
     <Resource
