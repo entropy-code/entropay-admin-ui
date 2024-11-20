@@ -59,7 +59,6 @@ const overtimeFilters = [
 export const OvertimeList = () => (
   <List
   actions={<FilterButton />}
-  filterDefaultValues={{ active: true }}
   filters={overtimeFilters}
 >
     <Datagrid rowClick="edit">
