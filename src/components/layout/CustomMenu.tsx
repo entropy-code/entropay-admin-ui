@@ -190,7 +190,7 @@ export const CustomMenu: React.ComponentType<
       {config.menu &&
         config.menu.map((item, index) => {
           return item.href && !item.submenu ? (
-            <Link to={item.href.slice(2)} style={{ textDecoration: "none" }}>
+            <Link to={item.href.slice(2)} style={{ textDecoration: "none" }} key={`link-${index}-${item.name}`}>
               <CustomTreeItem
                 key={index}
                 itemId={`id-${index}-${item.name}`}
@@ -212,6 +212,7 @@ export const CustomMenu: React.ComponentType<
                     <Link
                       to={submenu.href.slice(2)}
                       style={{ textDecoration: "none" }}
+                      key={`link-${submenuIndex}-${submenu.name}`}
                     >
                       <CustomTreeItem
                         key={submenuIndex}

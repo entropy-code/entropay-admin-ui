@@ -24,11 +24,7 @@ const httpClient = (url: string, options: fetchUtils.Options = {}) => {
 };
 
 const fetchResources = async () => {
-  const token = localStorage.getItem("token");
-  if (token === null) {
-    return Promise.resolve(null);
-  }
-
+  await authProvider.checkAuth();
   await authProvider.getPermissions();
   return resourceMap.map((r, index) => (
     <Resource
