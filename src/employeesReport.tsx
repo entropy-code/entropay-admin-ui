@@ -11,6 +11,7 @@ import {
   FunctionField,
   FilterButton,
   ExportButton,
+  useTheme,
 } from "react-admin";
 import { CustomizableChipField } from "./components/fields";
 import { exporter } from "./utils/exporter";
@@ -56,13 +57,6 @@ const headers = [
   "arsPayment",
 ];
 
-const COLOR_GREEN = "#efe";
-const COLOR_WHITE = "#white";
-
-const activeValue = (record: { activeContract: boolean }) => ({
-  backgroundColor: record.activeContract === true ? COLOR_GREEN : COLOR_WHITE,
-});
-
 const employeeReportFilters = [
   <QuickFilter
     source="activeContract"
@@ -73,6 +67,13 @@ const employeeReportFilters = [
 
 export const EmployeeReportList = () => {
   const [locale] = useLocaleState();
+  const [themeMode] = useTheme();
+  const COLOR_GREEN = "#eeffee";
+  const COLOR_GREY = "#5c5f63";
+  const activeRowColor = themeMode === 'light' ? COLOR_GREEN : COLOR_GREY
+  const rowStyle = (record: { activeContract: boolean }) => ({
+      backgroundColor: record.activeContract ? activeRowColor : 'inherit'
+  });
 
   return (
     <List
@@ -87,7 +88,7 @@ export const EmployeeReportList = () => {
       filters={employeeReportFilters}
       filterDefaultValues={{ active: true }}
     >
-      <Datagrid rowSx={activeValue} bulkActionButtons={false}>
+      <Datagrid rowSx={rowStyle} bulkActionButtons={false}>
         <TextField source="internalId" />
         <TextField source="firstName" />
         <TextField source="lastName" />
