@@ -742,7 +742,8 @@ export const EmployeeProfile = () => {
                   </ReferenceField>
                 </ReferenceField>
                 <DateField source="date" locales={locale} />
-                <TextField source="description" style={{ display:'inline-block', maxWidth: '10em', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap'  }}/>
+                <TextField source="description" 
+                  style={{ display:'inline-block', maxWidth: '10em', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap'  }}/>
                 <NumberField source="hours" />
                 {HasPermissions("overtimes", "update") && (
                   <FunctionField
