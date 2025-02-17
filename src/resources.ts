@@ -36,6 +36,7 @@ import { VacationCreate, VacationEdit, VacationList } from "./vacations";
 import { PtoCreate, PtoEdit, PtoList } from "./ptos";
 import { EmployeeReportList } from "./employeesReport";
 import { SalariesReportList } from "./salaryReport";
+import { BillingReportList} from "./billingReport";
 import { PtosReport } from "./employeesPtosReport";
 import { OvertimeCreate, OvertimeEdit, OvertimeList, OvertimeView } from "./overtimes";
 
@@ -194,6 +195,12 @@ export const resourceMap: {
   {
     entity: "reports/salaries",
     list: SalariesReportList,
+    edit: undefined,
+    show: undefined,
+  },
+  {
+    entity: "reports/billing",
+    list: BillingReportList,
     edit: undefined,
     show: undefined,
   },
