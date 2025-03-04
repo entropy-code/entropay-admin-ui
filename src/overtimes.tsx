@@ -81,7 +81,8 @@ export const OvertimeList = () => (
         </ReferenceField>
       </ReferenceField>
       <DateField source="date" />
-      <TextField source="description" />
+      <TextField source="description" 
+        style={{ display:'inline-block', maxWidth: '10em', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap'  }}/>
       <NumberField source="hours" />
     </Datagrid>
   </List>

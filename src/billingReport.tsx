@@ -6,10 +6,12 @@ import {
   List,
   NumberField,
   ReferenceField,
+  SearchInput,
   TextField,
 } from "react-admin";
 import { exporter } from "./utils/exporter";
 import * as React from "react";
+import moment from "moment";
 
 
 const headersRename = [
@@ -73,6 +75,7 @@ export const BillingReportList = () => {
         </>
       }
       filters={reportFilters}
+      disableSyncWithLocation
     >
       <Datagrid bulkActionButtons={false}>
         <ReferenceField
