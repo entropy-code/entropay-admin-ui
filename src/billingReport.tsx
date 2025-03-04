@@ -1,16 +1,15 @@
 import {
-  Datagrid, DateInput,
+  Datagrid,
+  DateInput,
   ExportButton,
   FilterButton,
   List,
   NumberField,
   ReferenceField,
-  SearchInput,
   TextField,
 } from "react-admin";
 import { exporter } from "./utils/exporter";
 import * as React from "react";
-import moment from "moment";
 
 
 const headersRename = [
@@ -21,6 +20,7 @@ const headersRename = [
   "Project Name",
   "Rate",
   "Hours",
+  "PTO Hours",
   "Total",
 ];
 
@@ -32,6 +32,7 @@ const headers = [
   "projectName",
   "rate",
   "hours",
+  "ptoHours",
   "total",
 ];
 
@@ -72,7 +73,6 @@ export const BillingReportList = () => {
         </>
       }
       filters={reportFilters}
-      disableSyncWithLocation
     >
       <Datagrid bulkActionButtons={false}>
         <ReferenceField
@@ -80,8 +80,7 @@ export const BillingReportList = () => {
           reference="employees"
           link="show"
           label="Internal ID"
-          sortBy="internalId"
-        >
+          sortBy="internalId">
           <TextField source="internalId" />
         </ReferenceField>
         <TextField source="firstName" />
@@ -90,6 +89,7 @@ export const BillingReportList = () => {
         <TextField source="projectName" />
         <NumberField source="rate" />
         <NumberField source="hours" />
+        <NumberField source="ptoHours" />
         <NumberField source="total" />
       </Datagrid>
     </List>
