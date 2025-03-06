@@ -46,6 +46,10 @@ const filterStyles = {
 
 const parseISODate = (val?: string | null) => val && new Date(val).toISOString().slice(0, 10);
 
+// Calculate the first day of the previous month and the last day of the previous month
+const defaultStartDate = moment().subtract(1, "month").startOf("month").format("YYYY-MM-DD");
+const defaultEndDate = moment().subtract(1, "month").endOf("month").format("YYYY-MM-DD");
+
 const reportFilters = [
   <DateInput source="startDate"
              alwaysOn
@@ -70,11 +74,14 @@ export const BillingReportList = () => {
       exporter={exporter("billingReport", headers, headersRename)}
       actions={
         <>
-          <FilterButton />
           <ExportButton />
         </>
       }
       filters={reportFilters}
+      filterDefaultValues={{
+        startDate: defaultStartDate,
+        endDate: defaultEndDate
+      }}
       disableSyncWithLocation
     >
       <Datagrid bulkActionButtons={false}>
