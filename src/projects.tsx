@@ -1,5 +1,6 @@
 import * as React from "react";
 import {
+  BooleanField,
   Datagrid,
   DateField,
   EditButton,
@@ -39,6 +40,12 @@ const formData = [
           optionText: "name",
         },
       },
+      {
+        name: "paidPto",
+        type: "boolean",
+        defaultValue: false,
+        label: "Paid PTO",
+      },
     ],
   },
   {
@@ -66,6 +73,7 @@ export const ProjectList = () => {
         <TextField source="name" />
         <DateField source="startDate" locales={locale} />
         <DateField source="endDate" locales={locale} />
+        <BooleanField source="paidPto" label="Paid PTO" />
         <EditButton />
       </Datagrid>
     </List>

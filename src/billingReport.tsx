@@ -24,6 +24,7 @@ const headersRename = [
   "Hours",
   "PTO Hours",
   "Total",
+  "Notes",
 ];
 
 const headers = [
@@ -36,6 +37,7 @@ const headers = [
   "hours",
   "ptoHours",
   "total",
+  "notes",
 ];
 
 const filterStyles = {
@@ -80,9 +82,10 @@ export const BillingReportList = () => {
       filters={reportFilters}
       filterDefaultValues={{
         startDate: defaultStartDate,
-        endDate: defaultEndDate
+        endDate: defaultEndDate,
       }}
       disableSyncWithLocation
+      sort={{ field: "internalId", order: "ASC" }}
     >
       <Datagrid bulkActionButtons={false}>
         <ReferenceField
@@ -101,6 +104,7 @@ export const BillingReportList = () => {
         <NumberField source="hours" />
         <NumberField source="ptoHours" />
         <NumberField source="total" />
+        <TextField source="notes" />
       </Datagrid>
     </List>
   );
