@@ -14,6 +14,7 @@ const NestedReferenceInput = ({
     sortOrder?: "ASC" | "DESC";
     nestedReference: string;
     nestedSource: string;
+    filter?: object;
   };
 }) => {
   const {
@@ -34,6 +35,7 @@ const NestedReferenceInput = ({
     { 
       target: 'employeeId',
       id: record?.employeeId,
+      filter: referenceValues.filter,
     },
   );
 
