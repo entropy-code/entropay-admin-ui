@@ -37,6 +37,7 @@ import { PtoCreate, PtoEdit, PtoList } from "./ptos";
 import { EmployeeReportList } from "./employeesReport";
 import { SalariesReportList } from "./salaryReport";
 import { BillingReportList} from "./billingReport";
+import { MarginReportList} from "./marginReport";
 import { PtosReport } from "./employeesPtosReport";
 import { OvertimeCreate, OvertimeEdit, OvertimeList, OvertimeView } from "./overtimes";
 
@@ -201,6 +202,12 @@ export const resourceMap: {
   {
     entity: "reports/billing",
     list: BillingReportList,
+    edit: undefined,
+    show: undefined,
+  },
+  {
+    entity: "reports/margin",
+    list: MarginReportList,
     edit: undefined,
     show: undefined,
   },
