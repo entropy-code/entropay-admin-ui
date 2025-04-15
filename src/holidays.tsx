@@ -41,7 +41,7 @@ const formData = [
 const GetDefaultCountryId = (): string | null => {
   const { data: countries } = useGetList<ICountry>("countries");
   const defaultCountry = countries?.find(
-    (country: ICountry) => country.name === "Argentina"
+    (country: ICountry) => country.name === "Argentina",
   );
   return defaultCountry?.id || null;
 }; // TODO: get current country from current user
@@ -89,7 +89,13 @@ export const HolidayList = () => {
         perPage={50}
       >
         <Datagrid rowClick="edit">
-          <DateField source="date" locales={locale} />
+          <DateField source="date"
+                     options={{
+                       day: "2-digit",
+                       month: "long",
+                       year: "numeric",
+                     }}
+          />
           <TextField source="description" />
           <ReferenceField source="countryId" reference="countries">
             <TextField source="name" />
