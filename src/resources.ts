@@ -40,6 +40,7 @@ import { BillingReportList} from "./billingReport";
 import { MarginReportList} from "./marginReport";
 import { PtosReport } from "./employeesPtosReport";
 import { OvertimeCreate, OvertimeEdit, OvertimeList, OvertimeView } from "./overtimes";
+import { EmployeeFeedbackList, EmployeeFeedbackEdit, EmployeeFeedbackCreate } from "./employeeFeedback";
 
 type Resource =
   | React.ComponentType<any>
@@ -62,6 +63,14 @@ export const resourceMap: {
     show: EmployeeProfile,
     recordRepresentation: (record: { firstName: string; lastName: string }) =>
       `${record.firstName} ${record.lastName}`,
+  },
+  {
+    entity: "feedback/employee",
+    list: EmployeeFeedbackList,
+    edit: EmployeeFeedbackEdit,
+    create: EmployeeFeedbackCreate,
+    show: undefined,
+    recordRepresentation: (record: { title: string }) => `${record.title}`,
   },
   {
     entity: "projects",

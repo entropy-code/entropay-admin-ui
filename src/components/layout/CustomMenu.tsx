@@ -16,6 +16,8 @@ import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import AssessmentIcon from "@mui/icons-material/Assessment";
 import { SimpleTreeView } from "@mui/x-tree-view/SimpleTreeView";
 import MoreTimeIcon from '@mui/icons-material/MoreTime';
+import ForumIcon from '@mui/icons-material/Forum';
+
 import {
   TreeItem2Content,
   TreeItem2IconContainer,
@@ -39,6 +41,7 @@ const icons: Record<string, React.ElementType> = {
   ptos: CalendarMonthIcon,
   reports: AssessmentIcon,
   overtimes: MoreTimeIcon,
+  feedback: ForumIcon,
 };
 
 const CustomTreeItemRoot = styled(TreeItem2Root)(({ theme }) => ({
