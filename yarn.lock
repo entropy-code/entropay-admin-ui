@@ -8928,10 +8928,10 @@ ra-i18n-polyglot@^5.1.2:
     node-polyglot "^2.2.2"
     ra-core "^5.1.2"
 
-ra-input-rich-text@^4.2.2:
-  version "4.16.20"
-  resolved "https://registry.yarnpkg.com/ra-input-rich-text/-/ra-input-rich-text-4.16.20.tgz#961307f9e2164d6d64925fc279fdd1df9fb64595"
-  integrity sha512-4KDx/rQNcUg8ic+pDFBbtUqWphq8Es5UYBQPj7ljmZX5ggq1yyDZx71dnGsjg8x0aDJ7AbQwHGZF2yWswHgeKQ==
+ra-input-rich-text@^5.8.0:
+  version "5.8.0"
+  resolved "https://registry.yarnpkg.com/ra-input-rich-text/-/ra-input-rich-text-5.8.0.tgz#9e53648887e85e6ebdb759cffc0c8d6046c2f037"
+  integrity sha512-45isSAbiUKrhwwoI5H2kuyAXZdgEHe0LJG2susl/nxpj9qn+fW0QL5h4ZVWYIbHT/S4/u2hbfb6i13GpwEdiwg==
   dependencies:
     "@tiptap/core" "^2.0.3"
     "@tiptap/extension-color" "^2.0.3"
@@ -8945,7 +8945,7 @@ ra-input-rich-text@^4.2.2:
     "@tiptap/pm" "^2.0.3"
     "@tiptap/react" "^2.0.3"
     "@tiptap/starter-kit" "^2.0.3"
-    clsx "^1.1.1"
+    clsx "^2.1.1"
 
 ra-language-english@^5.1.2:
   version "5.1.2"

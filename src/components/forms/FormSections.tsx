@@ -15,6 +15,7 @@ import ChildrenSection from "./ChildrenSection";
 import MultiSelectInput from "./MultiSelectInput";
 import AvailableVacationDays from "./AvailableVacationDays";
 import NestedReferenceInput from "./NestedReferenceInput";
+import { RichTextInput } from 'ra-input-rich-text';
 
 const FormSection = ({
   formSectionTitle,
@@ -88,6 +89,14 @@ const FormSection = ({
                     fullWidth
                     sx={{ gridColumn: "span 2" }}
                     required={listItem.required}
+                  />
+                ) : undefined}
+                {listItem.type === "richString" ? (
+                  <RichTextInput
+                    source={listItem.name}
+                    label={listItem.label}
+                    key={formSectionTitle + listItem.name + listIndex}
+                    sx={{ gridColumn: "span 2", width: "100%" }}
                   />
                 ) : undefined}
                 {listItem.type === "email" ? (
