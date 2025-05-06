@@ -12,6 +12,7 @@ const ReferenceInputItem = ({
     disabledCheck?: (record: any) => boolean;
     sortField?: string;
     sortOrder?: "ASC" | "DESC";
+    filter?: object;
   };
 }) => {
   const {
@@ -22,6 +23,7 @@ const ReferenceInputItem = ({
     disabledCheck,
     sortField,
     sortOrder,
+    filter,
   } = referenceValues;
   const record = useRecordContext();
   var setDisabled = false;
@@ -36,6 +38,7 @@ const ReferenceInputItem = ({
           reference={reference}
           perPage={100}
           sort={{ field: sortField ?? "id", order: sortOrder ?? "ASC" }}
+          filter={filter}
         >
           <SelectInput
             optionText={optionText}
