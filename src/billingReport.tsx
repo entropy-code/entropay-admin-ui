@@ -12,6 +12,7 @@ import {
 import { exporter } from "./utils/exporter";
 import * as React from "react";
 import moment from "moment";
+import { EXPORT_CONFIG } from "./utils/constants";
 
 
 const headersRename = [
@@ -76,7 +77,7 @@ export const BillingReportList = () => {
       exporter={exporter("billingReport", headers, headersRename)}
       actions={
         <>
-          <ExportButton />
+          <ExportButton maxResults={EXPORT_CONFIG.maxResults}/>
         </>
       }
       filters={reportFilters}
