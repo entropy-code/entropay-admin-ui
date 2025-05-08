@@ -10,6 +10,7 @@ import {
   TextField,
 } from "react-admin";
 import { exporter } from "./utils/exporter";
+import { EXPORT_CONFIG } from "./utils/constants";
 import * as React from "react";
 import moment from "moment";
 
@@ -80,7 +81,7 @@ export const MarginReportList = () => {
       exporter={exporter("marginReport", headers, headersRename)}
       actions={
         <>
-          <ExportButton />
+          <ExportButton maxResults={EXPORT_CONFIG.maxResults} />
         </>
       }
       filters={reportFilters}
@@ -101,11 +102,11 @@ export const MarginReportList = () => {
           <TextField source="internalId" />
         </ReferenceField>
         <DateField source="yearMonth"
-          options={{
-            month: 'short',
-            year: 'numeric',
-            day: undefined
-          }}
+                   options={{
+                     month: "short",
+                     year: "numeric",
+                     day: undefined,
+                   }}
         />
         <TextField source="firstName" />
         <TextField source="lastName" />

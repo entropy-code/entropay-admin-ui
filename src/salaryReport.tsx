@@ -10,6 +10,7 @@ import {
 } from "react-admin";
 import { exporter } from "./utils/exporter";
 import * as React from "react";
+import { EXPORT_CONFIG } from "./utils/constants";
 
 const headersRename = [
   "Internal ID",
@@ -47,7 +48,9 @@ export const SalariesReportList = () => {
       actions={
         <>
           {" "}
-          <FilterButton /> <ExportButton />{" "}
+          <FilterButton />
+          <ExportButton maxResults={EXPORT_CONFIG.maxResults}/>
+          {" "}
         </>
       }
       filters={employeeReportFilters}
