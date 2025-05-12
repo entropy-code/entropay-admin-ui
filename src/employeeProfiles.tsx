@@ -26,6 +26,7 @@ import {
   ListContextProvider,
   SelectField,
 } from "react-admin";
+import { feedbackSourceChoices } from "./employeeFeedback";
 import {
   Avatar,
   Box,
@@ -757,6 +758,39 @@ export const EmployeeProfile = () => {
                     <CancelPtoButton id={record.id} record={record} />
                   )}
                 />
+              </Datagrid>
+            </ReferenceManyField>
+          </Tab>
+        )}
+        {HasPermissions("feedback/employee", "create") && (
+          <Tab label="Feedback">
+            <ReferenceManyField
+              label=""
+              reference="feedback/employee"
+              target="employeeId"
+              sort={{ field: "feedbackDate", order: "DESC" }}
+            >
+              <RedirectButton
+                form="create"
+                resource="feedback/employee"
+                text="+ CREATE"
+                source="employeeProfile"
+                recordId={DisplayRecordCurrentId() as string}
+              />
+              <Datagrid
+                bulkActionButtons={false}
+                empty={<CustomEmpty message="No feedback found" />}
+              >
+                <DateField source="feedbackDate" locales={locale} />
+                <TextField source="title" />
+                <SelectField source="source" choices={feedbackSourceChoices} />
+                {HasPermissions("feedback/employee", "update") && (
+                  <FunctionField
+                    render={(record) => (
+                      <EditButton />
+                    )}
+                  />
+                )}
               </Datagrid>
             </ReferenceManyField>
           </Tab>
