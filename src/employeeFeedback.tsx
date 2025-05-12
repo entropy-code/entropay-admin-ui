@@ -50,8 +50,8 @@ export const EmployeeFeedbackList = () => {
         <ReferenceField source="employeeId" reference="employees">
           <TextField source="lastName" /> <TextField source="firstName" />
         </ReferenceField>
-        <TextField source="title" />
         <TextField source="feedbackDate" />
+        <TextField source="title" />
         <SelectField source="source" choices={feedbackSourceChoices} />
         <EditButton />
       </Datagrid>
