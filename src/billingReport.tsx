@@ -7,7 +7,7 @@ import {
   NumberField,
   ReferenceField,
   SearchInput,
-  TextField,
+  TextField, TextInput,
 } from "react-admin";
 import { exporter } from "./utils/exporter";
 import * as React from "react";
@@ -68,6 +68,9 @@ const reportFilters = [
              inputProps={{ inputFormat: "YYYY-MM-DD" }}
              parse={parseISODate}
   />,
+  <SearchInput source="q" alwaysOn/>,
+  <TextInput label="Client Name" source="clientName" sx={filterStyles}/>,
+  <TextInput label="Project Name" source="projectName" sx={filterStyles}/>,
 ];
 
 export const BillingReportList = () => {
@@ -77,6 +80,7 @@ export const BillingReportList = () => {
       exporter={exporter("billingReport", headers, headersRename)}
       actions={
         <>
+          <FilterButton />
           <ExportButton maxResults={EXPORT_CONFIG.maxResults}/>
         </>
       }
