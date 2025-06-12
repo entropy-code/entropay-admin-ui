@@ -38,6 +38,7 @@ import { EmployeeReportList } from "./employeesReport";
 import { SalariesReportList } from "./salaryReport";
 import { BillingReportList} from "./billingReport";
 import { MarginReportList} from "./marginReport";
+import { TurnoverReportList} from "./turnoverReport";
 import { PtosReport } from "./employeesPtosReport";
 import { OvertimeCreate, OvertimeEdit, OvertimeList, OvertimeView } from "./overtimes";
 import { EmployeeFeedbackList, EmployeeFeedbackEdit, EmployeeFeedbackCreate } from "./employeeFeedback";
@@ -207,6 +208,13 @@ export const resourceMap: {
   {
     entity: "reports/ptos/employees",
     list: PtosReport,
+    edit: undefined,
+    create: undefined,
+    show: undefined,
+  },
+  {
+    entity: "reports/turnover/flat",
+    list: TurnoverReportList,
     edit: undefined,
     create: undefined,
     show: undefined,
