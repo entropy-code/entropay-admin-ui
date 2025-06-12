@@ -116,9 +116,9 @@ export const TurnoverReportList = () => {
                      day: undefined,
                    }}
         />
-        <NumberField source="employeesStart" />
+        <NumberField source="employeesAtStart" />
         <NumberField source="employeesLeft" />
-        <NumberField source="employeesEnd" />
+        <NumberField source="employeesAtEnd" />
         <NumberField source="turnoverRate" />
       </Datagrid>
     </List>
