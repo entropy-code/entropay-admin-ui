@@ -74,6 +74,7 @@ const activeContract = React.useMemo(() => {
       seniorityId: contract.seniorityId,
       hoursPerMonth: contract.hoursPerMonth,
       benefits: contract.benefits,
+      billableRate: contract.billableRate,
     };
   }, [data]);
 
@@ -569,9 +570,7 @@ export const EmployeeProfile = () => {
                 <ChipField source="name" />
               </ReferenceField>
               <NumberField source="hoursPerMonth" />
-              <NumberField source="vacations" />
-              <TextField source="benefits" />
-              <TextField source="notes" />
+              <NumberField source="billableRate" />
               <ShowButton />
               {HasPermissions("assignments", "update") && <EditButton />}
             </Datagrid>
