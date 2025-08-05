@@ -158,6 +158,7 @@ const employeeFilters = [
 ];
 
 const fieldsList = [
+  { name: "internalId", type: "text" },
   { name: "firstName", type: "text" },
   { name: "lastName", type: "text" },
   { name: "labourEmail", type: "text" },
@@ -293,6 +294,9 @@ const EmployeeInformation = ({ renderAs = "list" }) => {
                       </Avatar>
                     </Box>
                     <Box sx={{ minHeight: 155 }}>
+                      <Typography noWrap variant="h5" component="h5" align="center">
+                        {record.internalId}
+                      </Typography>
                       <Typography
                         noWrap
                         variant="h5"
