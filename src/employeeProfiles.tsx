@@ -259,6 +259,12 @@ export const EmployeeProfile = () => {
                       record={record}
                       locales={locale}
                     />
+                    <TextField
+                      label=""
+                      source="timeSinceStart"
+                      textAlign="left"
+                      style={styleForCenteringTextField}
+                    />
                   </>
                 )}
                 {record.startDate && !record.endDate && (
@@ -303,22 +309,7 @@ export const EmployeeProfile = () => {
                 style={styleForCenteringTextField}
               />
             </>
-            <>
-              <Typography
-                variant="subtitle2"
-                color="textSecondary"
-                textAlign="right"
-                style={styleForCenteringTyphography}
-              >
-                Since Start
-              </Typography>
-              <TextField
-                label=""
-                source="timeSinceStart"
-                textAlign="left"
-                style={styleForCenteringTextField}
-              />
-            </>
+            
           </SimpleShowLayout>
         </Grid>
         <Grid item>
