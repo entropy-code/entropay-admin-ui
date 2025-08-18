@@ -238,40 +238,50 @@ export const EmployeeProfile = () => {
               <SimpleShowLayout divider={<Divider flexItem />}>
                 {!record.startDate && (
                   <>
-                    <Typography variant="subtitle2" color="textSecondary">
+                    <Typography variant="subtitle2" color="textSecondary" display="inline"  marginRight={"10px"}>
                       Start Date
                     </Typography>
-                    <span style={styleForSpan}> - </span>
-                    <Typography variant="subtitle2" color="textSecondary">
+                    <span> - </span>
+                    <p></p>
+                    <Typography variant="subtitle2" color="textSecondary" display="inline"  marginRight={"10px"}>
                       End Date
                     </Typography>
-                    <span style={styleForSpan}>-</span>
+                    <span> - </span>
                   </>
                 )}
                 {record.startDate && (
                   <>
-                    <Typography variant="subtitle2" color="textSecondary">
+                    <Typography variant="subtitle2" color="textSecondary" display="inline" marginRight={"10px"}>
                       Start Date
                     </Typography>
+
                     <DateField
+                       label=""
+                       source="startDate"
+                       record={record}
+                       locales={locale}
+                       
+                    />
+                    
+                    <TextField
                       label=""
-                      source="startDate"
-                      record={record}
-                      locales={locale}
+                      source="timeSinceStart"
+                      textAlign="left"
+                      style={styleForCenteringTextField}
                     />
                   </>
                 )}
                 {record.startDate && !record.endDate && (
                   <>
-                    <Typography variant="subtitle2" color="textSecondary">
+                    <Typography variant="subtitle2" color="textSecondary" display="inline"  marginRight={"10px"}>
                       End Date
                     </Typography>
-                    <span style={styleForSpan}> - </span>
+                    <span> - </span>
                   </>
                 )}
                 {record.endDate && (
                   <>
-                    <Typography variant="subtitle2" color="textSecondary">
+                    <Typography variant="subtitle2" color="textSecondary" display="inline"  marginRight={"10px"}>
                       End Date
                     </Typography>
                     <DateField
@@ -303,22 +313,7 @@ export const EmployeeProfile = () => {
                 style={styleForCenteringTextField}
               />
             </>
-            <>
-              <Typography
-                variant="subtitle2"
-                color="textSecondary"
-                textAlign="right"
-                style={styleForCenteringTyphography}
-              >
-                Since Start
-              </Typography>
-              <TextField
-                label=""
-                source="timeSinceStart"
-                textAlign="left"
-                style={styleForCenteringTextField}
-              />
-            </>
+            
           </SimpleShowLayout>
         </Grid>
         <Grid item>
