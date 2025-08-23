@@ -46,7 +46,7 @@ const filterStyles = {
 };
 
 const employeeReportFilters = [
-  <SearchInput source="q" alwaysOn/>,
+  <SearchInput source="q" alwaysOn />,
   <TextInput label="Client Name" source="clientName" sx={filterStyles}/>,
 ];
 
