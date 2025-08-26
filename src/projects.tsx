@@ -51,7 +51,7 @@ const formData = [
         type: "boolean",
         defaultValue: false,
         label: "Internal",
-      }
+      },
     ],
   },
   {
