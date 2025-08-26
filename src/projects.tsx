@@ -46,6 +46,12 @@ const formData = [
         defaultValue: false,
         label: "Paid PTO",
       },
+      {
+        name: "isInternal",
+        type: "boolean",
+        defaultValue: false,
+        label: "Internal",
+      },
     ],
   },
   {
@@ -74,6 +80,7 @@ export const ProjectList = () => {
         <DateField source="startDate" locales={locale} />
         <DateField source="endDate" locales={locale} />
         <BooleanField source="paidPto" label="Paid PTO" />
+        <BooleanField source="isInternal" label="Internal" />
         <EditButton />
       </Datagrid>
     </List>
