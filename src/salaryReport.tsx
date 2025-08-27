@@ -7,6 +7,7 @@ import {
   ReferenceField,
   SearchInput,
   TextField,
+  TextInput,
 } from "react-admin";
 import { exporter } from "./utils/exporter";
 import * as React from "react";
@@ -38,7 +39,16 @@ const headers = [
   "country",
 ];
 
-const employeeReportFilters = [<SearchInput source="q" alwaysOn />];
+const filterStyles = {
+  "& .MuiInputBase-root": {
+    height: "40px",
+  },
+};
+
+const employeeReportFilters = [
+  <SearchInput source="q" alwaysOn />,
+  <TextInput label="Client Name" source="clientName" sx={filterStyles}/>,
+];
 
 export const SalariesReportList = () => {
   return (
