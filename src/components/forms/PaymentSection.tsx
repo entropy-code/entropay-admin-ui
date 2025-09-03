@@ -18,8 +18,6 @@ const PaymentPlatform = [
   { name: 'Dólares en BA' },
   { name: 'Payoneer' },
 ];
-
-
 const PaymentSection = (type: {
   type: "paymentInformation" | "paymentSettlement";
 }) => {
