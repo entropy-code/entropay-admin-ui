@@ -5,8 +5,19 @@ import {
   SelectInput,
   SimpleFormIterator,
   TextInput,
+  AutocompleteInput,
 } from "react-admin";
 
+const PaymentPlatform = [
+  { name: 'Bitwage' },
+  { name: 'Dolares en Tucuman' },
+  { name: 'Mixto ars y usd en Tuc' },
+  { name: 'Banco USA' },
+  { name: 'Banco internacional' },
+  { name: 'Mural' },
+  { name: 'Dólares en BA' },
+  { name: 'Payoneer' },
+];
 const PaymentSection = (type: {
   type: "paymentInformation" | "paymentSettlement";
 }) => {
@@ -19,7 +30,12 @@ const PaymentSection = (type: {
           sx={{ gridColumn: "span 2" }}
         >
           <SimpleFormIterator inline disableReordering>
-            <TextInput source="platform" helperText={false} />
+            <AutocompleteInput
+              source="platform"
+              choices={PaymentPlatform}
+              optionText="name"
+              optionValue="name"
+            />
             <TextInput source="country" helperText={false} />
             <TextInput
               source="cbu"
