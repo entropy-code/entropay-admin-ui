@@ -93,16 +93,16 @@ const formData = [
     inputsList: [
       {
         name: "profile",
-        type: "selectInput",
+        type: "AutocompleteInput",
         referenceValues: {
           source: "roleId",
           reference: "roles",
           optionText: "name",
-          multiselect: false,
+          optionValue: "id",
           required: true,
-          sortField: "name",
         },
       },
+      
       {
         name: "seniority",
         type: "selectInput",
