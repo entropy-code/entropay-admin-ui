@@ -789,6 +789,42 @@ export const EmployeeProfile = () => {
             </ReferenceManyField>
           </Tab>
         )}
+        {HasPermissions("reimbursements", "create") && (
+          <Tab label="Reimbursements">
+            <ReferenceManyField
+              label=""
+              reference="reimbursements"
+              target="employeeId"
+              sort={{ field: "date", order: "DESC" }}
+            >
+              <RedirectButton
+                form="create"
+                resource="reimbursements"
+                text="+ CREATE"
+                source="employeeProfile"
+                recordId={DisplayRecordCurrentId() as string}
+              />
+              <Datagrid
+                bulkActionButtons={false}
+                empty={<CustomEmpty message="No reimbursements found" />}
+              >
+                <ReferenceField source="categoryId" reference="reimbursement-categories" link={false}>
+                  <TextField source="name" />
+                </ReferenceField>
+                <NumberField source="amount" options={{ style: 'currency', currency: 'USD' }} />
+                <DateField source="date" locales={locale} />
+                <TextField source="comment" />
+                {HasPermissions("reimbursements", "update") && (
+                  <FunctionField
+                    render={(record) => (
+                      <EditButton />
+                    )}
+                  />
+                )}
+              </Datagrid>
+            </ReferenceManyField>
+          </Tab>
+        )}
         {/*<Tab label="Documents"></Tab>
       Hidden empty tabs until developed
       */}

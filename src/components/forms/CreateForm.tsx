@@ -37,6 +37,9 @@ const CreateForm = ({
       case "overtimes":
         redirect(`/employees/${data.employeeId}/show/5`);
         break;
+      case "reimbursements":
+        redirect(`/employees/${data.employeeId}/show/7`);
+        break;
       default:
         redirect(`/${resource}`);
     }
