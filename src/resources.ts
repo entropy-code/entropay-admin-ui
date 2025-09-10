@@ -43,6 +43,8 @@ import { PtosReport } from "./employeesPtosReport";
 import { OvertimeCreate, OvertimeEdit, OvertimeList, OvertimeView } from "./overtimes";
 import { EmployeeFeedbackList, EmployeeFeedbackEdit, EmployeeFeedbackCreate } from "./employeeFeedback";
 import { ClientFeedbackList, ClientFeedbackEdit, ClientFeedbackCreate } from "./clientFeedback";
+import { ReimbursementCategoriesList, ReimbursementCategoriesEdit, ReimbursementCategoriesCreate } from "./reimbursementCategories";
+import { ReimbursementsList, ReimbursementsEdit, ReimbursementsCreate } from "./reimbursements";
 
 type Resource =
   | React.ComponentType<any>
@@ -243,5 +245,20 @@ export const resourceMap: {
     edit: OvertimeEdit,
     create: OvertimeCreate,
     show: OvertimeView,
+  },
+  {
+    entity: "reimbursement-categories",
+    list: ReimbursementCategoriesList,
+    edit: ReimbursementCategoriesEdit,
+    create: ReimbursementCategoriesCreate,
+    show: undefined,
+    recordRepresentation: (record: { name: string }) => `${record.name}`,
+  },
+  {
+    entity: "reimbursements",
+    list: ReimbursementsList,
+    edit: ReimbursementsEdit,
+    create: ReimbursementsCreate,
+    show: undefined,
   },
 ];
