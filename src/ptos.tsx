@@ -20,6 +20,9 @@ import { IPto, IYear } from "./types";
 import CancelPtoButton from "./components/buttons/CancelPtoButton";
 import { exporter } from "./utils/exporter";
 
+function disabledCheck(source: string) {
+  return source === "employeeProfile";
+}
 
 const formData = [
   {
@@ -34,6 +37,7 @@ const formData = [
           optionText: null,
           multiselect: false,
           required: true,
+          disabledCheck: disabledCheck,
         },
       },
     ],
