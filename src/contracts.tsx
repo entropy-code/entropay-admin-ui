@@ -99,6 +99,7 @@ const formData = [
           reference: "roles",
           optionText: "name",
           optionValue: "id",
+          ItemsPerPage: 100,
           required: true,
         },
       },

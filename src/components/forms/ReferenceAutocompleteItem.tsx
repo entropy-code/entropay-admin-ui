@@ -2,6 +2,12 @@ import * as React from "react";
 import { useEffect, useState } from "react";
 import { AutocompleteInput, useDataProvider } from "react-admin";
 
+// Definición del tipo para las opciones
+export type Choice = {
+  id: number;
+  name: string;
+};
+
 const ReferenceAutocompleteItem = ({
   referenceValues,
 }: {
@@ -10,6 +16,7 @@ const ReferenceAutocompleteItem = ({
     reference: string;
     optionText: string;
     optionValue: string;
+    ItemsPerPage: number;
     required?: boolean;
   };
 }) => {
@@ -18,16 +25,17 @@ const ReferenceAutocompleteItem = ({
     reference,
     optionText,
     optionValue,
+    ItemsPerPage,
     required,
   } = referenceValues;
 
   const dataProvider = useDataProvider();
-  const [choices, setChoices] = useState<any[]>([]);
+  const [choices, setChoices] = useState<Choice[]>([]);
 
   useEffect(() => {
     dataProvider
       .getList(reference, {
-        pagination: { page: 1, perPage: 1000 },
+        pagination: { page: 1, perPage: ItemsPerPage },
         sort: { field: optionText, order: "ASC" },
         filter: {},
       })
@@ -36,7 +44,7 @@ const ReferenceAutocompleteItem = ({
         console.error("Error fetching", reference, ":", error);
         setChoices([]);
       });
-  }, [dataProvider, optionText]);
+  }, [dataProvider, optionText, reference, ItemsPerPage]);
 
   return (
     <AutocompleteInput
