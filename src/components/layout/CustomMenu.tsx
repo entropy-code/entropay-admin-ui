@@ -17,6 +17,7 @@ import AssessmentIcon from "@mui/icons-material/Assessment";
 import { SimpleTreeView } from "@mui/x-tree-view/SimpleTreeView";
 import MoreTimeIcon from '@mui/icons-material/MoreTime';
 import ForumIcon from '@mui/icons-material/Forum';
+import ReceiptIcon from '@mui/icons-material/Receipt';
 
 import {
   TreeItem2Content,
@@ -42,6 +43,7 @@ const icons: Record<string, React.ElementType> = {
   reports: AssessmentIcon,
   overtimes: MoreTimeIcon,
   feedback: ForumIcon,
+  reimbursements: ReceiptIcon,
 };
 
 const CustomTreeItemRoot = styled(TreeItem2Root)(({ theme }) => ({
