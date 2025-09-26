@@ -7,14 +7,36 @@ import {
   NumberField, 
   DateField, 
   ReferenceField,
-  useLocaleState 
+  useLocaleState,
+  useDataProvider
 } from "react-admin";
 import CreateForm from "./components/forms/CreateForm";
 import EditForm from "./components/forms/EditForm";
+import { exporter } from "./utils/exporter";
 
 function disabledCheck(source: string) {
   return source === "employeeProfile";
 }
+
+const headers = [
+  "employee.internalId",
+  "employee.firstName",
+  "employee.lastName", 
+  "category.name",
+  "amount",
+  "date", 
+  "comment",
+];
+
+const headersRename = [
+  "Internal ID", 
+  "First Name",
+  "Last Name",
+  "Category Name",
+  "Amount",
+  "Date",
+  "Comment",
+];
 
 const formData = [
   {
@@ -54,9 +76,12 @@ const formData = [
 
 export const ReimbursementsList = () => {
   const [locale] = useLocaleState();
+  const dataProvider = useDataProvider();
   
   return (
-    <List>
+    <List
+      exporter={exporter("reimbursement", headers, headersRename, dataProvider)}
+    >
       <Datagrid rowClick="edit">
         <ReferenceField source="employeeId" reference="employees" link={false}>
           <TextField source="firstName" />
