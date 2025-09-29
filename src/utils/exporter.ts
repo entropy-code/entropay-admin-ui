@@ -15,7 +15,7 @@ export const exporter =
         ? await dataProvider.getMany('employees', { ids: employeeIds })
         : { data: [] };
       
-        // Fetch related category data
+      // Fetch related category data
       const categoryIds = [...new Set(records.map(record => record.categoryId))].filter(Boolean);
       const categories = categoryIds.length > 0
         ? await dataProvider.getMany('reimbursement-categories', { ids: categoryIds })
