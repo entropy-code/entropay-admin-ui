@@ -10,6 +10,7 @@ import {
 import { Box, Typography, useMediaQuery } from "@mui/material";
 import { useWatch } from "react-hook-form";
 import ReferenceInputItem from "./ReferenceInputItem";
+import ReferenceAutocompleteItem from "./ReferenceAutocompleteItem";
 import PaymentSection from "./PaymentSection";
 import ChildrenSection from "./ChildrenSection";
 import MultiSelectInput from "./MultiSelectInput";
@@ -136,6 +137,11 @@ const FormSection = ({
                 ) : undefined}
                 {listItem.type === "selectInput" ? (
                   <ReferenceInputItem
+                    referenceValues={listItem.referenceValues}
+                  />
+                ) : undefined}
+                {listItem.type === "AutocompleteInput" ? (
+                  <ReferenceAutocompleteItem
                     referenceValues={listItem.referenceValues}
                   />
                 ) : undefined}
