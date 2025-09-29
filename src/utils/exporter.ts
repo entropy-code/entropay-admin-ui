@@ -80,7 +80,7 @@ export const exporter =
         const BOM = '\uFEFF';
         const csvWithBOM = BOM + csv;
 
-        // Export to xls
+        // Export to csv
         //const blob = new Blob([csv], { type: "application/csv" });
         // Create blob with explicit UTF-8 encoding
         const blob = new Blob([csvWithBOM], { 
