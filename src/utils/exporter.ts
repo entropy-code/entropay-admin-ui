@@ -96,7 +96,6 @@ export const exporter =
         document.body.removeChild(a);
         window.URL.revokeObjectURL(url);
         // Export to csv
-        //downloadCSV(csv, fileName);
       }
     );
   };
