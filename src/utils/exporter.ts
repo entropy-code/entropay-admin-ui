@@ -81,7 +81,6 @@ export const exporter =
         const csvWithBOM = BOM + csv;
 
         // Export to csv
-        //const blob = new Blob([csv], { type: "application/csv" });
         // Create blob with explicit UTF-8 encoding
         const blob = new Blob([csvWithBOM], { 
           type: "text/csv;charset=utf-8;" 
