@@ -2,7 +2,6 @@ import * as React from "react";
 import { useEffect, useState } from "react";
 import { AutocompleteInput, useDataProvider } from "react-admin";
 
-// Definición del tipo para las opciones
 export type Choice = {
   id: number;
   name: string;
