@@ -8,6 +8,11 @@ import {
 } from "react-admin";
 import CreateForm from "./components/forms/CreateForm";
 import EditForm from "./components/forms/EditForm";
+import { exporter } from "./utils/exporter";
+
+// Headers for export
+const headers = ["id", "name", "vacationDays"];
+const headersRename = ["ID", "Name", "Vacation Days"];
 
 const formData = [
   {
@@ -20,7 +25,7 @@ const formData = [
 ];
 
 export const SeniorityList = () => (
-  <List>
+  <List exporter={exporter("seniorities", headers, headersRename)}>
     <Datagrid rowClick="edit">
       <TextField source="name" />
       <NumberField source="vacationDays" />

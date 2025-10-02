@@ -188,6 +188,21 @@ const headersRename = [
   "Gender",
 ];
 
+const headers = [
+  "firstName",
+  "lastName",
+  "labourEmail",
+  "startDate",
+  "city",
+  "countryName",
+  "client",
+  "project",
+  "role",
+  "availableDays",
+  "nearestPto",
+  "gender",
+];
+
 type RadioValueType = "card" | "list";
 
 export const EmployeeList = () => {
@@ -220,13 +235,7 @@ export const EmployeeList = () => {
       component="div"
       actions={<FilterButton />}
       filters={employeeFilters}
-      exporter={exporter(
-        "employees",
-        fieldsList.map((field) => {
-          return field.name;
-        }),
-        headersRename
-      )}
+      exporter={exporter("employees", headers, headersRename)}
     >
       <TopToolbar
         sx={{

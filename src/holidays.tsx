@@ -11,11 +11,33 @@ import {
   ReferenceInput,
   useGetList,
   Filter,
+  useDataProvider,
 } from "react-admin";
 import CreateForm from "./components/forms/CreateForm";
 import EditForm from "./components/forms/EditForm";
 import { ICountry } from "./types/country";
 import { IYear } from "./types/year";
+import { exporter } from "./utils/exporter";
+
+// Headers for export with related data
+const headers = [
+  "id", 
+  "date", 
+  "description", 
+  "country.name",
+  "deleted",
+  "createdAt",
+  "modifiedAt"
+];
+const headersRename = [
+  "ID", 
+  "Date", 
+  "Description", 
+  "Country", 
+  "Deleted", 
+  "Created At", 
+  "Modified At"
+];
 
 const formData = [
   {
@@ -56,7 +78,7 @@ export const HolidayList = () => {
   const defaultCountryId: string | null = GetDefaultCountryId();
   const currentYear: number = new Date().getFullYear();
   const yearsByFilter = YearOptions();
-
+  const dataProvider = useDataProvider();
 
   const HolidayFilters = () => (
     <Filter>
@@ -84,6 +106,7 @@ export const HolidayList = () => {
   return (
     <div style={{ margin: "20px" }}>
       <List
+        exporter={exporter("holidays", headers, headersRename, dataProvider, true)}
         filters={HolidayFilters()}
         filterDefaultValues={{ countryId: defaultCountryId, year: currentYear }}
         perPage={50}

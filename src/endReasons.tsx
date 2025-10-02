@@ -2,6 +2,12 @@ import * as React from "react";
 import { Datagrid, List, TextField, EditButton } from "react-admin";
 import CreateForm from "./components/forms/CreateForm";
 import EditForm from "./components/forms/EditForm";
+import { exporter } from "./utils/exporter";
+
+// Headers for export
+const headers = ["id", "name"];
+const headersRename = ["ID", "Name"];
+
 
 const formData = [
   {
@@ -11,7 +17,7 @@ const formData = [
 ];
 
 export const EndReasonsList = () => (
-  <List>
+  <List exporter={exporter("end-reasons", headers, headersRename)}>
     <Datagrid rowClick="edit">
       <TextField source="name" />
       <EditButton />

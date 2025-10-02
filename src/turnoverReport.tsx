@@ -23,9 +23,9 @@ const headersRename = [
   "Parent Id",
   "Period Type",
   "Year Month",
-  "Employees Start",
+  "Employees At Start",
   "Employees Left",
-  "Employees End",
+  "Employees At End",
   "Turnover Rate",
 ];
 
@@ -36,9 +36,9 @@ const headers = [
   "parentId",
   "periodType",
   "yearMonth",
-  "employeesStart",
+  "employeesAtStart",
   "employeesLeft",
-  "employeesEnd",
+  "employeesAtEnd",
   "turnoverRate",
 ];
 

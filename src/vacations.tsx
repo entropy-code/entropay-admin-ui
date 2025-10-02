@@ -10,6 +10,23 @@ import {
   TextField,
   WrapperField,
 } from "react-admin";
+import { exporter } from "./utils/exporter";
+
+// Headers for export
+const headers = [
+  "id", 
+  "employeeId", 
+  "year", 
+  "credit", 
+  "debit"
+];
+const headersRename = [
+  "ID", 
+  "Employee", 
+  "Year", 
+  "Credit", 
+  "Debit"
+];
 
 function disabledCheck(source: string): boolean {
   return source === "employeeProfile";
@@ -38,7 +55,7 @@ const formData = [
 ];
 
 export const VacationList = () => (
-  <List>
+  <List exporter={exporter("vacations", headers, headersRename)}>
     <Datagrid rowClick="edit">
       <ReferenceField source="employeeId" reference="employees">
         <WrapperField label="Full Name">
