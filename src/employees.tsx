@@ -174,6 +174,7 @@ const fieldsList = [
 ];
 
 const headersRename = [
+  "Internal ID",
   "First Name",
   "Last Name",
   "Labour Email",
@@ -189,6 +190,7 @@ const headersRename = [
 ];
 
 const headers = [
+  "internalId",
   "firstName",
   "lastName",
   "labourEmail",
