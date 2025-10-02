@@ -1,7 +1,8 @@
 import * as React from "react";
-import { Datagrid, EditButton, List, ReferenceField, SelectField, TextField } from "react-admin";
+import { Datagrid, EditButton, List, ReferenceField, SelectField, TextField, useDataProvider } from "react-admin";
 import CreateForm from "./components/forms/CreateForm";
 import EditForm from "./components/forms/EditForm";
+import { exporter } from "./utils/exporter";
 
 // Define the feedback source choices
 export const feedbackSourceChoices = [
@@ -12,6 +13,34 @@ export const feedbackSourceChoices = [
   { id: "PEER", name: "Peer" },
 ];
 
+// Headers for export with related data
+const headers = [
+  "id",
+  "employeeId",
+  "employeeName",
+  "createdBy",
+  "feedbackDate",
+  "source",
+  "title",
+  "text",
+  "createdAt",
+  "modifiedAt",
+  "deleted",
+];
+
+const headersRename = [
+  "Id",
+  "Employee Id",
+  "Employee Name",
+  "Created By",
+  "Feedback Date",
+  "Source",
+  "Title",
+  "Text",
+  "Created At",
+  "Modified At",
+  "Deleted",
+];
 
 const formData = [
   {
@@ -44,8 +73,9 @@ const formData = [
 ];
 
 export const EmployeeFeedbackList = () => {
+  const dataProvider = useDataProvider();
   return (
-    <List>
+    <List exporter={exporter("employeeFeedback", headers, headersRename, dataProvider,true)}>
       <Datagrid>
         <ReferenceField source="employeeId" reference="employees">
           <TextField source="lastName" /> <TextField source="firstName" />

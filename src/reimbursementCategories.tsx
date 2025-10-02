@@ -2,6 +2,24 @@ import * as React from "react";
 import { Datagrid, List, TextField, EditButton, NumberField } from "react-admin";
 import CreateForm from "./components/forms/CreateForm";
 import EditForm from "./components/forms/EditForm";
+import { exporter } from "./utils/exporter";
+
+// Headers for export
+const headers = [
+  "id", 
+  "name", 
+  "description", 
+  "maximumAmount", 
+  "periodInMonths"
+];
+
+const headersRename = [
+  "ID", 
+  "Name", 
+  "Description",
+  "Maximum Amount", 
+  "Period In Months"
+];
 
 const formData = [
   {
@@ -16,7 +34,7 @@ const formData = [
 ];
 
 export const ReimbursementCategoriesList = () => (
-  <List>
+  <List exporter={exporter("reimbursement_categories", headers, headersRename)}>
     <Datagrid rowClick="edit">
       <TextField source="name" />
       <TextField source="description" />

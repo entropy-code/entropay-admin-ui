@@ -10,6 +10,34 @@ import {
 } from "react-admin";
 import CreateForm from "./components/forms/CreateForm";
 import EditForm from "./components/forms/EditForm";
+import { exporter } from "./utils/exporter";
+
+// Headers for export with related data
+const headers = [
+  "id",
+  "tenantId",
+  "name",
+  "address",
+  "zipCode",
+  "city",
+  "state",
+  "country",
+  "createdAt",
+  "modifiedAt",
+];
+
+const headersRename = [
+  "ID",
+  "Tenant Id",
+  "Name",
+  "Address",
+  "Zip Code",
+  "City",
+  "State",
+  "Country",
+  "Created At",
+  "Modified At",
+];
 
 const formData = [
   {
@@ -43,8 +71,9 @@ const formData = [
 
 export const CompanyList = () => {
   const [locale] = useLocaleState();
+  
   return (
-    <List>
+    <List exporter={exporter("companies", headers, headersRename)}>
       <Datagrid rowClick="edit">
         <TextField source="id" />
         <ReferenceField source="tenantId" reference="tenants">
