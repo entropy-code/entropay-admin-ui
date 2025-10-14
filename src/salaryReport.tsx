@@ -47,36 +47,77 @@ const filterStyles = {
 };
 
 export const SalariesReportList = () => {
-  // Fetch clients from database
+  const [allClients, setAllClients] = React.useState<Array<{id: string; name: string}>>([]);
+  const [currentPage, setCurrentPage] = React.useState(1);
+  const [hasMore, setHasMore] = React.useState(true);
+
+  // Fetch clients incrementally
   const { data: clients, isLoading, error } = useGetList('clients', {
-    pagination: { page: 1, perPage: 1000 }, // Get all clients
+    pagination: { 
+      page: currentPage, 
+      perPage: 50  // Smaller chunks for better performance
+    },
     sort: { field: 'name', order: 'ASC' },
   });
 
-  // Create clientList array from the fetched data
-  const clientList = React.useMemo(() => {
-    if (error) {
-      console.error('Error fetching clients:', error);
-      return [];
+   // Accumulate clients as they load
+  React.useEffect(() => {
+    if (clients && clients.length > 0) {
+      setAllClients(prev => {
+        const existing = new Set(prev.map(c => c.id));
+        const newClients = clients
+          .filter(c => !existing.has(c.id))
+          .map(client => ({
+            id: client.id,
+            name: client.name
+          }));
+        return [...prev, ...newClients];
+      });
+
+      // Check if there are more pages
+      if (clients.length < 50) {
+        setHasMore(false);
+      } else if (currentPage === 1) {
+        // Auto-load next few pages for better UX
+        setCurrentPage(2);
+      }
     }
-    if (!clients) return [];
-    return clients.map(client => ({
-      id: client.name,
-      name: client.name
-    }));
-  }, [clients, error]);
+  }, [clients, currentPage]);
+
+  // Load more clients when user scrolls/searches
+  const loadMoreClients = React.useCallback(() => {
+    if (hasMore && !isLoading) {
+      setCurrentPage(prev => prev + 1);
+    }
+  }, [hasMore, isLoading]);
 
   const employeeReportFilters = [
     <SearchInput source="q" alwaysOn />,
     <AutocompleteInput
       label="Select Client"
       source="clientName"
-      choices={clientList}
+      choices={allClients}
       optionText="name"
-      optionValue="id"
+      optionValue="name"
       sx={filterStyles}
-      disabled={isLoading}
-      noOptionsText={isLoading ? "Loading clients..." : "No clients found"}
+      disabled={isLoading && currentPage === 1}
+      noOptionsText={
+        isLoading && allClients.length === 0
+          ? "Loading clients..." 
+          : allClients.length === 0 
+            ? "No clients found"
+            : "No more clients found"
+      }
+      // Load more when user scrolls to bottom
+      ListboxProps={{
+        onScroll: (event) => {
+          const listbox = event.currentTarget;
+          if (listbox.scrollTop + listbox.clientHeight >= listbox.scrollHeight - 10) {
+            loadMoreClients();
+          }
+        }
+      }}
+      loading={isLoading}
     />
   ];
 
