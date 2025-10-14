@@ -99,7 +99,7 @@ const formData = [
 export const ProjectList = () => {
   const [locale] = useLocaleState();
   return (
-    <List exporter={exporter("projects", headers, headersRename,'', true)}>
+    <List exporter={exporter("projects", headers, headersRename,undefined,true)}>
       <Datagrid rowClick="edit">
         <ReferenceField source="clientId" reference="clients">
           <TextField source="name" />

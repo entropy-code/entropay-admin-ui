@@ -16,7 +16,7 @@ const formData = [
 ];
 
 export const LeaveTypeList = () => (
-  <List exporter={exporter("leave-types",headers, headersRename)}>
+  <List exporter={exporter("leave-types",headers,headersRename)}>
     <Datagrid rowClick="edit">
       <TextField source="name" />
       <EditButton />
