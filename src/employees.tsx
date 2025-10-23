@@ -45,6 +45,7 @@ import { Link } from "react-router-dom";
 import ListBuilder from "./components/forms/ListBuilder";
 import { exporter } from "./utils/exporter";
 import QuickFilter from "./components/filters/QuickFilter";
+import CustomFilter from "./components/filters/CustomFilter";
 
 const COLOR_BG = [
   red[500],
@@ -153,8 +154,10 @@ const formData = [
 ];
 
 const employeeFilters = [
-  <SearchInput source="q" alwaysOn />,
-  <QuickFilter source="active" label="Active" defaultValue={true} />,
+  <SearchInput source="q" alwaysOn key="search"/>,
+  <CustomFilter source="projectName" reference="projects" label="Select Project" defaultValue={true} key="project"/>,
+  <CustomFilter source="clientName" reference="clients" label="Select Client" defaultValue={true} key="client"/>,
+  <QuickFilter source="active" label="Active" defaultValue={true} key="active"/>,
 ];
 
 const fieldsList = [
@@ -170,7 +173,6 @@ const fieldsList = [
   { name: "role", type: "text" },
   { name: "availableDays", type: "number", label: "Available vacations" },
   { name: "nearestPto", type: "date" },
-  { name: "gender", type: "text" },
 ];
 
 const headersRename = [
@@ -188,10 +190,10 @@ const headersRename = [
   "Gender",
 ];
 
-type RadioValueType = "card" | "list";
+type RadioValueType = "list" | "card";
 
 export const EmployeeList = () => {
-  const [viewOptionValue, setRadioValue] = useState<RadioValueType>("card");
+  const [viewOptionValue, setRadioValue] = useState<RadioValueType>("list");
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setRadioValue(event.target.value as RadioValueType);
@@ -204,13 +206,13 @@ export const EmployeeList = () => {
   }[] = [
     {
       id: 1,
-      label: "Card",
-      value: "card",
+      label: "List",
+      value: "list",      
     },
     {
       id: 2,
-      label: "List",
-      value: "list",
+      label: "Card",
+      value: "card",
     },
   ];
 
