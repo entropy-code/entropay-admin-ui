@@ -21,6 +21,12 @@ export const exporter =
         ? await dataProvider.getMany('reimbursement-categories', { ids: categoryIds })
         : { data: [] };
 
+      // Fetch related technology data
+      const technologyIds = [...new Set(records.map(record => record.technologyId))].filter(Boolean);
+      const technologies = technologyIds.length > 0
+        ? await dataProvider.getMany('technologies', { ids: technologyIds })
+        : { data: [] };
+
       // Create maps for quick access
       const employeeMap = new Map(employees.data.map((emp: any) => [emp.id, emp]));
       const categoryMap = new Map(categories.data.map((cat: any) => [cat.id, cat]));
@@ -46,6 +52,14 @@ export const exporter =
               break;
             case 'category.description':
               recordForExport[field] = category?.description || '';
+              break;
+            case 'technology.name':
+              const technology = technologies.data.find((tech: any) => tech.id === record.technologyId);
+              recordForExport[field] = technology?.name || '';
+              break;
+            case 'technology.technologyType':
+              const tech = technologies.data.find((tech: any) => tech.id === record.technologyId);
+              recordForExport[field] = tech?.technologyType || '';
               break;
             default:
               // Direct field from record

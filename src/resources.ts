@@ -45,6 +45,7 @@ import { EmployeeFeedbackList, EmployeeFeedbackEdit, EmployeeFeedbackCreate } fr
 import { ClientFeedbackList, ClientFeedbackEdit, ClientFeedbackCreate } from "./clientFeedback";
 import { ReimbursementCategoriesList, ReimbursementCategoriesEdit, ReimbursementCategoriesCreate } from "./reimbursementCategories";
 import { ReimbursementsList, ReimbursementsEdit, ReimbursementsCreate } from "./reimbursements";
+import { SkillsList, SkillsEdit, SkillsCreate } from "./skills";
 
 type Resource =
   | React.ComponentType<any>
@@ -261,4 +262,11 @@ export const resourceMap: {
     create: ReimbursementsCreate,
     show: undefined,
   },
+  {
+    entity: "skills",
+    list: SkillsList,
+    edit: SkillsEdit,
+    create: SkillsCreate,
+    show: undefined,
+  }
 ];
