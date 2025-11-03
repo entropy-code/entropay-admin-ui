@@ -18,6 +18,7 @@ import { SimpleTreeView } from "@mui/x-tree-view/SimpleTreeView";
 import MoreTimeIcon from '@mui/icons-material/MoreTime';
 import ForumIcon from '@mui/icons-material/Forum';
 import ReceiptIcon from '@mui/icons-material/Receipt';
+import StarIcon from '@mui/icons-material/Star';
 
 import {
   TreeItem2Content,
@@ -44,6 +45,7 @@ const icons: Record<string, React.ElementType> = {
   overtimes: MoreTimeIcon,
   feedback: ForumIcon,
   reimbursements: ReceiptIcon,
+  skills: StarIcon,
 };
 
 const CustomTreeItemRoot = styled(TreeItem2Root)(({ theme }) => ({

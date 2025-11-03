@@ -31,17 +31,23 @@ const GetRedirectPathAfterEdit = (
     case "assignments":
       redirectPath = `/employees/${data.employeeId}/show/2`;
       break;
-    case "vacations":
+    case "skills":
       redirectPath = `/employees/${data.employeeId}/show/3`;
       break;
-    case "ptos":
+    case "vacations":
       redirectPath = `/employees/${data.employeeId}/show/4`;
-    break;
-    case "overtimes":
+      break;
+    case "ptos":
       redirectPath = `/employees/${data.employeeId}/show/5`;
     break;
-    case "reimbursements":
+    case "overtimes":
+      redirectPath = `/employees/${data.employeeId}/show/6`;
+    break;
+    case "feedback/employee":
       redirectPath = `/employees/${data.employeeId}/show/7`;
+    break;
+    case "reimbursements":
+      redirectPath = `/employees/${data.employeeId}/show/8`;
     break;
     default:
       redirectPath = `/${resource}`;
@@ -68,17 +74,23 @@ const GetRedirectPathAfterDelete = (
     case "assignments":
       redirectPath = `/employees/${data.employeeId}/show/2`;
       break;
-    case "vacations":
+    case "skills":
       redirectPath = `/employees/${data.employeeId}/show/3`;
       break;
-    case "ptos":
+    case "vacations":
       redirectPath = `/employees/${data.employeeId}/show/4`;
       break;
-    case "overtimes":
+    case "ptos":
       redirectPath = `/employees/${data.employeeId}/show/5`;
       break;
-    case "reimbursements":
+    case "overtimes":
+      redirectPath = `/employees/${data.employeeId}/show/6`;
+      break;
+    case "feedback/employee":
       redirectPath = `/employees/${data.employeeId}/show/7`;
+      break;
+    case "reimbursements":
+      redirectPath = `/employees/${data.employeeId}/show/8`;
       break;
     default:
       redirectPath = `/${resource}`;

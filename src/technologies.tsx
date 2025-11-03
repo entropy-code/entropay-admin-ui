@@ -1,18 +1,35 @@
 import * as React from "react";
-import { Datagrid, List, TextField, EditButton } from "react-admin";
+import { Datagrid, List, TextField, EditButton, ReferenceField } from "react-admin";
 import CreateForm from "./components/forms/CreateForm";
 import EditForm from "./components/forms/EditForm";
 
 const formData = [
   {
     title: "Technologies",
-    inputsList: [{ name: "name", type: "string", required: true }],
+    inputsList: [
+      {
+        name: "ContractType",
+        type: "selectInput",
+        referenceValues: {
+          source: "technologyType",
+          reference: "technologies/types",
+          optionText: "value",
+          multiselect: false,
+          required: true,
+          sortField: "value"
+        },
+      },
+      { name: "name", type: "string", required: true },
+    ],
   },
 ];
 
 export const TechnologiesList = () => (
   <List>
     <Datagrid rowClick="edit">
+      <ReferenceField source="technologyType" reference="technologies/types" link={false}>
+        <TextField source="value" />
+      </ReferenceField>
       <TextField source="name" />
       <EditButton />
     </Datagrid>
