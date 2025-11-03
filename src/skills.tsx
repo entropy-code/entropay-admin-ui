@@ -6,7 +6,6 @@ import {
   ReferenceField,
   SelectField,
   TextField, useDataProvider,
-  useLocale,
   useLocaleState,
 } from "react-admin";
 import CreateForm from "./components/forms/CreateForm";
