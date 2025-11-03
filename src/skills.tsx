@@ -78,7 +78,6 @@ const formData = [
 ];
 
 export const SkillsList = () => {
-  const [locale] = useLocaleState();
   const dataProvider = useDataProvider();
 
   return (
