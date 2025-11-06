@@ -31,6 +31,10 @@ export const exporter =
       const countryIds = [...new Set(records.map(record => record.countryId))].filter(Boolean);
       const countries = countryIds.length > 0
         ? await dataProvider.getMany('countries', { ids: countryIds })
+      // Fetch related technology data
+      const technologyIds = [...new Set(records.map(record => record.technologyId))].filter(Boolean);
+      const technologies = technologyIds.length > 0
+        ? await dataProvider.getMany('technologies', { ids: technologyIds })
         : { data: [] };
 
       // Create maps for quick access
@@ -71,6 +75,13 @@ export const exporter =
               break;
             case 'country.code':
               recordForExport[field] = country?.code || '';
+            case 'technology.name':
+              const technology = technologies.data.find((tech: any) => tech.id === record.technologyId);
+              recordForExport[field] = technology?.name || '';
+              break;
+            case 'technology.technologyType':
+              const tech = technologies.data.find((tech: any) => tech.id === record.technologyId);
+              recordForExport[field] = tech?.technologyType || '';
               break;
             default:
               // Direct field from record

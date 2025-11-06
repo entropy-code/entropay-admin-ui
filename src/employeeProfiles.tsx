@@ -1,48 +1,38 @@
 import * as React from "react";
 import {
+  ArrayField,
+  ChipField,
   Datagrid,
   DateField,
-  TextField,
+  EditButton,
+  FunctionField,
+  ListContextProvider,
+  NumberField,
+  ReferenceArrayField,
+  ReferenceField,
+  ReferenceManyField,
+  SelectField,
   Show,
   ShowButton,
-  TabbedShowLayout,
   SimpleShowLayout,
-  FunctionField,
-  ArrayField,
-  EditButton,
-  Tab,
-  ReferenceArrayField,
   SingleFieldList,
-  ChipField,
-  ReferenceManyField,
-  ReferenceField,
-  NumberField,
-  useGetRecordId,
+  Tab,
+  TabbedShowLayout,
+  TextField,
   useGetManyReference,
   useGetOne,
+  useGetRecordId,
+  useList,
   useLocaleState,
   WrapperField,
-  useList,
-  ListContextProvider,
-  SelectField,
 } from "react-admin";
 import { feedbackSourceChoices } from "./employeeFeedback";
-import {
-  Avatar,
-  Box,
-  Chip,
-  Divider,
-  Grid,
-  Modal,
-  Typography,
-} from "@mui/material";
+import { Avatar, Box, Chip, Divider, Grid, Modal, Typography } from "@mui/material";
 import RedirectButton from "./components/RedirectButton";
-import {
-  HasPermissions,
-  EntityViewActions,
-} from "./components/layout/CustomActions";
+import { EntityViewActions, HasPermissions } from "./components/layout/CustomActions";
 import CancelPtoButton from "./components/buttons/CancelPtoButton";
 import { useTheme } from "@mui/material/styles";
+import { proficiencyLevel } from "./skills";
 
 const DisplayRecordCurrentId = () => {
   return useGetRecordId();
@@ -59,7 +49,7 @@ const GetActiveContract = () => {
     },
   });
 
-const activeContract = React.useMemo(() => {
+  const activeContract = React.useMemo(() => {
     if (!Array.isArray(data) || data.length === 0) {
       return undefined;
     }
@@ -82,7 +72,7 @@ const activeContract = React.useMemo(() => {
 };
 
 export const GetVacationsAndAvailableDays = (
-  suggestId?: string | undefined
+  suggestId?: string | undefined,
 ) => {
   const employeeId = useGetRecordId(suggestId);
   const { data: vacations } = useGetManyReference("vacations", {
@@ -114,7 +104,7 @@ export const GetVacationsAndAvailableDays = (
     ([year, { remainingDays }]) => ({
       year,
       remainingDays,
-    })
+    }),
   );
 
   return {
@@ -193,8 +183,8 @@ export const EmployeeProfile = () => {
     setOpen(false);
   };
 
-  const COLOR_green = palette?.mode === "light" ? "#efe" : "#006d77"
-  const COLOR_white = 'transparent'
+  const COLOR_green = palette?.mode === "light" ? "#efe" : "#006d77";
+  const COLOR_white = "transparent";
 
   const activeValue = (record: { active: boolean }) => ({
     backgroundColor: record.active === true ? COLOR_green : COLOR_white,
@@ -238,12 +228,12 @@ export const EmployeeProfile = () => {
               <SimpleShowLayout divider={<Divider flexItem />}>
                 {!record.startDate && (
                   <>
-                    <Typography variant="subtitle2" color="textSecondary" display="inline"  marginRight={"10px"}>
+                    <Typography variant="subtitle2" color="textSecondary" display="inline" marginRight={"10px"}>
                       Start Date
                     </Typography>
                     <span> - </span>
                     <p></p>
-                    <Typography variant="subtitle2" color="textSecondary" display="inline"  marginRight={"10px"}>
+                    <Typography variant="subtitle2" color="textSecondary" display="inline" marginRight={"10px"}>
                       End Date
                     </Typography>
                     <span> - </span>
@@ -256,13 +246,12 @@ export const EmployeeProfile = () => {
                     </Typography>
 
                     <DateField
-                       label=""
-                       source="startDate"
-                       record={record}
-                       locales={locale}
-                       
+                      label=""
+                      source="startDate"
+                      record={record}
+                      locales={locale}
                     />
-                    
+
                     <TextField
                       label=""
                       source="timeSinceStart"
@@ -273,7 +262,7 @@ export const EmployeeProfile = () => {
                 )}
                 {record.startDate && !record.endDate && (
                   <>
-                    <Typography variant="subtitle2" color="textSecondary" display="inline"  marginRight={"10px"}>
+                    <Typography variant="subtitle2" color="textSecondary" display="inline" marginRight={"10px"}>
                       End Date
                     </Typography>
                     <span> - </span>
@@ -281,7 +270,7 @@ export const EmployeeProfile = () => {
                 )}
                 {record.endDate && (
                   <>
-                    <Typography variant="subtitle2" color="textSecondary" display="inline"  marginRight={"10px"}>
+                    <Typography variant="subtitle2" color="textSecondary" display="inline" marginRight={"10px"}>
                       End Date
                     </Typography>
                     <DateField
@@ -313,7 +302,7 @@ export const EmployeeProfile = () => {
                 style={styleForCenteringTextField}
               />
             </>
-            
+
           </SimpleShowLayout>
         </Grid>
         <Grid item>
@@ -321,7 +310,7 @@ export const EmployeeProfile = () => {
         </Grid>
       </Grid>
       <TabbedShowLayout>
-        <Tab label="Personal and financial information">
+        <Tab label="Personal Information">
           <Grid
             container
             direction="row"
@@ -382,15 +371,6 @@ export const EmployeeProfile = () => {
                   },
                 }}
               >
-                <ReferenceArrayField
-                  label="Technologies"
-                  reference="technologies"
-                  source="technologies"
-                >
-                  <SingleFieldList>
-                    <ChipField source="name" />
-                  </SingleFieldList>
-                </ReferenceArrayField>
                 <TextField source="personalEmail" />
                 <TextField source="labourEmail" />
                 <TextField source="mobileNumber" />
@@ -571,6 +551,46 @@ export const EmployeeProfile = () => {
             </Datagrid>
           </ReferenceManyField>
         </Tab>
+        {HasPermissions("skills", "create") && (
+          <Tab label="Skills">
+            <ReferenceManyField
+              label=""
+              reference="skills"
+              target="employeeId"
+              sort={{ field: "technologyId", order: "ASC" }}
+            >
+              <RedirectButton
+                form="create"
+                resource="skills"
+                text="+ CREATE"
+                source="employeeProfile"
+                recordId={DisplayRecordCurrentId() as string}
+              />
+              <Datagrid
+                bulkActionButtons={false}
+                empty={<CustomEmpty message="No skills found" />}
+              >
+                <ReferenceField
+                  source="technologyId"
+                  reference="technologies"
+                  label="Technology Type"
+                  link={false}
+                >
+                  <TextField source="technologyTypeName" />
+                </ReferenceField>
+                <ReferenceField
+                  source="technologyId"
+                  reference="technologies"
+                  link={false}
+                >
+                  <TextField source="name" />
+                </ReferenceField>
+                <SelectField source="proficiencyLevel" choices={proficiencyLevel} />
+                {HasPermissions("skills", "update") && <EditButton />}
+              </Datagrid>
+            </ReferenceManyField>
+          </Tab>
+        )}
         {HasPermissions("vacations", "create") && (
           <Tab label="Vacations">
             <RedirectButton
@@ -702,7 +722,7 @@ export const EmployeeProfile = () => {
             </ReferenceManyField>
           </Tab>
         )}
-         {HasPermissions("overtimes", "create") && (
+        {HasPermissions("overtimes", "create") && (
           <Tab label="Overtimes">
             <ReferenceManyField
               label=""
@@ -737,8 +757,14 @@ export const EmployeeProfile = () => {
                   </ReferenceField>
                 </ReferenceField>
                 <DateField source="date" locales={locale} />
-                <TextField source="description" 
-                  style={{ display:'inline-block', maxWidth: '10em', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap'  }}/>
+                <TextField source="description"
+                           style={{
+                             display: "inline-block",
+                             maxWidth: "10em",
+                             overflow: "hidden",
+                             textOverflow: "ellipsis",
+                             whiteSpace: "nowrap",
+                           }} />
                 <NumberField source="hours" />
                 {HasPermissions("overtimes", "update") && (
                   <FunctionField
@@ -811,7 +837,7 @@ export const EmployeeProfile = () => {
                 <ReferenceField source="categoryId" reference="reimbursement-categories" link={false}>
                   <TextField source="name" />
                 </ReferenceField>
-                <NumberField source="amount" options={{ style: 'currency', currency: 'USD' }} />
+                <NumberField source="amount" options={{ style: "currency", currency: "USD" }} />
                 <DateField source="date" locales={locale} />
                 <TextField source="comment" />
                 {HasPermissions("reimbursements", "update") && (
@@ -825,9 +851,7 @@ export const EmployeeProfile = () => {
             </ReferenceManyField>
           </Tab>
         )}
-        {/*<Tab label="Documents"></Tab>
-      Hidden empty tabs until developed
-      */}
+
       </TabbedShowLayout>
     </Show>
   );

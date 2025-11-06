@@ -19,26 +19,32 @@ const CreateForm = ({
   const redirect = useRedirect();
   const onSuccess = (data: { id: string; employeeId: string }) => {
     switch (resource) {
-      case "ptos":
-        redirect(`/employees/${data.employeeId}/show/4`);
-        break;
-      case "vacations":
-        redirect(`/employees/${data.employeeId}/show/3`);
-        break;
       case "contracts":
         redirect(`/employees/${data.employeeId}/show/1`);
         break;
       case "assignments":
         redirect(`/employees/${data.employeeId}/show/2`);
         break;
-      case "employees":
-        redirect(`/employees/${data.id}/show`);
+      case "skills":
+        redirect(`/employees/${data.employeeId}/show/3`);
         break;
-      case "overtimes":
+      case "vacations":
+        redirect(`/employees/${data.employeeId}/show/4`);
+        break;
+      case "ptos":
         redirect(`/employees/${data.employeeId}/show/5`);
         break;
-      case "reimbursements":
+      case "overtimes":
+        redirect(`/employees/${data.employeeId}/show/6`);
+        break;
+      case "feedback/employee":
         redirect(`/employees/${data.employeeId}/show/7`);
+        break;
+      case "reimbursements":
+        redirect(`/employees/${data.employeeId}/show/8`);
+        break;
+      case "employees":
+        redirect(`/employees/${data.id}/show`);
         break;
       default:
         redirect(`/${resource}`);
