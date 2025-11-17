@@ -20,7 +20,7 @@ const CustomFilter: React.FC<CustomFilterProps> = ({ source, reference, label, d
   const [hasMore, setHasMore] = React.useState(true);
   
   // Fetch data incrementally from the specified reference table
-  const { data: dataItems, isLoading, error } = useGetList(reference, {
+  const { data: dataItems, isLoading } = useGetList(reference, {
     pagination: { 
       page: currentPage, 
       perPage: 50  // Smaller chunks for better performance
