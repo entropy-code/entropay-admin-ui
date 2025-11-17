@@ -22,6 +22,8 @@ import {
   Typography,
   CardActionArea,
   Chip,
+  Switch,
+  FormControlLabel,
 } from "@mui/material";
 import {
   red,
@@ -39,13 +41,11 @@ import { Avatar, Box, Grid } from "@mui/material";
 import CreateForm from "./components/forms/CreateForm";
 import EditForm from "./components/forms/EditForm";
 import { HasPermissions } from "./components/layout/CustomActions";
-import RowRadioButtonGroup from "./components/buttons/RowRadioButtonGroup";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import ListBuilder from "./components/forms/ListBuilder";
 import { exporter } from "./utils/exporter";
 import QuickFilter from "./components/filters/QuickFilter";
-import CustomFilter from "./components/filters/CustomFilter";
 
 const COLOR_BG = [
   red[500],
@@ -155,8 +155,6 @@ const formData = [
 
 const employeeFilters = [
   <SearchInput source="q" alwaysOn key="search"/>,
-  <CustomFilter source="projectName" reference="projects" label="Select Project" defaultValue={true} key="project"/>,
-  <CustomFilter source="clientName" reference="clients" label="Select Client" defaultValue={true} key="client"/>,
   <QuickFilter source="active" label="Active" defaultValue={true} key="active"/>,
 ];
 
@@ -164,30 +162,34 @@ const fieldsList = [
   { name: "internalId", type: "text" },
   { name: "firstName", type: "text" },
   { name: "lastName", type: "text" },
-  { name: "labourEmail", type: "text" },
-  { name: "startDate", type: "date" },
-  { name: "city", type: "text" },
   { name: "countryName", type: "text", label: "Country" },
+  { name: "city", type: "text" },
+  { name: "labourEmail", type: "text" },
+  { name: "mobileNumber", type: "text", label: "Mobile Number" },
+  { name: "gender", type: "text" },
   { name: "client", type: "text" },
   { name: "project", type: "text" },
   { name: "role", type: "text" },
+  { name: "startDate", type: "date" },
   { name: "availableDays", type: "number", label: "Available vacations" },
   { name: "nearestPto", type: "date" },
 ];
 
 const headersRename = [
+  "internalId",
   "First Name",
   "Last Name",
-  "Labour Email",
-  "Start Date",
-  "City",
   "Country",
+  "City",
+  "Labour Email",
+  "Mobile Number",
+  "Gender",
   "Client",
   "Project",
   "Role",
+  "Start Date",
   "Available Vacation Days",
   "Nearest PTO",
-  "Gender",
 ];
 
 type RadioValueType = "list" | "card";
@@ -220,7 +222,22 @@ export const EmployeeList = () => {
     <List
       sort={{ field: "internalId", order: "ASC" }}
       component="div"
-      actions={<FilterButton />}
+      actions={
+        <>
+          <FormControlLabel
+            control={
+              <Switch
+                checked={viewOptionValue === "card"}
+                onChange={() => setRadioValue(viewOptionValue === "list" ? "card" : "list")}
+                color="primary"
+              />
+            }
+            label={viewOptionValue === "list" ? "List" : "Card"}
+            sx={{ ml: 2 }}
+          />
+          <FilterButton />
+        </>
+      }
       filters={employeeFilters}
       exporter={exporter(
         "employees",
@@ -236,14 +253,7 @@ export const EmployeeList = () => {
           justifyContent: "space-between",
         }}
       >
-        <Box>
-          <RowRadioButtonGroup
-            title={"View mode"}
-            value={viewOptionValue}
-            handleChange={handleChange}
-            options={viewOptions}
-          />
-        </Box>
+        <Box></Box>
         <Box>
           {HasPermissions("employees", "create") && <CreateButton />}
           <ExportButton />
