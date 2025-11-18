@@ -22,6 +22,8 @@ import {
   Typography,
   CardActionArea,
   Chip,
+  Switch,
+  FormControlLabel,
 } from "@mui/material";
 import {
   red,
@@ -39,7 +41,6 @@ import { Avatar, Box, Grid } from "@mui/material";
 import CreateForm from "./components/forms/CreateForm";
 import EditForm from "./components/forms/EditForm";
 import { HasPermissions } from "./components/layout/CustomActions";
-import RowRadioButtonGroup from "./components/buttons/RowRadioButtonGroup";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import ListBuilder from "./components/forms/ListBuilder";
@@ -153,40 +154,42 @@ const formData = [
 ];
 
 const employeeFilters = [
-  <SearchInput source="q" alwaysOn />,
-  <QuickFilter source="active" label="Active" defaultValue={true} />,
+  <SearchInput source="q" alwaysOn key="search"/>,
+  <QuickFilter source="active" label="Active" defaultValue={true} key="active"/>,
 ];
 
 const fieldsList = [
   { name: "internalId", type: "text" },
   { name: "firstName", type: "text" },
   { name: "lastName", type: "text" },
-  { name: "labourEmail", type: "text" },
-  { name: "startDate", type: "date" },
-  { name: "city", type: "text" },
   { name: "countryName", type: "text", label: "Country" },
+  { name: "city", type: "text" },
+  { name: "labourEmail", type: "text" },
+  { name: "mobileNumber", type: "text", label: "Mobile Number" },
+  { name: "gender", type: "text" },
   { name: "client", type: "text" },
   { name: "project", type: "text" },
   { name: "role", type: "text" },
+  { name: "startDate", type: "date" },
   { name: "availableDays", type: "number", label: "Available vacations" },
   { name: "nearestPto", type: "date" },
-  { name: "gender", type: "text" },
 ];
 
 const headersRename = [
   "Internal ID",
   "First Name",
   "Last Name",
-  "Labour Email",
-  "Start Date",
-  "City",
   "Country",
+  "City",
+  "Labour Email",
+  "Mobile Number",
+  "Gender",
   "Client",
   "Project",
   "Role",
+  "Start Date",
   "Available Vacation Days",
   "Nearest PTO",
-  "Gender",
 ];
 
 const headers = [
@@ -205,10 +208,10 @@ const headers = [
   "gender",
 ];
 
-type RadioValueType = "card" | "list";
+type RadioValueType = "list" | "card";
 
 export const EmployeeList = () => {
-  const [viewOptionValue, setRadioValue] = useState<RadioValueType>("card");
+  const [viewOptionValue, setRadioValue] = useState<RadioValueType>("list");
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setRadioValue(event.target.value as RadioValueType);
@@ -221,13 +224,13 @@ export const EmployeeList = () => {
   }[] = [
     {
       id: 1,
-      label: "Card",
-      value: "card",
+      label: "List",
+      value: "list",      
     },
     {
       id: 2,
-      label: "List",
-      value: "list",
+      label: "Card",
+      value: "card",
     },
   ];
 
@@ -235,7 +238,22 @@ export const EmployeeList = () => {
     <List
       sort={{ field: "internalId", order: "ASC" }}
       component="div"
-      actions={<FilterButton />}
+      actions={
+        <>
+          <FormControlLabel
+            control={
+              <Switch
+                checked={viewOptionValue === "card"}
+                onChange={() => setRadioValue(viewOptionValue === "list" ? "card" : "list")}
+                color="primary"
+              />
+            }
+            label={viewOptionValue === "list" ? "List" : "Card"}
+            sx={{ ml: 2 }}
+          />
+          <FilterButton />
+        </>
+      }
       filters={employeeFilters}
       exporter={exporter("employees", headers, headersRename)}
     >
@@ -245,14 +263,7 @@ export const EmployeeList = () => {
           justifyContent: "space-between",
         }}
       >
-        <Box>
-          <RowRadioButtonGroup
-            title={"View mode"}
-            value={viewOptionValue}
-            handleChange={handleChange}
-            options={viewOptions}
-          />
-        </Box>
+        <Box></Box>
         <Box>
           {HasPermissions("employees", "create") && <CreateButton />}
           <ExportButton />
