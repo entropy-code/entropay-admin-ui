@@ -11,6 +11,37 @@ import {
 } from "react-admin";
 import CreateForm from "./components/forms/CreateForm";
 import EditForm from "./components/forms/EditForm";
+import { exporter } from "./utils/exporter";
+
+// Headers for export
+const headers = [
+  "id",
+  "clientId",
+  "name",
+  "projectTypeId",
+  "startDate",
+  "endDate",
+  "notes",
+  "paidPto",
+  "isInternal",
+  "deleted",
+  "createdAt",
+  "modifiedAt",
+];
+const headersRename = [
+  "ID",
+  "Client Id",
+  "Name",
+  "Project Type Id",
+  "Start Date",
+  "End Date",
+  "Notes",
+  "Paid PTO",
+  "Is Internal",
+  "Deleted",
+  "Created At",
+  "Modified At",
+];
 
 const formData = [
   {
@@ -68,7 +99,7 @@ const formData = [
 export const ProjectList = () => {
   const [locale] = useLocaleState();
   return (
-    <List>
+    <List exporter={exporter("projects", headers, headersRename,undefined,true)}>
       <Datagrid rowClick="edit">
         <ReferenceField source="clientId" reference="clients">
           <TextField source="name" />

@@ -124,7 +124,7 @@ export const SalariesReportList = () => {
   return (
     <List
       resource="reports/salaries"
-      exporter={exporter("employeesReport", headers, headersRename)}
+      exporter={exporter("salaryReport", headers, headersRename)}
       actions={
         <>
           {" "}

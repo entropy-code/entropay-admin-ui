@@ -3,7 +3,7 @@
 import * as jsonExport from "jsonexport/dist";
 
 export const exporter =
-  (entity: string, headers: any[], headersRename: any, dataProvider?: any) => async (records: any[]) => {
+  (entity: string, headers: any[], headersRename: any, dataProvider?: any, booleanString?: boolean) => async (records: any[]) => {
         
     let recordsForExport = records;
     
@@ -21,6 +21,16 @@ export const exporter =
         ? await dataProvider.getMany('reimbursement-categories', { ids: categoryIds })
         : { data: [] };
 
+      // Fetch related client data
+      const clientIds = [...new Set(records.map(record => record.clientId))].filter(Boolean);
+      const clients = clientIds.length > 0
+        ? await dataProvider.getMany('clients', { ids: clientIds })
+        : { data: [] };
+
+      // Fetch related country data (NEW)
+      const countryIds = [...new Set(records.map(record => record.countryId))].filter(Boolean);
+      const countries = countryIds.length > 0
+        ? await dataProvider.getMany('countries', { ids: countryIds })
       // Fetch related technology data
       const technologyIds = [...new Set(records.map(record => record.technologyId))].filter(Boolean);
       const technologies = technologyIds.length > 0
@@ -30,11 +40,15 @@ export const exporter =
       // Create maps for quick access
       const employeeMap = new Map(employees.data.map((emp: any) => [emp.id, emp]));
       const categoryMap = new Map(categories.data.map((cat: any) => [cat.id, cat]));
-      
+      const clientMap = new Map(clients.data.map((client: any) => [client.id, client]));
+      const countryMap = new Map(countries.data.map((country: any) => [country.id, country]));
+
       recordsForExport = records.map((record) => {
         const employee: any = employeeMap.get(record.employeeId);
         const category: any = categoryMap.get(record.categoryId);
-        
+        const client: any = clientMap.get(record.clientId);
+        const country: any = countryMap.get(record.countryId);
+
         return headers.reduce((recordForExport, field) => {
           // Handle fields from related tables
           switch (field) {
@@ -47,12 +61,20 @@ export const exporter =
             case 'employee.lastName':
               recordForExport[field] = employee?.lastName || '';
               break;
+            case 'client.name':
+              recordForExport[field] = client?.name || '';
+              break;
             case 'category.name':
               recordForExport[field] = category?.name || '';
               break;
             case 'category.description':
               recordForExport[field] = category?.description || '';
               break;
+            case 'country.name':
+              recordForExport[field] = country?.name || '';
+              break;
+            case 'country.code':
+              recordForExport[field] = country?.code || '';
             case 'technology.name':
               const technology = technologies.data.find((tech: any) => tech.id === record.technologyId);
               recordForExport[field] = technology?.name || '';
@@ -86,8 +108,15 @@ export const exporter =
         headers: headers,
         rename: headersRename,
         arrayPathString: " - ",
-        booleanTrueString: "Active",
-        booleanFalseString: "Inactive",
+
+        // Apply boolean conversion only for specific entities
+        ...(booleanString === true ? {
+          booleanTrueString: "True",
+          booleanFalseString: "False"
+        } : {
+          booleanTrueString: "Active",
+          booleanFalseString: "Inactive",
+        }),
       },
       (err: any, csv: any) => {
         // Add BOM for UTF-8 and improve encoding

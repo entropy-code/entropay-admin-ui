@@ -176,7 +176,7 @@ const fieldsList = [
 ];
 
 const headersRename = [
-  "internalId",
+  "Internal ID",
   "First Name",
   "Last Name",
   "Country",
@@ -190,6 +190,22 @@ const headersRename = [
   "Start Date",
   "Available Vacation Days",
   "Nearest PTO",
+];
+
+const headers = [
+  "internalId",
+  "firstName",
+  "lastName",
+  "labourEmail",
+  "startDate",
+  "city",
+  "countryName",
+  "client",
+  "project",
+  "role",
+  "availableDays",
+  "nearestPto",
+  "gender",
 ];
 
 type RadioValueType = "list" | "card";
@@ -239,13 +255,7 @@ export const EmployeeList = () => {
         </>
       }
       filters={employeeFilters}
-      exporter={exporter(
-        "employees",
-        fieldsList.map((field) => {
-          return field.name;
-        }),
-        headersRename
-      )}
+      exporter={exporter("employees", headers, headersRename)}
     >
       <TopToolbar
         sx={{
