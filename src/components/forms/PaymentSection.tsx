@@ -9,14 +9,9 @@ import {
 } from "react-admin";
 
 const PaymentPlatform = [
-  { name: 'Bitwage' },
-  { name: 'Dolares en Tucuman' },
-  { name: 'Mixto ars y usd en Tuc' },
   { name: 'Banco USA' },
   { name: 'Banco internacional' },
   { name: 'Mural' },
-  { name: 'Dólares en BA' },
-  { name: 'Payoneer' },
 ];
 const PaymentSection = (type: {
   type: "paymentInformation" | "paymentSettlement";
