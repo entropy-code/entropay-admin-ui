@@ -307,7 +307,6 @@ export const EmployeeList = () => {
       component="div"
       actions={false}
 
-      //filters={employeeFilters}
       exporter={exporter(
         "employees",
         fieldsList.map((field) => {
