@@ -354,7 +354,7 @@ const EmployeeInformation = ({ renderAs = "list" }) => {
 
   if (renderAs === "card") {
     return (
-      <Grid container spacing={2} sx={{ marginTop: "0px" }}>
+      <Grid container spacing={2} sx={{ marginTop: 0 }}>
         {(data || []).map((record, index) => (
           <RecordContextProvider key={index} value={record}>
             <Grid xs={2} item>
