@@ -488,7 +488,7 @@ export const EmployeeCreate = () => (
 );
 
 export const FilterSidebar = () => {
-  const { data: clients, isLoading } = useGetList('clients', {
+  const { data: clients } = useGetList('clients', {
     pagination: { page: 1, perPage: 100 },
     sort: { field: 'name', order: 'ASC' },
   });
