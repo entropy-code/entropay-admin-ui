@@ -14,6 +14,11 @@ import {
   FilterButton,
   ReferenceField,
   TextField,
+  AutocompleteArrayInput,
+  FilterForm,
+  FilterList,
+  FilterListItem,
+  useGetList,
 } from "react-admin";
 import {
   Card,
@@ -24,7 +29,11 @@ import {
   Chip,
   Switch,
   FormControlLabel,
+  Autocomplete,
+  TextField as MuiTextField,
+  Box,
 } from "@mui/material";
+import MailIcon from "@mui/icons-material/Mail";
 import {
   red,
   blueGrey,
@@ -37,7 +46,7 @@ import {
   green,
   orange,
 } from "@mui/material/colors";
-import { Avatar, Box, Grid } from "@mui/material";
+import { Avatar, Grid } from "@mui/material";
 import CreateForm from "./components/forms/CreateForm";
 import EditForm from "./components/forms/EditForm";
 import { HasPermissions } from "./components/layout/CustomActions";
@@ -158,6 +167,79 @@ const employeeFilters = [
   <QuickFilter source="active" label="Active" defaultValue={true} key="active"/>,
 ];
 
+const CountryFilter = () => {
+  const { data: countries } = useGetList('countries', {
+    pagination: { page: 1, perPage: 200 },
+    sort: { field: 'name', order: 'ASC' },
+  });
+  
+  const { filterValues, setFilters } = useListContext();
+
+  const handleChange = (event: any, value: any) => {
+    const newFilters = { ...filterValues };
+    if (value) {
+      newFilters.countryId = value.id;
+    } else {
+      delete newFilters.countryId;
+    }
+    setFilters(newFilters, {});
+  };
+
+  const selectedCountry = countries?.find((c: any) => c.id === filterValues.countryId);
+
+  return (
+    <Autocomplete
+      options={countries || []}
+      getOptionLabel={(option: any) => option.name || ''}
+      value={selectedCountry || null}
+      onChange={handleChange}
+      renderInput={(params) => (
+        <MuiTextField {...params} label="Select Country" variant="outlined" size="small" />
+      )}
+    />
+  );
+};
+
+const CityFilter = () => {
+  const { data: employees } = useGetList('employees', {
+    pagination: { page: 1, perPage: 1000 },
+    sort: { field: 'city', order: 'ASC' },
+  });
+
+  const { filterValues, setFilters } = useListContext();
+
+  const cityChoices = React.useMemo(() => {
+    if (!employees) return [];
+    
+    const uniqueCities = [...new Set(employees.map((emp: any) => emp.city).filter(Boolean))];
+    return uniqueCities.map(city => ({ id: city, name: city }));
+  }, [employees]);
+
+  const handleChange = (event: any, value: any) => {
+    const newFilters = { ...filterValues };
+    if (value) {
+      newFilters.city = value.name;
+    } else {
+      delete newFilters.city;
+    }
+    setFilters(newFilters, {});
+  };
+
+  const selectedCity = cityChoices.find((c: any) => c.name === filterValues.city);
+
+  return (
+    <Autocomplete
+      options={cityChoices}
+      getOptionLabel={(option: any) => option.name || ''}
+      value={selectedCity || null}
+      onChange={handleChange}
+      renderInput={(params) => (
+        <MuiTextField {...params} label="Select City" variant="outlined" size="small" />
+      )}
+    />
+  );
+};
+
 const fieldsList = [
   { name: "internalId", type: "text" },
   { name: "firstName", type: "text" },
@@ -176,7 +258,7 @@ const fieldsList = [
 ];
 
 const headersRename = [
-  "Internal ID",
+  "internalId",
   "First Name",
   "Last Name",
   "Country",
@@ -190,22 +272,6 @@ const headersRename = [
   "Start Date",
   "Available Vacation Days",
   "Nearest PTO",
-];
-
-const headers = [
-  "internalId",
-  "firstName",
-  "lastName",
-  "labourEmail",
-  "startDate",
-  "city",
-  "countryName",
-  "client",
-  "project",
-  "role",
-  "availableDays",
-  "nearestPto",
-  "gender",
 ];
 
 type RadioValueType = "list" | "card";
@@ -236,10 +302,28 @@ export const EmployeeList = () => {
 
   return (
     <List
+      aside={<FilterSidebar />}
       sort={{ field: "internalId", order: "ASC" }}
       component="div"
-      actions={
-        <>
+      actions={false}
+
+      exporter={exporter(
+        "employees",
+        fieldsList.map((field) => {
+          return field.name;
+        }),
+        headersRename
+      )}
+    >
+      <TopToolbar
+        sx={{
+          minHeight: { sm: 56 },
+          justifyContent: "space-between",
+        }}
+      >
+        <Box></Box>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+          
           <FormControlLabel
             control={
               <Switch
@@ -251,20 +335,6 @@ export const EmployeeList = () => {
             label={viewOptionValue === "list" ? "List" : "Card"}
             sx={{ ml: 2 }}
           />
-          <FilterButton />
-        </>
-      }
-      filters={employeeFilters}
-      exporter={exporter("employees", headers, headersRename)}
-    >
-      <TopToolbar
-        sx={{
-          minHeight: { sm: 56 },
-          justifyContent: "space-between",
-        }}
-      >
-        <Box></Box>
-        <Box>
           {HasPermissions("employees", "create") && <CreateButton />}
           <ExportButton />
         </Box>
@@ -284,7 +354,7 @@ const EmployeeInformation = ({ renderAs = "list" }) => {
 
   if (renderAs === "card") {
     return (
-      <Grid container spacing={2} sx={{ marginTop: "1em" }}>
+      <Grid container spacing={2} sx={{ marginTop: 0 }}>
         {(data || []).map((record, index) => (
           <RecordContextProvider key={index} value={record}>
             <Grid xs={2} item>
@@ -396,12 +466,14 @@ const EmployeeInformation = ({ renderAs = "list" }) => {
     );
   } else {
     return (
-      <ListBuilder
-        fieldsList={fieldsList}
-        locale={locale}
-        hasShowButton={true}
-        resource="employees"
-      />
+      <Box sx={{ marginTop: "15px" }}>
+        <ListBuilder
+          fieldsList={fieldsList}
+          locale={locale}
+          hasShowButton={true}
+          resource="employees"
+        />
+      </Box>
     );
   }
 };
@@ -413,3 +485,41 @@ export const EmployeeEdit = () => (
 export const EmployeeCreate = () => (
   <CreateForm formData={formData} title="Employees" resource="employees" />
 );
+
+export const FilterSidebar = () => {
+  const { data: clients } = useGetList('clients', {
+    pagination: { page: 1, perPage: 100 },
+    sort: { field: 'name', order: 'ASC' },
+  });
+  
+
+  return (
+    <Card sx={{ order: -1, mr: 2, mt: 9, minWidth: 190 }}>
+      <CardContent>
+        
+        <FilterForm filters={[
+          <AutocompleteArrayInput
+            key="clientId"
+            source="clientId"
+            label="Clients"
+            choices={clients || []}
+            optionText="name"
+            optionValue="id"
+            helperText={false}
+            alwaysOn={true}
+            sx={{ width: '100%' }}
+          />
+        ]} />
+        
+        <FilterList label="Active" icon={<MailIcon />} sx={{ mb: "20px" }}>
+          <FilterListItem label="Yes" value={{ active: true }} />
+          <FilterListItem label="No" value={{ active: false }} />
+        </FilterList>
+
+        <CountryFilter />
+        <CityFilter />
+
+      </CardContent>
+    </Card>
+  );
+};
