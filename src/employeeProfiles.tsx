@@ -33,6 +33,7 @@ import { EntityViewActions, HasPermissions } from "./components/layout/CustomAct
 import CancelPtoButton from "./components/buttons/CancelPtoButton";
 import { useTheme } from "@mui/material/styles";
 import { proficiencyLevel } from "./skills";
+import { engagementTypeChoices} from "./assignments";
 
 const DisplayRecordCurrentId = () => {
   return useGetRecordId();
@@ -544,7 +545,7 @@ export const EmployeeProfile = () => {
               >
                 <ChipField source="name" />
               </ReferenceField>
-              <NumberField source="hoursPerMonth" />
+              <SelectField source="engagementType" choices={engagementTypeChoices} />
               <NumberField source="billableRate" />
               <ShowButton />
               {HasPermissions("assignments", "update") && <EditButton />}

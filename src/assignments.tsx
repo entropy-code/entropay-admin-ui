@@ -24,6 +24,12 @@ function disabledCheck(source: string) {
   return source === "employeeProfile";
 }
 
+export const engagementTypeChoices = [
+  { id: "FULL_TIME", name: "Full-time" },
+  { id: "PART_TIME", name: "Part-time" },
+  { id: "HOURLY", name: "Hourly" },
+];
+
 const formData = [
   {
     title: "Employee",
@@ -40,13 +46,13 @@ const formData = [
           disabledCheck: disabledCheck,
         },
       },
-      { name: "startDate", type: "date", required: true },
-      { name: "endDate", type: "date" },
     ],
   },
   {
-    title: "Project",
+    title: "Assignment Details",
     inputsList: [
+      { name: "startDate", type: "date", required: true },
+      { name: "endDate", type: "date" },
       {
         name: "Project",
         type: "selectInput",
@@ -59,27 +65,12 @@ const formData = [
           sortField: "name",
         },
       },
-    ],
-  },
-  {
-    title: "Seniority",
-    inputsList: [
       {
-        name: "Seniority",
-        type: "selectInput",
-        referenceValues: {
-          source: "seniorityId",
-          reference: "seniorities",
-          optionText: "name",
-          multiselect: false,
-          required: true,
-        },
+        name: "engagementType",
+        type: "selectList",
+        required: true,
+        choices: engagementTypeChoices,
       },
-    ],
-  },
-  {
-    title: "Job Position Information",
-    inputsList: [
       {
         name: "Role",
         type: "selectInput",
@@ -92,17 +83,27 @@ const formData = [
           sortField: "name",
         },
       },
-      { name: "hoursPerMonth", type: "number" },
-      { name: "billableRate", type: "number" },
+      {
+        name: "Seniority",
+        type: "selectInput",
+        referenceValues: {
+          source: "seniorityId",
+          reference: "seniorities",
+          optionText: "name",
+          multiselect: false,
+          required: true,
+        },
+      },
+      { name: "billableRate", type: "number", required: true },
       {
         name: "currency",
         type: "selectList",
+        required: true,
         choices: [
           { id: "USD", name: "USD - United States dollar" },
           { id: "ARS", name: "ARS - Argentine peso" },
         ],
       },
-      { name: "labourHours", type: "string" },
     ],
   },
   {
@@ -154,12 +155,10 @@ export const AssignmentList = () => {
         <ReferenceField source="roleId" reference="roles" link={false}>
           <TextField source="name" />
         </ReferenceField>
-        <NumberField source="hoursPerMonth" />
         <TextField source="billableRate" />
         <ReferenceField source="currency" reference="contracts/currencies" link={false}>
           <TextField source="name" />
         </ReferenceField>
-        <TextField source="labourHours" />
         <ReferenceField source="seniorityId" reference="seniorities" link={false}>
           <TextField source="name" />
         </ReferenceField>
