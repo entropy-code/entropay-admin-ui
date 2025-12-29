@@ -14,11 +14,8 @@ import {
   FilterButton,
   ReferenceField,
   TextField,
-  AutocompleteArrayInput,
-  FilterForm,
-  FilterList,
-  FilterListItem,
   useGetList,
+  FilterLiveSearch,
 } from "react-admin";
 import {
   Card,
@@ -32,8 +29,9 @@ import {
   Autocomplete,
   TextField as MuiTextField,
   Box,
+  ToggleButtonGroup,
+  ToggleButton,
 } from "@mui/material";
-import MailIcon from "@mui/icons-material/Mail";
 import {
   red,
   blueGrey,
@@ -162,11 +160,6 @@ const formData = [
   },
 ];
 
-const employeeFilters = [
-  <SearchInput source="q" alwaysOn key="search"/>,
-  <QuickFilter source="active" label="Active" defaultValue={true} key="active"/>,
-];
-
 const CountryFilter = () => {
   const { data: countries } = useGetList('countries', {
     pagination: { page: 1, perPage: 200 },
@@ -194,7 +187,7 @@ const CountryFilter = () => {
       value={selectedCountry || null}
       onChange={handleChange}
       renderInput={(params) => (
-        <MuiTextField {...params} label="Select Country" variant="outlined" size="small" />
+        <MuiTextField {...params} label="Country" variant="outlined" size="small" />
       )}
     />
   );
@@ -210,7 +203,7 @@ const CityFilter = () => {
 
   const cityChoices = React.useMemo(() => {
     if (!employees) return [];
-    
+
     const uniqueCities = [...new Set(employees.map((emp: any) => emp.city).filter(Boolean))];
     return uniqueCities.map(city => ({ id: city, name: city }));
   }, [employees]);
@@ -234,9 +227,88 @@ const CityFilter = () => {
       value={selectedCity || null}
       onChange={handleChange}
       renderInput={(params) => (
-        <MuiTextField {...params} label="Select City" variant="outlined" size="small" />
+        <MuiTextField {...params} label="City" variant="outlined" size="small" />
       )}
     />
+  );
+};
+
+const ClientsFilter = () => {
+  const { data: clients } = useGetList('clients', {
+    pagination: { page: 1, perPage: 100 },
+    sort: { field: 'name', order: 'ASC' },
+  });
+
+  const { filterValues, setFilters } = useListContext();
+
+  const handleChange = (event: any, value: any[]) => {
+    const newFilters = { ...filterValues };
+    if (value && value.length > 0) {
+      newFilters.clientId = value.map((v: any) => v.id);
+    } else {
+      delete newFilters.clientId;
+    }
+    setFilters(newFilters, {});
+  };
+
+  const selectedClients = (clients || []).filter((c: any) =>
+    filterValues.clientId && Array.isArray(filterValues.clientId) && filterValues.clientId.includes(c.id)
+  );
+
+  return (
+    <Autocomplete
+      multiple
+      limitTags={2}
+      options={clients || []}
+      getOptionLabel={(option: any) => option.name || ''}
+      value={selectedClients}
+      onChange={handleChange}
+      renderInput={(params) => (
+        <MuiTextField {...params} label="Clients" variant="outlined" size="small" />
+      )}
+    />
+  );
+};
+
+const ActiveFilter = () => {
+  const { filterValues, setFilters } = useListContext();
+
+  const currentValue =
+    filterValues.active === true ? 'active' :
+    filterValues.active === false ? 'inactive' :
+    'all';
+
+  const handleChange = (event: React.MouseEvent<HTMLElement>, newValue: string | null) => {
+    if (newValue === null) return;
+
+    const newFilters = { ...filterValues };
+    if (newValue === 'all') {
+      delete newFilters.active;
+    } else if (newValue === 'active') {
+      newFilters.active = true;
+    } else if (newValue === 'inactive') {
+      newFilters.active = false;
+    }
+    setFilters(newFilters, {});
+  };
+
+  return (
+    <Box sx={{ mb: 2 }}>
+      <Typography variant="body2" sx={{ mb: 1, fontWeight: 500 }}>
+        Status
+      </Typography>
+      <ToggleButtonGroup
+        value={currentValue}
+        exclusive
+        onChange={handleChange}
+        fullWidth
+        size="small"
+      >
+        <ToggleButton value="all">All</ToggleButton>
+        <ToggleButton value="active">Active</ToggleButton>
+        <ToggleButton value="inactive">Inactive</ToggleButton>
+      </ToggleButtonGroup>
+    </Box>
   );
 };
 
@@ -487,38 +559,14 @@ export const EmployeeCreate = () => (
 );
 
 export const FilterSidebar = () => {
-  const { data: clients } = useGetList('clients', {
-    pagination: { page: 1, perPage: 100 },
-    sort: { field: 'name', order: 'ASC' },
-  });
-  
-
   return (
-    <Card sx={{ order: -1, mr: 2, mt: 9, minWidth: 190 }}>
+    <Card sx={{ order: -1, mr: 2, mt: 9, width: 250, maxWidth: 250, minWidth: 250 }}>
       <CardContent>
-        
-        <FilterForm filters={[
-          <AutocompleteArrayInput
-            key="clientId"
-            source="clientId"
-            label="Clients"
-            choices={clients || []}
-            optionText="name"
-            optionValue="id"
-            helperText={false}
-            alwaysOn={true}
-            sx={{ width: '100%' }}
-          />
-        ]} />
-        
-        <FilterList label="Active" icon={<MailIcon />} sx={{ mb: "20px" }}>
-          <FilterListItem label="Yes" value={{ active: true }} />
-          <FilterListItem label="No" value={{ active: false }} />
-        </FilterList>
-
+        <FilterLiveSearch />
+        <ClientsFilter />
         <CountryFilter />
         <CityFilter />
-
+        <ActiveFilter />
       </CardContent>
     </Card>
   );
