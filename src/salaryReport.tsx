@@ -1,4 +1,5 @@
 import {
+  AutocompleteInput,
   Datagrid,
   ExportButton,
   FilterButton,
@@ -7,7 +8,6 @@ import {
   ReferenceField,
   SearchInput,
   TextField,
-  AutocompleteInput,
   useGetList,
 } from "react-admin";
 import { exporter } from "./utils/exporter";
@@ -20,11 +20,11 @@ const headersRename = [
   "Last Name",
   "Client Name",
   "Salary",
-  "Rate",
   "Modality",
   "Currency",
   "Platform",
   "Country",
+  "Engagement Type",
 ];
 
 const headers = [
@@ -33,11 +33,11 @@ const headers = [
   "lastName",
   "clientName",
   "salary",
-  "rate",
   "modality",
   "currency",
   "platform",
   "country",
+  "engagementType",
 ];
 
 const filterStyles = {
@@ -47,20 +47,20 @@ const filterStyles = {
 };
 
 export const SalariesReportList = () => {
-  const [allClients, setAllClients] = React.useState<Array<{id: string; name: string}>>([]);
+  const [allClients, setAllClients] = React.useState<Array<{ id: string; name: string }>>([]);
   const [currentPage, setCurrentPage] = React.useState(1);
   const [hasMore, setHasMore] = React.useState(true);
 
   // Fetch clients incrementally
-  const { data: clients, isLoading, error } = useGetList('clients', {
-    pagination: { 
-      page: currentPage, 
-      perPage: 50  // Smaller chunks for better performance
+  const { data: clients, isLoading, error } = useGetList("clients", {
+    pagination: {
+      page: currentPage,
+      perPage: 50,  // Smaller chunks for better performance
     },
-    sort: { field: 'name', order: 'ASC' },
+    sort: { field: "name", order: "ASC" },
   });
 
-   // Accumulate clients as they load
+  // Accumulate clients as they load
   React.useEffect(() => {
     if (clients && clients.length > 0) {
       setAllClients(prev => {
@@ -69,7 +69,7 @@ export const SalariesReportList = () => {
           .filter(c => !existing.has(c.id))
           .map(client => ({
             id: client.id,
-            name: client.name
+            name: client.name,
           }));
         return [...prev, ...newClients];
       });
@@ -103,8 +103,8 @@ export const SalariesReportList = () => {
       disabled={isLoading && currentPage === 1}
       noOptionsText={
         isLoading && allClients.length === 0
-          ? "Loading clients..." 
-          : allClients.length === 0 
+          ? "Loading clients..."
+          : allClients.length === 0
             ? "No clients found"
             : "No more clients found"
       }
@@ -115,10 +115,10 @@ export const SalariesReportList = () => {
           if (listbox.scrollTop + listbox.clientHeight >= listbox.scrollHeight - 10) {
             loadMoreClients();
           }
-        }
+        },
       }}
       loading={isLoading}
-    />
+    />,
   ];
 
   return (
@@ -129,7 +129,7 @@ export const SalariesReportList = () => {
         <>
           {" "}
           <FilterButton />
-          <ExportButton maxResults={EXPORT_CONFIG.maxResults}/>
+          <ExportButton maxResults={EXPORT_CONFIG.maxResults} />
           {" "}
         </>
       }
@@ -149,7 +149,6 @@ export const SalariesReportList = () => {
         <TextField source="lastName" />
         <TextField source="clientName" />
         <NumberField source="salary" />
-        <NumberField source="rate" />
         <TextField source="modality" />
         <TextField source="currency" />
         <TextField source="platform" />
