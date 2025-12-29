@@ -11,10 +11,10 @@ export const exporter =
     if (dataProvider) {
       // Fetch related employee data
       const employeeIds = [...new Set(records.map(record => record.employeeId))].filter(Boolean);
-      const employees = employeeIds.length > 0 
+      const employees = employeeIds.length > 0
         ? await dataProvider.getMany('employees', { ids: employeeIds })
         : { data: [] };
-      
+
       // Fetch related category data
       const categoryIds = [...new Set(records.map(record => record.categoryId))].filter(Boolean);
       const categories = categoryIds.length > 0
@@ -39,17 +39,39 @@ export const exporter =
         ? await dataProvider.getMany('technologies', { ids: technologyIds })
         : { data: [] };
 
+      // Fetch related assignment and project data
+      const assignmentIds = [...new Set(records.map(record => record.assignmentId))].filter(Boolean);
+      const assignments = assignmentIds.length > 0
+        ? await dataProvider.getMany('assignments', { ids: assignmentIds })
+        : { data: [] };
+
+      const projectIds = [...new Set(assignments.data.map((assignment: any) => assignment.projectId))].filter(Boolean);
+      const projects = projectIds.length > 0
+        ? await dataProvider.getMany('projects', { ids: projectIds })
+        : { data: [] };
+
+      // Fetch clients from projects (merge with existing client fetching)
+      const projectClientIds = [...new Set(projects.data.map((project: any) => project.clientId))].filter(Boolean);
+      const allClientIds = [...new Set([...clientIds, ...projectClientIds])];
+      const allClients = allClientIds.length > 0
+        ? await dataProvider.getMany('clients', { ids: allClientIds })
+        : clients;
+
       // Create maps for quick access
       const employeeMap = new Map(employees.data.map((emp: any) => [emp.id, emp]));
       const categoryMap = new Map(categories.data.map((cat: any) => [cat.id, cat]));
-      const clientMap = new Map(clients.data.map((client: any) => [client.id, client]));
+      const clientMap = new Map(allClients.data.map((client: any) => [client.id, client]));
       const countryMap = new Map(countries.data.map((country: any) => [country.id, country]));
+      const assignmentMap = new Map(assignments.data.map((assignment: any) => [assignment.id, assignment]));
+      const projectMap = new Map(projects.data.map((project: any) => [project.id, project]));
 
       recordsForExport = records.map((record) => {
         const employee: any = employeeMap.get(record.employeeId);
         const category: any = categoryMap.get(record.categoryId);
-        const client: any = clientMap.get(record.clientId);
         const country: any = countryMap.get(record.countryId);
+        const assignment: any = assignmentMap.get(record.assignmentId);
+        const project: any = assignment ? projectMap.get(assignment.projectId) : null;
+        const client: any = project ? clientMap.get(project.clientId) : (record.clientId ? clientMap.get(record.clientId) : null);
 
         return headers.reduce((recordForExport, field) => {
           // Handle fields from related tables
@@ -85,6 +107,9 @@ export const exporter =
             case 'technology.technologyType':
               const tech = technologies.data.find((tech: any) => tech.id === record.technologyId);
               recordForExport[field] = tech?.technologyType || '';
+              break;
+            case 'project.name':
+              recordForExport[field] = project?.name || '';
               break;
             default:
               // Direct field from record
