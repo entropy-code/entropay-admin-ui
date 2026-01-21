@@ -115,27 +115,35 @@ export const EmployeeProfileHeader: React.FC<EmployeeProfileHeaderProps> = ({
           label=""
           render={(record) => (
             <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
-              <Typography
-                variant="body2"
-                sx={{ color: "text.secondary", fontSize: "0.875rem" }}
-              >
-                {record.labourEmail}
-              </Typography>
-              {record.labourEmail && (
+          render={(record) => {
+            const labourEmail = record?.labourEmail ?? "-";
+            const canCopy = !!record?.labourEmail;
+
+            return (
+              <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                <Typography
+                  variant="body2"
+                  sx={{ color: "text.secondary", fontSize: "0.875rem" }}
+                >
+                  {labourEmail}
+                </Typography>
                 <Tooltip title="Copy email">
                   <IconButton
                     size="small"
+                    disabled={!canCopy}
                     onClick={() => {
-                      navigator.clipboard.writeText(record.labourEmail);
+                      if (record?.labourEmail) {
+                        navigator.clipboard.writeText(record.labourEmail);
+                      }
                     }}
                     sx={{ padding: 0.25 }}
                   >
                     <ContentCopy sx={{ fontSize: "0.875rem" }} />
                   </IconButton>
                 </Tooltip>
-              )}
-            </Box>
-          )}
+              </Box>
+            );
+          }}
         />
       </Box>
 
