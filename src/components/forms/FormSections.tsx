@@ -6,6 +6,7 @@ import {
   SelectInput,
   BooleanInput,
   FormDataConsumer,
+  AutocompleteArrayInput,
 } from "react-admin";
 import { Box, Typography, useMediaQuery } from "@mui/material";
 import { useWatch } from "react-hook-form";
@@ -143,6 +144,27 @@ const FormSection = ({
                 {listItem.type === "AutocompleteInput" ? (
                   <ReferenceAutocompleteItem
                     referenceValues={listItem.referenceValues}
+                  />
+                ) : undefined}
+                {listItem.type === "AutocompleteArrayInput" ? (
+                  <AutocompleteArrayInput
+                    source={listItem.referenceValues?.source || listItem.name}
+                    choices={listItem.choices}
+                    optionText={listItem.referenceValues?.optionText || "name"}
+                    fullWidth
+                    sx={{ gridColumn: "span 2" }}
+                    parse={(value: any) => value}
+                    format={(value: any) => {
+                      if (typeof value === 'string' && value.length > 0) {
+                        const names = value.split(/,\s*/);
+                        return names.map(name => {
+                          const trimmedName = name.trim();
+                          const found = listItem.choices?.find((c: any) => c.name === trimmedName);
+                          return found ? found.id : trimmedName;
+                        }).filter(Boolean);
+                      }
+                      return Array.isArray(value) ? value : [];
+                    }}
                   />
                 ) : undefined}
                 {listItem.type === "nestedReferenceInput" ? (

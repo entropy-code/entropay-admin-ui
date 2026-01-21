@@ -1,0 +1,17 @@
+export const BENEFITS_CHOICES = [
+  { id: "10 días de vacaciones a partir de octubre 2026", name: "10 días de vacaciones a partir de octubre 2026" },
+  { id: "15 días de vacaciones a partir de octubre 2026", name: "15 días de vacaciones a partir de octubre 2026" },
+  { id: "5 días de PTOS al año para enfermedad", name: "5 días de PTOS al año para enfermedad" },
+  { id: "2 días de mudanza", name: "2 días de mudanza" },
+  { id: "Bono de hardware", name: "Bono de hardware" },
+  { id: "Entrega de hardware", name: "Entrega de hardware" },
+  { id: "Feriados nacionales pagos", name: "Feriados nacionales pagos" },
+  { id: "Clases de inglés 1 vez por semana", name: "Clases de inglés 1 vez por semana" },
+  { id: "Clases de inglés 2 veces por semana", name: "Clases de inglés 2 veces por semana" },
+  { id: "Budget para capacitaciones", name: "Budget para capacitaciones" },
+  { id: "Pluralsight", name: "Pluralsight" },
+  { id: "Entropy Health", name: "Entropy Health" },
+  { id: "Reintegro de gimnasio", name: "Reintegro de gimnasio" },
+  { id: "Compensación", name: "Compensación" },
+  { id: "Club La Gaceta", name: "Club La Gaceta" },
+] as const;

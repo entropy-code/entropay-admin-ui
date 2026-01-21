@@ -7,7 +7,9 @@ import {
   ReferenceField,
   ArrayField,
   SingleFieldList,
-  Labeled
+  Labeled,
+  FunctionField,
+  ChipField,
 } from "react-admin";
 import { Box, Typography, useMediaQuery } from "@mui/material";
 import { CustomizableChipField } from "../fields";
@@ -96,6 +98,31 @@ const FormViewSections = (config: any) => {
                         
                   </Labeled>
                   ) : undefined}
+                  
+                {listItem.type === "AutocompleteArrayInput" ? (
+                  <Labeled label={listItem.name}>
+                    <FunctionField
+                      render={(record: any) => {
+                        const benefitsSource = listItem.referenceValues?.source || listItem.name;
+                        if (!record?.[benefitsSource]) return null;
+                        const benefitsArray = record[benefitsSource]
+                          .split(/,\s*/)
+                          .filter((b: string) => b.trim())
+                          .map((benefit: string, index: number) => ({ 
+                            id: index, 
+                            name: benefit.trim() 
+                          }));
+                        return (
+                          <div style={{ display: 'flex', gap: '5px', flexWrap: 'wrap' }}>
+                            {benefitsArray.map((benefit: any) => (
+                              <ChipField key={benefit.id} record={benefit} source="name" />
+                            ))}
+                          </div>
+                        );
+                      }}
+                    />
+                  </Labeled>
+                ) : undefined}
               </Box>
             );
           })}
