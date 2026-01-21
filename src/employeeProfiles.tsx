@@ -27,13 +27,14 @@ import {
   WrapperField,
 } from "react-admin";
 import { feedbackSourceChoices } from "./employeeFeedback";
-import { Avatar, Box, Chip, Divider, Grid, Modal, Typography } from "@mui/material";
+import { Box, Chip, Divider, Grid, Modal, Typography } from "@mui/material";
 import RedirectButton from "./components/RedirectButton";
 import { EntityViewActions, HasPermissions } from "./components/layout/CustomActions";
 import CancelPtoButton from "./components/buttons/CancelPtoButton";
 import { useTheme } from "@mui/material/styles";
 import { proficiencyLevel } from "./skills";
-import { engagementTypeChoices} from "./assignments";
+import { engagementTypeChoices } from "./assignments";
+import { EmployeeProfileHeader } from "./components/EmployeeProfileHeader";
 
 const DisplayRecordCurrentId = () => {
   return useGetRecordId();
@@ -149,24 +150,6 @@ const style = {
   p: 4,
 };
 
-const styleForSpan = {
-  display: "inline-flex",
-  alignItems: "center",
-  margin: "0 50%",
-};
-
-const styleForCenteringTextField = {
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-};
-
-const styleForCenteringTyphography = {
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-};
-
 export const EmployeeProfile = () => {
   const { palette } = useTheme();
   const [locale] = useLocaleState();
@@ -188,7 +171,7 @@ export const EmployeeProfile = () => {
   const COLOR_white = "transparent";
 
   const activeValue = (record: { active: boolean }) => ({
-    backgroundColor: record.active === true ? COLOR_green : COLOR_white,
+    backgroundColor: record.active ? COLOR_green : COLOR_white,
   });
 
   return (
@@ -197,119 +180,7 @@ export const EmployeeProfile = () => {
       actions={<EntityViewActions entity={"employees"} />}
       emptyWhileLoading
     >
-      <Grid
-        container
-        direction="row"
-        justifyContent="flex-start"
-        alignItems="center"
-      >
-        <Grid item>
-          <Box m={2}>
-            {/*Profile image hardcoded until photo upload feature is in place*/}
-            <Avatar
-              alt="Employee"
-              src="https://entropay-assets.s3.amazonaws.com/default-profile.png"
-              sx={{ width: 100, height: 100 }}
-            />
-          </Box>
-        </Grid>
-        <Grid item>
-          <SimpleShowLayout divider={<Divider flexItem />}>
-            <FunctionField
-              label=""
-              render={(record) => `${record.firstName} ${record.lastName}`}
-            />
-            <TextField label="" source="labourEmail" />
-          </SimpleShowLayout>
-        </Grid>
-        <Grid item>
-          <FunctionField
-            label=""
-            render={(record) => (
-              <SimpleShowLayout divider={<Divider flexItem />}>
-                {!record.startDate && (
-                  <>
-                    <Typography variant="subtitle2" color="textSecondary" display="inline" marginRight={"10px"}>
-                      Start Date
-                    </Typography>
-                    <span> - </span>
-                    <p></p>
-                    <Typography variant="subtitle2" color="textSecondary" display="inline" marginRight={"10px"}>
-                      End Date
-                    </Typography>
-                    <span> - </span>
-                  </>
-                )}
-                {record.startDate && (
-                  <>
-                    <Typography variant="subtitle2" color="textSecondary" display="inline" marginRight={"10px"}>
-                      Start Date
-                    </Typography>
-
-                    <DateField
-                      label=""
-                      source="startDate"
-                      record={record}
-                      locales={locale}
-                    />
-
-                    <TextField
-                      label=""
-                      source="timeSinceStart"
-                      textAlign="left"
-                      style={styleForCenteringTextField}
-                    />
-                  </>
-                )}
-                {record.startDate && !record.endDate && (
-                  <>
-                    <Typography variant="subtitle2" color="textSecondary" display="inline" marginRight={"10px"}>
-                      End Date
-                    </Typography>
-                    <span> - </span>
-                  </>
-                )}
-                {record.endDate && (
-                  <>
-                    <Typography variant="subtitle2" color="textSecondary" display="inline" marginRight={"10px"}>
-                      End Date
-                    </Typography>
-                    <DateField
-                      label=""
-                      source="endDate"
-                      record={record}
-                      locales={locale}
-                    />
-                  </>
-                )}
-              </SimpleShowLayout>
-            )}
-          />
-        </Grid>
-        <Grid item>
-          <SimpleShowLayout divider={<Divider flexItem />}>
-            <>
-              <Typography
-                variant="subtitle2"
-                color="textSecondary"
-                style={styleForCenteringTyphography}
-              >
-                Available Vacation Days
-              </Typography>
-              <TextField
-                label=""
-                source="availableDays"
-                textAlign="left"
-                style={styleForCenteringTextField}
-              />
-            </>
-
-          </SimpleShowLayout>
-        </Grid>
-        <Grid item>
-          {HasPermissions("employees", "update") && <EditButton />}
-        </Grid>
-      </Grid>
+      <EmployeeProfileHeader vacationAvailableDays={vacationAvailableDays} />
       <TabbedShowLayout>
         <Tab label="Personal Information">
           <Grid
@@ -807,7 +678,7 @@ export const EmployeeProfile = () => {
                 <SelectField source="source" choices={feedbackSourceChoices} />
                 {HasPermissions("feedback/employee", "update") && (
                   <FunctionField
-                    render={(record) => (
+                    render={() => (
                       <EditButton />
                     )}
                   />
@@ -843,7 +714,7 @@ export const EmployeeProfile = () => {
                 <TextField source="comment" />
                 {HasPermissions("reimbursements", "update") && (
                   <FunctionField
-                    render={(record) => (
+                    render={() => (
                       <EditButton />
                     )}
                   />
