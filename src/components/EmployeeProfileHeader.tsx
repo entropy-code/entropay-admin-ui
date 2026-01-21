@@ -122,17 +122,19 @@ export const EmployeeProfileHeader: React.FC<EmployeeProfileHeaderProps> = ({
               >
                 {record.labourEmail}
               </Typography>
-              <Tooltip title="Copy email">
-                <IconButton
-                  size="small"
-                  onClick={() => {
-                    navigator.clipboard.writeText(record.labourEmail);
-                  }}
-                  sx={{ padding: 0.25 }}
-                >
-                  <ContentCopy sx={{ fontSize: "0.875rem" }} />
-                </IconButton>
-              </Tooltip>
+              {record.labourEmail && (
+                <Tooltip title="Copy email">
+                  <IconButton
+                    size="small"
+                    onClick={() => {
+                      navigator.clipboard.writeText(record.labourEmail);
+                    }}
+                    sx={{ padding: 0.25 }}
+                  >
+                    <ContentCopy sx={{ fontSize: "0.875rem" }} />
+                  </IconButton>
+                </Tooltip>
+              )}
             </Box>
           )}
         />
