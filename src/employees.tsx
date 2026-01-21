@@ -326,9 +326,9 @@ const fieldsList = [
   { name: "project", type: "text" },
   { name: "role", type: "text" },
   { name: "startDate", type: "date" },
-  { name: "rate", type: "number", label: "Rate"},
-  { name: "salary", type: "number", label: "Salary"},
-  { name: "margin", type: "number", label: "Margin %"},
+  { name: "rate", type: "number", label: "Rate" },
+  { name: "salary", type: "number", label: "Salary" },
+  { name: "margin", type: "number", label: "Margin %" },
   { name: "nearestPto", type: "date" },
   { name: "availableDays", type: "number", label: "Available vacations" }
 ];
