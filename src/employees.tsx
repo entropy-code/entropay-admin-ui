@@ -330,7 +330,7 @@ const fieldsList = [
   { name: "salary", type: "number", label: "Salary" },
   { name: "margin", type: "number", label: "Margin %" },
   { name: "nearestPto", type: "date" },
-  { name: "availableDays", type: "number", label: "Available vacations" }
+  { name: "availableDays", type: "number", label: "Available vacations" },
 ];
 
 const headersRename = [
