@@ -1,7 +1,6 @@
 import * as React from "react";
 import {
   FunctionField,
-  TextField,
   EditButton,
   useLocaleState,
 } from "react-admin";
