@@ -7,7 +7,10 @@ import {
   ReferenceField,
   ShowButton,
   TextField,
+  FunctionField,
 } from "react-admin";
+import { IconButton, Tooltip } from "@mui/material";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { HasPermissions } from "../layout/CustomActions";
 
 const ListBuilder = ({
@@ -32,6 +35,41 @@ const ListBuilder = ({
                   key={index}
                   source={field.name}
                   label={field?.label}
+                />
+              );
+            case "textWithCopy":
+              return (
+                <FunctionField
+                  key={index}
+                  source={field.name}
+                  label={field?.label}
+                  render={(record: any) => {
+                    const value = record[field.name];
+                    const handleCopy = () => {
+                      if (value) {
+                        navigator.clipboard.writeText(value);
+                      }
+                    };
+                    return (
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+                        <span>{value || '-'}</span>
+                        {value && (
+                          <Tooltip title="Copy to clipboard">
+                            <IconButton
+                              size="small"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleCopy();
+                              }}
+                              sx={{ padding: '4px' }}
+                            >
+                              <ContentCopyIcon fontSize="small" />
+                            </IconButton>
+                          </Tooltip>
+                        )}
+                      </div>
+                    );
+                  }}
                 />
               );
             case "date":

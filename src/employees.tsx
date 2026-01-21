@@ -31,7 +31,10 @@ import {
   Box,
   ToggleButtonGroup,
   ToggleButton,
+  IconButton,
+  Tooltip,
 } from "@mui/material";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import {
   red,
   blueGrey,
@@ -318,15 +321,16 @@ const fieldsList = [
   { name: "lastName", type: "text" },
   { name: "countryName", type: "text", label: "Country" },
   { name: "city", type: "text" },
-  { name: "labourEmail", type: "text" },
-  { name: "mobileNumber", type: "text", label: "Mobile Number" },
-  { name: "gender", type: "text" },
+  { name: "labourEmail", type: "textWithCopy" },
   { name: "client", type: "text" },
   { name: "project", type: "text" },
   { name: "role", type: "text" },
   { name: "startDate", type: "date" },
-  { name: "availableDays", type: "number", label: "Available vacations" },
+  { name: "rate", type: "number", label: "Rate" },
+  { name: "salary", type: "number", label: "Salary" },
+  { name: "margin", type: "number", label: "Margin %" },
   { name: "nearestPto", type: "date" },
+  { name: "availableDays", type: "number", label: "Available vacations" },
 ];
 
 const headersRename = [
@@ -336,14 +340,15 @@ const headersRename = [
   "Country",
   "City",
   "Labour Email",
-  "Mobile Number",
-  "Gender",
   "Client",
   "Project",
   "Role",
   "Start Date",
-  "Available Vacation Days",
+  "Rate",
+  "Salary",
+  "Margin %",
   "Nearest PTO",
+  "Available Vacation Days",
 ];
 
 type RadioValueType = "list" | "card";
@@ -469,9 +474,25 @@ const EmployeeInformation = ({ renderAs = "list" }) => {
                       >
                         {record.firstName} {record.lastName}
                       </Typography>
-                      <Typography noWrap align="center">
-                        {record.labourEmail ? record.labourEmail : "-"}
-                      </Typography>
+                      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 0.5 }}>
+                        <Typography noWrap>
+                          {record.labourEmail ? record.labourEmail : "-"}
+                        </Typography>
+                        {record.labourEmail && (
+                          <Tooltip title="Copy to clipboard">
+                            <IconButton
+                              size="small"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                navigator.clipboard.writeText(record.labourEmail);
+                              }}
+                              sx={{ padding: '2px' }}
+                            >
+                              <ContentCopyIcon fontSize="small" />
+                            </IconButton>
+                          </Tooltip>
+                        )}
+                      </Box>
                       <Typography noWrap align="center">
                         <DateField source="startDate" locales={locale} />
                       </Typography>
