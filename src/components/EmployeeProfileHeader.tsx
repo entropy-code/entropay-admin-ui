@@ -113,8 +113,6 @@ export const EmployeeProfileHeader: React.FC<EmployeeProfileHeaderProps> = ({
         />
         <FunctionField
           label=""
-          render={(record) => (
-            <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
           render={(record) => {
             const labourEmail = record?.labourEmail ?? "-";
             const canCopy = !!record?.labourEmail;
