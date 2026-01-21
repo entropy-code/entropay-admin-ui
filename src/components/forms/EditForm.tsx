@@ -146,6 +146,16 @@ const EditForm = ({
     refresh();
   };
 
+  const transform = (data: any) => {
+    if (data.benefits && Array.isArray(data.benefits)) {
+      return {
+        ...data,
+        benefits: data.benefits.map((b: any) => b.name || b).join(', '),
+      };
+    }
+    return data;
+  };
+
   return (
     <Box m="10px">
       <Box display="flex" justifyContent="space-between" alignItems="center">
@@ -155,6 +165,7 @@ const EditForm = ({
         actions={<EntityCreateEditActions />}
         mutationMode="pessimistic"
         mutationOptions={{ onSuccess }}
+        transform={transform}
       >
         <SimpleForm
           validate={validateEntity}

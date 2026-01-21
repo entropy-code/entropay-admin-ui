@@ -51,6 +51,16 @@ const CreateForm = ({
     }
   };
 
+  const transform = (data: any) => {
+    if (data.benefits && Array.isArray(data.benefits)) {
+      return {
+        ...data,
+        benefits: data.benefits.map((b: any) => b.name || b).join(', '),
+      };
+    }
+    return data;
+  };
+
   return (
     <Box m="10px">
       <Box display="flex" justifyContent="space-between" alignItems="center">
@@ -60,6 +70,7 @@ const CreateForm = ({
       <Create
         actions={<EntityCreateEditActions />}
         mutationOptions={{ onSuccess }}
+        transform={transform}
       >
         <SimpleForm
           validate={validateEntity}

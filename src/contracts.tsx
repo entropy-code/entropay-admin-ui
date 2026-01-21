@@ -15,7 +15,9 @@ import {
   TextField,
   useLocaleState,
   WrapperField,
+  ChipField,
 } from "react-admin";
+import { Chip } from "@mui/material";
 
 import CreateForm from "./components/forms/CreateForm";
 import EditForm from "./components/forms/EditForm";
@@ -23,6 +25,7 @@ import { CustomizableChipField } from "./components/fields";
 import { IContract, IPaymentSettlement } from "./types";
 import ViewForm from "./components/forms/ViewForm";
 import QuickFilter from "./components/filters/QuickFilter";
+import { BENEFITS_CHOICES } from "./utils/benefitsConstants";
 
 function disabledCheck(source: string) {
   return source === "employeeProfile";
@@ -117,7 +120,16 @@ const formData = [
         },
       },
       { name: "hoursPerMonth", type: "number" },
-      { name: "benefits", type: "string" },
+      {
+        name: "benefits",
+        type: "AutocompleteArrayInput",
+        choices: BENEFITS_CHOICES,
+        referenceValues: {
+          source: "benefits",
+          optionText: "name",
+          required: false,
+        },
+      },
     ],
   },
   {
@@ -183,7 +195,26 @@ export const ContractList = () => {
           <TextField source="name" />
         </ReferenceField>
         <NumberField source="hoursPerMonth" />
-        <TextField source="benefits" />
+        <FunctionField
+          label="Benefits"
+          render={(record: any) => {
+            if (!record?.benefits) return null;
+            const benefitsArray = record.benefits
+              .split(/,\s*/)
+              .filter((b: string) => b.trim())
+              .map((benefit: string, index: number) => ({ 
+                id: index, 
+                name: benefit.trim() 
+              }));
+            return (
+              <div style={{ display: 'flex', gap: '5px', flexWrap: 'wrap' }}>
+                {benefitsArray.map((benefit: any) => (
+                  <ChipField key={benefit.id} record={benefit} source="name" />
+                ))}
+              </div>
+            );
+          }}
+        />
         <TextField source="notes" />
         <ShowButton />
         <EditButton />

@@ -476,7 +476,26 @@ export const EmployeeProfile = () => {
                 <ChipField source="name" />
               </ReferenceField>
               <NumberField source="hoursPerMonth" />
-              <TextField source="benefits" />
+              <FunctionField
+                label="Benefits"
+                render={(record: any) => {
+                  if (!record?.benefits) return null;
+                  const benefitsArray = record.benefits
+                    .split(/,\s*/)
+                    .filter((b: string) => b.trim())
+                    .map((benefit: string, index: number) => ({ 
+                      id: index, 
+                      name: benefit.trim() 
+                    }));
+                  return (
+                    <div style={{ display: 'flex', gap: '5px', flexWrap: 'wrap' }}>
+                      {benefitsArray.map((benefit: any) => (
+                        <ChipField key={benefit.id} record={benefit} source="name" />
+                      ))}
+                    </div>
+                  );
+                }}
+              />
               <TextField source="notes" />
               <ShowButton />
               {HasPermissions("contracts", "update") && <EditButton />}
