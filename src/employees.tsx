@@ -340,14 +340,15 @@ const headersRename = [
   "Country",
   "City",
   "Labour Email",
-  "Mobile Number",
-  "Gender",
   "Client",
   "Project",
   "Role",
   "Start Date",
-  "Available Vacation Days",
+  "Rate",
+  "Salary",
+  "Margin %",
   "Nearest PTO",
+  "Available Vacation Days",
 ];
 
 type RadioValueType = "list" | "card";
