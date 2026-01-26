@@ -1,6 +1,7 @@
 import React from "react";
 import { Box } from "@mui/material";
-import { Create, SimpleForm, Toolbar, useRedirect } from "react-admin";
+import { Create, SimpleForm, Toolbar, useRedirect, SaveButton, useNotify } from "react-admin";
+import { useFormContext } from "react-hook-form";
 import Header from "../Header";
 import FormSection from "./FormSections";
 import validateEntity from "./Validations";
@@ -17,6 +18,7 @@ const CreateForm = ({
   resource: string;
 }) => {
   const redirect = useRedirect();
+  
   const onSuccess = (data: { id: string; employeeId: string }) => {
     switch (resource) {
       case "contracts":
@@ -51,6 +53,65 @@ const CreateForm = ({
     }
   };
 
+  const CustomCreateToolbar = () => {
+    const { getValues, setError, trigger } = useFormContext();
+    const notify = useNotify();
+    
+    const handleClick = async (e: any) => {
+      // Primero ejecutar todas las validaciones del formulario
+      const isValid = await trigger();
+      
+      // Si hay errores en otros campos, detener aquí
+      if (!isValid) {
+        e.stopPropagation();
+        e.preventDefault();
+        return false;
+      }
+      
+      // Ahora validar paymentInformation
+      const values = getValues();
+      if (values && values.paymentInformation && values.paymentInformation.length > 0) {
+        const firstPayment = values.paymentInformation[0];
+        if (firstPayment) {
+          const platformEmpty = !firstPayment.platform || firstPayment.platform === '' || 
+                                (typeof firstPayment.platform === 'string' && firstPayment.platform.trim() === '');
+          const countryEmpty = !firstPayment.country || firstPayment.country === '' || 
+                              (typeof firstPayment.country === 'string' && firstPayment.country.trim() === '');
+          
+          if (platformEmpty || countryEmpty) {
+            e.stopPropagation();
+            e.preventDefault();
+            
+            const errors = [];
+            if (platformEmpty) {
+              setError('paymentInformation.0.platform', {
+                type: 'manual',
+                message: 'Platform is required'
+              });
+              errors.push('Platform');
+            }
+            if (countryEmpty) {
+              setError('paymentInformation.0.country', {
+                type: 'manual',
+                message: 'Country is required'
+              });
+              errors.push('Country');
+            }
+            
+            notify(`${errors.join(' and ')} ${errors.length > 1 ? 'are' : 'is'} required`, { type: 'error' });
+            return false;
+          }
+        }
+      }
+    };
+    
+    return (
+      <Toolbar>
+        <SaveButton onClick={handleClick} />
+      </Toolbar>
+    );
+  };
+
   return (
     <Box m="10px">
       <Box display="flex" justifyContent="space-between" alignItems="center">
@@ -67,7 +128,7 @@ const CreateForm = ({
             window.location.href.includes("ptos/create") ? (
               <VacationValidation />
             ) : (
-              <Toolbar />
+              <CustomCreateToolbar />
             )
           }
         >

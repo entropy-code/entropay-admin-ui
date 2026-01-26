@@ -9,7 +9,9 @@ import {
   useRecordContext,
   useRedirect,
   useRefresh,
+  useNotify,
 } from "react-admin";
+import { useFormContext } from "react-hook-form";
 import Header from "../Header";
 import FormSection from "./FormSections";
 import validateEntity from "./Validations";
@@ -104,6 +106,7 @@ const CustomToolbar = (props: { resource: string }) => {
   const data = useRecordContext();
   const refresh = useRefresh();
   const redirect = useRedirect();
+  
   const onSuccess = () => {
     const redirectPath = GetRedirectPathAfterDelete(
       resource,
@@ -112,12 +115,68 @@ const CustomToolbar = (props: { resource: string }) => {
     redirect(redirectPath);
     refresh();
   };
+  
+  const CustomSaveButton = () => {
+    const { getValues, setError, trigger } = useFormContext();
+    const notify = useNotify();
+    
+    const handleClick = async (e: any) => {
+      // Primero ejecutar todas las validaciones del formulario
+      const isValid = await trigger();
+      
+      // Si hay errores en otros campos, detener aquí
+      if (!isValid) {
+        e.stopPropagation();
+        e.preventDefault();
+        return false;
+      }
+      
+      // Ahora validar paymentInformation
+      const values = getValues();
+      if (values && values.paymentInformation && values.paymentInformation.length > 0) {
+        const firstPayment = values.paymentInformation[0];
+        if (firstPayment) {
+          const platformEmpty = !firstPayment.platform || firstPayment.platform === '' || 
+                                (typeof firstPayment.platform === 'string' && firstPayment.platform.trim() === '');
+          const countryEmpty = !firstPayment.country || firstPayment.country === '' || 
+                              (typeof firstPayment.country === 'string' && firstPayment.country.trim() === '');
+          
+          if (platformEmpty || countryEmpty) {
+            e.stopPropagation();
+            e.preventDefault();
+            
+            const errors = [];
+            if (platformEmpty) {
+              setError('paymentInformation.0.platform', {
+                type: 'manual',
+                message: 'Platform is required'
+              });
+              errors.push('Platform');
+            }
+            if (countryEmpty) {
+              setError('paymentInformation.0.country', {
+                type: 'manual',
+                message: 'Country is required'
+              });
+              errors.push('Country');
+            }
+            
+            notify(`${errors.join(' and ')} ${errors.length > 1 ? 'are' : 'is'} required`, { type: 'error' });
+            return false;
+          }
+        }
+      }
+    };
+    
+    return <SaveButton onClick={handleClick} />;
+  };
+  
   return (
     <Toolbar
       {...props}
       sx={{ display: "flex", justifyContent: "space-between" }}
     >
-      <SaveButton />
+      <CustomSaveButton />
       {HasPermissions(resource, "delete") && (
         <DeleteButton
           mutationMode="pessimistic"
@@ -140,6 +199,7 @@ const EditForm = ({
 }) => {
   const refresh = useRefresh();
   const redirect = useRedirect();
+  
   const onSuccess = (data: any) => {
     let redirectPath = GetRedirectPathAfterEdit(resource, data);
     redirect(redirectPath);
