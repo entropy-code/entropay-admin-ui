@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
-import { AutocompleteInput, useDataProvider } from "react-admin";
+import { AutocompleteInput, AutocompleteArrayInput, useDataProvider } from "react-admin";
 
 export type Choice = {
   id: number;
@@ -17,6 +17,7 @@ const ReferenceAutocompleteItem = ({
     optionValue: string;
     ItemsPerPage: number;
     required?: boolean;
+    multiselect?: boolean;
   };
 }) => {
   const {
@@ -26,6 +27,7 @@ const ReferenceAutocompleteItem = ({
     optionValue,
     ItemsPerPage,
     required,
+    multiselect,
   } = referenceValues;
 
   const dataProvider = useDataProvider();
@@ -45,7 +47,17 @@ const ReferenceAutocompleteItem = ({
       });
   }, [dataProvider, optionText, reference, ItemsPerPage]);
 
-  return (
+  return multiselect ? (
+    <AutocompleteArrayInput
+      source={source}
+      choices={choices}
+      optionText={optionText}
+      optionValue={optionValue}
+      isRequired={required}
+      fullWidth
+      sx={{ gridColumn: "span 2" }}
+    />
+  ) : (
     <AutocompleteInput
       source={source}
       choices={choices}

@@ -8,7 +8,7 @@ export interface IContract {
   vacations: number;
   startDate: Date;
   endDate: Date;
-  benefits: string;
+  benefitIds: string[];
   notes: string;
   contractType: string;
   paymentSettlement: IPaymentSettlement[];
