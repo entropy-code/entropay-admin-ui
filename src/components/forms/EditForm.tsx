@@ -9,6 +9,7 @@ import {
   useRecordContext,
   useRedirect,
   useRefresh,
+  useEditContext,
 } from "react-admin";
 import Header from "../Header";
 import FormSection from "./FormSections";
@@ -155,6 +156,15 @@ const EditForm = ({
         actions={<EntityCreateEditActions />}
         mutationMode="pessimistic"
         mutationOptions={{ onSuccess }}
+        queryOptions={{
+          select: (data: any) => {
+            // Ensure paymentSettlement always has at least one item for editing
+            if (resource === "contracts" && (!data.paymentSettlement || data.paymentSettlement.length === 0)) {
+              return { ...data, paymentSettlement: [{}] };
+            }
+            return data;
+          }
+        }}
       >
         <SimpleForm
           validate={validateEntity}

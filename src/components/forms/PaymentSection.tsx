@@ -50,6 +50,7 @@ const PaymentSection = (type: {
           source="paymentSettlement"
           fullWidth
           sx={{ gridColumn: "span 2" }}
+          defaultValue={[{}]}
         >
           <SimpleFormIterator inline disableReordering>
             <SelectInput
