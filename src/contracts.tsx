@@ -1,6 +1,7 @@
 import * as React from "react";
 import {
   ArrayField,
+  ChipField,
   Datagrid,
   DateField,
   EditButton,
@@ -8,6 +9,7 @@ import {
   FunctionField,
   List,
   NumberField,
+  ReferenceArrayField,
   ReferenceField,
   SearchInput,
   ShowButton,
@@ -117,7 +119,19 @@ const formData = [
         },
       },
       { name: "hoursPerMonth", type: "number" },
-      { name: "benefits", type: "string" },
+      {
+        name: "benefits",
+        type: "AutocompleteInput",
+        referenceValues: {
+          source: "benefitIds",
+          reference: "benefits",
+          optionText: "name",
+          optionValue: "id",
+          ItemsPerPage: 100,
+          required: false,
+          multiselect: true,
+        },
+      },
     ],
   },
   {
@@ -183,7 +197,11 @@ export const ContractList = () => {
           <TextField source="name" />
         </ReferenceField>
         <NumberField source="hoursPerMonth" />
-        <TextField source="benefits" />
+        <ReferenceArrayField source="benefitIds" reference="benefits" label="Benefits">
+          <SingleFieldList linkType={false}>
+            <ChipField source="name" />
+          </SingleFieldList>
+        </ReferenceArrayField>
         <TextField source="notes" />
         <ShowButton />
         <EditButton />

@@ -347,7 +347,11 @@ export const EmployeeProfile = () => {
                 <ChipField source="name" />
               </ReferenceField>
               <NumberField source="hoursPerMonth" />
-              <TextField source="benefits" />
+              <ReferenceArrayField source="benefitIds" reference="benefits" label="Benefits">
+                <SingleFieldList linkType={false}>
+                  <ChipField source="name" />
+                </SingleFieldList>
+              </ReferenceArrayField>
               <TextField source="notes" />
               <ShowButton />
               {HasPermissions("contracts", "update") && <EditButton />}
