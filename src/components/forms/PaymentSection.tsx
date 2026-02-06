@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   ArrayInput,
   NumberInput,
@@ -6,13 +6,74 @@ import {
   SimpleFormIterator,
   TextInput,
   AutocompleteInput,
+  useRecordContext,
 } from "react-admin";
+import { useFormContext } from "react-hook-form";
 
 const PaymentPlatform = [
   { name: 'Banco USA' },
   { name: 'Banco internacional' },
   { name: 'Mural' },
 ];
+
+const PaymentSettlementSection = () => {
+  const record = useRecordContext();
+  const { watch, setValue, getValues } = useFormContext();
+  const paymentSettlement = watch('paymentSettlement');
+  
+  // Initialize on mount if empty
+  useEffect(() => {
+    const currentValue = getValues('paymentSettlement');
+    if (!currentValue || currentValue.length === 0) {
+      // Use setTimeout to ensure the form is fully initialized
+      setTimeout(() => {
+        setValue('paymentSettlement', [{}], { shouldValidate: false, shouldDirty: false });
+      }, 0);
+    }
+  }, [record?.id]); // Re-run when record id changes (edit mode)
+  
+  // Ensure at least one item remains after clear
+  useEffect(() => {
+    if (paymentSettlement && paymentSettlement.length === 0) {
+      setValue('paymentSettlement', [{}], { shouldValidate: false, shouldDirty: false });
+    }
+  }, [paymentSettlement, setValue]);
+  
+  const currentLength = paymentSettlement?.length || 0;
+  
+  return (
+    <ArrayInput
+      source="paymentSettlement"
+      fullWidth
+      sx={{ gridColumn: "span 2" }}
+    >
+      <SimpleFormIterator 
+        inline 
+        disableReordering 
+        disableRemove={currentLength <= 1}
+      >
+        <SelectInput
+          source="modality"
+          choices={[
+            { id: "HOUR", name: "Hour" },
+            { id: "MONTHLY", name: "Monthly" },
+          ]}
+          required={true}
+        />
+        <NumberInput source="salary" required={true} />
+        <SelectInput
+          source="currency"
+          choices={[
+            { id: "USD", name: "USD - United States dollar" },
+            { id: "ARS", name: "ARS - Argentine peso" },
+          ]}
+          required={true}
+        />
+      </SimpleFormIterator>
+    </ArrayInput>
+  );
+};
+
 const PaymentSection = (type: {
   type: "paymentInformation" | "paymentSettlement";
 }) => {
@@ -46,31 +107,7 @@ const PaymentSection = (type: {
         </ArrayInput>
       )}
       {type.type === "paymentSettlement" && (
-        <ArrayInput
-          source="paymentSettlement"
-          fullWidth
-          sx={{ gridColumn: "span 2" }}
-        >
-          <SimpleFormIterator inline disableReordering>
-            <SelectInput
-              source="modality"
-              choices={[
-                { id: "HOUR", name: "Hour" },
-                { id: "MONTHLY", name: "Monthly" },
-              ]}
-              required={true}
-            />
-            <NumberInput source="salary" required={true} />
-            <SelectInput
-              source="currency"
-              choices={[
-                { id: "USD", name: "USD - United States dollar" },
-                { id: "ARS", name: "ARS - Argentine peso" },
-              ]}
-              required={true}
-            />
-          </SimpleFormIterator>
-        </ArrayInput>
+        <PaymentSettlementSection />
       )}
     </>
   );
