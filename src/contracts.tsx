@@ -69,6 +69,7 @@ const formData = [
           optionText: null,
           multiselect: false,
           required: true,
+          disabledCheck: () => true,
         },
       },
       { name: "startDate", type: "date", required: true },
@@ -197,7 +198,7 @@ export const ContractEdit = () => (
 );
 
 export const ContractCreate = () => (
-  <CreateForm formData={formData} title="Contract" resource="contracts" />
+  <CreateForm formData={formData} title="Contract" resource="contracts" defaultValues={{ paymentSettlement: [{}] }} />
 );
 
 export const ContractView = () => (
