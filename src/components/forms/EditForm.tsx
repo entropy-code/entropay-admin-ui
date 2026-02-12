@@ -134,10 +134,12 @@ const EditForm = ({
   formData,
   title,
   resource,
+  defaultValues,
 }: {
   formData: any[];
   title: string;
   resource: string;
+  defaultValues?: Record<string, any>;
 }) => {
   const refresh = useRefresh();
   const redirect = useRedirect();
@@ -156,9 +158,18 @@ const EditForm = ({
         actions={<EntityCreateEditActions />}
         mutationMode="pessimistic"
         mutationOptions={{ onSuccess }}
+        queryOptions={{
+          select: (data: any) => {
+            if (!data.paymentSettlement || data.paymentSettlement.length === 0) {
+              return { ...data, paymentSettlement: [{}] };
+            }
+            return data;
+          }
+        }}
       >
         <SimpleForm
           validate={validateEntity}
+          defaultValues={defaultValues}
           toolbar={<CustomToolbar resource={resource} />}
         >
           <Box width="100%">

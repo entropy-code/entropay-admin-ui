@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
   ArrayInput,
   NumberInput,
@@ -17,27 +17,8 @@ const PaymentPlatform = [
 ];
 
 const PaymentSettlementSection = () => {
-  const record = useRecordContext();
-  const { watch, setValue, getValues } = useFormContext();
+  const { watch } = useFormContext();
   const paymentSettlement = watch('paymentSettlement');
-  
-  // Initialize on mount if empty
-  useEffect(() => {
-    const currentValue = getValues('paymentSettlement');
-    if (!currentValue || currentValue.length === 0) {
-      // Use setTimeout to ensure the form is fully initialized
-      setTimeout(() => {
-        setValue('paymentSettlement', [{}], { shouldValidate: false, shouldDirty: false });
-      }, 0);
-    }
-  }, [record?.id]); // Re-run when record id changes (edit mode)
-  
-  // Ensure at least one item remains after clear
-  useEffect(() => {
-    if (paymentSettlement && paymentSettlement.length === 0) {
-      setValue('paymentSettlement', [{}], { shouldValidate: false, shouldDirty: false });
-    }
-  }, [paymentSettlement, setValue]);
   
   const currentLength = paymentSettlement?.length || 0;
   
