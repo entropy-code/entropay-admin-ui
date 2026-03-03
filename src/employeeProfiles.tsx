@@ -31,6 +31,7 @@ import { Box, Chip, Divider, Grid, Modal, Typography } from "@mui/material";
 import RedirectButton from "./components/RedirectButton";
 import { EntityViewActions, HasPermissions } from "./components/layout/CustomActions";
 import CancelPtoButton from "./components/buttons/CancelPtoButton";
+import { FeedbackSummaryButton } from "./components/buttons/FeedbackSummaryButton";
 import { useTheme } from "@mui/material/styles";
 import { proficiencyLevel } from "./skills";
 import { engagementTypeChoices } from "./assignments";
@@ -680,6 +681,44 @@ export const EmployeeProfile = () => {
                   <FunctionField
                     render={() => (
                       <EditButton />
+                    )}
+                  />
+                )}
+              </Datagrid>
+            </ReferenceManyField>
+          </Tab>
+        )}
+        {HasPermissions("feedback-summary", "read") && (
+          <Tab label="Feedback Summaries">
+            <Box sx={{ mb: 2, mt: 1, display: 'flex', alignItems: 'center' }}>
+              <FeedbackSummaryButton employeeId={DisplayRecordCurrentId() as string} />
+            </Box>
+            <ReferenceManyField
+              label=""
+              reference="feedback-summary"
+              target="employeeId"
+              sort={{ field: "createdAt", order: "DESC" }}
+            >
+              <Datagrid
+                bulkActionButtons={false}
+                empty={<CustomEmpty message="No summaries found" />}
+                rowClick="show"
+              >
+                <DateField source="createdAt" locales={locale} />
+                <TextField
+                  source="summary"
+                  style={{
+                    display: "inline-block",
+                    maxWidth: "30em",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                  }}
+                />
+                {HasPermissions("feedback-summary", "read") && (
+                  <FunctionField
+                    render={() => (
+                      <ShowButton />
                     )}
                   />
                 )}
