@@ -1,6 +1,7 @@
 import * as React from "react";
 import {
   ArrayField,
+  BooleanField,
   ChipField,
   Datagrid,
   DateField,
@@ -270,26 +271,7 @@ export const EmployeeProfile = () => {
             </Datagrid>
           </ArrayField>
 
-          <ArrayField source="children">
-            <Datagrid
-              bulkActionButtons={false}
-              sx={{
-                mb: 2,
-              }}
-            >
-              <TextField source="firstName" />
-              <TextField source="lastName" />
-              <SelectField
-                source="gender"
-                choices={[
-                  { id: "MALE", name: "Male" },
-                  { id: "FEMALE", name: "Female" },
-                  { id: "NON_BINARY", name: "Non Binary" },
-                ]}
-              />
-              <TextField source="birthDate" />
-            </Datagrid>
-          </ArrayField>
+          <BooleanField source="hasChildren" label="Has Children" sx={{ marginLeft: "10px" }} />
         </Tab>
         <Tab label="Contracts">
           <ReferenceManyField
