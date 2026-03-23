@@ -13,6 +13,7 @@ import ReferenceInputItem from "./ReferenceInputItem";
 import ReferenceAutocompleteItem from "./ReferenceAutocompleteItem";
 import PaymentSection from "./PaymentSection";
 import ChildrenSection from "./ChildrenSection";
+import EducationSection from "./EducationSection";
 import MultiSelectInput from "./MultiSelectInput";
 import AvailableVacationDays from "./AvailableVacationDays";
 import NestedReferenceInput from "./NestedReferenceInput";
@@ -187,6 +188,9 @@ const FormSection = ({
           })}
         {customSections && customSections.includes("childrenSection") && (
           <ChildrenSection type="children" />
+        )}
+        {customSections && customSections.includes("educationSection") && (
+          <EducationSection type="education" />
         )}
         {customSections &&
           customSections.includes("paymentInformationSection") && (

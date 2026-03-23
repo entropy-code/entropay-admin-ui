@@ -7,11 +7,14 @@ import {
   ReferenceField,
   ArrayField,
   SingleFieldList,
-  Labeled
+  Labeled,
+  SelectField,
+  useRecordContext
 } from "react-admin";
 import { Box, Typography, useMediaQuery } from "@mui/material";
 import { CustomizableChipField } from "../fields";
 import { IPaymentSettlement } from "../../types";
+import { EducationIterator } from "./EducationSection";
 
 const FormViewSections = (config: any) => {
   const [locale] = useLocaleState();
@@ -122,6 +125,9 @@ const FormViewSections = (config: any) => {
             </Labeled>
             </Box>
           )}
+        {config.customSections && config.customSections.includes("educationSection") && (
+          <EducationIterator />
+        )}
         {config.customSections && config.customSections.includes("notesSection") && (
           <Labeled>
             <TextField source="notes" />

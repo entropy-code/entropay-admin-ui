@@ -35,6 +35,7 @@ import { useTheme } from "@mui/material/styles";
 import { proficiencyLevel } from "./skills";
 import { engagementTypeChoices } from "./assignments";
 import { EmployeeProfileHeader } from "./components/EmployeeProfileHeader";
+import { EducationLevelField, EducationInstitutionField, EducationDegreeField } from "./components/forms/EducationSection";
 
 const DisplayRecordCurrentId = () => {
   return useGetRecordId();
@@ -230,7 +231,8 @@ export const EmployeeProfile = () => {
                 >
                   <TextField source="name" />
                 </ReferenceField>
-                <TextField source="notes" />
+                <TextField source="state" />
+                <TextField source="zip" />
               </SimpleShowLayout>
             </Grid>
 
@@ -247,11 +249,19 @@ export const EmployeeProfile = () => {
                 <TextField source="labourEmail" />
                 <TextField source="mobileNumber" />
                 <TextField source="personalNumber" />
-                <TextField source="state" />
-                <TextField source="zip" />
+                <WrapperField label="Education Level">
+                  <EducationLevelField />
+                </WrapperField>
+                <WrapperField label="Institution">
+                  <EducationInstitutionField />
+                </WrapperField>
+                <WrapperField label="Degree">
+                  <EducationDegreeField />
+                </WrapperField>
                 <TextField source="emergencyContactFullName" />
                 <TextField source="healthInsurance" />
                 <TextField source="emergencyContactPhone" />
+                <TextField source="notes" />
               </SimpleShowLayout>
             </Grid>
           </Grid>
