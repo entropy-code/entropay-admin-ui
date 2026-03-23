@@ -5,11 +5,13 @@ import {
   NumberField,
   TextField,
   ReferenceField,
+  ReferenceArrayField,
   ArrayField,
   SingleFieldList,
   Labeled,
   SelectField,
-  useRecordContext
+  useRecordContext,
+  ChipField
 } from "react-admin";
 import { Box, Typography, useMediaQuery } from "@mui/material";
 import { CustomizableChipField } from "../fields";
@@ -97,6 +99,19 @@ const FormViewSections = (config: any) => {
                         <TextField source={listItem.referenceValues.optionText}></TextField>
                     </ReferenceField> 
                         
+                  </Labeled>
+                  ) : undefined}
+                
+                {listItem.type === "AutocompleteInput" && listItem.referenceValues.multiselect ? (
+                  <Labeled label={listItem.name}>
+                    <ReferenceArrayField 
+                      source={listItem.referenceValues.source} 
+                      reference={listItem.referenceValues.reference}
+                      >
+                        <SingleFieldList linkType={false}>
+                          <ChipField source={listItem.referenceValues.optionText} />
+                        </SingleFieldList>
+                    </ReferenceArrayField>
                   </Labeled>
                   ) : undefined}
               </Box>

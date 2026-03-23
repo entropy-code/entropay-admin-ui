@@ -6,13 +6,55 @@ import {
   SimpleFormIterator,
   TextInput,
   AutocompleteInput,
+  useRecordContext,
 } from "react-admin";
+import { useFormContext } from "react-hook-form";
 
 const PaymentPlatform = [
   { name: 'Banco USA' },
   { name: 'Banco internacional' },
   { name: 'Mural' },
 ];
+
+const PaymentSettlementSection = () => {
+  const { watch } = useFormContext();
+  const paymentSettlement = watch('paymentSettlement');
+  
+  const currentLength = paymentSettlement?.length || 0;
+  
+  return (
+    <ArrayInput
+      source="paymentSettlement"
+      fullWidth
+      sx={{ gridColumn: "span 2" }}
+    >
+      <SimpleFormIterator 
+        inline 
+        disableReordering 
+        disableRemove={currentLength <= 1}
+      >
+        <SelectInput
+          source="modality"
+          choices={[
+            { id: "HOUR", name: "Hour" },
+            { id: "MONTHLY", name: "Monthly" },
+          ]}
+          required={true}
+        />
+        <NumberInput source="salary" required={true} />
+        <SelectInput
+          source="currency"
+          choices={[
+            { id: "USD", name: "USD - United States dollar" },
+            { id: "ARS", name: "ARS - Argentine peso" },
+          ]}
+          required={true}
+        />
+      </SimpleFormIterator>
+    </ArrayInput>
+  );
+};
+
 const PaymentSection = (type: {
   type: "paymentInformation" | "paymentSettlement";
 }) => {
@@ -46,31 +88,7 @@ const PaymentSection = (type: {
         </ArrayInput>
       )}
       {type.type === "paymentSettlement" && (
-        <ArrayInput
-          source="paymentSettlement"
-          fullWidth
-          sx={{ gridColumn: "span 2" }}
-        >
-          <SimpleFormIterator inline disableReordering>
-            <SelectInput
-              source="modality"
-              choices={[
-                { id: "HOUR", name: "Hour" },
-                { id: "MONTHLY", name: "Monthly" },
-              ]}
-              required={true}
-            />
-            <NumberInput source="salary" required={true} />
-            <SelectInput
-              source="currency"
-              choices={[
-                { id: "USD", name: "USD - United States dollar" },
-                { id: "ARS", name: "ARS - Argentine peso" },
-              ]}
-              required={true}
-            />
-          </SimpleFormIterator>
-        </ArrayInput>
+        <PaymentSettlementSection />
       )}
     </>
   );

@@ -1,6 +1,7 @@
 import * as React from "react";
 import {
   ArrayField,
+  BooleanField,
   ChipField,
   Datagrid,
   DateField,
@@ -31,6 +32,7 @@ import { Box, Chip, Divider, Grid, Modal, Typography } from "@mui/material";
 import RedirectButton from "./components/RedirectButton";
 import { EntityViewActions, HasPermissions } from "./components/layout/CustomActions";
 import CancelPtoButton from "./components/buttons/CancelPtoButton";
+import { FeedbackSummaryButton } from "./components/buttons/FeedbackSummaryButton";
 import { useTheme } from "@mui/material/styles";
 import { proficiencyLevel } from "./skills";
 import { engagementTypeChoices } from "./assignments";
@@ -279,26 +281,7 @@ export const EmployeeProfile = () => {
             </Datagrid>
           </ArrayField>
 
-          <ArrayField source="children">
-            <Datagrid
-              bulkActionButtons={false}
-              sx={{
-                mb: 2,
-              }}
-            >
-              <TextField source="firstName" />
-              <TextField source="lastName" />
-              <SelectField
-                source="gender"
-                choices={[
-                  { id: "MALE", name: "Male" },
-                  { id: "FEMALE", name: "Female" },
-                  { id: "NON_BINARY", name: "Non Binary" },
-                ]}
-              />
-              <TextField source="birthDate" />
-            </Datagrid>
-          </ArrayField>
+          <BooleanField source="hasChildren" label="Has Children" sx={{ marginLeft: "10px" }} />
         </Tab>
         <Tab label="Contracts">
           <ReferenceManyField
@@ -357,7 +340,11 @@ export const EmployeeProfile = () => {
                 <ChipField source="name" />
               </ReferenceField>
               <NumberField source="hoursPerMonth" />
-              <TextField source="benefits" />
+              <ReferenceArrayField source="benefitIds" reference="benefits" label="Benefits">
+                <SingleFieldList linkType={false}>
+                  <ChipField source="name" />
+                </SingleFieldList>
+              </ReferenceArrayField>
               <TextField source="notes" />
               <ShowButton />
               {HasPermissions("contracts", "update") && <EditButton />}
@@ -690,6 +677,44 @@ export const EmployeeProfile = () => {
                   <FunctionField
                     render={() => (
                       <EditButton />
+                    )}
+                  />
+                )}
+              </Datagrid>
+            </ReferenceManyField>
+          </Tab>
+        )}
+        {HasPermissions("feedback-summary", "read") && (
+          <Tab label="Feedback Summaries">
+            <Box sx={{ mb: 2, mt: 1, display: 'flex', alignItems: 'center' }}>
+              <FeedbackSummaryButton employeeId={DisplayRecordCurrentId() as string} />
+            </Box>
+            <ReferenceManyField
+              label=""
+              reference="feedback-summary"
+              target="employeeId"
+              sort={{ field: "createdAt", order: "DESC" }}
+            >
+              <Datagrid
+                bulkActionButtons={false}
+                empty={<CustomEmpty message="No summaries found" />}
+                rowClick="show"
+              >
+                <DateField source="createdAt" locales={locale} />
+                <TextField
+                  source="summary"
+                  style={{
+                    display: "inline-block",
+                    maxWidth: "30em",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                  }}
+                />
+                {HasPermissions("feedback-summary", "read") && (
+                  <FunctionField
+                    render={() => (
+                      <ShowButton />
                     )}
                   />
                 )}
