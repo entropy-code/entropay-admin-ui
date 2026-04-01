@@ -190,7 +190,7 @@ const FormSection = ({
           <ChildrenSection type="children" />
         )}
         {customSections && customSections.includes("educationSection") && (
-          <EducationSection type="education" />
+          <EducationSection />
         )}
         {customSections &&
           customSections.includes("paymentInformationSection") && (
