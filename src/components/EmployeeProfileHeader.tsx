@@ -9,6 +9,13 @@ import { ContentCopy } from "@mui/icons-material";
 import { useTheme } from "@mui/material/styles";
 import { HasPermissions } from "./layout/CustomActions";
 
+// Status color legend array
+export const STATUS_COLOR_LEGEND = [
+  { statusColor: 'GREEN', label: 'Normal / Good Standing', bgcolor: '#4caf50' },
+  { statusColor: 'YELLOW', label: 'Needs attention / at risk.', bgcolor: '#ffe70fde' },
+  { statusColor: 'RED', label: 'Critical / immediate action required.', bgcolor: '#f44336' },
+];
+
 interface EmployeeProfileHeaderProps {
   vacationAvailableDays: number;
 }
@@ -69,7 +76,10 @@ export const EmployeeProfileHeader: React.FC<EmployeeProfileHeaderProps> = ({
 }) => {
   const { palette } = useTheme();
   const [locale] = useLocaleState();
+  
+  const miVar = "GREEN"; //VAR de ejemplo, luego se reemplaza por record.statusColor
 
+  // Buscar el elemento del array que coincide con el statusColor del record
   return (
     <Box
       sx={{
@@ -81,79 +91,123 @@ export const EmployeeProfileHeader: React.FC<EmployeeProfileHeaderProps> = ({
         borderRadius: 1,
       }}
     >
-      {/* Avatar with initials */}
-      <FunctionField
-        label=""
-        render={(record) => (
-          <Avatar
-            sx={{
-              width: 56,
-              height: 56,
-              bgcolor: "#3f51b5",
-              fontSize: "1.25rem",
-              fontWeight: 600,
-              mt: 1,
-            }}
-          >
-            {record.firstName?.[0]?.toUpperCase() || ""}
-            {record.lastName?.[0]?.toUpperCase() || ""}
-          </Avatar>
-        )}
-      />
-
-      {/* Name and Email */}
-      <Box sx={{ ...metricBoxSx, minWidth: 220, justifyContent: "center" }}>
+        {/* Avatar con iniciales */}
         <FunctionField
           label=""
           render={(record) => (
-            <Typography variant="h5" fontWeight={700} sx={{ lineHeight: 1.2, mb: 0.5 }}>
-              {record.firstName} {record.lastName}
-            </Typography>
+            <Avatar
+              sx={{
+                width: 56,
+                height: 56,
+                bgcolor: "#3f51b5",
+                fontSize: "1.25rem",
+                fontWeight: 600,
+                mt: 1,
+              }}
+            >
+              {record.firstName?.[0]?.toUpperCase() || ""}
+              {record.lastName?.[0]?.toUpperCase() || ""}
+            </Avatar>
           )}
         />
-        <FunctionField
-          label=""
-          render={(record) => {
-            const labourEmail = record?.labourEmail ?? "-";
-            const canCopy = !!record?.labourEmail;
-
-            return (
-              <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
-                <Typography
-                  variant="body2"
-                  sx={{ color: "text.secondary", fontSize: "0.875rem" }}
-                >
-                  {labourEmail}
-                </Typography>
-                <Tooltip title="Copy email">
-                  <IconButton
-                    size="small"
-                    disabled={!canCopy}
-                    onClick={() => {
-                      if (record?.labourEmail) {
-                        navigator.clipboard.writeText(record.labourEmail);
-                      }
-                    }}
-                    sx={{ padding: 0.25 }}
+        {/* Name and Email */}
+        <Box sx={{ ...metricBoxSx, justifyContent: "flex-start", display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
+          <FunctionField
+            label=""
+            render={(record) => {
+              const semaphore = STATUS_COLOR_LEGEND.find(l => l.statusColor === miVar);
+              const isDefault = !semaphore;
+              return (
+                <Box sx={{ display: "flex", alignItems: "flex-start" }}>
+                  <Typography variant="h5" fontWeight={700} sx={{ lineHeight: 1.2, mb: 0.5, mt: 1.5}}>
+                    {record.firstName} {record.lastName}
+                  </Typography>
+                </Box>
+              );
+            }}
+          />
+          <FunctionField
+            label=""
+            render={(record) => {
+              const labourEmail = record?.labourEmail ?? "-";
+              const canCopy = !!record?.labourEmail;
+              return (
+                <Box sx={{ display: "flex", alignItems: "flex-start", gap: 0.5, mt: '0px' }}>
+                  <Typography
+                    variant="body2"
+                    sx={{ color: "text.secondary", fontSize: "0.875rem", textAlign: "left" }}
                   >
-                    <ContentCopy sx={{ fontSize: "0.875rem" }} />
-                  </IconButton>
-                </Tooltip>
-              </Box>
-            );
-          }}
-        />
-      </Box>
+                    {labourEmail}
+                  </Typography>
+                  <Tooltip title="Copy email">
+                    <IconButton
+                      size="small"
+                      disabled={!canCopy}
+                      onClick={() => {
+                        if (record?.labourEmail) {
+                          navigator.clipboard.writeText(record.labourEmail);
+                        }
+                      }}
+                      sx={{ padding: 0.25 }}
+                    >
+                      <ContentCopy sx={{ fontSize: "0.875rem" }} />
+                    </IconButton>
+                  </Tooltip>
+                </Box>
+              );
+            }}
+          />
+        </Box>
+
+      {/* Semaphore */}
+      <FunctionField
+        label=""
+        render={(record) => {
+          const semaphore = STATUS_COLOR_LEGEND.find(l => l.statusColor === miVar);
+          const isDefault = !semaphore;
+          return (
+            <Box sx={{ mt: 1.5, display: 'flex', alignItems: 'center', gap: 1, left: 0 }}>
+              <Tooltip
+                title={isDefault ? "No Status" : semaphore.label}
+                placement="right"
+                arrow
+                slotProps={{
+                  tooltip: {
+                    sx: { fontSize: '0.9rem', p: 1.5, left: -5 }
+                  }
+                }}
+              >
+                <Box
+                  sx={{
+                    width: 40,
+                    height: 40,
+                    borderRadius: "50%",
+                    bgcolor: isDefault ? "#bdbdbd" : semaphore.bgcolor,
+                    border: "3px solid #fff",
+                    boxShadow: 2,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                />
+              </Tooltip>
+              
+            </Box>
+          );
+        }}
+      />
 
       {/* Rate */}
       <FunctionField
         label=""
         render={(record) => (
-          <MetricBox
-            label="Rate"
-            value={`$${record.rate || 0}/h`}
-            minWidth={110}
-          />
+          <Box sx={{ ml: 4 }}>
+            <MetricBox
+              label="Rate"
+              value={`$${record.rate || 0}/h`}
+              minWidth={110}
+            />
+          </Box>
         )}
       />
 
