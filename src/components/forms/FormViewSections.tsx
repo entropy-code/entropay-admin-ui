@@ -5,13 +5,18 @@ import {
   NumberField,
   TextField,
   ReferenceField,
+  ReferenceArrayField,
   ArrayField,
   SingleFieldList,
-  Labeled
+  Labeled,
+  SelectField,
+  useRecordContext,
+  ChipField
 } from "react-admin";
 import { Box, Typography, useMediaQuery } from "@mui/material";
 import { CustomizableChipField } from "../fields";
 import { IPaymentSettlement } from "../../types";
+import { EducationIterator } from "./EducationSection";
 
 const FormViewSections = (config: any) => {
   const [locale] = useLocaleState();
@@ -96,6 +101,19 @@ const FormViewSections = (config: any) => {
                         
                   </Labeled>
                   ) : undefined}
+                
+                {listItem.type === "AutocompleteInput" && listItem.referenceValues.multiselect ? (
+                  <Labeled label={listItem.name}>
+                    <ReferenceArrayField 
+                      source={listItem.referenceValues.source} 
+                      reference={listItem.referenceValues.reference}
+                      >
+                        <SingleFieldList linkType={false}>
+                          <ChipField source={listItem.referenceValues.optionText} />
+                        </SingleFieldList>
+                    </ReferenceArrayField>
+                  </Labeled>
+                  ) : undefined}
               </Box>
             );
           })}
@@ -122,6 +140,9 @@ const FormViewSections = (config: any) => {
             </Labeled>
             </Box>
           )}
+        {config.customSections && config.customSections.includes("educationSection") && (
+          <EducationIterator />
+        )}
         {config.customSections && config.customSections.includes("notesSection") && (
           <Labeled>
             <TextField source="notes" />

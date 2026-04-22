@@ -46,6 +46,8 @@ import { ClientFeedbackList, ClientFeedbackEdit, ClientFeedbackCreate } from "./
 import { ReimbursementCategoriesList, ReimbursementCategoriesEdit, ReimbursementCategoriesCreate } from "./reimbursementCategories";
 import { ReimbursementsList, ReimbursementsEdit, ReimbursementsCreate } from "./reimbursements";
 import { SkillsList, SkillsEdit, SkillsCreate } from "./skills";
+import { BenefitsList, BenefitsEdit, BenefitsCreate } from "./benefits";
+import { EducationLevelsList, EducationLevelsEdit, EducationLevelsCreate } from "./educationLevels";
 
 type Resource =
   | React.ComponentType<any>
@@ -268,5 +270,21 @@ export const resourceMap: {
     edit: SkillsEdit,
     create: SkillsCreate,
     show: undefined,
+  },
+  {
+    entity: "benefits",
+    list: BenefitsList,
+    edit: BenefitsEdit,
+    create: BenefitsCreate,
+    show: undefined,
+    recordRepresentation: (record: { name: string }) => `${record.name}`,
+  },
+  {
+    entity: "education-levels",
+    list: EducationLevelsList,
+    edit: EducationLevelsEdit,
+    create: EducationLevelsCreate,
+    show: undefined,
+    recordRepresentation: (record: { name: string }) => `${record.name}`,
   }
 ];

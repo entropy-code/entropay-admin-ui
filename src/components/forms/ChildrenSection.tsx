@@ -1,52 +1,21 @@
 import React from "react";
 import {
-  ArrayInput,
-  TextInput,
-  SimpleFormIterator,
-  SelectInput,
-  DateInput,
+  BooleanInput,
 } from "react-admin";
+import { Box, Typography } from "@mui/material";
 
 const ChildrenSection = (props: { type: "children" }) => {
   return (
-    <>
-      {props.type === "children" && (
-        <ArrayInput source="children" fullWidth sx={{ gridColumn: "span 2" }}>
-          <SimpleFormIterator inline disableReordering>
-            <TextInput
-              source="firstName"
-              label="First Name"
-              helperText={false}
-              required
-            />
-            <TextInput
-              source="lastName"
-              label="Last Name"
-              helperText={false}
-              required
-            />
-            <SelectInput
-              source="gender"
-              label="Gender"
-              choices={[
-                { id: "MALE", name: "Male", label: "Male" },
-                { id: "FEMALE", name: "Female", label: "Female" },
-                { id: "NON_BINARY", name: "Non Binary", label: "Non Binary" },
-              ]}
-              helperText={false}
-              required={true}
-            />
-            <DateInput source="birthDate" label="Birth date" parse={val => {
-                      //Workaround to fix issue with dates when using negative time zones like ARG
-                      if(val){
-                      const date = new Date(val);
-                      return date.toISOString().split('T')[0]; 
-                      }
-                    }}/>
-          </SimpleFormIterator>
-        </ArrayInput>
-      )}
-    </>
+    <Box sx={{ gridColumn: "span 2", display: "flex", alignItems: "center", gap: "16px", marginBottom: "16px" }}>
+      <Typography color={"rgba(0, 0, 0, 0.6)"} sx={{ fontSize: "12px" }}>
+        Children
+      </Typography>
+      <BooleanInput 
+        source="hasChildren"
+        label="Yes"
+        helperText={false}
+      />
+    </Box>
   );
 };
 

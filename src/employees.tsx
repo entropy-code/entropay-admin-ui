@@ -126,6 +126,10 @@ const formData = [
     ],
   },
   {
+    title: "Education Level Achieved",
+    customSections: ["educationSection"],
+  },
+  {
     title: "Direction",
     inputsList: [
       { name: "address", type: "string" },
