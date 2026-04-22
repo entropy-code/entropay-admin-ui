@@ -1,6 +1,7 @@
 import * as React from "react";
 import {
   ArrayField,
+  BooleanField,
   ChipField,
   Datagrid,
   DateField,
@@ -36,6 +37,7 @@ import { useTheme } from "@mui/material/styles";
 import { proficiencyLevel } from "./skills";
 import { engagementTypeChoices } from "./assignments";
 import { EmployeeProfileHeader } from "./components/EmployeeProfileHeader";
+import { EducationLevelField, EducationInstitutionField, EducationDegreeField } from "./components/forms/EducationSection";
 
 const DisplayRecordCurrentId = () => {
   return useGetRecordId();
@@ -231,7 +233,8 @@ export const EmployeeProfile = () => {
                 >
                   <TextField source="name" />
                 </ReferenceField>
-                <TextField source="notes" />
+                <TextField source="state" />
+                <TextField source="zip" />
               </SimpleShowLayout>
             </Grid>
 
@@ -248,11 +251,19 @@ export const EmployeeProfile = () => {
                 <TextField source="labourEmail" />
                 <TextField source="mobileNumber" />
                 <TextField source="personalNumber" />
-                <TextField source="state" />
-                <TextField source="zip" />
+                <WrapperField label="Education Level">
+                  <EducationLevelField />
+                </WrapperField>
+                <WrapperField label="Institution">
+                  <EducationInstitutionField />
+                </WrapperField>
+                <WrapperField label="Degree">
+                  <EducationDegreeField />
+                </WrapperField>
                 <TextField source="emergencyContactFullName" />
                 <TextField source="healthInsurance" />
                 <TextField source="emergencyContactPhone" />
+                <TextField source="notes" />
               </SimpleShowLayout>
             </Grid>
           </Grid>
@@ -270,26 +281,7 @@ export const EmployeeProfile = () => {
             </Datagrid>
           </ArrayField>
 
-          <ArrayField source="children">
-            <Datagrid
-              bulkActionButtons={false}
-              sx={{
-                mb: 2,
-              }}
-            >
-              <TextField source="firstName" />
-              <TextField source="lastName" />
-              <SelectField
-                source="gender"
-                choices={[
-                  { id: "MALE", name: "Male" },
-                  { id: "FEMALE", name: "Female" },
-                  { id: "NON_BINARY", name: "Non Binary" },
-                ]}
-              />
-              <TextField source="birthDate" />
-            </Datagrid>
-          </ArrayField>
+          <BooleanField source="hasChildren" label="Has Children" sx={{ marginLeft: "10px" }} />
         </Tab>
         <Tab label="Contracts">
           <ReferenceManyField
@@ -348,7 +340,11 @@ export const EmployeeProfile = () => {
                 <ChipField source="name" />
               </ReferenceField>
               <NumberField source="hoursPerMonth" />
-              <TextField source="benefits" />
+              <ReferenceArrayField source="benefitIds" reference="benefits" label="Benefits">
+                <SingleFieldList linkType={false}>
+                  <ChipField source="name" />
+                </SingleFieldList>
+              </ReferenceArrayField>
               <TextField source="notes" />
               <ShowButton />
               {HasPermissions("contracts", "update") && <EditButton />}

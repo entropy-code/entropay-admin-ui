@@ -11,10 +11,12 @@ const CreateForm = ({
   formData,
   title,
   resource,
+  defaultValues,
 }: {
   formData: any[];
   title: string;
   resource: string;
+  defaultValues?: Record<string, any>;
 }) => {
   const redirect = useRedirect();
   const onSuccess = (data: { id: string; employeeId: string }) => {
@@ -63,6 +65,7 @@ const CreateForm = ({
       >
         <SimpleForm
           validate={validateEntity}
+          defaultValues={defaultValues}
           toolbar={
             window.location.href.includes("ptos/create") ? (
               <VacationValidation />

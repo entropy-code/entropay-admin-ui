@@ -8,6 +8,7 @@ import {
   ReferenceField,
   SearchInput,
   TextField,
+  FunctionField,
   useGetList,
 } from "react-admin";
 import { exporter } from "./utils/exporter";
@@ -145,8 +146,18 @@ export const SalariesReportList = () => {
         >
           <TextField source="internalId" />
         </ReferenceField>
-        <TextField source="firstName" />
-        <TextField source="lastName" />
+        <FunctionField
+          label="First Name"
+          render={(record: any) => (
+            <span style={{ color: record.active === false ? 'red' : 'inherit' }}>{record.firstName}</span>
+          )}
+        />
+        <FunctionField
+          label="Last Name"
+          render={(record: any) => (
+            <span style={{ color: record.active === false ? 'red' : 'inherit' }}>{record.lastName}</span>
+          )}
+        />
         <TextField source="clientName" />
         <NumberField source="salary" />
         <TextField source="modality" />
