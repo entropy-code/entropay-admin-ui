@@ -29,7 +29,7 @@ const canGenerateSummary = (
   const latestSummaryDate = new Date(latestSummary.createdAt);
 
   const hasNewerFeedback = feedbackList.some((feedback) => {
-    const feedbackDate = new Date(feedback.modifiedAt);
+    const feedbackDate = new Date(feedback.modifiedAt || feedback.createdAt);
     return feedbackDate > latestSummaryDate;
   });
 
