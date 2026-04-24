@@ -29,7 +29,7 @@ const canGenerateSummary = (
   const latestSummaryDate = new Date(latestSummary.createdAt);
 
   const hasNewerFeedback = feedbackList.some((feedback) => {
-    const feedbackDate = new Date(feedback.feedbackDate || feedback.createdAt);
+    const feedbackDate = new Date(feedback.modifiedAt);
     return feedbackDate > latestSummaryDate;
   });
 
@@ -49,7 +49,7 @@ export const FeedbackSummaryButton: React.FC = () => {
   const { data: feedbackList = [] } = useGetManyReference("feedback/employee", {
     target: "employeeId",
     id: employeeId,
-    sort: { field: "feedbackDate", order: "DESC" },
+    sort: { field: "modifiedAt", order: "DESC" },
   });
 
   const canGenerate = canGenerateSummary(feedbackList, summaryList);
