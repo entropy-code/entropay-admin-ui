@@ -127,7 +127,6 @@ const GetLatestAssignment = () => {
     target: "employeeId",
     id: employeeId,
   });
-  // It will be changed when the active field is added to assignments
 
   const latestAssignment = React.useMemo(() => {
     if (Array.isArray(assignments) && employee) {
@@ -686,15 +685,15 @@ export const EmployeeProfile = () => {
         )}
         {HasPermissions("feedback-summary", "read") && (
           <Tab label="Feedback Summaries">
-            <Box sx={{ mb: 2, mt: 1, display: 'flex', alignItems: 'center' }}>
-              <FeedbackSummaryButton employeeId={DisplayRecordCurrentId() as string} />
-            </Box>
             <ReferenceManyField
               label=""
               reference="feedback-summary"
               target="employeeId"
               sort={{ field: "createdAt", order: "DESC" }}
             >
+              <Box sx={{ mb: 2, mt: 1, display: 'flex', alignItems: 'center' }}>
+                <FeedbackSummaryButton />
+              </Box>
               <Datagrid
                 bulkActionButtons={false}
                 empty={<CustomEmpty message="No summaries found" />}

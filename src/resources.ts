@@ -48,6 +48,7 @@ import { ReimbursementsList, ReimbursementsEdit, ReimbursementsCreate } from "./
 import { SkillsList, SkillsEdit, SkillsCreate } from "./skills";
 import { BenefitsList, BenefitsEdit, BenefitsCreate } from "./benefits";
 import { EducationLevelsList, EducationLevelsEdit, EducationLevelsCreate } from "./educationLevels";
+import { FeedbackSummaryView } from "./feedbackSummary";
 
 type Resource =
   | React.ComponentType<any>
@@ -86,6 +87,13 @@ export const resourceMap: {
     create: ClientFeedbackCreate,
     show: undefined,
     recordRepresentation: (record: { title: string }) => `${record.title}`,
+  },
+  {
+    entity: "feedback-summary",
+    list: undefined,
+    edit: undefined,
+    create: undefined,
+    show: FeedbackSummaryView,
   },
   {
     entity: "projects",
