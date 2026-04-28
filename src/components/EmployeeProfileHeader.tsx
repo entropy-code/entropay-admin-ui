@@ -8,13 +8,7 @@ import { Avatar, Box, Typography, SxProps, Theme, IconButton, Tooltip } from "@m
 import { ContentCopy } from "@mui/icons-material";
 import { useTheme } from "@mui/material/styles";
 import { HasPermissions } from "./layout/CustomActions";
-
-// Status color legend array
-export const STATUS_COLOR_LEGEND = [
-  { statusColor: 'GREEN', label: 'Normal / Good Standing', bgcolor: '#4caf50' },
-  { statusColor: 'YELLOW', label: 'Needs attention / at risk.', bgcolor: '#ffe70fde' },
-  { statusColor: 'RED', label: 'Critical / immediate action required.', bgcolor: '#f44336' },
-];
+import { STATUS_COLOR_LEGEND } from "../utils/constants";
 
 interface EmployeeProfileHeaderProps {
   vacationAvailableDays: number;
@@ -77,9 +71,8 @@ export const EmployeeProfileHeader: React.FC<EmployeeProfileHeaderProps> = ({
   const { palette } = useTheme();
   const [locale] = useLocaleState();
   
-  const miVar = "GREEN"; //VAR de ejemplo, luego se reemplaza por record.statusColor
+  const statusColor = "GREEN"; // Example VAR, to be replaced by record.statusColor
 
-  // Buscar el elemento del array que coincide con el statusColor del record
   return (
     <Box
       sx={{
@@ -114,17 +107,13 @@ export const EmployeeProfileHeader: React.FC<EmployeeProfileHeaderProps> = ({
         <Box sx={{ ...metricBoxSx, justifyContent: "flex-start", display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
           <FunctionField
             label=""
-            render={(record) => {
-              const semaphore = STATUS_COLOR_LEGEND.find(l => l.statusColor === miVar);
-              const isDefault = !semaphore;
-              return (
-                <Box sx={{ display: "flex", alignItems: "flex-start" }}>
-                  <Typography variant="h5" fontWeight={700} sx={{ lineHeight: 1.2, mb: 0.5, mt: 1.5}}>
-                    {record.firstName} {record.lastName}
-                  </Typography>
-                </Box>
-              );
-            }}
+            render={(record) => (
+              <Box sx={{ display: "flex", alignItems: "flex-start" }}>
+                <Typography variant="h5" fontWeight={700} sx={{ lineHeight: 1.2, mb: 0.5, mt: 1.5}}>
+                  {record.firstName} {record.lastName}
+                </Typography>
+              </Box>
+            )}
           />
           <FunctionField
             label=""
@@ -162,8 +151,8 @@ export const EmployeeProfileHeader: React.FC<EmployeeProfileHeaderProps> = ({
       {/* Semaphore */}
       <FunctionField
         label=""
-        render={(record) => {
-          const semaphore = STATUS_COLOR_LEGEND.find(l => l.statusColor === miVar);
+        render={() => {
+          const semaphore = STATUS_COLOR_LEGEND.find(l => l.statusColor === statusColor);
           const isDefault = !semaphore;
           return (
             <Box sx={{ mt: 1.5, display: 'flex', alignItems: 'center', gap: 1, left: 0 }}>

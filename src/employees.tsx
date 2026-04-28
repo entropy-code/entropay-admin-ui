@@ -70,6 +70,9 @@ const COLOR_BG = [
   orange[500],
 ];
 
+//const statusColor = record.statusColor || "SILVER";
+const statusColor = "GREEN"; // Example VAR, to be replaced by record.statusColor
+
 const formData = [
   {
     title: "Personal Information",
@@ -321,6 +324,7 @@ const ActiveFilter = () => {
 
 const fieldsList = [
   { name: "internalId", type: "text" },
+  { name: "turnoverRisk", type: "turnoverRisk", label: "Turnover risk" },
   { name: "firstName", type: "text" },
   { name: "lastName", type: "text" },
   { name: "countryName", type: "text", label: "Country" },
@@ -339,6 +343,7 @@ const fieldsList = [
 
 const headersRename = [
   "internalId",
+  "Turnover risk",
   "First Name",
   "Last Name",
   "Country",
@@ -460,6 +465,7 @@ const EmployeeInformation = ({ renderAs = "list" }) => {
                           ] as string,
                           fontSize: 50,
                           margin: 2,
+                          border: `5px solid ${statusColor}`,
                         }}
                       >
                         {`${record.firstName}`.charAt(0)}

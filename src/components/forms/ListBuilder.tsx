@@ -9,9 +9,10 @@ import {
   TextField,
   FunctionField,
 } from "react-admin";
-import { IconButton, Tooltip } from "@mui/material";
+import { IconButton, Tooltip, Box } from "@mui/material";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { HasPermissions } from "../layout/CustomActions";
+import { STATUS_COLOR_LEGEND } from "../../utils/constants";
 
 const ListBuilder = ({
   fieldsList,
@@ -109,6 +110,40 @@ const ListBuilder = ({
                 >
                   {field.children}
                 </ReferenceField>
+              );
+            case "turnoverRisk":
+              return (
+                <FunctionField
+                  key={index}
+                  label={field?.label}
+                  render={() => {
+                    //const statusColor = record.statusColor || "SILVER";
+                    const statusColor = "GREEN"; // Example VAR, to be replaced by record.statusColor
+                    const semaphore = STATUS_COLOR_LEGEND.find(l => l.statusColor === statusColor);
+                    const isDefault = !semaphore;
+                    return (
+                      <Tooltip
+                        title={isDefault ? "No Status" : semaphore.label}
+                        placement="right"
+                        arrow
+                      >
+                        <Box
+                          sx={{
+                            width: 24,
+                            height: 24,
+                            borderRadius: "50%",
+                            bgcolor: isDefault ? "#bdbdbd" : semaphore.bgcolor,
+                            border: "2px solid #fff",
+                            boxShadow: 1,
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                          }}
+                        />
+                      </Tooltip>
+                    );
+                  }}
+                />
               );
             default:
               return undefined;
