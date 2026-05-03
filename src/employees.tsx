@@ -196,7 +196,12 @@ const CountryFilter = () => {
 };
 
 const CityFilter = () => {
-  const { data: employees, filterValues, setFilters } = useListContext();
+  const { data: employees } = useGetList('employees', {
+    pagination: { page: 1, perPage: 1000 },
+    sort: { field: 'city', order: 'ASC' },
+  });
+
+  const { filterValues, setFilters } = useListContext();
 
   const cityChoices = React.useMemo(() => {
     if (!employees) return [];
