@@ -1,81 +1,136 @@
-# CLAUDE.md
+# CLAUDE.md — entropay-admin-ui
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+React Admin frontend for the Entroteam platform. This file covers everything specific to this repo. For cross-app context (auth flow, roles, how this app fits with `entropay-employees` and `entropay-users-auth`), see the **`entroteam` meta-repo**.
 
-## Development Commands
+---
 
-### Core Commands
-- `npm start` or `yarn start`: Start development server (runs on http://localhost:3000)
-- `npm run build` or `yarn build`: Build for production
-- `npm test` or `yarn test`: Run tests in interactive watch mode
-- `npm run ts-check` or `yarn ts-check`: TypeScript type checking without emitting files
+## Development commands
 
-### Code Quality
-- Prettier is configured with specific settings: trailing commas (es5), 2-space tabs, semicolons, double quotes
-- ESLint extends react-app configuration
-- TypeScript strict mode is enabled
+```bash
+npm start         # Dev server on http://localhost:3000
+npm run build     # Production build
+npm test          # Tests, watch mode
+npm run ts-check  # Typecheck without emit
+```
 
-## Project Architecture
+### Code quality
+- Prettier: trailing commas (es5), 2-space tabs, semicolons, double quotes.
+- ESLint extends `react-app`.
+- TypeScript **strict mode** is on.
 
-### Technology Stack
-- **Framework**: React 18 with TypeScript
-- **Admin Framework**: React Admin 5.x with Material-UI components
-- **State Management**: React Query for server state
-- **UI Components**: Material-UI (@mui/material), RSuite components
-- **Data Provider**: ra-data-simple-rest for REST API integration
-- **Authentication**: Custom JWT-based auth provider with localStorage persistence
+---
 
-### Core Architecture Patterns
+## Stack
 
-#### Resource-Based Architecture
-The application follows React Admin's resource-based pattern where each business entity is defined as a resource in `src/resources.ts`. The `resourceMap` array defines all available resources with their corresponding CRUD components:
+- React 18 + TypeScript.
+- React Admin 5.x with Material-UI (`@mui/material`) and some RSuite components.
+- React Query for server state (provided by React Admin).
+- `ra-data-simple-rest` as the data provider, talking to `entropay-employees` over REST with JWT bearer.
+- Custom auth provider with JWT + `localStorage` persistence.
 
-- **Entities**: employees, projects, clients, companies, contracts, assignments, reports, etc.
-- **Components**: Each resource has list, edit, create, and show components
-- **Permissions**: Resources are filtered based on user permissions using `HasPermissions` helper
+---
 
-#### Configuration Management
-- **Environment-aware config**: `src/config.ts` handles both local development (.env.local) and Docker environments
-- **Runtime config**: Uses `window._env_` for Docker deployments to inject environment variables at runtime
-- **API endpoints**: Separate configuration for employees API and user authentication API
+## How the app is wired
 
-#### Authentication Flow
-- **Token-based**: JWT tokens stored in localStorage with expiration tracking
-- **URL-based login**: Tokens can be passed via URL parameters and stored automatically
-- **Permission system**: Dynamic menu and permission loading from backend configuration
-- **Auto-redirect**: Expired tokens automatically redirect to login URL
+- **`App.tsx`** — root React Admin setup: data provider, auth provider, layout, theme.
+- **`resources.ts`** — the spine of the app. A single `resourceMap` array enumerates every business entity with its `list` / `edit` / `create` / `show` components and a `recordRepresentation`. Adding or removing a resource is a one-line edit here.
+- **`authProvider.ts`** — JWT lifecycle: parse token from URL or `localStorage`, refresh, expire, and load per-user permissions from the backend.
+- **`config.ts`** — environment-aware config. Locally reads `.env.local`; in Docker reads `window._env_` injected at container start (so the same image works across environments).
+- **`/components`** — reusable UI primitives organized by kind (`buttons/`, `fields/`, `filters/`, `forms/`, `layout/`).
+- **`/types`** — TypeScript types for business entities.
+- **`/utils`** — helpers.
 
-### Directory Structure
+### Permissions
+Resources are filtered with the `HasPermissions` helper. The set of permissions a user has is loaded by `authProvider` at login from the backend; the menu and the `<Resource>` declarations honor it. Roles are platform-wide (see meta-repo).
 
-#### `/src` - Main source directory
-- **Root level**: Resource components (employees.tsx, projects.tsx, etc.) and main app files
-- **`/components`**: Reusable UI components organized by type (buttons, fields, filters, forms, layout)
-- **`/types`**: TypeScript type definitions for business entities
-- **`/utils`**: Utility functions and helpers
+### Reports vs. CRUD
+"Report" entities (paths under `reports/...`) are **read-only**: they expose only a `list` component, no edit/create/show. Treat them as views over backend aggregates.
 
-#### Key Files
-- **`App.tsx`**: Main application setup with React Admin configuration, data provider, and auth provider
-- **`resources.ts`**: Central resource mapping with permissions and component definitions
-- **`authProvider.ts`**: Authentication logic with token management and permission handling
-- **`config.ts`**: Environment-specific configuration management
+---
 
-### Data Flow
-1. **Authentication**: Token-based auth with automatic expiration handling
-2. **API Integration**: REST API calls through configured data provider with Bearer token headers
-3. **Permission Control**: Dynamic resource filtering based on user permissions
-4. **State Management**: React Query for server state, localStorage for auth/config persistence
+## Business domain map
 
-### Component Patterns
-- Each resource typically has 4 components: List, Edit, Create, and Show/View
-- Components use React Admin hooks and UI components
-- Custom layouts and headers are defined in `src/components/layout/`
-- Reports are read-only resources with specialized list components
+The current `resourceMap` (`src/resources.ts`) declares the following resources, grouped by area. Use this as the starting reference when asked to add or change a feature — the entity name in the table matches the API path the resource talks to.
 
-### Environment Configuration
-- **Local development**: Uses `.env.local` file
-- **Docker deployment**: Uses runtime environment variables injected via `window._env_`
-- **API endpoints**: Configurable for employees service and user authentication service
+### People
+| Resource | Components | Notes |
+|---|---|---|
+| `employees` | List/Edit/Create/Show | Core entity; `Show` is the rich `EmployeeProfile` view |
+| `feedback/employee` | List/Edit/Create | Feedback given to employees |
+| `feedback/client` | List/Edit/Create | Feedback received from clients |
+| `feedback-summary` | Show only | Aggregated view |
 
-## Main Branch Information
-- The main development branch is `main`
-- Use `main` as the base branch for pull requests
+### Projects & commercial
+| Resource | Components |
+|---|---|
+| `projects` | List/Edit/Create |
+| `clients` | List/Edit/Create |
+| `companies` | List/Edit/Create |
+| `tenants` | List (Guesser) — placeholder |
+| `project-types` | List/Edit/Create |
+| `contracts` | List/Edit/Create/Show |
+| `assignments` | List/Edit/Create/Show |
+| `roles` | List/Edit/Create |
+| `seniorities` | List/Edit/Create |
+
+### Time off & labor
+| Resource | Components |
+|---|---|
+| `vacations` | List/Edit/Create |
+| `ptos` | List/Edit/Create |
+| `overtimes` | List/Edit/Create/Show |
+| `leave-types` | List/Edit/Create |
+| `holidays` | List/Edit/Create |
+| `end-reasons` | List/Edit/Create |
+
+### Catalogs
+| Resource | Components |
+|---|---|
+| `countries` | List/Edit/Create |
+| `technologies` | List/Edit/Create |
+| `skills` | List/Edit/Create |
+| `education-levels` | List/Edit/Create |
+
+### Benefits & reimbursements
+| Resource | Components |
+|---|---|
+| `benefits` | List/Edit/Create |
+| `reimbursement-categories` | List/Edit/Create |
+| `reimbursements` | List/Edit/Create |
+
+### Reports (read-only)
+| Resource | Notes |
+|---|---|
+| `reports/employees` | Headcount / employee list reports |
+| `reports/ptos/employees` | PTO balance per employee |
+| `reports/turnover/flat` | Turnover, flat layout |
+| `reports/salaries` | Salaries / payment settlement |
+| `reports/billing` | Billing report |
+| `reports/margin` | Margin report |
+
+When adding a report, follow the existing read-only resource pattern: provide only `list`, point at a backend `reports/...` endpoint that already supports React Admin pagination.
+
+---
+
+## Adding a new resource (recipe)
+
+1. **Create the resource file** at `src/<entityName>.tsx` exporting at minimum `XxxList`, plus `XxxEdit` / `XxxCreate` / `XxxShow` as needed. Follow the structure of an existing similar resource (e.g. `clients.tsx` for a simple CRUD, `employees.tsx` for a complex one with custom show, `salaryReport.tsx` for a read-only report).
+2. **Register it** in `src/resources.ts`: import the components and add an entry to `resourceMap` with the API path as `entity` and a `recordRepresentation` if the record has a natural display string.
+3. **Permissions**: confirm the backend exposes the resource for the relevant roles. The `HasPermissions` filter applied in `App.tsx` will hide it for users who lack access; nothing extra is required in the resource file.
+4. **Types**: add a TypeScript type to `src/types/` if the entity has a non-trivial shape used in multiple places.
+5. **Reusable UI**: prefer composing existing pieces from `src/components/` over hand-rolling — fields, filters, and form layouts are already standardized there.
+
+---
+
+## Environment configuration
+
+- **Local**: `.env.local` provides API base URLs for `entropay-employees` and `entropay-users-auth`.
+- **Docker**: at runtime, `window._env_` (injected by the entrypoint script) overrides build-time values so a single image deploys to multiple environments.
+- The auth provider uses both endpoints: it bounces unauthenticated users to `users-auth` and reads/writes data via `employees`.
+
+---
+
+## Branch convention
+
+- Default branch: `main`.
+- PRs target `main`.
