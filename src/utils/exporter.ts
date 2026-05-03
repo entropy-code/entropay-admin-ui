@@ -1,6 +1,7 @@
 // TODO: Replace with a better library typescript compatible
 // @ts-ignore
 import * as jsonExport from "jsonexport/dist";
+import { STATUS_COLOR_LEGEND } from "./constants";
 
 export const exporter =
   (entity: string, headers: any[], headersRename: any, dataProvider?: any, booleanString?: boolean) => async (records: any[]) => {
@@ -111,18 +112,15 @@ export const exporter =
             case 'project.name':
               recordForExport[field] = project?.name || '';
               break;
+            case 'turnoverRisk':
+              const statusColor = record.statusColor || "GREEN";
+              const semaphore = STATUS_COLOR_LEGEND.find(l => l.statusColor === statusColor);
+              recordForExport[field] = semaphore?.label || 'No Status';
+              break;
             default:
               // Direct field from record
               recordForExport[field] = record[field];
           }
-          return recordForExport;
-        }, {});
-      });
-    } else {
-      // Default behavior without dataProvider
-      recordsForExport = records.map((record) => {
-        return headers.reduce((recordForExport, field) => {
-          recordForExport[field] = record[field];
           return recordForExport;
         }, {});
       });

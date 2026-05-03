@@ -13,12 +13,15 @@ import {
   ExportButton,
   useTheme,
 } from "react-admin";
+import { Box, Tooltip } from "@mui/material";
 import { CustomizableChipField } from "./components/fields";
 import { exporter } from "./utils/exporter";
 import QuickFilter from "./components/filters/QuickFilter";
+import { STATUS_COLOR_LEGEND } from "./utils/constants";
 
 const headersRename = [
   "Internal ID",
+  "Turnover risk",
   "First Name",
   "Last Name",
   "Labour Email",
@@ -39,6 +42,7 @@ const headersRename = [
 
 const headers = [
   "internalId",
+  "turnoverRisk",
   "firstName",
   "lastName",
   "labourEmail",
@@ -90,6 +94,37 @@ export const EmployeeReportList = () => {
     >
       <Datagrid rowSx={rowStyle} bulkActionButtons={false}>
         <TextField source="internalId" />
+        <FunctionField
+          source="statusColor"
+          label="Turnover risk"
+          render={(record) => {
+            //const statusColor = record.statusColor || "GREEN";
+            const statusColor = "GREEN"; // Example VAR, to be replaced by record.statusColor
+            const semaphore = STATUS_COLOR_LEGEND.find(l => l.statusColor === statusColor);
+            const isDefault = !semaphore;
+            return (
+              <Tooltip
+                title={isDefault ? "No Status" : semaphore.label}
+                placement="right"
+                arrow
+              >
+                <Box
+                  sx={{
+                    width: 24,
+                    height: 24,
+                    borderRadius: "50%",
+                    bgcolor: isDefault ? "#bdbdbd" : semaphore.bgcolor,
+                    border: "2px solid #fff",
+                    boxShadow: 1,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                />
+              </Tooltip>
+            );
+          }}
+        />
         <TextField source="firstName" />
         <TextField source="lastName" />
         <TextField source="labourEmail" />
