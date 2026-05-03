@@ -5,13 +5,9 @@ import {
   RecordContextProvider,
   ShowButton,
   EditButton,
-  TopToolbar,
   CreateButton,
-  ExportButton,
   useListContext,
-  SearchInput,
   useLocaleState,
-  FilterButton,
   ReferenceField,
   TextField,
   useGetList,
@@ -23,18 +19,13 @@ import {
   CardActions,
   Typography,
   CardActionArea,
-  Chip,
-  Switch,
-  FormControlLabel,
   Autocomplete,
   TextField as MuiTextField,
   Box,
   ToggleButtonGroup,
   ToggleButton,
-  IconButton,
-  Tooltip,
+  Divider,
 } from "@mui/material";
-import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import {
   red,
   blueGrey,
@@ -51,11 +42,15 @@ import { Avatar, Grid } from "@mui/material";
 import CreateForm from "./components/forms/CreateForm";
 import EditForm from "./components/forms/EditForm";
 import { HasPermissions } from "./components/layout/CustomActions";
-import { useState } from "react";
 import { Link } from "react-router-dom";
-import ListBuilder from "./components/forms/ListBuilder";
-import { exporter } from "./utils/exporter";
-import QuickFilter from "./components/filters/QuickFilter";
+
+const formatTenure = (timeSinceStart: string | undefined): string => {
+  if (!timeSinceStart) return "-";
+  return timeSinceStart
+    .replace(/\s*years?/gi, "y")
+    .replace(/\s*months?/gi, "m")
+    .replace(/,\s*/g, " ");
+};
 
 const COLOR_BG = [
   red[500],
@@ -210,9 +205,8 @@ const CityFilter = () => {
 
   const cityChoices = React.useMemo(() => {
     if (!employees) return [];
-
     const uniqueCities = [...new Set(employees.map((emp: any) => emp.city).filter(Boolean))];
-    return uniqueCities.map(city => ({ id: city, name: city }));
+    return uniqueCities.map((city: string) => ({ id: city, name: city }));
   }, [employees]);
 
   const handleChange = (event: any, value: any) => {
@@ -319,113 +313,22 @@ const ActiveFilter = () => {
   );
 };
 
-const fieldsList = [
-  { name: "internalId", type: "text" },
-  { name: "firstName", type: "text" },
-  { name: "lastName", type: "text" },
-  { name: "countryName", type: "text", label: "Country" },
-  { name: "city", type: "text" },
-  { name: "labourEmail", type: "textWithCopy" },
-  { name: "client", type: "text" },
-  { name: "project", type: "text" },
-  { name: "role", type: "text" },
-  { name: "startDate", type: "date" },
-  { name: "rate", type: "number", label: "Rate" },
-  { name: "salary", type: "number", label: "Salary" },
-  { name: "margin", type: "number", label: "Margin %" },
-  { name: "nearestPto", type: "date" },
-  { name: "availableDays", type: "number", label: "Available vacations" },
-];
-
-const headersRename = [
-  "internalId",
-  "First Name",
-  "Last Name",
-  "Country",
-  "City",
-  "Labour Email",
-  "Client",
-  "Project",
-  "Role",
-  "Start Date",
-  "Rate",
-  "Salary",
-  "Margin %",
-  "Nearest PTO",
-  "Available Vacation Days",
-];
-
-type RadioValueType = "list" | "card";
 
 export const EmployeeList = () => {
-  const [viewOptionValue, setRadioValue] = useState<RadioValueType>("list");
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setRadioValue(event.target.value as RadioValueType);
-  };
-
-  const viewOptions: {
-    id: number;
-    label: string;
-    value: RadioValueType;
-  }[] = [
-    {
-      id: 1,
-      label: "List",
-      value: "list",      
-    },
-    {
-      id: 2,
-      label: "Card",
-      value: "card",
-    },
-  ];
-
   return (
     <List
       aside={<FilterSidebar />}
       sort={{ field: "internalId", order: "ASC" }}
       component="div"
       actions={false}
-
-      exporter={exporter(
-        "employees",
-        fieldsList.map((field) => {
-          return field.name;
-        }),
-        headersRename
-      )}
+      exporter={false}
     >
-      <TopToolbar
-        sx={{
-          minHeight: { sm: 56 },
-          justifyContent: "space-between",
-        }}
-      >
-        <Box></Box>
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-          
-          <FormControlLabel
-            control={
-              <Switch
-                checked={viewOptionValue === "card"}
-                onChange={() => setRadioValue(viewOptionValue === "list" ? "card" : "list")}
-                color="primary"
-              />
-            }
-            label={viewOptionValue === "list" ? "List" : "Card"}
-            sx={{ ml: 2 }}
-          />
-          {HasPermissions("employees", "create") && <CreateButton />}
-          <ExportButton />
-        </Box>
-      </TopToolbar>
-      <EmployeeInformation renderAs={viewOptionValue} />
+      <EmployeeInformation />
     </List>
   );
 };
 
-const EmployeeInformation = ({ renderAs = "list" }) => {
+const EmployeeInformation = () => {
   const { data, isLoading } = useListContext();
   const [locale] = useLocaleState();
 
@@ -433,146 +336,133 @@ const EmployeeInformation = ({ renderAs = "list" }) => {
     return null;
   }
 
-  if (renderAs === "card") {
-    return (
-      <Grid container spacing={2} sx={{ marginTop: 0 }}>
-        {(data || []).map((record, index) => (
-          <RecordContextProvider key={index} value={record}>
-            <Grid xs={2} item>
-              <Card>
-                <CardActionArea
-                  component={Link}
-                  to={`${record.id}/show`}
-                  sx={{ minHeight: "380px" }}
-                  style={{ textDecoration: "none" }}
-                >
-                  <CardContent sx={{ padding: 1 }}>
-                    <Box sx={{ display: "flex", justifyContent: "center" }}>
+  return (
+    <Grid container spacing={2} sx={{ marginTop: 0 }}>
+      {(data || []).map((record) => (
+        <RecordContextProvider key={record.id} value={record}>
+          <Grid xs={2} item>
+            <Card>
+              <CardActionArea
+                component={Link}
+                to={`${record.id}/show`}
+                style={{ textDecoration: "none" }}
+              >
+                <CardContent sx={{ padding: 2 }}>
+                  <Box sx={{ display: "flex", alignItems: "flex-start", gap: 1.5 }}>
+                    <Box sx={{ position: "relative", flexShrink: 0 }}>
                       <Avatar
                         alt="Employee"
                         sx={{
-                          width: 100,
-                          height: 100,
+                          width: 48,
+                          height: 48,
                           bgcolor: COLOR_BG[
                             `${record.internalId}`.charAt(
                               `${record.internalId}`.length - 1
                             ) as keyof typeof COLOR_BG
                           ] as string,
-                          fontSize: 50,
-                          margin: 2,
+                          fontSize: 20,
                         }}
                       >
                         {`${record.firstName}`.charAt(0)}
                         {`${record.lastName}`.charAt(0)}
                       </Avatar>
+                      <Box
+                        sx={{
+                          position: "absolute",
+                          top: 1,
+                          right: 1,
+                          width: 11,
+                          height: 11,
+                          borderRadius: "50%",
+                          bgcolor: record.active !== false ? "#4caf50" : "#9e9e9e",
+                          border: "2px solid white",
+                        }}
+                      />
                     </Box>
-                    <Box sx={{ minHeight: 155 }}>
-                      <Typography noWrap variant="h5" component="h5" align="center">
-                        {record.internalId}
-                      </Typography>
-                      <Typography
-                        noWrap
-                        variant="h5"
-                        component="h5"
-                        align="center"
-                      >
+                    <Box sx={{ minWidth: 0, flex: 1 }}>
+                      <Typography variant="h6" fontWeight={700} noWrap>
                         {record.firstName} {record.lastName}
                       </Typography>
-                      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 0.5 }}>
-                        <Typography noWrap>
-                          {record.labourEmail ? record.labourEmail : "-"}
-                        </Typography>
-                        {record.labourEmail && (
-                          <Tooltip title="Copy to clipboard">
-                            <IconButton
-                              size="small"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                navigator.clipboard.writeText(record.labourEmail);
-                              }}
-                              sx={{ padding: '2px' }}
-                            >
-                              <ContentCopyIcon fontSize="small" />
-                            </IconButton>
-                          </Tooltip>
-                        )}
-                      </Box>
-                      <Typography noWrap align="center">
-                        <DateField source="startDate" locales={locale} />
-                      </Typography>
-                      <Typography noWrap align="center">
-                        {record.state} /
-                        <ReferenceField
-                          source="countryId"
-                          reference="countries"
-                          link="show"
-                        >
-                          {} <TextField source="name" />
+                      <Typography variant="body2" color="text.secondary" noWrap>
+                        {record.internalId}{record.state ? ` · ${record.state}` : ""}
+                        {" · "}
+                        <ReferenceField source="countryId" reference="countries" link={false}>
+                          <TextField source="name" />
                         </ReferenceField>
                       </Typography>
-                      <Typography noWrap align="center">
-                        {record.client} / {record.project}
+                    </Box>
+                  </Box>
+
+                  <Divider sx={{ my: 1.5 }} />
+                  <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+                    <Box>
+                      <Typography variant="caption" color="text.secondary" sx={{ textTransform: "uppercase", fontWeight: 600, display: "block" }}>
+                        Rate
                       </Typography>
-                      <Typography noWrap align="center">
-                        {record.role}
-                      </Typography>
-                      <Typography
-                        variant={undefined}
-                        component="h3"
-                        align="center"
-                      >
-                        <Chip
-                          label={"Available vacations: " + record.availableDays}
-                        />
-                      </Typography>
-                      <Typography
-                        variant={undefined}
-                        component="h6"
-                        align="center"
-                      >
-                        {record.nearestPto && (
-                          <Chip
-                            label={
-                              <>
-                                Next time off:{" "}
-                                <DateField
-                                  source="nearestPto"
-                                  locales={locale}
-                                />
-                              </>
-                            }
-                            variant="filled"
-                            color="success"
-                          />
-                        )}
+                      <Typography variant="subtitle2" fontWeight={700}>
+                        ${record.rate || 0}/h
                       </Typography>
                     </Box>
-                  </CardContent>
-                </CardActionArea>
-                <div style={{ display: "flex", justifyContent: "center" }}>
-                  <CardActions>
-                    <ShowButton />
-                    {HasPermissions("employees", "update") && <EditButton />}
-                  </CardActions>
-                </div>
-              </Card>
-            </Grid>
-          </RecordContextProvider>
-        ))}
-      </Grid>
-    );
-  } else {
-    return (
-      <Box sx={{ marginTop: "15px" }}>
-        <ListBuilder
-          fieldsList={fieldsList}
-          locale={locale}
-          hasShowButton={true}
-          resource="employees"
-        />
-      </Box>
-    );
-  }
+                    <Box>
+                      <Typography variant="caption" color="text.secondary" sx={{ textTransform: "uppercase", fontWeight: 600, display: "block" }}>
+                        Salary
+                      </Typography>
+                      <Typography variant="subtitle2" fontWeight={700}>
+                        ${(record.salary || 0).toLocaleString()}
+                      </Typography>
+                    </Box>
+                    <Box>
+                      <Typography variant="caption" color="text.secondary" sx={{ textTransform: "uppercase", fontWeight: 600, display: "block" }}>
+                        Margin
+                      </Typography>
+                      <Typography
+                        variant="subtitle2"
+                        fontWeight={700}
+                        sx={{ color: record.margin != null ? (record.margin >= 30 ? "#4caf50" : "#f44336") : "inherit" }}
+                      >
+                        {record.margin != null ? `${record.margin}%` : "-"}
+                      </Typography>
+                    </Box>
+                    <Box>
+                      <Typography variant="caption" color="text.secondary" sx={{ textTransform: "uppercase", fontWeight: 600, display: "block" }}>
+                        Tenure
+                      </Typography>
+                      <Typography variant="subtitle2" fontWeight={700}>
+                        {formatTenure(record.timeSinceStart)}
+                      </Typography>
+                    </Box>
+                  </Box>
+
+                  <Divider sx={{ my: 1.5 }} />
+                  <Box>
+                    <Typography variant="subtitle1" fontWeight={700} noWrap>
+                      {record.client || "-"}
+                      {record.project ? ` / ${record.project}` : ""}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary" noWrap>
+                      {record.role || "-"}
+                    </Typography>
+                    <Typography variant="body2" noWrap sx={{ mt: 0.5 }}>
+                      Vacations: {record.availableDays ?? 0} days
+                    </Typography>
+                    {record.nearestPto && (
+                      <Typography variant="body2" color="text.secondary" noWrap>
+                        Next PTO: <DateField source="nearestPto" locales={locale} />
+                      </Typography>
+                    )}
+                  </Box>
+                </CardContent>
+              </CardActionArea>
+              <CardActions sx={{ justifyContent: "center" }}>
+                <ShowButton />
+                {HasPermissions("employees", "update") && <EditButton />}
+              </CardActions>
+            </Card>
+          </Grid>
+        </RecordContextProvider>
+      ))}
+    </Grid>
+  );
 };
 
 export const EmployeeEdit = () => (
@@ -585,7 +475,7 @@ export const EmployeeCreate = () => (
 
 export const FilterSidebar = () => {
   return (
-    <Card sx={{ order: -1, mr: 2, mt: 9, width: 250, maxWidth: 250, minWidth: 250 }}>
+    <Card sx={{ order: -1, mr: 2, mt: 2, width: 250, maxWidth: 250, minWidth: 250 }}>
       <CardContent>
         <FilterLiveSearch />
         <ClientsFilter />
@@ -593,6 +483,11 @@ export const FilterSidebar = () => {
         <CityFilter />
         <ActiveFilter />
       </CardContent>
+      {HasPermissions("employees", "create") && (
+        <CardActions sx={{ px: 2, pb: 2 }}>
+          <CreateButton fullWidth variant="contained" />
+        </CardActions>
+      )}
     </Card>
   );
 };
