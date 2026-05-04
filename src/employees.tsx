@@ -38,7 +38,7 @@ import {
   green,
   orange,
 } from "@mui/material/colors";
-import { Avatar, Grid } from "@mui/material";
+import { Avatar } from "@mui/material";
 import CreateForm from "./components/forms/CreateForm";
 import EditForm from "./components/forms/EditForm";
 import { HasPermissions } from "./components/layout/CustomActions";
@@ -337,10 +337,17 @@ const EmployeeInformation = () => {
   }
 
   return (
-    <Grid container spacing={2} sx={{ marginTop: 0 }}>
+    <Box
+      sx={{
+        display: "grid",
+        gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
+        gap: 2,
+        mt: 2,
+      }}
+    >
       {(data || []).map((record) => (
         <RecordContextProvider key={record.id} value={record}>
-          <Grid xs={2} item>
+          <Box sx={{ maxWidth: 480, width: "100%" }}>
             <Card>
               <CardActionArea
                 component={Link}
@@ -445,11 +452,9 @@ const EmployeeInformation = () => {
                     <Typography variant="body2" noWrap sx={{ mt: 0.5 }}>
                       Vacations: {record.availableDays ?? 0} days
                     </Typography>
-                    {record.nearestPto && (
-                      <Typography variant="body2" color="text.secondary" noWrap>
-                        Next PTO: <DateField source="nearestPto" locales={locale} />
-                      </Typography>
-                    )}
+                    <Typography variant="body2" color="text.secondary" noWrap sx={{ visibility: record.nearestPto ? "visible" : "hidden" }}>
+                      Next PTO: <DateField source="nearestPto" locales={locale} />
+                    </Typography>
                   </Box>
                 </CardContent>
               </CardActionArea>
@@ -458,10 +463,10 @@ const EmployeeInformation = () => {
                 {HasPermissions("employees", "update") && <EditButton />}
               </CardActions>
             </Card>
-          </Grid>
+          </Box>
         </RecordContextProvider>
       ))}
-    </Grid>
+    </Box>
   );
 };
 
