@@ -2,7 +2,7 @@
 
 React Admin frontend for the Entroteam platform. Used by HR and Operations to manage employees, projects, contracts, time off, and reports.
 
-- **Node 20+**
+- **Node 20**
 - **React 18**
 - **Port: 3000**
 
