@@ -1,6 +1,6 @@
 .PHONY: setup
 setup: ## Install dependencies
-	npm install
+	npm install --legacy-peer-deps
 
 .PHONY: run
 run: ## Start dev server on http://localhost:3000
