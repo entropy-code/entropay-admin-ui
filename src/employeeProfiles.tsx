@@ -20,6 +20,7 @@ import {
   Tab,
   TabbedShowLayout,
   TextField,
+  useRecordContext,
   useGetManyReference,
   useGetOne,
   useGetRecordId,
@@ -28,7 +29,8 @@ import {
   WrapperField,
 } from "react-admin";
 import { feedbackSourceChoices } from "./employeeFeedback";
-import { Box, Chip, Divider, Grid, Modal, Typography } from "@mui/material";
+import { Box, Chip, Divider, Grid, IconButton, Modal, Tooltip, Typography } from "@mui/material";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import RedirectButton from "./components/RedirectButton";
 import { EntityViewActions, HasPermissions } from "./components/layout/CustomActions";
 import CancelPtoButton from "./components/buttons/CancelPtoButton";
@@ -38,6 +40,53 @@ import { proficiencyLevel } from "./skills";
 import { engagementTypeChoices } from "./assignments";
 import { EmployeeProfileHeader } from "./components/EmployeeProfileHeader";
 import { EducationLevelField, EducationInstitutionField, EducationDegreeField } from "./components/forms/EducationSection";
+
+const AddressCopyButton = () => {
+  const record = useRecordContext();
+  const { data: country } = useGetOne(
+    "countries",
+    { id: record?.countryId },
+    { enabled: !!record?.countryId },
+  );
+
+  if (!record) {
+    return null;
+  }
+
+  const addressText = [
+    record.address,
+    record.city,
+    record.zip,
+    country?.name,
+  ]
+    .filter(Boolean)
+    .join(", ");
+
+  const copyAddress = async () => {
+    if (!addressText) {
+      return;
+    }
+
+    try {
+      await navigator.clipboard.writeText(addressText);
+    } catch {
+      const textArea = document.createElement("textarea");
+      textArea.value = addressText;
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand("copy");
+      document.body.removeChild(textArea);
+    }
+  };
+
+  return (
+    <Tooltip title="Copy address">
+      <IconButton size="small" onClick={copyAddress} aria-label="Copy address">
+        <ContentCopyIcon fontSize="inherit" />
+      </IconButton>
+    </Tooltip>
+  );
+};
 
 const DisplayRecordCurrentId = () => {
   return useGetRecordId();
@@ -223,7 +272,16 @@ export const EmployeeProfile = () => {
                 />
                 <DateField source="birthDate" locales={locale} />
                 <TextField source="taxId" />
+                <WrapperField
+                  label={(
+                    <Box sx={{ display: "flex", alignItems: "center", gap: 0.5, fontSize: "0.75rem" }}>
+                      <span >Address</span>
+                      <AddressCopyButton />
+                    </Box>
+                  )}
+                >
                 <TextField source="address" />
+                </WrapperField>
                 <TextField source="city" />
                 <ReferenceField
                   source="countryId"
