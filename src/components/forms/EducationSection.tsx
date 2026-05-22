@@ -69,24 +69,40 @@ export const EducationLevelField = () => {
   const levelName = selectedLevel?.name;
   
   if (!educationLevelId) {
-    return <span className="css-e784if-MuiTypography-root">-</span>;
+    return <Typography variant="body2" component="span">-</Typography>;
   }
   
   if (levelName === "Other (Optional)" && record?.education?.levelOther) {
-    return <span className="css-e784if-MuiTypography-root">Other: {record.education.levelOther}</span>;
+    return (
+      <Typography variant="body2" component="span">
+        Other: {record.education.levelOther}
+      </Typography>
+    );
   }
   
-  return <span className="css-e784if-MuiTypography-root">{levelName || "-"}</span>;
+  return (
+    <Typography variant="body2" component="span">
+      {levelName || "-"}
+    </Typography>
+  );
 };
 
 export const EducationInstitutionField = () => {
   const record = useRecordContext();
-  return <span className="css-e784if-MuiTypography-root">{record?.education?.institution || "-"}</span>;
+  return (
+    <Typography variant="body2" component="span">
+      {record?.education?.institution || "-"}
+    </Typography>
+  );
 };
 
 export const EducationDegreeField = () => {
   const record = useRecordContext();
-  return <span className="css-e784if-MuiTypography-root">{record?.education?.degree || "-"}</span>;
+  return (
+    <Typography variant="body2" component="span">
+      {record?.education?.degree || "-"}
+    </Typography>
+  );
 };
 
 export const EducationIterator = () => {
