@@ -101,14 +101,26 @@ const TriggerDialog: React.FC<{
         <Stack spacing={2} mt={1}>
           <Stack direction="row" spacing={2}>
             <FormControl fullWidth>
-              <InputLabel>Year</InputLabel>
-              <Select label="Year" value={year} onChange={e => setYear(Number(e.target.value))}>
+              <InputLabel id="payroll-year-label">Year</InputLabel>
+              <Select
+                labelId="payroll-year-label"
+                id="payroll-year"
+                label="Year"
+                value={year}
+                onChange={e => setYear(Number(e.target.value))}
+              >
                 {yearOptions.map(y => <MenuItem key={y} value={y}>{y}</MenuItem>)}
               </Select>
             </FormControl>
             <FormControl fullWidth>
-              <InputLabel>Month</InputLabel>
-              <Select label="Month" value={month} onChange={e => setMonth(Number(e.target.value))}>
+              <InputLabel id="payroll-month-label">Month</InputLabel>
+              <Select
+                labelId="payroll-month-label"
+                id="payroll-month"
+                label="Month"
+                value={month}
+                onChange={e => setMonth(Number(e.target.value))}
+              >
                 {MONTHS.map((name, idx) => <MenuItem key={idx} value={idx + 1}>{name}</MenuItem>)}
               </Select>
             </FormControl>
@@ -343,15 +355,18 @@ const RunActions: React.FC<{ run: any; onChange: () => void }> = ({ run, onChang
     }
   };
 
+  // Mirrors RowActions.canDelete in the list: DRAFT/FAILED are deletable by anyone,
+  // APPROVED/CLOSED only by admin. Keep the two screens aligned so users don't lose
+  // the ability to delete after navigating into a run.
+  const canDelete = run.status === "DRAFT" || run.status === "FAILED"
+    || (admin && (run.status === "APPROVED" || run.status === "CLOSED"));
+
   return (
     <Stack direction="row" spacing={1} mb={2}>
       {run.status === "DRAFT" && (
-        <>
-          <Button variant="contained" color="primary" onClick={() => callAction("approve", "Approved")}>
-            Approve
-          </Button>
-          <Button color="error" onClick={deleteRun}>Delete</Button>
-        </>
+        <Button variant="contained" color="primary" onClick={() => callAction("approve", "Approved")}>
+          Approve
+        </Button>
       )}
       {run.status === "APPROVED" && (
         <>
@@ -359,7 +374,7 @@ const RunActions: React.FC<{ run: any; onChange: () => void }> = ({ run, onChang
           <Button variant="contained" onClick={() => callAction("close", "Closed")}>Close</Button>
         </>
       )}
-      {admin && (run.status === "APPROVED" || run.status === "CLOSED" || run.status === "FAILED") && (
+      {canDelete && (
         <Button color="error" onClick={deleteRun}>Delete</Button>
       )}
     </Stack>
@@ -435,7 +450,7 @@ export const PayrollRunShow: React.FC = () => {
 export const PayrollItemEdit: React.FC = () => {
   return (
     <Edit redirect={(_resource?: string, _id?: Identifier, data?: Partial<RaRecord>) =>
-      data?.payrollRunId ? `payroll-runs/${data.payrollRunId}/show` : "payroll-runs"
+      data?.payrollRunId ? `/payroll-runs/${data.payrollRunId}/show` : "/payroll-runs"
     }>
       <SimpleForm>
         <TextField source="internalId" />
