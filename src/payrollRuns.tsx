@@ -96,7 +96,7 @@ const TriggerDialog: React.FC<{
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
-      <DialogTitle>Run Payroll Liquidation</DialogTitle>
+      <DialogTitle>Run Payroll</DialogTitle>
       <DialogContent>
         <Stack spacing={2} mt={1}>
           <Stack direction="row" spacing={2}>
@@ -118,7 +118,7 @@ const TriggerDialog: React.FC<{
       <DialogActions>
         <Button onClick={onClose} disabled={submitting}>Cancel</Button>
         <Button onClick={trigger} variant="contained" disabled={submitting}>
-          {submitting ? "Starting…" : "Liquidar Sueldos"}
+          {submitting ? "Starting…" : "Run Payroll"}
         </Button>
       </DialogActions>
     </Dialog>
@@ -128,12 +128,12 @@ const TriggerDialog: React.FC<{
 const PayrollRunsListActions: React.FC<{ onClickTrigger: () => void }> = ({ onClickTrigger }) => (
   <TopToolbar>
     <Button startIcon={<PaymentsIcon />} onClick={onClickTrigger} variant="contained">
-      Liquidar Sueldos
+      Run Payroll
     </Button>
   </TopToolbar>
 );
 
-const StatusChip: React.FC = () => {
+const StatusChip: React.FC<{ label?: string }> = () => {
   const record = useRecordContext();
   if (!record) return null;
   return (
@@ -145,6 +145,16 @@ const StatusChip: React.FC = () => {
   );
 };
 
+const formatPeriod = (period?: string): string => {
+  if (!period) return "";
+  const [y, m] = period.split("-").map(Number);
+  if (!y || !m) return period;
+  return `${MONTHS[m - 1]} ${y}`;
+};
+
+const USD = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" });
+const CURRENCY_OPTS = { style: "currency" as const, currency: "USD" };
+
 const isAdmin = (): boolean => {
   try {
     const cfg = JSON.parse(localStorage.getItem("config") || "{}");
@@ -154,7 +164,7 @@ const isAdmin = (): boolean => {
   }
 };
 
-const RowActions: React.FC = () => {
+const RowActions: React.FC<{ label?: string }> = () => {
   const record = useRecordContext();
   const dataProvider = useDataProvider();
   const notify = useNotify();
@@ -247,12 +257,12 @@ export const PayrollRunsList: React.FC = () => {
           bulkActionButtons={false}
         >
           <DateField source="period" />
-          <StatusChip />
+          <StatusChip label="Status" />
           <TextField source="triggeredByEmail" label="Triggered by" />
           <DateField source="completedAt" showTime />
           <NumberField source="employeeCount" label="Employees" />
-          <NumberField source="totalAmount" options={{ style: "currency", currency: "USD" }} />
-          <RowActions />
+          <NumberField source="totalAmount" label="Total" options={CURRENCY_OPTS} />
+          <RowActions label="" />
         </Datagrid>
       </List>
       <TriggerDialog
@@ -283,11 +293,13 @@ const PayrollRunHeader: React.FC<{ run: any }> = ({ run }) => {
   if (!run) return null;
   return (
     <Box mb={2}>
-      <Typography variant="h5">Payroll · {run.period}</Typography>
+      <Typography variant="h5">Payroll — {formatPeriod(run.period)}</Typography>
       <Stack direction="row" spacing={2} mt={1} alignItems="center">
         <Chip label={run.status} color={STATUS_COLORS[run.status] || "default"} />
         <Typography variant="body2">Employees: {run.employeeCount ?? "–"}</Typography>
-        <Typography variant="body2">Total: {run.totalAmount ?? "–"}</Typography>
+        <Typography variant="body2">
+          Total: {run.totalAmount != null ? USD.format(Number(run.totalAmount)) : "–"}
+        </Typography>
         {run.errorMessage && (
           <Alert severity="error" sx={{ ml: 2 }}>
             {run.errorMessage}
@@ -373,7 +385,10 @@ export const PayrollRunShow: React.FC = () => {
         <Button startIcon={<ArrowBackIcon />} onClick={() => navigate("/payroll-runs")}>
           Back
         </Button>
-        <Button onClick={() => exporter(`payroll-${run.period}`, itemsExportHeaders, itemsExportLabels)(items)}>
+        <Button
+          variant="outlined"
+          onClick={() => exporter(`payroll-${run.period}`, itemsExportHeaders, itemsExportLabels)(items)}
+        >
           Export CSV
         </Button>
       </Stack>
@@ -396,19 +411,19 @@ export const PayrollRunShow: React.FC = () => {
         <TextField source="firstName" label="First Name" />
         <TextField source="lastName" label="Last Name" />
         <TextField source="clientName" label="Client" />
-        <TextField source="modality" />
-        <NumberField source="baseSalary" label="Base" />
-        <NumberField source="proportionalSalary" label="Proportional" />
+        <TextField source="modality" label="Modality" />
+        <NumberField source="baseSalary" label="Base" options={CURRENCY_OPTS} />
+        <NumberField source="proportionalSalary" label="Proportional" options={CURRENCY_OPTS} />
         <NumberField source="billableHoursInMonth" label="Billable Hrs" />
         <NumberField source="overtimeHours" label="OT Hrs" />
-        <NumberField source="overtimeAmount" label="OT $" />
-        <NumberField source="reimbursementsAmount" label="Reimb" />
-        <NumberField source="vacationCashout" label="Vacation" />
-        <NumberField source="hardwareClawback" label="HW Clawback" />
-        <NumberField source="adjustment" label="Adjustment" />
-        <NumberField source="previousBalance" label="Prev Bal" />
-        <NumberField source="totalAmount" label="Total" />
-        <TextField source="notes" />
+        <NumberField source="overtimeAmount" label="OT $" options={CURRENCY_OPTS} />
+        <NumberField source="reimbursementsAmount" label="Reimb" options={CURRENCY_OPTS} />
+        <NumberField source="vacationCashout" label="Vacation" options={CURRENCY_OPTS} />
+        <NumberField source="hardwareClawback" label="HW Clawback" options={CURRENCY_OPTS} />
+        <NumberField source="adjustment" label="Adjustment" options={CURRENCY_OPTS} />
+        <NumberField source="previousBalance" label="Prev Bal" options={CURRENCY_OPTS} />
+        <NumberField source="totalAmount" label="Total" options={CURRENCY_OPTS} />
+        <TextField source="notes" label="Notes" />
         <TextField source="calculationError" label="Error" />
       </Datagrid>
     </Box>
