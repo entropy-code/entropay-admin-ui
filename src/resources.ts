@@ -49,6 +49,7 @@ import { SkillsList, SkillsEdit, SkillsCreate } from "./skills";
 import { BenefitsList, BenefitsEdit, BenefitsCreate } from "./benefits";
 import { EducationLevelsList, EducationLevelsEdit, EducationLevelsCreate } from "./educationLevels";
 import { FeedbackSummaryView } from "./feedbackSummary";
+import { PayrollRunsList, PayrollRunShow, PayrollItemEdit } from "./payrollRuns";
 
 type Resource =
   | React.ComponentType<any>
@@ -294,5 +295,20 @@ export const resourceMap: {
     create: EducationLevelsCreate,
     show: undefined,
     recordRepresentation: (record: { name: string }) => `${record.name}`,
+  },
+  {
+    entity: "payroll-runs",
+    list: PayrollRunsList,
+    show: PayrollRunShow,
+    edit: undefined,
+    create: undefined,
+    recordRepresentation: (record: { period: string }) => `${record.period}`,
+  },
+  {
+    entity: "payroll-items",
+    list: undefined,
+    edit: PayrollItemEdit,
+    create: undefined,
+    show: undefined,
   }
 ];
