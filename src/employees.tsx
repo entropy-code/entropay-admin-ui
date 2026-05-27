@@ -2,10 +2,12 @@ import * as React from "react";
 import {
   DateField,
   List,
+  Loading,
   RecordContextProvider,
   ShowButton,
   EditButton,
   CreateButton,
+  useGetOne,
   useListContext,
   useLocaleState,
   ReferenceField,
@@ -69,7 +71,7 @@ const formData = [
   {
     title: "Personal Information",
     inputsList: [
-      { name: "internalId", type: "string", required: true },
+      { name: "internalId", type: "string", readOnly: true, label: "Internal ID" },
       { name: "activeSection" },
       {
         name: "Employee",
@@ -474,9 +476,29 @@ export const EmployeeEdit = () => (
   <EditForm formData={formData} title="Employees" resource="employees" />
 );
 
-export const EmployeeCreate = () => (
-  <CreateForm formData={formData} title="Employees" resource="employees" />
-);
+export const EmployeeCreate = () => {
+  const { data, isLoading } = useGetOne(
+    "employees",
+    { id: "next-internal-id" },
+    { retry: false }
+  );
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  const nextInternalId =
+    (data as { nextInternalId?: string } | undefined)?.nextInternalId ?? "";
+
+  return (
+    <CreateForm
+      formData={formData}
+      title="Employees"
+      resource="employees"
+      defaultValues={{ internalId: nextInternalId }}
+    />
+  );
+};
 
 export const FilterSidebar = () => {
   return (
