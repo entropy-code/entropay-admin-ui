@@ -83,6 +83,9 @@ export const GetVacationsAndAvailableDays = (
   const { data: vacations } = useGetManyReference("vacations", {
     target: "employeeId",
     id: suggestId ? suggestId : employeeId,
+    // Override React Admin's default 25-record page so the per-year breakdown
+    // sums every vacation record, matching the backend's availableDays.
+    pagination: { page: 1, perPage: 1000 },
   });
 
   let vacationAvailableDays = 0;
@@ -182,7 +185,7 @@ export const EmployeeProfile = () => {
       actions={<EntityViewActions entity={"employees"} />}
       emptyWhileLoading
     >
-      <EmployeeProfileHeader vacationAvailableDays={vacationAvailableDays} />
+      <EmployeeProfileHeader />
       <TabbedShowLayout>
         <Tab label="Personal Information">
           <Grid
