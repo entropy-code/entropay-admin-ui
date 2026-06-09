@@ -19,7 +19,7 @@ interface ViewOptions {
 
 const ComboBox = ({ title, value, handleChange, options }: Props) => {
   return (
-    <FormControl>
+    <FormControl sx={{ width: "auto"}}>
       <InputLabel id="combobox-helper-label">{title}</InputLabel>
       <Select
         aria-labelledby="combobox-label"

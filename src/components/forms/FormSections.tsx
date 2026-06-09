@@ -75,11 +75,24 @@ const FormSection = ({
                     sx={{ gridColumn: "span 2" }}
                     required={listItem.required}
                     parse={val => {
-                      //Workaround to fix issue with dates when using negative time zones like ARG
-                      if(val){
-                      const date = new Date(val);
-                      return date.toISOString().split('T')[0]; 
+                      // Keep partial input untouched; only normalize complete valid dates.
+                      if (!val) return undefined;
+
+                      if (typeof val === "string") {
+                        const completeDatePattern = /^\d{4}-\d{2}-\d{2}$/;
+                        if (!completeDatePattern.test(val)) return val;
+
+                        // Workaround for negative time zones (e.g. ARG) when sending dates.
+                        const date = new Date(`${val}T00:00:00`);
+                        if (Number.isNaN(date.getTime())) return val;
+                        return date.toISOString().split("T")[0];
                       }
+
+                      if (val instanceof Date && !Number.isNaN(val.getTime())) {
+                        return val.toISOString().split("T")[0];
+                      }
+
+                      return val;
                     }}
                   />
                 ) : undefined}
