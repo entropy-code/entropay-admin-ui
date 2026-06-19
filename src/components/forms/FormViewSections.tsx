@@ -6,7 +6,6 @@ import {
   TextField,
   ReferenceField,
   ReferenceArrayField,
-  ArrayField,
   SingleFieldList,
   Labeled,
   SelectField,
@@ -14,8 +13,7 @@ import {
   ChipField
 } from "react-admin";
 import { Box, Typography, useMediaQuery } from "@mui/material";
-import { CustomizableChipField } from "../fields";
-import { IPaymentSettlement } from "../../types";
+import { ContractSalaryField } from "../fields";
 import { EducationIterator } from "./EducationSection";
 
 const FormViewSections = (config: any) => {
@@ -121,22 +119,7 @@ const FormViewSections = (config: any) => {
           config.customSections.includes("paymentSettlementSection") && (
             <Box>
             <Labeled>
-              <ArrayField source="paymentSettlement" label="Salary">
-                <SingleFieldList linkType={false}>
-                  <CustomizableChipField<IPaymentSettlement>>
-                    {(record) => {
-                      if (record) {
-                        const salary =
-                          `${record.salary}` === "null" ? "-" : `${record.salary}`;
-                        const label = `${record.currency} ${salary}/${record.modality
-                          .charAt(0)
-                          .toLowerCase()}`;
-                        return label;
-                      }
-                    }}
-                  </CustomizableChipField>
-                </SingleFieldList>
-              </ArrayField>
+              <ContractSalaryField label="Salary" />
             </Labeled>
             </Box>
           )}

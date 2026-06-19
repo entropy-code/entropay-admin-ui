@@ -1,6 +1,5 @@
 import * as React from "react";
 import {
-  ArrayField,
   ChipField,
   Datagrid,
   DateField,
@@ -21,8 +20,8 @@ import {
 
 import CreateForm from "./components/forms/CreateForm";
 import EditForm from "./components/forms/EditForm";
-import { CustomizableChipField } from "./components/fields";
-import { IContract, IPaymentSettlement } from "./types";
+import { ContractSalaryField } from "./components/fields";
+import { IContract } from "./types";
 import ViewForm from "./components/forms/ViewForm";
 import QuickFilter from "./components/filters/QuickFilter";
 
@@ -171,21 +170,7 @@ export const ContractList = () => {
             record.active ? "Active" : "Inactive"
           }
         />
-        <ArrayField source="paymentSettlement" label="Salary">
-          <SingleFieldList linkType={false}>
-            <CustomizableChipField<IPaymentSettlement>>
-              {(record) => {
-                if (record) {
-                  const salary =
-                    `${record.salary}` === "null" ? "-" : `${record.salary}`;
-                  return `${record.currency} ${salary}/${record.modality
-                    .charAt(0)
-                    .toLowerCase()}`;
-                }
-              }}
-            </CustomizableChipField>
-          </SingleFieldList>
-        </ArrayField>
+        <ContractSalaryField label="Salary" />
         <DateField source="startDate" locales={locale} />
         <DateField source="endDate" locales={locale} />
         <ReferenceField source="roleId" reference="roles" link={false}>
