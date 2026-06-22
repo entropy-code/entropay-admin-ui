@@ -37,6 +37,7 @@ import { useTheme } from "@mui/material/styles";
 import { proficiencyLevel } from "./skills";
 import { engagementTypeChoices } from "./assignments";
 import { EmployeeProfileHeader } from "./components/EmployeeProfileHeader";
+import { ContractSalaryField } from "./components/fields";
 import { EducationLevelField, EducationInstitutionField, EducationDegreeField } from "./components/forms/EducationSection";
 
 const DisplayRecordCurrentId = () => {
@@ -342,6 +343,7 @@ export const EmployeeProfile = () => {
                 <ChipField source="name" />
               </ReferenceField>
               <NumberField source="hoursPerMonth" />
+              <ContractSalaryField label="Salary" />
               <ReferenceArrayField source="benefitIds" reference="benefits" label="Benefits">
                 <SingleFieldList linkType={false}>
                   <ChipField source="name" />
