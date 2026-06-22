@@ -8,6 +8,7 @@ import { Avatar, Box, Typography, SxProps, Theme, IconButton, Tooltip } from "@m
 import { ContentCopy } from "@mui/icons-material";
 import { useTheme } from "@mui/material/styles";
 import { HasPermissions } from "./layout/CustomActions";
+import { formatMargin } from "../utils/formatMargin";
 
 // Shared styles
 const metricBoxSx: SxProps<Theme> = {
@@ -167,11 +168,12 @@ export const EmployeeProfileHeader: React.FC = () => {
       <FunctionField
         label=""
         render={(record) => {
-          const marginColor = record.margin && record.margin >= 30 ? "#4caf50" : "#f44336";
+          const marginColor =
+            record.margin != null ? (record.margin >= 30 ? "#4caf50" : "#f44336") : "inherit";
           return (
             <MetricBox
               label="Margin"
-              value={record.margin ? `${record.margin}%` : "-"}
+              value={formatMargin(record.margin)}
               minWidth={100}
               valueColor={marginColor}
             />
