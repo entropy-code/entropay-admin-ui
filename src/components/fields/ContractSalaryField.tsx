@@ -29,7 +29,6 @@ interface ContractSalaryFieldProps {
   // `label` is consumed by react-admin's Datagrid/Labeled to render the column
   // header; it is intentionally not used inside the component itself.
   label?: string;
-  sortable?: boolean;
 }
 
 /**
