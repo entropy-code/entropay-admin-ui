@@ -8,10 +8,7 @@ import { Avatar, Box, Typography, SxProps, Theme, IconButton, Tooltip } from "@m
 import { ContentCopy } from "@mui/icons-material";
 import { useTheme } from "@mui/material/styles";
 import { HasPermissions } from "./layout/CustomActions";
-
-interface EmployeeProfileHeaderProps {
-  vacationAvailableDays: number;
-}
+import { formatMargin } from "../utils/formatMargin";
 
 // Shared styles
 const metricBoxSx: SxProps<Theme> = {
@@ -64,9 +61,7 @@ const MetricBox: React.FC<MetricBoxProps> = ({ label, value, minWidth = 100, val
   </Box>
 );
 
-export const EmployeeProfileHeader: React.FC<EmployeeProfileHeaderProps> = ({
-  vacationAvailableDays,
-}) => {
+export const EmployeeProfileHeader: React.FC = () => {
   const { palette } = useTheme();
   const [locale] = useLocaleState();
 
@@ -173,11 +168,12 @@ export const EmployeeProfileHeader: React.FC<EmployeeProfileHeaderProps> = ({
       <FunctionField
         label=""
         render={(record) => {
-          const marginColor = record.margin && record.margin >= 30 ? "#4caf50" : "#f44336";
+          const marginColor =
+            record.margin != null ? (record.margin >= 30 ? "#4caf50" : "#f44336") : "inherit";
           return (
             <MetricBox
               label="Margin"
-              value={record.margin ? `${record.margin}%` : "-"}
+              value={formatMargin(record.margin)}
               minWidth={100}
               valueColor={marginColor}
             />
@@ -209,11 +205,16 @@ export const EmployeeProfileHeader: React.FC<EmployeeProfileHeaderProps> = ({
         />
       </Box>
 
-      {/* Vacation Days */}
-      <MetricBox
-        label="Vacation"
-        value={`${vacationAvailableDays} Days`}
-        minWidth={120}
+      {/* Vacation Days — sourced directly from the backend (single source of truth) */}
+      <FunctionField
+        label=""
+        render={(record) => (
+          <MetricBox
+            label="Vacation"
+            value={`${record.availableDays ?? 0} Days`}
+            minWidth={120}
+          />
+        )}
       />
 
       {/* Edit Button */}

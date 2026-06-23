@@ -40,6 +40,7 @@ import { useTheme } from "@mui/material/styles";
 import { proficiencyLevel } from "./skills";
 import { engagementTypeChoices } from "./assignments";
 import { EmployeeProfileHeader } from "./components/EmployeeProfileHeader";
+import { ContractSalaryField } from "./components/fields";
 import { EducationLevelField, EducationInstitutionField, EducationDegreeField } from "./components/forms/EducationSection";
 
 const AddressCopyButton = () => {
@@ -162,6 +163,9 @@ export const GetVacationsAndAvailableDays = (
   const { data: vacations } = useGetManyReference("vacations", {
     target: "employeeId",
     id: suggestId ? suggestId : employeeId,
+    // Override React Admin's default 25-record page so the per-year breakdown
+    // sums every vacation record, matching the backend's availableDays.
+    pagination: { page: 1, perPage: 1000 },
   });
 
   let vacationAvailableDays = 0;
@@ -261,7 +265,7 @@ export const EmployeeProfile = () => {
       actions={<EntityViewActions entity={"employees"} />}
       emptyWhileLoading
     >
-      <EmployeeProfileHeader vacationAvailableDays={vacationAvailableDays} />
+      <EmployeeProfileHeader />
       <TabbedShowLayout>
         <Tab label="Personal Information">
           <Grid
@@ -429,6 +433,7 @@ export const EmployeeProfile = () => {
                 <ChipField source="name" />
               </ReferenceField>
               <NumberField source="hoursPerMonth" />
+              <ContractSalaryField label="Salary" />
               <ReferenceArrayField source="benefitIds" reference="benefits" label="Benefits">
                 <SingleFieldList linkType={false}>
                   <ChipField source="name" />

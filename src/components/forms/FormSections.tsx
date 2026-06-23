@@ -90,7 +90,9 @@ const FormSection = ({
                     key={formSectionTitle + listItem.name + listIndex}
                     fullWidth
                     sx={{ gridColumn: "span 2" }}
-                    required={listItem.required}
+                    required={!listItem.readOnly && listItem.required}
+                    readOnly={listItem.readOnly}
+                    helperText={listItem.helperText}
                   />
                 ) : undefined}
                 {listItem.type === "richString" ? (
