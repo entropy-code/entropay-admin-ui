@@ -20,6 +20,7 @@ import {
   Tab,
   TabbedShowLayout,
   TextField,
+  useNotify,
   useRecordContext,
   useGetManyReference,
   useGetOne,
@@ -43,6 +44,7 @@ import { EducationLevelField, EducationInstitutionField, EducationDegreeField } 
 
 const AddressCopyButton = () => {
   const record = useRecordContext();
+  const notify = useNotify();
   const { data: country } = useGetOne(
     "countries",
     { id: record?.countryId },
@@ -70,6 +72,7 @@ const AddressCopyButton = () => {
 
     try {
       await navigator.clipboard.writeText(addressText);
+      notify("Address copied to clipboard", { type: "info" });
     } catch {
       const textArea = document.createElement("textarea");
       textArea.value = addressText;
@@ -87,7 +90,11 @@ const AddressCopyButton = () => {
       try {
         textArea.focus();
         textArea.select();
-        document.execCommand("copy");
+        const copied = document.execCommand("copy");
+        notify(
+          copied ? "Address copied to clipboard" : "Could not copy address",
+          { type: copied ? "info" : "warning" },
+        );
       } finally {
         document.body.removeChild(textArea);
       }
@@ -297,13 +304,15 @@ export const EmployeeProfile = () => {
                 <TextField source="taxId" />
                 <WrapperField
                   label={(
-                    <Box sx={{ display: "flex", alignItems: "center", gap: 0.5, fontSize: "0.75rem" }}>
-                      <span >Address</span>
+                    <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                      <Typography variant="caption" component="span">
+                        Address
+                      </Typography>
                       <AddressCopyButton />
                     </Box>
                   )}
                 >
-                <TextField source="address" />
+                  <TextField source="address" />
                 </WrapperField>
                 <TextField source="city" />
                 <ReferenceField
