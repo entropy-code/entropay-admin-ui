@@ -25,6 +25,7 @@ import {
   useGetManyReference,
   useGetOne,
   useGetRecordId,
+  useGetList,
   useList,
   useLocaleState,
   WrapperField,
@@ -42,6 +43,8 @@ import { engagementTypeChoices } from "./assignments";
 import { EmployeeProfileHeader } from "./components/EmployeeProfileHeader";
 import { ContractSalaryField } from "./components/fields";
 import { EducationLevelField, EducationInstitutionField, EducationDegreeField } from "./components/forms/EducationSection";
+import { calculateWorkingDays, toUtcDateOnly, toIsoDate } from "./utils/workingDaysCalculator";
+import { IHoliday, IEmployeeCountry, EMPTY_HOLIDAYS } from "./types/pto";
 
 const AddressCopyButton = () => {
   const record = useRecordContext();
@@ -223,6 +226,102 @@ const GetLatestAssignment = () => {
 
 const CustomEmpty = ({ message }: { message: string }) => <div>{message}</div>;
 
+const PtoDaysField = ({ 
+  record, 
+  employeeCountryMap,
+  holidaysByCountry,
+}: { 
+  record: any;
+  employeeCountryMap: Map<string, string>;
+  holidaysByCountry: Map<string, Set<string>>;
+}) => {
+  const employeeCountryId = employeeCountryMap.get(String(record.employeeId));
+  const holidayDateSet = employeeCountryId
+    ? holidaysByCountry.get(employeeCountryId) ?? EMPTY_HOLIDAYS
+    : EMPTY_HOLIDAYS;
+
+  const workingDays = React.useMemo(() => {
+    return calculateWorkingDays(
+      record.ptoStartDate,
+      record.ptoEndDate,
+      {},
+      holidayDateSet,
+    );
+  }, [record.ptoStartDate, record.ptoEndDate, holidayDateSet]);
+
+  return <>{workingDays}</>;
+};
+
+const PtosListWithWorkingDays = ({ 
+  employeeCountryMap,
+  holidaysByCountry,
+}: { 
+  employeeCountryMap: Map<string, string>;
+  holidaysByCountry: Map<string, Set<string>>;
+}) => {
+  const [locale] = useLocaleState();
+  const employeeId = useGetRecordId();
+
+  return (
+    <ReferenceManyField
+      label=""
+      reference="ptos"
+      target="employeeId"
+      sort={{ field: "startDate", order: "DESC" }}
+      filter={{ status: "APPROVED" }}
+    >
+      <RedirectButton
+        form="create"
+        resource="ptos"
+        text="+ CREATE"
+        source="employeeProfile"
+        recordId={employeeId as string}
+      />
+      <Datagrid
+        bulkActionButtons={false}
+        empty={<CustomEmpty message="No ptos found" />}
+      >
+        <ReferenceField
+          source="leaveTypeId"
+          reference="leave-types"
+          link={false}
+        >
+          <WrapperField label="Leave Type">
+            <TextField source="name" />
+          </WrapperField>
+        </ReferenceField>
+        <DateField source="ptoStartDate" locales={locale} />
+        <DateField source="ptoEndDate" locales={locale} />
+        <TextField source="status" />
+        <TextField source="details" />
+        <FunctionField
+          label="Days"
+          render={(record: any) => (
+            <PtoDaysField
+              record={record}
+              employeeCountryMap={employeeCountryMap}
+              holidaysByCountry={holidaysByCountry}
+            />
+          )}
+        />
+        <NumberField source="labourHours" />
+        {HasPermissions("ptos", "update") && (
+          <FunctionField
+            render={(record) => (
+              <EditButton disabled={record.status === "CANCELLED"} />
+            )}
+          />
+        )}
+        <FunctionField
+          render={(record) => (
+            <CancelPtoButton id={record.id} record={record} />
+          )}
+        />
+      </Datagrid>
+    </ReferenceManyField>
+  );
+};
+
 const style = {
   position: "absolute",
   top: "50%",
@@ -251,6 +350,43 @@ export const EmployeeProfile = () => {
   const handleClose = () => {
     setOpen(false);
   };
+
+  // Load holidays and employees data for PTO days calculation
+  const { data: holidays = [] } = useGetList<IHoliday>("holidays", {
+    filter: {},
+    pagination: { page: 1, perPage: 1000 },
+    sort: { field: "date", order: "ASC" },
+  });
+  const { data: employees = [] } = useGetList<IEmployeeCountry>("employees", {
+    filter: {},
+    pagination: { page: 1, perPage: 5000 },
+    sort: { field: "id", order: "ASC" },
+  });
+
+  const employeeCountryMap = React.useMemo(
+    () =>
+      new Map(
+        employees
+          .filter((employee) => employee.countryId !== undefined && employee.countryId !== null)
+          .map((employee) => [String(employee.id), String(employee.countryId)])
+      ),
+    [employees]
+  );
+
+  const holidaysByCountry = React.useMemo(
+    () =>
+      holidays.reduce((countryMap, holiday) => {
+        const countryId = String(holiday.countryId);
+        const dateObj = toUtcDateOnly(holiday.date);
+        if (!dateObj) return countryMap;
+        const holidayDate = toIsoDate(dateObj);
+        const dates = countryMap.get(countryId) ?? new Set<string>();
+        dates.add(holidayDate);
+        countryMap.set(countryId, dates);
+        return countryMap;
+      }, new Map<string, Set<string>>()),
+    [holidays]
+  );
 
   const COLOR_green = palette?.mode === "light" ? "#efe" : "#006d77";
   const COLOR_white = "transparent";
@@ -636,53 +772,10 @@ export const EmployeeProfile = () => {
         )}
         {HasPermissions("ptos", "create") && (
           <Tab label="Ptos">
-            <ReferenceManyField
-              label=""
-              reference="ptos"
-              target="employeeId"
-              sort={{ field: "startDate", order: "DESC" }}
-              filter={{ status: "APPROVED" }}
-            >
-              <RedirectButton
-                form="create"
-                resource="ptos"
-                text="+ CREATE"
-                source="employeeProfile"
-                recordId={DisplayRecordCurrentId() as string}
-              />
-              <Datagrid
-                bulkActionButtons={false}
-                empty={<CustomEmpty message="No ptos found" />}
-              >
-                <ReferenceField
-                  source="leaveTypeId"
-                  reference="leave-types"
-                  link={false}
-                >
-                  <WrapperField label="Leave Type">
-                    <TextField source="name" />
-                  </WrapperField>
-                </ReferenceField>
-                <DateField source="ptoStartDate" locales={locale} />
-                <DateField source="ptoEndDate" locales={locale} />
-                <TextField source="status" />
-                <TextField source="details" />
-                <NumberField source="days" />
-                <NumberField source="labourHours" />
-                {HasPermissions("ptos", "update") && (
-                  <FunctionField
-                    render={(record) => (
-                      <EditButton disabled={record.status === "CANCELLED"} />
-                    )}
-                  />
-                )}
-                <FunctionField
-                  render={(record) => (
-                    <CancelPtoButton id={record.id} record={record} />
-                  )}
-                />
-              </Datagrid>
-            </ReferenceManyField>
+            <PtosListWithWorkingDays 
+              employeeCountryMap={employeeCountryMap}
+              holidaysByCountry={holidaysByCountry}
+            />
           </Tab>
         )}
         {HasPermissions("overtimes", "create") && (
