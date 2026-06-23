@@ -20,6 +20,8 @@ import {
   Tab,
   TabbedShowLayout,
   TextField,
+  useNotify,
+  useRecordContext,
   useGetManyReference,
   useGetOne,
   useGetRecordId,
@@ -28,7 +30,8 @@ import {
   WrapperField,
 } from "react-admin";
 import { feedbackSourceChoices } from "./employeeFeedback";
-import { Box, Chip, Divider, Grid, Modal, Typography } from "@mui/material";
+import { Box, Chip, Divider, Grid, IconButton, Modal, Tooltip, Typography } from "@mui/material";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import RedirectButton from "./components/RedirectButton";
 import { EntityViewActions, HasPermissions } from "./components/layout/CustomActions";
 import CancelPtoButton from "./components/buttons/CancelPtoButton";
@@ -39,6 +42,82 @@ import { engagementTypeChoices } from "./assignments";
 import { EmployeeProfileHeader } from "./components/EmployeeProfileHeader";
 import { ContractSalaryField } from "./components/fields";
 import { EducationLevelField, EducationInstitutionField, EducationDegreeField } from "./components/forms/EducationSection";
+
+const AddressCopyButton = () => {
+  const record = useRecordContext();
+  const notify = useNotify();
+  const { data: country } = useGetOne(
+    "countries",
+    { id: record?.countryId },
+    { enabled: !!record?.countryId },
+  );
+
+  if (!record) {
+    return null;
+  }
+
+  const addressText = [
+    record.address,
+    record.city,
+    record.zip,
+    country?.name,
+  ]
+    .filter(Boolean)
+    .join(", ");
+  const canCopy = Boolean(addressText);
+
+  const copyAddress = async () => {
+    if (!canCopy) {
+      return;
+    }
+
+    try {
+      await navigator.clipboard.writeText(addressText);
+      notify("Address copied to clipboard", { type: "info" });
+    } catch {
+      const textArea = document.createElement("textarea");
+      textArea.value = addressText;
+      textArea.readOnly = true;
+      textArea.setAttribute("aria-hidden", "true");
+      textArea.style.position = "fixed";
+      textArea.style.top = "0";
+      textArea.style.left = "0";
+      textArea.style.width = "1px";
+      textArea.style.height = "1px";
+      textArea.style.opacity = "0";
+      textArea.style.pointerEvents = "none";
+
+      document.body.appendChild(textArea);
+      try {
+        textArea.focus();
+        textArea.select();
+        const copied = document.execCommand("copy");
+        notify(
+          copied ? "Address copied to clipboard" : "Could not copy address",
+          { type: copied ? "info" : "warning" },
+        );
+      } finally {
+        document.body.removeChild(textArea);
+      }
+    }
+  };
+
+  return (
+    <Tooltip title={canCopy ? "Copy address" : "No address available to copy"}>
+      <span>
+        <IconButton
+          size="small"
+          onClick={copyAddress}
+          aria-label="Copy address"
+          disabled={!canCopy}
+          sx={{ padding: 0.25 }}
+        >
+          <ContentCopyIcon sx={{ fontSize: "0.875rem" }} />
+        </IconButton>
+      </span>
+    </Tooltip>
+  );
+};
 
 const DisplayRecordCurrentId = () => {
   return useGetRecordId();
@@ -227,7 +306,18 @@ export const EmployeeProfile = () => {
                 />
                 <DateField source="birthDate" locales={locale} />
                 <TextField source="taxId" />
-                <TextField source="address" />
+                <WrapperField
+                  label={(
+                    <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                      <Typography variant="caption" component="span">
+                        Address
+                      </Typography>
+                      <AddressCopyButton />
+                    </Box>
+                  )}
+                >
+                  <TextField source="address" />
+                </WrapperField>
                 <TextField source="city" />
                 <ReferenceField
                   source="countryId"
